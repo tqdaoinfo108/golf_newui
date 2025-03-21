@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "501243301896",
+    "project_id": "golfapp-new-70ef4",
+    "storage_bucket": "golfapp-new-70ef4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501243301896:android:a21db8a807ed0186cd81bd",
+        "android_client_info": {
+          "package_name": "jp.gpro.golf24"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501243301896-jvdr97npkvo42pcg6gdpj2nvgef5tja0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "jp.gpro.golf24",
+            "certificate_hash": "eb17d001b32e0337846440df8b3458dda6ce6b61"
+          }
+        },
+        {
+          "client_id": "501243301896-9qpglq4c6tg055b69dh280hge721il32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAM_4IOaWJ2jufuaXjKAhh4uIYAqFqDAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501243301896-9qpglq4c6tg055b69dh280hge721il32.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

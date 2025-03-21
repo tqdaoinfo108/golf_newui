@@ -1,0 +1,15 @@
+const String HAS_LOGINED = 'HAS_LOGINED';
+const String USERNAME = 'USERNAME';
+const String USER_ID = 'USER_ID';
+const String USER_FULLNAME = 'USER_FULLNAME';
+const String USER_EMAIL = 'USER_EMAIL';
+const String USER_AVATAR = 'USER_AVATAR';
+const String USER_PHONE = 'USER_PHONE';
+const String APP_THEME_MODE = 'APP_THEME_MODE';
+const String APP_LANGUAGE_CODE = 'APP_LANGUAGE_CODE';
+const String USER_PROVIDDER_ID = 'USER_PROVIDDER_ID';
+const String VERIFY_TIME_MILI = 'VERIFY_TIME_MILI';
+const String VERIFIED_EMAIL = 'VERIFIED_EMAIL';
+const String AUTH = 'AUTH';
+const String IS_FIRST_OPEN_APP = 'IS_FIRST_OPEN_APP';
+const String IS_SHOP_MANAGER = 'IS_SHOP_MANAGER';

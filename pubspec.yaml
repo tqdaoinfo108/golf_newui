@@ -1,0 +1,62 @@
+name: golf_uiv2
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  get: ^4.7.2
+  #nb_utils: ^4.4.12 # utils
+  intl: ^0.19.0
+  google_fonts: ^6.2.1
+  expandable: ^5.0.1 #expandable
+  dio: ^5.8.0+1
+  flutter_facebook_auth: ^7.1.1
+  retrofit: any
+  logger: any
+  shared_preferences: ^2.5.2
+  meta: ^1.16.0
+  google_sign_in: ^6.3.0
+  pretty_qr_code: ^3.3.0
+  sizer: ^2.0.15 # font scale
+  auto_size_text: ^3.0.0 # text size
+  webview_flutter: ^4.10.0
+  loadmore: ^2.1.0
+  firebase_messaging: ^15.2.4
+  firebase_core: ^3.12.1
+  permission_handler: ^11.4.0
+  sign_in_with_apple: ^6.1.4
+  flutter_widget_from_html: ^0.16.0
+  flutter_credit_card: ^4.1.0
+  tiengviet: ^1.0.0
+  location: ^8.0.0
+  flutter_svg: ^2.0.17
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  retrofit_generator: ^9.1.9
+  build_runner: ^2.4.15
+  change_app_package_name: ^1.5.0
+  analyzer: ^7.3.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
+    - google_fonts/
+    - assets/svg/
+  fonts:
+    - family: AppIcon
+      fonts:
+        - asset: assets/fonts/AppIcon.ttf
