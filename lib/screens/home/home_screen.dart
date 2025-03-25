@@ -5,6 +5,7 @@ import 'package:golf_uiv2/screens/dashboard/dashboard_screen.dart';
 import 'package:golf_uiv2/screens/notifications/notifications_screen.dart';
 import 'package:golf_uiv2/screens/settings/settings_screen.dart';
 import 'package:sizer/sizer.dart';
+import '../../utils/color.dart';
 import 'home_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,69 +16,74 @@ class HomeScreen extends StatelessWidget {
     return GetBuilder<HomeController>(
       builder: (controller) {
         return Scaffold(
-          body: SafeArea(
-            child: PageView(
-              // index: controller.tabIndex,
-              physics: new NeverScrollableScrollPhysics(), // disable swipe
-              controller: controller.pageController,
-              onPageChanged: controller.changePageIndex,
-              children: [
-                DashboardScreen(),
-                BookingScreen(),
-                NotificationScreen(),
-                SettingsScreen(),
-              ],
-            ),
+          backgroundColor: Colors.white,
+          body: PageView(
+            // index: controller.tabIndex,
+            physics: new NeverScrollableScrollPhysics(), // disable swipe
+            controller: controller.pageController,
+            onPageChanged: controller.changePageIndex,
+            children: [
+              DashboardScreen(),
+              // NotificationScreen(),
+              BookingScreen(),
+              SettingsScreen(),
+            ],
           ),
           extendBody: true,
-          backgroundColor: appTheme.colorScheme.primary,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              border: Border(
+                top: BorderSide(color: Color(0xffC0C0C0), width: 1),
+              ),
+            ),
+            margin: const EdgeInsets.only(top: 20),
+            height: 62,
+            width: 62,
+            child: FloatingActionButton(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              onPressed: () => controller.changeTabIndex(1),
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(width: 0, color: Colors.transparent),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Image.asset("assets/images/add.png", color: GolfColor
+                  .GolfSubColor, width: 56, height: 56),
+            ),
+          ),
           bottomNavigationBar: Container(
-            color: context.theme.scaffoldBackgroundColor,
-            child: ClipRRect(
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25),
-                topRight: Radius.circular(25),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                top: BorderSide(color: Color(0xffC0C0C0), width: 1),
               ),
-              child: BottomNavigationBar(
-                backgroundColor: appTheme.colorScheme.onBackground,
-                showSelectedLabels: true,
-                showUnselectedLabels: false,
-                onTap: controller.changeTabIndex,
-                currentIndex: controller.tabIndex,
-                selectedItemColor: appTheme.colorScheme.primary,
-                unselectedItemColor: appTheme.colorScheme.surface,
-                selectedFontSize: 11.0.sp,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.home,
-                      size: 7.0.w,
-                    ),
-                    label: 'home'.tr,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.search,
-                      size: 7.0.w,
-                    ),
-                    label: 'explore'.tr,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.notifications,
-                      size: 7.0.w,
-                    ),
-                    label: 'notification'.tr,
-                  ),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.person,
-                        size: 7.0.w,
-                      ),
-                      label: 'setting'.tr)
-                ],
-              ),
+            ),
+            child: BottomNavigationBar(
+              backgroundColor: appTheme.colorScheme.onBackground,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              onTap: controller.changeTabIndex,
+              currentIndex: controller.tabIndex,
+              selectedItemColor: GolfColor.GolfPrimaryColor,
+              unselectedItemColor: GolfColor.GolfSubColor,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home, size: 40),
+                  label: 'home'.tr,
+                ),
+                BottomNavigationBarItem(
+                  icon: SizedBox.shrink(), // Placeholder để giữ vị trí cho nút giữa
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person, size: 40),
+                  label: 'setting'.tr,
+                ),
+              ],
             ),
           ),
         );

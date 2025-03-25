@@ -9,8 +9,8 @@ class DefaultAvatar extends StatelessWidget {
     return ClipOval(
       child: Image.asset(
         'assets/images/user.png',
-        width: 80.0.sp,
-        height: 80.0.sp,
+        width: 60.0.sp,
+        height: 60.0.sp,
         fit: BoxFit.cover,
       ),
     );

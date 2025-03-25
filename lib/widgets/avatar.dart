@@ -10,8 +10,8 @@ class Avatar extends StatelessWidget {
     return ClipOval(
       child: Image.network(
         '$avatarPath',
-        width: 80.0.sp,
-        height: 80.0.sp,
+        width: 60.0.sp,
+        height: 60.0.sp,
         fit: BoxFit.cover,
       ),
     );

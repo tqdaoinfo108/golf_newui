@@ -73,7 +73,7 @@ const Map<String, String> jp = {
   'dark_theme': 'ダーク',
   'system_language': 'システムの言語',
   'home': 'ホーム',
-  'explore': '検索',
+  'explore': '予約追加',
   'notification': 'お知らせ',
   'setting': '設定',
   'search': '店舗を検索',

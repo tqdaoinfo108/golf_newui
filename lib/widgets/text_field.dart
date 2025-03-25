@@ -163,6 +163,8 @@ Widget searchTextFieldView(
             cursorColor: GolfColor.GolfPrimaryColor,
             style: themeData.textTheme.headlineSmall,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal:
+              20),
               hintText: "search".tr,
               hintStyle: themeData.textTheme.headlineSmall,
               border: InputBorder.none,

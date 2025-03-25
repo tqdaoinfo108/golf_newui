@@ -93,7 +93,7 @@ class Themes {
     brightness: Brightness.dark,
   );
 
-  static final TextTheme lightTextTheme = GoogleFonts.openSansTextTheme()
+  static final TextTheme lightTextTheme = GoogleFonts.interTextTheme()
       .copyWith(
         headlineMedium: GoogleFonts.openSans(
           //headerLine 1
@@ -115,7 +115,7 @@ class Themes {
         ),
       );
 
-  static final TextTheme darkTextTheme = GoogleFonts.openSansTextTheme()
+  static final TextTheme darkTextTheme = GoogleFonts.interTextTheme()
       .copyWith(
         headlineMedium: GoogleFonts.openSans(
           // headerLine 1

@@ -27,4 +27,13 @@ class HomeController extends GetxController {
     tabIndex = index;
     update();
   }
+
+  void changePageView(int index) {
+    pageController.animateToPage(
+      index,
+      duration: Duration(milliseconds: 50),
+      curve: Curves.easeOut,
+    );
+    update();
+  }
 }
