@@ -46,8 +46,12 @@ class BookingScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 80),
                     child: Text(
                       "explore".tr,
-                      style: Theme.of(context).textTheme.headlineLarge!
-                        .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -78,7 +82,7 @@ class BookingScreen extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(top: 25.h),
                 height: 75.h,
-                padding: EdgeInsets.only( left: 20, right: 20),
+                padding: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -127,42 +131,43 @@ class BookingScreen extends StatelessWidget {
                     ),
                     Text(
                       'nearest_list'.tr,
-                      style: theme.textTheme.headlineSmall!.copyWith(color:
-                      GolfColor.GolfSubColor),
+                      style: theme.textTheme.headlineSmall!.copyWith(
+                        color: GolfColor.GolfSubColor,
+                      ),
                     ),
                     SizedBox(height: 10),
                     Expanded(
                       child: controller.obx(
-                            (lstShops) =>
-                        (lstShops?.isEmpty ?? true)
-                            ? _buildEmptyList(theme)
-                            : ListView.builder(
-                          padding: EdgeInsets.all(0),
-                          itemCount: lstShops?.length ?? 0,
-                          itemBuilder: (
-                              BuildContext context,
-                              int index,
-                              ) {
-                            return shopItemView(
-                              theme,
-                              controller.lstShop[index],
-                              onItemPressed:
-                                  () => Get.toNamed(
-                                AppRoutes.BOOKING_CREATE,
-                                arguments:
-                                controller.lstShop[index],
-                                    id: 1
-                              )!.then(
-                                    (value) => controller
-                                    .getShopByKeySearch(""),
-                              ),
-                              onFavoriteChanged:
-                                  (val) => controller.changeFavorite(
-                                controller.lstShop[index].shopID,
-                              ),
-                            );
-                          },
-                        ),
+                        (lstShops) =>
+                            (lstShops?.isEmpty ?? true)
+                                ? _buildEmptyList(theme)
+                                : ListView.builder(
+                                  padding: EdgeInsets.all(0),
+                                  itemCount: lstShops?.length ?? 0,
+                                  itemBuilder: (
+                                    BuildContext context,
+                                    int index,
+                                  ) {
+                                    return shopItemView(
+                                      theme,
+                                      controller.lstShop[index],
+                                      onItemPressed:
+                                          () => Get.toNamed(
+                                            AppRoutes.BOOKING_CREATE,
+                                            arguments:
+                                                controller.lstShop[index],
+                                            id: 1,
+                                          )!.then(
+                                            (value) => controller
+                                                .getShopByKeySearch(""),
+                                          ),
+                                      onFavoriteChanged:
+                                          (val) => controller.changeFavorite(
+                                            controller.lstShop[index].shopID,
+                                          ),
+                                    );
+                                  },
+                                ),
                         onLoading: _buildLoadingIndicator(theme),
                         onError: (error) {
                           SupportUtils.showToast(error, type: ToastType.ERROR);

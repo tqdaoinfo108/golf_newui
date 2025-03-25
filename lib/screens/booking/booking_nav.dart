@@ -8,18 +8,15 @@ import '../../model/shop_model.dart';
 import '../booking_create/booking_create_controller.dart';
 
 class BookingNav extends StatelessWidget {
-  const BookingNav({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Navigator(
       key: Get.nestedKey(1),
       onGenerateRoute: (settings) {
         if (settings.name == AppRoutes.BOOKING_CREATE) {
-          Get.put(BookingCreateController());
           return GetPageRoute(
             settings: settings,
-            page: () =>  BookingCreateScreen(),
+            page: () => BookingCreateScreen(),
           );
         } else {
           return GetPageRoute(

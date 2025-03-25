@@ -48,7 +48,7 @@ class BookingCreateController extends GetxController {
     exMachineController = new ExpandableController(initialExpanded: true);
     exSlotController = new ExpandableController(initialExpanded: false);
     userId = SupportUtils.prefs.getInt(USER_ID);
-
+    shopSelected = Get.arguments;
     // init data
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];

@@ -15,9 +15,8 @@ import 'package:sizer/sizer.dart';
 
 import 'booking_create_controller.dart';
 
-class BookingCreateScreen extends StatelessWidget {
-  const BookingCreateScreen({Key? key}) : super(key: key);
-
+class BookingCreateScreen extends GetView<BookingCreateController> {
+  final BookingCreateController bookingController = Get.put(BookingCreateController());
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
