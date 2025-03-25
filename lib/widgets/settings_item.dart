@@ -6,8 +6,12 @@ import 'package:golf_uiv2/utils/support.dart';
 import 'package:sizer/sizer.dart';
 
 Widget settingItem(
-    BuildContext context, String title, Function func, IconData icon,
-    {Color color = GolfColor.GolfPrimaryColor}) {
+  BuildContext context,
+  String title,
+  Function func,
+  IconData icon, {
+  Color color = GolfColor.GolfIconColor,
+}) {
   final appTheme = Theme.of(context);
 
   return InkWell(
@@ -15,36 +19,30 @@ Widget settingItem(
     child: Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(4.0.w, 2.0.w, 4.0.w, 2.0.w),
+          padding: EdgeInsets.fromLTRB(4.0.w, 2.0.w, 6.0.w, 2.0.w),
           child: Row(
             children: [
               Expanded(
                 flex: 8,
                 child: Row(
                   children: [
-                    Icon(
-                      icon,
-                      color: color,
-                      size: 6.0.w,
-                    ),
+                    Icon(icon, color: color, size: 6.0.w),
                     SizedBox(width: 20),
-                    Text(
-                      title,
-                      style: appTheme.textTheme.headlineSmall,
-                    ),
+                    Text(title, style: appTheme.textTheme.headlineSmall),
                   ],
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Align(
-                    alignment: Alignment.centerRight,
-                      child: Icon(
-                      Icons.arrow_forward_rounded,
-                      size: 5.0.w,
-                      color: color,
-                    )),
-              )
+                  alignment: Alignment.centerRight,
+                  child: Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 5.0.w,
+                    color: color,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -52,6 +50,58 @@ Widget settingItem(
     ),
   );
 }
+
+Widget settingItemWithImage(
+  BuildContext context,
+  String title,
+  Function func,
+  String icon, {
+  Color color = GolfColor.GolfIconColor,
+}) {
+  final appTheme = Theme.of(context);
+
+  return InkWell(
+    onTap: () => func.call(),
+    child: Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(4.0.w, 2.0.w, 6.0.w, 2.0.w),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 8,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      icon,
+                      width: 5.0.w,
+                      height: 5.0.w,
+                      color: color,
+                    ),
+                    SizedBox(width: 20),
+                    Text(title, style: appTheme.textTheme.headlineSmall),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 5.0.w,
+                    color: color,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 //
 // Widget buttonSignOut(BuildContext context) {
 //   final appTheme = Theme.of(context);

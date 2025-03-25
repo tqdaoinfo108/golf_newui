@@ -4,6 +4,7 @@ class GolfColor {
   static const GolfPrimaryColor = Color(0xff24205D);
   static const GolfSubColor = Color(0xff232F7C);
   static const GolfGrayBackgroundColor = Color(0xffF1F1FA);
+  static const GolfIconColor = Color(0xff232E7A);
 
   static const BackgroundLightColor = Color(0xffF1F1FA);
   static const BackgroundDarkColor = Color(0xff161719);

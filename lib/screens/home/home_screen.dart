@@ -6,6 +6,7 @@ import 'package:golf_uiv2/screens/notifications/notifications_screen.dart';
 import 'package:golf_uiv2/screens/settings/settings_screen.dart';
 import 'package:sizer/sizer.dart';
 import '../../utils/color.dart';
+import '../booking/booking_nav.dart';
 import 'home_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,15 +18,12 @@ class HomeScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           backgroundColor: Colors.white,
-          body: PageView(
-            // index: controller.tabIndex,
-            physics: new NeverScrollableScrollPhysics(), // disable swipe
-            controller: controller.pageController,
-            onPageChanged: controller.changePageIndex,
+          body: IndexedStack(
+            index: controller.tabIndex,
             children: [
               DashboardScreen(),
               // NotificationScreen(),
-              BookingScreen(),
+              BookingNav(),
               SettingsScreen(),
             ],
           ),

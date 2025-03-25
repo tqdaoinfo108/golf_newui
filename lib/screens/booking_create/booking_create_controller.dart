@@ -50,7 +50,6 @@ class BookingCreateController extends GetxController {
     userId = SupportUtils.prefs.getInt(USER_ID);
 
     // init data
-    shopSelected = Get.arguments;
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];
     var _dateTemp = DateTime.now();

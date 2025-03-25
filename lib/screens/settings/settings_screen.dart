@@ -144,25 +144,25 @@ class SettingsScreen extends GetView<SettingController> {
                           Get.toNamed(
                             AppRoutes.PROFILE,
                           )!.then((value) => controller.updateUserInfo());
-                        }, Icons.people_alt),
+                        }, Icons.person),
                         settingItem(context, 'transaction_history'.tr, () {
                           Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
-                        }, Icons.history),
-                        settingItem(context, 'buy_vip_member'.tr, () {
+                        },  Icons.history),
+                        settingItemWithImage(context, 'buy_vip_member'.tr, () {
                           Get.toNamed(
                             AppRoutes.BUY_VIP_SHOP_LIST,
                           )!.then((_) => controller.getMyVipMember());
-                        }, Icons.card_membership),
+                        }, "assets/images/member.png"),
                         settingItem(context, 'favorite_shop'.tr, () {
                           Get.toNamed(AppRoutes.FAVORITE_SHOP);
                         }, Icons.favorite),
                         settingItem(context, 'change_language'.tr, () {
                           Get.to(ChangeLanguageScreen());
                         }, Icons.language),
-                        settingItem(context, 'change_theme'.tr, () {
-                          Get.to(ChangeThemeModeScreen());
-                        }, Icons.format_paint_sharp),
-                        settingItem(context, 'change_password'.tr, () async {
+                        // settingItem(context, 'change_theme'.tr, () {
+                        //   Get.to(ChangeThemeModeScreen());
+                        // }, Icons.format_paint_sharp),
+                        settingItemWithImage(context, 'change_password'.tr, () async {
                           var _changePasswordResult = await Get.toNamed(
                             AppRoutes.CHANGE_PASSWORD,
                           );
@@ -175,14 +175,14 @@ class SettingsScreen extends GetView<SettingController> {
                               type: ToastType.SUCCESSFUL,
                             );
                           }
-                        }, Icons.lock),
+                        }, "assets/images/lock.png"),
                         settingItem(context, 'about_app'.tr, () {
                           Get.to(AboutAppScreen());
                         }, Icons.info_outline, color: Color(0xff8E99FF)),
-                        settingItem(context, 'sign_out'.tr, () {
+                        settingItemWithImage(context, 'sign_out'.tr, () {
                           SupportUtils.letsLogout();
                           Get.offAllNamed(AppRoutes.LOGIN);
-                        }, Icons.format_paint_sharp),
+                        }, "assets/images/sign_out.png", color: Color(0xffFFACAC)),
                         SizedBox(height: 10),
 
                       ],

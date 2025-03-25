@@ -4,7 +4,6 @@ import 'package:golf_uiv2/screens/dashboard/dashboard_controller.dart';
 
 class HomeController extends GetxController {
   var tabIndex = 0;
-  var pageController = PageController();
 
   @override
   void onInit() {
@@ -13,11 +12,6 @@ class HomeController extends GetxController {
 
   void changeTabIndex(int index) {
     tabIndex = index;
-    pageController.animateToPage(
-      index,
-      duration: Duration(milliseconds: 50),
-      curve: Curves.easeOut,
-    );
     Get.find<DashboardController>().justUpdateWaitPaymentTotal();
     print("page :" + index.toString());
     update();
@@ -28,12 +22,4 @@ class HomeController extends GetxController {
     update();
   }
 
-  void changePageView(int index) {
-    pageController.animateToPage(
-      index,
-      duration: Duration(milliseconds: 50),
-      curve: Curves.easeOut,
-    );
-    update();
-  }
 }

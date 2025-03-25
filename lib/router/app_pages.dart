@@ -54,6 +54,11 @@ class AppScreens {
         SettingBinding()
       ],
     ),
+    // GetPage(
+    //   name: AppRoutes.BOOKING_CREATE,
+    //   page: () => BookingCreateScreen(),
+    //   binding: BookingCreateBinding(),
+    // ),
     GetPage(
       name: AppRoutes.LOGIN,
       page: () => LoginScreen(),
@@ -64,11 +69,7 @@ class AppScreens {
       page: () => SignUpScreen(),
       binding: SignUpBinding(),
     ),
-    GetPage(
-      name: AppRoutes.BOOKING_CREATE,
-      page: () => BookingCreateScreen(),
-      binding: BookingCreateBinding(),
-    ),
+
     GetPage(
       name: AppRoutes.BOOKING_DETAIL,
       page: () => BookingDetailScreen(),

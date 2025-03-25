@@ -29,7 +29,7 @@ Widget shopItemView(
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
-  return Stack(
+  return shops.codeShop == null ? SizedBox() : Stack(
     children: [
       Padding(
         padding: EdgeInsets.only(bottom: 2.0.w),
@@ -71,7 +71,7 @@ Widget shopItemView(
                 ),
               ),
               SizedBox(height: 1.0.h),
-              Text(shops.addressShop!, style: textBody),
+              Text(shops.addressShop ?? "N/A", style: textBody),
               SizedBox(height: 1.0.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,7 +81,7 @@ Widget shopItemView(
                       .GolfSubColor, width: 18, height: 18),
                   SizedBox(width: 2.0.h),
                   Text(
-                    shops.phoneShop!,
+                    shops.phoneShop ?? "N/A",
                     style: textBody,
                   ),
                 ],
