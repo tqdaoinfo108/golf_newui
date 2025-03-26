@@ -14,9 +14,10 @@ class BookingNav extends StatelessWidget {
       key: Get.nestedKey(1),
       onGenerateRoute: (settings) {
         if (settings.name == AppRoutes.BOOKING_CREATE) {
+          Get.put(BookingCreateController());
           return GetPageRoute(
             settings: settings,
-            page: () => BookingCreateScreen(),
+            page: () => BookingCreateScreen(settings.arguments as ShopItemModel),
           );
         } else {
           return GetPageRoute(

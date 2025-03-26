@@ -48,17 +48,18 @@ class BookingCreateController extends GetxController {
     exMachineController = new ExpandableController(initialExpanded: true);
     exSlotController = new ExpandableController(initialExpanded: false);
     userId = SupportUtils.prefs.getInt(USER_ID);
-    shopSelected = Get.arguments;
     // init data
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];
     var _dateTemp = DateTime.now();
     dateIntCurrent =
-        DateTime.utc(_dateTemp.year, _dateTemp.month, _dateTemp.day)
-                .millisecondsSinceEpoch ~/
-            1000;
+        DateTime.utc(
+          _dateTemp.year,
+          _dateTemp.month,
+          _dateTemp.day,
+        ).millisecondsSinceEpoch ~/
+        1000;
     textDayOfWeek = DateTime.now().millisecondsSinceEpoch.toStringFormatDate();
-    getSlotFirst();
     super.onInit();
   }
 
@@ -82,17 +83,22 @@ class BookingCreateController extends GetxController {
           isFavorite: res.isFavorite,
         );
       }
-    } on DioError catch (error, _) {
+    } on DioException catch (error, _) {
       SupportUtils.showToast(
-          ApplicationError.withDioError(error).getErrorMessage(),
-          type: ToastType.ERROR);
+        ApplicationError.withDioError(error).getErrorMessage(),
+        type: ToastType.ERROR,
+      );
     }
   }
 
   void changeFavorite(int? shopId) {
-    GolfApi().changeFavorite(shopId, userId).then((value) => {
-          if (value.data!) {getShopDetail()}
-        });
+    GolfApi()
+        .changeFavorite(shopId, userId)
+        .then(
+          (value) => {
+            if (value.data!) {getShopDetail()},
+          },
+        );
   }
 
   Future getSlot() async {
@@ -111,12 +117,13 @@ class BookingCreateController extends GetxController {
       dateTime.month,
       dateTime.day,
       dateTime.hour,
-      dateTime.minute
+      dateTime.minute,
     ].join('-');
     var listValue = await new GolfApi().getBlock(
-        lstSlot.where((_v) => _v.isSelect).first.slotID,
-        dateIntCurrent,
-        _strDatTimeCurrent);
+      lstSlot.where((_v) => _v.isSelect).first.slotID,
+      dateIntCurrent,
+      _strDatTimeCurrent,
+    );
 
     lstBlock.clear();
     lstBlock = listValue?.data ?? [];
@@ -163,14 +170,19 @@ class BookingCreateController extends GetxController {
   }
 
   void onDateChange(DateTime dateTime) {
-    dateIntCurrent = DateTime.utc(dateTime.year, dateTime.month, dateTime.day)
-            .millisecondsSinceEpoch ~/
+    dateIntCurrent =
+        DateTime.utc(
+          dateTime.year,
+          dateTime.month,
+          dateTime.day,
+        ).millisecondsSinceEpoch ~/
         1000;
     // dateIntCurrent = dateTime.startOfDay().millisecondsSinceEpoch ~/ 1000;
-    textDayOfWeek = DateTime.fromMillisecondsSinceEpoch(
-      dateIntCurrent! * 1000,
-      isUtc: true,
-    ).endOfDay().millisecondsSinceEpoch.toStringFormatDate();
+    textDayOfWeek =
+        DateTime.fromMillisecondsSinceEpoch(
+          dateIntCurrent! * 1000,
+          isUtc: true,
+        ).endOfDay().millisecondsSinceEpoch.toStringFormatDate();
 
     getBlock();
   }
@@ -179,8 +191,10 @@ class BookingCreateController extends GetxController {
     // Validator
     var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
     if (lstBlockSelected.length <= 0) {
-      SupportUtils.showToast('no_time_frame_selected'.tr,
-          type: ToastType.ERROR);
+      SupportUtils.showToast(
+        'no_time_frame_selected'.tr,
+        type: ToastType.ERROR,
+      );
       return;
     }
 
@@ -194,21 +208,24 @@ class BookingCreateController extends GetxController {
       lstBlockChoose.add(item.blockID);
     }
     createBookingModel.blocks = lstBlockChoose;
-    var jsonBody = (AuthBody<BookingInsertItemModel>()
-          ..setAuth(Auth())
-          ..setData(createBookingModel, dataToJson: (_data) => _data!.toJson()))
-        .toJson();
+    var jsonBody =
+        (AuthBody<BookingInsertItemModel>()
+              ..setAuth(Auth())
+              ..setData(
+                createBookingModel,
+                dataToJson: (_data) => _data!.toJson(),
+              ))
+            .toJson();
     var result = await GolfApi().createBooking(jsonBody);
     Get.offNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
   }
 
   void onCancelBooking() {
-    Get.back();
+    Get.toNamed("/test", id: 1);
+    Get.delete<BookingCreateController>();
   }
 
   void updateShopVipMember() {
-    _shopSelected.value = shopSelected!.copyWith(
-      isUserMemberCode: 1,
-    );
+    _shopSelected.value = shopSelected!.copyWith(isUserMemberCode: 1);
   }
 }

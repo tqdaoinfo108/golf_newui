@@ -203,7 +203,7 @@ class ProfileScreen extends GetView<ProfileController> {
                       }
                     },
                   ),
-                  SizedBox(height: 40),
+
                 ],
               ),
             ),

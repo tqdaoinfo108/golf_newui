@@ -142,7 +142,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               translations: LocalizationService(),
               locale: LocalizationService.locale,
-              defaultTransition: Transition.fade,
+              defaultTransition: Transition.native,
               initialRoute: _isLogined ? AppRoutes.HOME : AppRoutes.LOGIN,
               initialBinding: _isLogined ? HomeBinding() : LoginBinding(),
               getPages: AppScreens.list,

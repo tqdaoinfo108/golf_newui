@@ -148,23 +148,30 @@ class BookingScreen extends StatelessWidget {
                                     BuildContext context,
                                     int index,
                                   ) {
-                                    return shopItemView(
-                                      theme,
-                                      controller.lstShop[index],
-                                      onItemPressed:
-                                          () => Get.toNamed(
-                                            AppRoutes.BOOKING_CREATE,
-                                            arguments:
-                                                controller.lstShop[index],
-                                            id: 1,
-                                          )!.then(
-                                            (value) => controller
-                                                .getShopByKeySearch(""),
-                                          ),
-                                      onFavoriteChanged:
-                                          (val) => controller.changeFavorite(
-                                            controller.lstShop[index].shopID,
-                                          ),
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        shopItemView(
+                                          theme,
+                                          controller.lstShop[index],
+                                          onItemPressed:
+                                              () => Get.toNamed(
+                                                AppRoutes.BOOKING_CREATE,
+                                                arguments:
+                                                    controller.lstShop[index],
+                                                id: 1,
+                                              )!.then(
+                                                (value) => controller
+                                                    .getShopByKeySearch(""),
+                                              ),
+                                          onFavoriteChanged:
+                                              (val) => controller.changeFavorite(
+                                                controller.lstShop[index].shopID,
+                                              ),
+                                        ),
+                                        if(index == lstShops!.length -1)
+                                          SizedBox(height: 80)
+                                      ],
                                     );
                                   },
                                 ),
