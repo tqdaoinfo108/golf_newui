@@ -26,7 +26,7 @@ class SignUpScreen extends GetView<SignUpController> {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar("login".tr),
+      appBar: ApplicationAppBar(context,"login".tr),
       body: Container(
           child: Column(
         children: [

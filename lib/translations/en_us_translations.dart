@@ -225,5 +225,6 @@ const Map<String, String> en = {
   'login_with_apple_fail': 'Login with Apple ID was not successful.',
   'only_this_time': 'Only this time',
   'booking_next_day_limit': 'Reservations can only be made {#} days in advance',
-  "delete_account": "Delete account"
+  "delete_account": "Delete account",
+  "show_qr" : "Show QR code"
 };

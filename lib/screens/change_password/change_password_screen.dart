@@ -22,7 +22,7 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar("back".tr),
+      appBar: ApplicationAppBar(context,"back".tr),
       body: Container(
         height: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),

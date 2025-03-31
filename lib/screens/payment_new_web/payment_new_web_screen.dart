@@ -57,7 +57,7 @@ class PaymentWebScreen extends GetView<PaymentWebController> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: GolfColor.GolfPrimaryColor,
-        appBar: ApplicationAppBar(
+        appBar: ApplicationAppBar(context,
           "back".tr,
           onBackPressed: () async {
             onRequestBack();

@@ -260,83 +260,82 @@ class SupportUtils {
               color: themeData.colorScheme.backgroundCardColor),
           padding: EdgeInsets.only(left: 20, top: 35, right: 20, bottom: 15),
           constraints: BoxConstraints(maxWidth: 300.0.sp),
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  decisionMessage,
-                  style: themeData.textTheme.headlineLarge,
-                ),
-                decisionDescription != null
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 5.0.sp,
-                          horizontal: 2.0.sp,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                decisionMessage,
+                style: themeData.textTheme.headlineMedium?.copyWith(color:
+                GolfColor.GolfSubColor, fontWeight: FontWeight.bold),
+              ),
+              decisionDescription != null
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5.0.sp,
+                        horizontal: 2.0.sp,
+                      ),
+                      child: Text(
+                        decisionDescription,
+                        style: themeData.textTheme.headlineLarge!.copyWith(
+                          fontSize: 10.0.sp,
+                          fontStyle: FontStyle.italic,
                         ),
-                        child: Text(
-                          decisionDescription,
-                          style: themeData.textTheme.headlineLarge!.copyWith(
-                            fontSize: 10.0.sp,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      )
-                    : Container(),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(),
-                    Expanded(
-                        child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: lstOptions.map<Widget>((e) {
-                        var _optionTextColor;
-                        switch (e.type) {
-                          case DecisionOptionType.NORMAL:
-                            _optionTextColor = Colors.blue;
-                            break;
-                          case DecisionOptionType.EXPECTATION:
-                            _optionTextColor = Colors.green;
-                            break;
-                          case DecisionOptionType.WARNING:
-                            _optionTextColor = Colors.yellow;
-                            break;
-                          case DecisionOptionType.DENIED:
-                            _optionTextColor = Colors.red;
-                            break;
-                        }
-                        return TextButton(
-                            onPressed: () {
-                              if (e.isCompleteDecision) {
-                                Get.back<DecisionOption>(result: e);
-                              }
-                              if (e.onDecisionPressed != null) {
-                                e.onDecisionPressed!();
-                              }
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 2.5, vertical: 1),
-                              child: Text(
-                                e.title,
-                                style: themeData!.textTheme.titleSmall!.copyWith(
-                                    fontSize: 11.0.sp,
-                                    color: _optionTextColor,
-                                    fontWeight: e.isImportant
-                                        ? FontWeight.bold
-                                        : FontWeight.normal),
-                              ),
-                            ));
-                      }).toList(),
-                    ))
-                  ],
-                )
-              ],
-            ),
+                      ),
+                    )
+                  : Container(),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Expanded(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: lstOptions.map<Widget>((e) {
+                      var _optionTextColor;
+                      switch (e.type) {
+                        case DecisionOptionType.NORMAL:
+                          _optionTextColor = Colors.blue;
+                          break;
+                        case DecisionOptionType.EXPECTATION:
+                          _optionTextColor = Colors.green;
+                          break;
+                        case DecisionOptionType.WARNING:
+                          _optionTextColor = Colors.yellow;
+                          break;
+                        case DecisionOptionType.DENIED:
+                          _optionTextColor = Colors.red;
+                          break;
+                      }
+                      return TextButton(
+                          onPressed: () {
+                            if (e.isCompleteDecision) {
+                              Get.back<DecisionOption>(result: e);
+                            }
+                            if (e.onDecisionPressed != null) {
+                              e.onDecisionPressed!();
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 2.5, vertical: 1),
+                            child: Text(
+                              e.title,
+                              style: themeData!.textTheme.titleSmall!.copyWith(
+                                  fontSize: 11.0.sp,
+                                  color: _optionTextColor,
+                                  fontWeight: e.isImportant
+                                      ? FontWeight.bold
+                                      : FontWeight.normal),
+                            ),
+                          ));
+                    }).toList(),
+                  ))
+                ],
+              )
+            ],
           ),
         )));
   }

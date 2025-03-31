@@ -20,7 +20,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar("login".tr),
+      appBar: ApplicationAppBar(context,"login".tr),
       body: Column(
         children: [
           Expanded(

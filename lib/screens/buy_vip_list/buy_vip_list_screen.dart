@@ -21,7 +21,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
 
     return Scaffold(
       backgroundColor: appTheme.colorScheme.onBackground,
-      appBar: ApplicationAppBar("back".tr),
+      appBar: ApplicationAppBar(context,"back".tr),
       body: Container(
         decoration: BoxDecoration(
           color: appTheme.colorScheme.background,

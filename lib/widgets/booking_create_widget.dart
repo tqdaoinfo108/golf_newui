@@ -221,7 +221,8 @@ Widget chooseItemSlotViewCell(
         slotItemModel.nameSlot!,
         style: GoogleFonts.openSans(
           fontSize: 12.0.sp,
-          color: Colors.white,
+          color: !slotItemModel.isSelect ? GolfColor.GolfSubColor : Colors
+              .white,
           fontWeight: FontWeight.w700,
         ),
         maxLines: 1,

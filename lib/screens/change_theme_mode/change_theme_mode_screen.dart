@@ -34,7 +34,7 @@ class _ChangeThemeModeScreenState extends State<ChangeThemeModeScreen> {
 
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar("back".tr),
+      appBar: ApplicationAppBar(context,"back".tr),
       body: Container(
           height: double.infinity, // <-----
           decoration: BoxDecoration(

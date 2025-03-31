@@ -19,7 +19,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar("back".tr),
+      appBar: ApplicationAppBar(context,"back".tr),
       body: Container(
         height: double.infinity,
         alignment: Alignment.topCenter,

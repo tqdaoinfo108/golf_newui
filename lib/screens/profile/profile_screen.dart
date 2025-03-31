@@ -30,7 +30,7 @@ class ProfileScreen extends GetView<ProfileController> {
 
     return GetX<ProfileController>(builder: (_controller) {
       return Scaffold(
-        appBar: ApplicationAppBar('back'.tr),
+        appBar: ApplicationAppBar(context,'back'.tr),
         backgroundColor: GolfColor.GolfPrimaryColor,
         body: Stack(children: [
           Container(

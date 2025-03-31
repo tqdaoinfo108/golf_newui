@@ -199,5 +199,6 @@ const Map<String, String> jp = {
   'login_with_apple_fail': 'Appleアカウントでログインに失敗しました。',
   'only_this_time': '今回のみ',
   'booking_next_day_limit': '{#}日前までのご予約のみ可能です。',
-  "delete_account": "アカウントを削除する"
+  "delete_account": "アカウントを削除する",
+  "show_qr": "QRコードを表示",
 };

@@ -289,10 +289,12 @@ Widget bookingDetailItemView(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       title != null
-          ? Text(title, style: themeData.textTheme.titleSmall)
+          ? Text(title, style: themeData.textTheme.bodyLarge!.copyWith(color:
+      Color(0xff8B90B9)))
           : Container(),
-      SizedBox(height: 1.0.h),
-      Text(content, style: themeData.textTheme.headlineLarge),
+      SizedBox(height: 8),
+      Text(content, style: themeData.textTheme.bodyLarge!.copyWith
+        (fontWeight: FontWeight.bold, color: GolfColor.GolfSubColor)),
     ],
   );
 }

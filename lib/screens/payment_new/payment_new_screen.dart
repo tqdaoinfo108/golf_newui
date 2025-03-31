@@ -60,7 +60,7 @@ class PaymentScreen extends GetView<PaymentController> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: themeData.scaffoldBackgroundColor,
-        appBar: ApplicationAppBar(
+        appBar: ApplicationAppBar(context,
           "back".tr,
           onBackPressed: () async {
             onRequestBack();

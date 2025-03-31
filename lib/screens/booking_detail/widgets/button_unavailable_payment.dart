@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/widgets/button_default.dart';
 import 'package:sizer/sizer.dart';
 
@@ -21,7 +22,7 @@ class ButtonUnavailablePayment extends StatelessWidget {
           child: DefaultButton(
             text: 'cancel_booking'.tr,
             textColor: Colors.white,
-            backgroundColor: Colors.black87,
+            backgroundColor: GolfColor.GolfSubColor,
             press: onCancelPressed,
           ),
         ),
@@ -32,7 +33,7 @@ class ButtonUnavailablePayment extends StatelessWidget {
             child: DefaultButton(
               text: 'payment'.tr,
               textColor: appTheme.colorScheme.onSecondary,
-              backgroundColor: appTheme.colorScheme.secondary,
+              backgroundColor: GolfColor.GolfSubColor,
             ),
           ),
         )
