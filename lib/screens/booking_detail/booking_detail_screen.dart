@@ -89,7 +89,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                               SingleChildScrollView(
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: 12.0.w,
+                                    bottom: 200,
                                     top: 2.0.w,
                                     right: 40,
                                     left: 40,
@@ -214,7 +214,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                     },
                                   ),
                                 ),
-
+                              SizedBox(height: 20),
                               /// Canceled pannel
                               // Container(
                               //   alignment: AlignmentDirectional.topEnd,

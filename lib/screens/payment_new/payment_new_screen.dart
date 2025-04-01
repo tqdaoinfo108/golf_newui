@@ -23,8 +23,8 @@ class PaymentScreen extends GetView<PaymentController> {
     final formKey = GlobalKey<FormState>();
     var border = OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.grey.withOpacity(0.7),
-        width: 2.0,
+        color: Colors.transparent,
+        width: 0,
       ),
     );
 
@@ -52,15 +52,16 @@ class PaymentScreen extends GetView<PaymentController> {
       }
     }
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
         onRequestBack();
-        return false;
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: themeData.scaffoldBackgroundColor,
-        appBar: ApplicationAppBar(context,
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        appBar: ApplicationAppBarLarge(context,
           "back".tr,
           onBackPressed: () async {
             onRequestBack();
@@ -68,109 +69,131 @@ class PaymentScreen extends GetView<PaymentController> {
           },
         ),
         body: Container(
-          child: Column(
-            children: [
-              Obx(
-                () => Expanded(
-                  child: controller.isLoading.value
-                      ? Center(child: CircularProgressIndicator())
-                      : SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              // CreditCardFormCustom(
-                              //   formKey: formKey,
-                              //   obscureCvv: true,
-                              //   obscureNumber: false,
-                              //   cardNumber: controller.cardNumber.value,
-                              //   cvvCode: controller.cvvCode.value,
-                              //   isHolderNameVisible: true,
-                              //   isCardNumberVisible: true,
-                              //   isExpiryDateVisible: true,
-                              //   cardHolderName: controller.cardHolderName.value,
-                              //   expiryDate: controller.expiryDate.value,
-                              //   themeColor: GolfColor.GolfPrimaryColor,
-                              //   textColor: themeData.iconTheme.color!,
-                              //   cardNumberDecoration: InputDecoration(
-                              //     hintStyle: GoogleFonts.openSans(
-                              //         color: themeData.iconTheme.color),
-                              //     labelStyle: GoogleFonts.openSans(
-                              //         color: themeData.iconTheme.color),
-                              //     labelText: 'Card Number',
-                              //     hintText: 'XXXX XXXX XXXX XXXX',
-                              //     focusedBorder: border,
-                              //     enabledBorder: border,
-                              //   ),
-                              //   expiryDateDecoration: InputDecoration(
-                              //     hintStyle: GoogleFonts.openSans(
-                              //         color: themeData.iconTheme.color),
-                              //     labelStyle: GoogleFonts.openSans(
-                              //         color: themeData.iconTheme.color),
-                              //     focusedBorder: border,
-                              //     enabledBorder: border,
-                              //     labelText: 'Expired Date',
-                              //     hintText: 'XX/XX',
-                              //   ),
-                              //   cvvCodeDecoration: InputDecoration(
-                              //     hintStyle: GoogleFonts.openSans(
-                              //         color: themeData.iconTheme.color),
-                              //     labelStyle: GoogleFonts.openSans(
-                              //         color: themeData.iconTheme.color),
-                              //     focusedBorder: border,
-                              //     enabledBorder: border,
-                              //     labelText: 'CVV',
-                              //     hintText: 'XXX',
-                              //   ),
-                              //   cardHolderDecoration: InputDecoration(
-                              //       hintStyle: GoogleFonts.openSans(
-                              //           color: themeData.iconTheme.color),
-                              //       labelStyle: GoogleFonts.openSans(
-                              //           color: themeData.iconTheme.color),
-                              //       focusedBorder: border,
-                              //       enabledBorder: border,
-                              //       labelText: 'Card Holder',
-                              //       hintText: "XXX XXX XXX"),
-                              //   onCreditCardModelChange:
-                              //       controller.onCreditCardModelChange,
-                              //   cardNumberController:
-                              //       controller.cardNumberController,
-                              //   expiryDateController:
-                              //       controller.expiryDateController,
-                              //   cvvCodeController: controller.cvvCodeController,
-                              //   cardHolderNameController:
-                              //       controller.cardHolderNameController,
-                              // ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
+          padding: const EdgeInsets.only(top: kToolbarHeight *2.3),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xFF241E5B), Color(0xFF222E7C)],
+              stops: [0.0, 0.3],
+            ),
+          ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+                  color: Color(0xffF1F1FA)
+            ),
+            child: Column(
+              children: [
+                Obx(
+                  () => Expanded(
+                    child: controller.isLoading.value
+                        ? Center(child: CircularProgressIndicator())
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                CreditCardFormCustom(
+                                  formKey: formKey,
+                                  obscureCvv: true,
+                                  obscureNumber: false,
+                                  cardNumber: controller.cardNumber.value,
+                                  cvvCode: controller.cvvCode.value,
+                                  isHolderNameVisible: true,
+                                  isCardNumberVisible: true,
+                                  isExpiryDateVisible: true,
+                                  cardHolderName: controller.cardHolderName.value,
+                                  expiryDate: controller.expiryDate.value,
+                                  themeColor: GolfColor.GolfPrimaryColor,
+                                  textColor: themeData.iconTheme.color!,
+                                  cardNumberDecoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.all(8),
+                                    hintStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color),
+                                    labelStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color),
+                                    labelText: 'Card Number',
+                                    hintText: 'XXXX XXXX XXXX XXXX',
+                                    focusedBorder: border,
+                                    enabledBorder: border,
+                                  ),
+                                  expiryDateDecoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.all(8),
+                                    hintStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color),
+                                    labelStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color),
+                                    focusedBorder: border,
+                                    enabledBorder: border,
+                                    labelText: 'Expired Date',
+                                    hintText: 'XX/XX',
+                                  ),
+                                  cvvCodeDecoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.all(8),
+                                    hintStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color),
+                                    labelStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color),
+                                    focusedBorder: border,
+                                    enabledBorder: border,
+                                    labelText: 'CVV',
+                                    hintText: 'XXX',
+                                  ),
+                                  cardHolderDecoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding: const EdgeInsets.all(8),
+                                      hintStyle: GoogleFonts.inter(
+                                          color: themeData.iconTheme.color),
+                                      labelStyle: GoogleFonts.inter(
+                                          color: themeData.iconTheme.color),
+                                      focusedBorder: border,
+                                      enabledBorder: border,
+                                      labelText: 'Card Holder',
+                                      hintText: "XXX XXX XXX"),
+                                  onCreditCardModelChange:
+                                      controller.onCreditCardModelChange,
+                                  cardNumberController:
+                                      controller.cardNumberController,
+                                  expiryDateController:
+                                      controller.expiryDateController,
+                                  cvvCodeController: controller.cvvCodeController,
+                                  cardHolderNameController:
+                                      controller.cardHolderNameController,
                                 ),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                width: double.infinity,
-                                alignment: Alignment.center,
-                                child: DefaultButton(
-                                  text: 'payment'.tr,
-                                  textColor: Colors.white,
-                                  backgroundColor:
-                                      themeData.colorScheme.primary,
-                                  press: () {
-                                    _onValidate();
-                                  },
+                                Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  width: double.infinity,
+                                  alignment: Alignment.center,
+                                  child: DefaultButton(
+                                    radius: 10,
+                                    text: 'payment'.tr,
+                                    textColor: Colors.white,
+                                    backgroundColor: Color(0xff08D586),
+                                    press: () {
+                                      _onValidate();
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -182,7 +205,7 @@ class PaymentScreen extends GetView<PaymentController> {
         lstOptions: [
           DecisionOption('yes'.tr, type: DecisionOptionType.DENIED,
               onDecisionPressed: () {
-            Get.back();
+            Get.back(result: PageResult(resultCode: PageResultCode.FAIL));
           }),
           DecisionOption('continue_payment'.tr,
               onDecisionPressed: null, isImportant: true)

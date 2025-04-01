@@ -147,7 +147,7 @@ class _MyAppState extends State<MyApp> {
               initialBinding: _isLogined ? HomeBinding() : LoginBinding(),
               getPages: AppScreens.list,
               theme: Themes.light,
-              darkTheme: Themes.dark,
+              // darkTheme: Themes.dark,
               themeMode: appThemeMode,
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,

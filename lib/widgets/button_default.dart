@@ -11,7 +11,7 @@ class DefaultButton extends StatelessWidget {
     this.press,
     this.textColor,
     this.backgroundColor,
-    this.radius = 40
+    this.radius = 10
   }) : super(key: key);
   final String? text;
   final Function? press;
@@ -22,7 +22,7 @@ class DefaultButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: 42,
       child: GestureDetector(
         onTap: press as void Function()?,
         child: Container(

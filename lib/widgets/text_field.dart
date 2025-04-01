@@ -63,9 +63,8 @@ class TexFieldValidateState extends State<TexFieldValidate> {
           // validator: widget.validate,
           obscureText: widget.isPassword && !_isShowPassword,
           style: widget.themeData!.primaryTextTheme.titleSmall!.copyWith(
-            color: widget.themeData!.colorScheme.surface,
+            color: Colors.black87,
           ),
-
           decoration: InputDecoration(
             filled: true,
             fillColor: Color(0xffF3F3F3),

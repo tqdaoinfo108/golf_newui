@@ -35,7 +35,7 @@ class DashboardScreen extends GetView<DashboardController> {
                     (controller.isLoadingBookingHistory &&
                             !controller.isLoadingMore)
                         ? Center(child: CircularProgressIndicator())
-                        : controller.lstDateBooking.length == 0
+                        : controller.lstDateBooking.isEmpty
                         ? Center(
                           child: Text(
                             'not_found_booking'.tr,
@@ -300,9 +300,8 @@ Widget rowTabbar(ThemeData theme, IconData icon, String text) {
       Center(
         child: AutoSizeText(
           text,
-          minFontSize: 1,
           wrapWords: true,
-          maxLines: 2,
+          maxLines: 1,
           style: theme.textTheme.titleSmall,
         ),
       ),
