@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      sha256: a7f37ff061d7abc2fcf213554b9dcaca713c5853afa5c065c44888bc9ccaf813
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.6"
   args:
     dependency: transitive
     description:
@@ -193,6 +201,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  cli_util:
+    dependency: transitive
+    description:
+      name: cli_util
+      sha256: ff6785f7e9e3c38ac98b2fb035701789de90154024a75b6cb926445e83197d1c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.2"
   clock:
     dependency: transitive
     description:
@@ -225,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      sha256: "7caf6a750a0c04effbb52a676dce9a4a592e10ad35c34d6d2d0e4811160d5670"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.4+2"
   crypto:
     dependency: transitive
     description:
@@ -422,6 +446,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  flutter_launcher_icons:
+    dependency: "direct dev"
+    description:
+      name: flutter_launcher_icons
+      sha256: bfa04787c85d80ecb3f8777bde5fc10c3de809240c48fa061a2c2bf15ea5211c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.14.3"
+  flutter_line_sdk:
+    dependency: "direct main"
+    description:
+      name: flutter_line_sdk
+      sha256: ffcb03493af30d5af5fc9d4c2d5c52335a57449667d5d6300977b296eed2534a
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.1"
   flutter_lints:
     dependency: "direct main"
     description:
@@ -435,6 +475,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: "5a1e6fb2c0561958d7e4c33574674bda7b77caaca7a33b758876956f2902eea3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.27"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -653,6 +701,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  hl_image_picker:
+    dependency: "direct main"
+    description:
+      name: hl_image_picker
+      sha256: a7455f51259941922ec23e87cccf99c8e54d9a13249d56d7184866622c563021
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.16"
+  hl_image_picker_android:
+    dependency: transitive
+    description:
+      name: hl_image_picker_android
+      sha256: d274e74d313d0fd40edd2820e02cf8b492e98ef965e96bd63d3089ce9008523b
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.11"
+  hl_image_picker_ios:
+    dependency: transitive
+    description:
+      name: hl_image_picker_ios
+      sha256: "70ef73e2736514c1a5f53d97086fdce00e5b01ec002435daeafc406450123e1f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.10"
+  hl_image_picker_platform_interface:
+    dependency: transitive
+    description:
+      name: hl_image_picker_platform_interface
+      sha256: "8b9510ca6f12f80184368661738dde1c6b78fdbca04e835f2c2e0bb79f2a175b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.4"
+  hl_image_picker_pro:
+    dependency: "direct main"
+    description:
+      name: hl_image_picker_pro
+      sha256: "319fe5dc4fc01cf8d1a5a9dd4a9ccd332d89877f616372e83eb581be4f4132a7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.18"
   html:
     dependency: transitive
     description:
@@ -685,6 +773,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      sha256: "4e973fcf4caae1a4be2fa0a13157aa38a8f9cb049db6529aa00b4d71abc4d928"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.4"
+  image_picker_android:
+    dependency: transitive
+    description:
+      name: image_picker_android
+      sha256: "8bd392ba8b0c8957a157ae0dc9fcf48c58e6c20908d5880aea1d79734df090e9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.12+22"
+  image_picker_platform_interface:
+    dependency: transitive
+    description:
+      name: image_picker_platform_interface
+      sha256: "886d57f0be73c4b140004e78b9f28a8914a09e50c2d816bdd0520051a71236a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.10.1"
   intl:
     dependency: "direct main"
     description:
@@ -1037,6 +1149,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
+  posix:
+    dependency: transitive
+    description:
+      name: posix
+      sha256: f0d7856b6ca1887cfa6d1d394056a296ae33489db914e365e2044fdada449e62
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.2"
   pretty_qr_code:
     dependency: "direct main"
     description:

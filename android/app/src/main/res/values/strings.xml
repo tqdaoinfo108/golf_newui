@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Golf Application.</string>
+
+    <!-- Replace "000000000000" with your Facebook App ID here. -->
+    <string name="facebook_app_id">1042047447772343</string>
+    <string name="facebook_client_token">4c8c9d2f8100c7b414042665071d4b59</string>
+
+    <string name="zalo_flutter_app_id">2128351127985284191</string>
+    <string name="zalo_flutter_app_id_protocol">zalo-2128351127985284191</string>
+</resources>

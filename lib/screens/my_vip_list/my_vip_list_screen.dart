@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/screens/my_vip_list/my_vip_list_controller.dart';
 import 'package:golf_uiv2/screens/my_vip_list/widgets/my_vip_list_item.dart';
+import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:golf_uiv2/widgets/app_listview.dart';
@@ -16,14 +17,14 @@ class MyVipListScreen extends GetView<MyVipListController> {
     final appTheme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: appTheme.colorScheme.onBackground,
+      backgroundColor: GolfColor.GolfPrimaryColor,
       appBar: ApplicationAppBar(context,"back".tr),
       body: Container(
         decoration: BoxDecoration(
           color: appTheme.colorScheme.background,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0.sp),
-            topRight: Radius.circular(30.0.sp),
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
           ),
         ),
         constraints: BoxConstraints.expand(),

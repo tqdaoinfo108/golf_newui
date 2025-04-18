@@ -9,6 +9,8 @@ import 'package:golf_uiv2/widgets/application_appbar.dart';
 import 'package:golf_uiv2/widgets/booking_item.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../utils/color.dart';
+
 class FavoriteShopScreen extends GetView<FavoriteShopController> {
   const FavoriteShopScreen({Key? key}) : super(key: key);
 
@@ -17,14 +19,14 @@ class FavoriteShopScreen extends GetView<FavoriteShopController> {
     final appTheme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: appTheme.colorScheme.onBackground,
+      backgroundColor: GolfColor.GolfPrimaryColor,
       appBar: ApplicationAppBar(context,"back".tr),
       body: Container(
         decoration: BoxDecoration(
           color: appTheme.colorScheme.background,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0.sp),
-            topRight: Radius.circular(30.0.sp),
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
           ),
         ),
         constraints: BoxConstraints.expand(),

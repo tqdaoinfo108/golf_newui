@@ -18,7 +18,7 @@
           "client_type": 1,
           "android_info": {
             "package_name": "jp.gpro.golf24",
-            "certificate_hash": "eb17d001b32e0337846440df8b3458dda6ce6b61"
+            "certificate_hash": "fcc7bb73c90b9f04ae7a1190d5119d9fca527915"
           }
         },
         {
@@ -37,6 +37,49 @@
             {
               "client_id": "501243301896-9qpglq4c6tg055b69dh280hge721il32.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "501243301896-6hadb1cu6a3khhfhr327pn9el8drl2vl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.homebear.evcharge"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501243301896:android:ba65976b4f7176bccd81bd",
+        "android_client_info": {
+          "package_name": "jp.homebear.evcharge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501243301896-9qpglq4c6tg055b69dh280hge721il32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAM_4IOaWJ2jufuaXjKAhh4uIYAqFqDAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501243301896-9qpglq4c6tg055b69dh280hge721il32.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "501243301896-6hadb1cu6a3khhfhr327pn9el8drl2vl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.homebear.evcharge"
+              }
             }
           ]
         }

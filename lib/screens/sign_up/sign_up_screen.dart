@@ -35,10 +35,10 @@ class SignUpScreen extends GetView<SignUpController> {
               child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
             decoration: BoxDecoration(
+              color: Colors.white,
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(6.0.w),
                   topRight: Radius.circular(6.0.w)),
-              color: themeData.scaffoldBackgroundColor,
             ),
             child: GetX<SignUpController>(builder: (_controller) {
               return AbsorbPointer(

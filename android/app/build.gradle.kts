@@ -30,11 +30,26 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("./../golf_new.jks")
+            storePassword = "@@Qdao100897"
+            keyAlias = "Key0"
+            keyPassword = "@@Qdao100897"
+        }
+
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs["release"]
+        }
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs["release"]
         }
     }
 }

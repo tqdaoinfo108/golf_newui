@@ -61,16 +61,16 @@ class TimeFilter extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 5.0.sp),
+        SizedBox(height: 10),
         PressableText(
           "search".tr,
           textAlign: TextAlign.center,
-          backgroundColor: appTheme.colorScheme.primary,
-          padding: EdgeInsets.all(10.0.sp),
+          backgroundColor:  Color(0xff08D586),
+          padding: EdgeInsets.all(6.0.sp),
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(10.0.sp),
           onPress: onRequestSearch,
-          style: appTheme.textTheme.headlineLarge!.copyWith(
+          style: appTheme.textTheme.headlineMedium!.copyWith(
             color: appTheme.colorScheme.onPrimary,
           ),
         )
@@ -133,9 +133,13 @@ class TimeFilter extends StatelessWidget {
   ) =>
       showModalBottomSheet(
           context: context,
+          isScrollControlled: true,
+          useRootNavigator: true,
           builder: (BuildContext builder) {
             return Container(
-              height: SizeConfig.withContext(context)!.screenHeight / 3,
+              height: 33.h,
+              width: 100.w,
+              color: Colors.white,
               child: CupertinoTheme(
                 data: CupertinoThemeData(
                   textTheme: CupertinoTextThemeData(

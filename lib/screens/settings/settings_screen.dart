@@ -41,7 +41,7 @@ class SettingsScreen extends GetView<SettingController> {
           child: Column(
             children: [
               Container(
-                height: 30.h,
+                height: 35.h,
                 padding: const EdgeInsets.only(top: kToolbarHeight),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -52,18 +52,12 @@ class SettingsScreen extends GetView<SettingController> {
                   ),
                 ),
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 2.0.h,
-                    horizontal: 15.0.sp,
-                  ),
-                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(bottom: 40),
+                  alignment: Alignment.topCenter,
                   child: Obx(
                         () => Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 10,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Column(
                               spacing: 10,
@@ -83,7 +77,6 @@ class SettingsScreen extends GetView<SettingController> {
                                           .copyWith(fontSize: 14, fontWeight:
                                       FontWeight.bold, color: Colors.white),
                                     ),
-                                    SizedBox(height: 2),
                                     Visibility(
                                       visible:
                                       _controller.userInfo!.confirmEmail ==
@@ -107,6 +100,7 @@ class SettingsScreen extends GetView<SettingController> {
                                         ),
                                       ),
                                     ),
+                                    _buildMyVipMember(themeData, controller.totalVipMembers),
                                   ],
                                 ),
                               ],
@@ -119,9 +113,6 @@ class SettingsScreen extends GetView<SettingController> {
                               ),
                           ],
                         ),
-                        _buildMyVipMember(themeData, controller.totalVipMembers),
-                      ],
-                    ),
                   ),
                 ),
               ),
@@ -200,38 +191,17 @@ class SettingsScreen extends GetView<SettingController> {
   _buildMyVipMember(ThemeData appTheme, int total) {
     return total == 0
         ? Container()
-        : Padding(
-          padding: EdgeInsets.only(top: 15.0.sp),
-          child: Pressable(
-            padding: EdgeInsets.all(10.0.sp),
-            backgroundColor: appTheme.colorScheme.secondary,
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'vip_member'.tr,
-                      style: appTheme.textTheme.headlineLarge!.copyWith(
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    // Text(
-                    //   '(${'owning'.tr} $total ${'cards'.tr.toLowerCase()})',
-                    //   style: appTheme.textTheme.titleSmall
-                    //       .copyWith(color: Colors.white),
-                    // ),
-                  ],
-                ),
-                Icon(Icons.arrow_right, color: Colors.white, size: 5.0.w),
-              ],
+        : InkWell(
+          child:  Text(
+            'vip_member'.tr,
+            style: appTheme.textTheme.titleSmall!
+                .copyWith(
+              color: appTheme.colorScheme.secondary,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
             ),
-            onPress: () => Get.toNamed(AppRoutes.MY_VIP_LIST),
           ),
+          onTap: () => Get.toNamed(AppRoutes.MY_VIP_LIST),
         );
   }
 }

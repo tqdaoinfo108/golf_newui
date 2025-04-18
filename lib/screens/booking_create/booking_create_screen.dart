@@ -37,10 +37,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
             padding: const EdgeInsets.only(top: kToolbarHeight * 2, right:
             10, left: 10, bottom: 10),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(6.0.w),
-                topRight: Radius.circular(6.0.w),
-              ),
+
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

@@ -8,6 +8,7 @@ class Themes {
     colorScheme: lightColorScheme,
     scaffoldBackgroundColor: GolfColor.BackgroundLightColor,
     primaryColor: GolfColor.GolfPrimaryColor,
+
     primaryTextTheme: lightTextTheme.copyWith(
       titleSmall: GoogleFonts.openSans(
         //subTitle
@@ -62,7 +63,7 @@ class Themes {
   );
 
   static const ColorScheme lightColorScheme = ColorScheme(
-    primary: Color(0XFF11AF4E),
+    primary: GolfColor.GolfPrimaryColor,
     primaryContainer: Color(0XFF4CB94D),
     secondary: Color(0XFFE8A21A),
     secondaryContainer: Color(0xFFE8A21A),

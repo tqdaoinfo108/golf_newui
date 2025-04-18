@@ -253,37 +253,12 @@ class ProfileController extends GetxController {
     updatingInfo = false;
   }
 
-  void updateAvatar(dynamic? photo) async {
-  // void updateAvatar(AssetEntity? photo) async {
+  void updateAvatar(String path) async {
     updatingInfo = true;
 
     try {
-      if (photo != null) {
-        var _photoFile = (await photo.file)!;
-        int _sizeInBytes = _photoFile.lengthSync();
-        double _sizeInMb = _sizeInBytes / (1024 * 1024);
-        int _photoQuality = 100;
 
-        while (_sizeInMb > 3) {
-          _photoQuality = (_photoQuality / 2).round();
-
-          // final _drawFile = await photo.thumbnailDataWithOption(ThumbnailOption(
-          //   size: ThumbnailSize(
-          //     photo.size.width.round(),
-          //     photo.size.height.round(),
-          //   ),
-          //   quality: _photoQuality,
-          // ));
-          final _tempDir = await getTemporaryDirectory();
-          _photoFile =
-              await File('${_tempDir.path}/tmp_${photo.title}.png').create();
-          _photoFile.writeAsBytesSync(dynamic!);
-
-          _sizeInBytes = _photoFile.lengthSync();
-          _sizeInMb = _sizeInBytes / (1024 * 1024);
-        }
-
-        var response = await GolfApi().uploadAvartar(_photoFile);
+        var response = await GolfApi().uploadAvartar(File(path));
         if (response?.data != null && (response?.data ?? '').isNotEmpty) {
           var _updateAvatar = await GolfApi().updateImagePath(response?.data);
 
@@ -294,7 +269,6 @@ class ProfileController extends GetxController {
         } else {
           _toastException(response?.getException);
         }
-      }
     } catch (e) {
       _toastException(ApplicationError.withCode(
           ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));

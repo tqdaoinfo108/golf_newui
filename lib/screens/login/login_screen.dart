@@ -225,10 +225,10 @@ class LoginScreen extends GetView<LoginController> {
         child: Image.asset("assets/icons/google.png", height: 5.0.h),
       ),
       // SizedBox(width: 2.0.w),
-      InkWell(
-        onTap: () => onLoginFacebookPressed.call(),
-        child: Image.asset("assets/icons/facebook.png", height: 5.0.h),
-      ),
+      // InkWell(
+      //   onTap: () => onLoginFacebookPressed.call(),
+      //   child: Image.asset("assets/icons/facebook.png", height: 5.0.h),
+      // ),
       // SizedBox(width: 2.0.w),
       if (hasAppleLoginButton) ...[
         InkWell(

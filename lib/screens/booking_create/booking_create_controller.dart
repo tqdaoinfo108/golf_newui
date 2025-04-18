@@ -217,7 +217,7 @@ class BookingCreateController extends GetxController {
               ))
             .toJson();
     var result = await GolfApi().createBooking(jsonBody);
-    Get.offNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
+    Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
   }
 
   void onCancelBooking() {

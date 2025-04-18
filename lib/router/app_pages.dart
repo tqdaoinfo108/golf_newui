@@ -24,8 +24,6 @@ import 'package:golf_uiv2/screens/my_vip_list/my_vip_list_binding.dart';
 import 'package:golf_uiv2/screens/my_vip_list/my_vip_list_screen.dart';
 import 'package:golf_uiv2/screens/notifications/notifications_controller.dart';
 import 'package:golf_uiv2/screens/payment_new_web/payment_new_web_controller.dart';
-import 'package:golf_uiv2/screens/pick_image_album_list/pick_image_album_list.dart';
-import 'package:golf_uiv2/screens/pick_image_list/pick_image_list.dart';
 import 'package:golf_uiv2/screens/profile/profile_binding.dart';
 import 'package:golf_uiv2/screens/profile/profile_screen.dart';
 import 'package:golf_uiv2/screens/settings/settings_controller.dart';
@@ -37,6 +35,7 @@ import 'package:golf_uiv2/screens/terms_of_use/terms_of_use_screen.dart';
 import 'package:golf_uiv2/screens/transaction_history/transaction_history_bindings.dart';
 import 'package:golf_uiv2/screens/transaction_history/transaction_history_screen.dart';
 
+import '../screens/notifications/notifications_screen.dart';
 import '../screens/payment_new/payment_new_controller.dart';
 import '../screens/payment_new/payment_new_screen.dart';
 import '../screens/payment_new_web/payment_new_web_screen.dart';
@@ -126,14 +125,6 @@ class AppScreens {
       binding: TransactionHistoryBindings(),
     ),
     GetPage(
-      name: AppRoutes.PICK_IMAGE_ALBUM_LIST,
-      page: () => PickImageAlbumListScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.PICK_IMAGE_LIST,
-      page: () => PickImageListScreen(),
-    ),
-    GetPage(
       name: AppRoutes.FAVORITE_SHOP,
       page: () => FavoriteShopScreen(),
       binding: FavoriteShopBindings(),
@@ -142,6 +133,11 @@ class AppScreens {
       name: AppRoutes.TERMS_OF_USE,
       page: () => TermsOfUseScreen(),
       binding: TermsOfUseScreenBindings(),
+    ),
+    GetPage(
+      name: AppRoutes.NOTIFICATIONS,
+      page: () => NotificationScreen(),
+      binding: NotificationBinding(),
     ),
   ];
 }

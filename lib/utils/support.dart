@@ -179,7 +179,7 @@ class SupportUtils {
         colorText: _textColor,
         snackPosition: SnackPosition.BOTTOM,
         icon: hasIcon ? _icon : null,
-        backgroundColor: themeData.colorScheme.backgroundToastColor,
+        backgroundColor: Colors.black12,
         padding: EdgeInsets.all(20),
         borderRadius: 5,
         duration: Duration(milliseconds: durationMili),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 // import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/application_error.dart';
@@ -332,26 +333,26 @@ class LoginController extends GetxController {
   }
 
   Future<User?> loginLine() async {
-    // User _userTmp = User();
-    // try {
-    //   final result = await LineSDK.instance.login();
-    //   var _userProfile = result.userProfile;
-    //
-    //   if (_userProfile != null &&
-    //       !_userProfile.isBlank! &&
-    //       !_userProfile.userId.isNullEmptyOrWhitespace) {
-    //     _userTmp.providerUserID = _userProfile.userId;
-    //     _userTmp.fullName = _userProfile.displayName;
-    //     _userTmp.email = '';
-    //   } else {
-    //     throw Exception();
-    //   }
-    // } catch (_) {
-    //   loginErrorMessage = 'login_with_line_fail'.tr;
-    //   return null;
-    // }
-    //
-    // return _userTmp;
+    User _userTmp = User();
+    try {
+      final result = await LineSDK.instance.login();
+      var _userProfile = result.userProfile;
+
+      if (_userProfile != null &&
+          !_userProfile.isBlank! &&
+          !_userProfile.userId.isNullEmptyOrWhitespace) {
+        _userTmp.providerUserID = _userProfile.userId;
+        _userTmp.fullName = _userProfile.displayName;
+        _userTmp.email = '';
+      } else {
+        throw Exception();
+      }
+    } catch (_) {
+      loginErrorMessage = 'login_with_line_fail'.tr;
+      return null;
+    }
+
+    return _userTmp;
   }
 
   Future<User?> loginAppleID() async {

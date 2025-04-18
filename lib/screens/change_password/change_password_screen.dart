@@ -27,10 +27,10 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
         height: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
         decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(6.0.w),
               topRight: Radius.circular(6.0.w)),
-          color: themeData.scaffoldBackgroundColor,
         ),
         child: GetX<ChangePasswordController>(builder: (_controller) {
           return AbsorbPointer(
@@ -101,7 +101,7 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
                             child: DefaultButton(
                               text: 'change_password'.tr,
                               textColor: Colors.white,
-                              backgroundColor: GolfColor.GolfPrimaryColor,
+                              backgroundColor:  Color(0xff08D586),
                               press: () async {
                                 // Unfocus Textfield
                                 _oldPasswordFocusNode.unfocus();

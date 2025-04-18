@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:golf_uiv2/router/app_routers.dart';
-import 'package:golf_uiv2/utils/color.dart';
-import 'package:golf_uiv2/utils/constants.dart';
-import 'package:golf_uiv2/utils/keys.dart';
-import 'package:golf_uiv2/utils/support.dart';
-import 'package:golf_uiv2/widgets/app_icon.dart';
-import 'package:golf_uiv2/widgets/application_appbar.dart';
-import 'package:golf_uiv2/widgets/avatar.dart';
-import 'package:golf_uiv2/widgets/button_default.dart';
-import 'package:golf_uiv2/widgets/default_avatar.dart';
-import 'package:golf_uiv2/widgets/pressable.dart';
-import 'package:golf_uiv2/widgets/text_field.dart';
-// import 'package:photo_manager/photo_manager.dart';
+import 'package:hl_image_picker_pro/hl_image_picker.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 
+import '../../router/app_routers.dart';
+import '../../utils/color.dart';
+import '../../utils/constants.dart';
+import '../../utils/keys.dart';
+import '../../utils/support.dart';
+import '../../widgets/app_icon.dart';
+import '../../widgets/application_appbar.dart';
+import '../../widgets/avatar.dart';
+import '../../widgets/button_default.dart';
+import '../../widgets/default_avatar.dart';
+import '../../widgets/pressable.dart';
+import '../../widgets/text_field.dart';
 import 'profile_controller.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
@@ -35,12 +35,12 @@ class ProfileScreen extends GetView<ProfileController> {
         body: Stack(children: [
           Container(
             alignment: Alignment.topCenter,
-            padding: EdgeInsets.only(left: 2.0.h, right: 2.0.h, top: 2.0.h),
+            padding: EdgeInsets.only(left: 2.0.h, right: 2.0.h),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(6.0.w),
                   topRight: Radius.circular(6.0.w)),
-              color: Theme.of(context).scaffoldBackgroundColor,
+              color: Colors.white,
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -180,7 +180,7 @@ class ProfileScreen extends GetView<ProfileController> {
                   DefaultButton(
                     text: 'save'.tr,
                     textColor: Colors.white,
-                    backgroundColor: GolfColor.GolfPrimaryColor,
+                    backgroundColor:  Color(0xff08D586),
                     press: () async {
                       // Unfocus Textfield
                       _fullNameFocusNode.unfocus();
@@ -247,34 +247,17 @@ class ProfileScreen extends GetView<ProfileController> {
         ),
       );
 
-  _buildPicker(BuildContext context) {
-    // _checkPermission().then((granted) {
-    //   if (!granted) {
-    //     SupportUtils.showToast(
-    //         'app_not_have_permission_to_access_the_photos'.tr,
-    //         type: ToastType.ERROR);
-    //     return;
-    //   }
+  _buildPicker(BuildContext context) async {
+    final _picker = HLImagePicker();
 
-      // To build your own custom picker use this api
-    //   PhotoManager.getAssetPathList(type: RequestType.image)
-    //     ..then(
-    //       (albums) => Get.toNamed(
-    //         AppRoutes.PICK_IMAGE_ALBUM_LIST,
-    //         arguments: (albums.where((album) => album.assetCount > 0).toList()),
-    //       )?.then((result) {
-    //         if (result?.resultCode == PageResultCode.OK)
-    //           controller.updateAvatar(result?.data);
-    //       }),
-    //     )
-    //     ..catchError((e) {
-    //       SupportUtils.showToast('Get albums fail: $e');
-    //     });
-    // });
+    final images = await _picker.openPicker(
+        pickerOptions: HLPickerOptions(maxSelectedAssets: 1)
+    );
+
+    if(images.isEmpty){
+      return;
+    }
+
+    controller.updateAvatar(images.first.path);
   }
-  //
-  // Future<bool> _checkPermission() async {
-  //   final PermissionState res = await PhotoManager.requestPermissionExtend();
-  //   return res == PermissionState.authorized || res == PermissionState.limited;
-  // }
 }

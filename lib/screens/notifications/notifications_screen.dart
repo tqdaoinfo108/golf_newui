@@ -74,11 +74,12 @@ class NotificationScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     alignment: Alignment.bottomCenter,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6.0.w),
                           topRight: Radius.circular(6.0.w)),
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                      color: Colors.white,
                     ),
                     child: controller.isLoading
                         ? Center(child: CircularProgressIndicator())

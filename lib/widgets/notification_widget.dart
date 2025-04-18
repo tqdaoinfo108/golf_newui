@@ -9,14 +9,15 @@ import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 
 Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
+  var textStyle = theme.textTheme.headlineSmall!.copyWith(color: Colors.white);
   return InkWell(
-    onTap: () =>  Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: noti.iD),
+    onTap: () => Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: noti.iD),
     child: Container(
       margin: EdgeInsets.only(bottom: 2.0.w, right: 2.0.w, left: 2.0.w),
-      padding: EdgeInsets.all(1.0.h),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: theme.colorScheme.backgroundCardColor),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: theme.colorScheme.backgroundCardColor,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -25,45 +26,59 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
             flex: 3,
             child: Container(
               alignment: Alignment.center,
-              height: 26.0.w,
-              width: 26.0.w,
+              height: 120,
+              width: 120,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: theme.scaffoldBackgroundColor),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(6.0.w),
+                  bottomLeft: Radius.circular(6.0.w),
+                ),
+                color: Color(0xffF5F6FF),
+              ),
               child: Center(
-                child: Icon(Icons.calendar_today_rounded,
-                    color: getColorNotication(noti.typeID), size: 6.0.h),
+                child: Image.asset("assets/images/mail.png", height: 48,
+                  width: 48, color: Color(0xff3F51BC),),
               ),
             ),
           ),
-          SizedBox(width: 2.0.h),
 
           Expanded(
             flex: 8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                /// Shop Name
-                AutoSizeText(
-                  getTitleNotication(noti.typeID),
-                  style: theme.textTheme.headlineSmall,
-                  maxLines: 2,
+            child: Container(
+              height: 120,
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
-                SizedBox(height: 1.0.h),
+                color: Color(0xff3F51BC),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  /// Shop Name
+                  AutoSizeText(
+                    getTitleNotication(noti.typeID),
+                    style: textStyle,
+                    maxLines: 2,
+                  ),
+                  SizedBox(height: 1.0.h),
 
-                /// Shop address
-                AutoSizeText(
-                  "shop".tr + ": " + noti.title!,
-                  style: theme.textTheme.titleSmall,
-                  maxLines: 2,
-                ),
-                SizedBox(height: 1.0.h),
-                AutoSizeText(
-                  "at".tr + ": " + noti.message!,
-                  style: theme.textTheme.titleSmall,
-                ),
-              ],
+                  /// Shop address
+                  AutoSizeText(
+                    "shop".tr + ": " + noti.title!,
+                    style: textStyle,
+                    maxLines: 2,
+                  ),
+                  SizedBox(height: 1.0.h),
+                  AutoSizeText(
+                    "at".tr + ": " + noti.message!,
+                    style: textStyle,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

@@ -10,6 +10,7 @@ import 'package:golf_uiv2/widgets/app_listview.dart';
 import 'package:golf_uiv2/widgets/application_appbar.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../utils/color.dart';
 import 'buy_vip_list_controller.dart';
 
 class BuyVipListScreen extends GetView<BuyVipListController> {
@@ -20,14 +21,14 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
     final appTheme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: appTheme.colorScheme.onBackground,
+      backgroundColor: GolfColor.GolfPrimaryColor,
       appBar: ApplicationAppBar(context,"back".tr),
       body: Container(
         decoration: BoxDecoration(
           color: appTheme.colorScheme.background,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0.sp),
-            topRight: Radius.circular(30.0.sp),
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
           ),
         ),
         constraints: BoxConstraints.expand(),

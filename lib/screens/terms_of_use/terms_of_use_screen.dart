@@ -20,7 +20,7 @@ class TermsOfUseScreen extends GetView<TermsOfUseScreenController> {
           style: Theme.of(context)
               .textTheme
               .titleMedium!
-              .copyWith(fontWeight: FontWeight.bold),
+              .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
         )),
         body: Stack(
           children: [
@@ -102,6 +102,7 @@ class TermsOfUseScreen extends GetView<TermsOfUseScreenController> {
                       ],
                     ),
                   ),
+                  SizedBox(height: 40)
                 ],
               ),
             ),

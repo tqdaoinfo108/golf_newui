@@ -107,7 +107,6 @@ class DashboardScreen extends GetView<DashboardController> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
@@ -168,12 +167,18 @@ class DashboardScreen extends GetView<DashboardController> {
                               ),
                             ],
                           ),
+                          Spacer(),
                           if (controller.userInfo!.isUserManager ?? false)
                             Image.asset(
                               "assets/icons/person_vip.png",
                               width: 48,
                               color: Colors.white.withOpacity(0.8),
                             ),
+
+                          IconButton(onPressed: (){
+                            Get.toNamed(AppRoutes.NOTIFICATIONS);
+                          }, icon: Icon(Icons
+                              .notifications, color: Colors.white,))
                         ],
                       ),
                     ),

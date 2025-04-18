@@ -25,7 +25,7 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
               : Color(0xff8C98D9))
           : Color(0xff8C98D9);
 
-  var titleBold = theme.textTheme.headlineLarge!.copyWith(
+  var titleBold = theme.textTheme.headlineMedium!.copyWith(
     color: Colors.white,
     fontWeight: FontWeight.bold,
   );
