@@ -71,8 +71,10 @@ class BookingDetailController extends GetxController {
     isLoadingQRCode = true;
 
     /// Call Service
-    _result =
-        await GolfApi().getBookingQRCodeString(_userId, curBooking.bookID);
+    _result = await GolfApi().getBookingQRCodeString(
+      _userId,
+      curBooking.bookID,
+    );
 
     /// Handle result
     if (_result.data != null) {
@@ -82,14 +84,19 @@ class BookingDetailController extends GetxController {
       return true;
     } else {
       if (_result.getException == null) {
-        _result.setException(ApplicationError.withCode(
-            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+        _result.setException(
+          ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+          ),
+        );
       }
       isLoadingQRCode = false;
 
       /// Show Error
-      SupportUtils.showToast(_result.getException!.getErrorMessage(),
-          type: ToastType.ERROR);
+      SupportUtils.showToast(
+        _result.getException!.getErrorMessage(),
+        type: ToastType.ERROR,
+      );
 
       return false;
     }
@@ -108,13 +115,18 @@ class BookingDetailController extends GetxController {
       return true;
     } else {
       if (_result.getException == null) {
-        _result.setException(ApplicationError.withCode(
-            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+        _result.setException(
+          ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+          ),
+        );
       }
 
       /// Show Error
-      SupportUtils.showToast(_result.getException!.getErrorMessage(),
-          type: ToastType.ERROR);
+      SupportUtils.showToast(
+        _result.getException!.getErrorMessage(),
+        type: ToastType.ERROR,
+      );
 
       return false;
     }
@@ -124,56 +136,71 @@ class BookingDetailController extends GetxController {
     var _result = BaseResponse<int?>();
 
     /// Call Service
-    _result = await GolfApi().addPayment(AuthBody<Map<String, dynamic>>()
-      ..setAuth(Auth())
-      ..setData({
-        'BookID': curBooking.bookID,
-        'Amount': calculateCurrBookingAmount(),
-        'CardNumber': paymentInfo?.cardNumber ?? "",
-        'Order_ID': paymentInfo?.oderId ?? "",
-      }, dataToJson: (data) => data));
+    _result = await GolfApi().addPayment(
+      AuthBody<Map<String, dynamic>>()
+        ..setAuth(Auth())
+        ..setData({
+          'BookID': curBooking.bookID,
+          'Amount': calculateCurrBookingAmount(),
+          'CardNumber': paymentInfo?.cardNumber ?? "",
+          'Order_ID': paymentInfo?.oderId ?? "",
+        }, dataToJson: (data) => data),
+    );
 
     /// Handle result
     if (_result.data != null) {
       return await updateBookingStatus(BookingStatus.PAID);
     } else {
       if (_result.getException == null) {
-        _result.setException(ApplicationError.withCode(
-            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+        _result.setException(
+          ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+          ),
+        );
       }
 
       /// Show Error
-      SupportUtils.showToast(_result.getException!.getErrorMessage(),
-          type: ToastType.ERROR);
+      SupportUtils.showToast(
+        _result.getException!.getErrorMessage(),
+        type: ToastType.ERROR,
+      );
 
       return false;
     }
   }
 
   void cancelBooking() {
-    SupportUtils.showDecisionDialog('are_you_sure_cancel_booking'.tr,
-        lstOptions: [
-          DecisionOption('yes_cancel_it'.tr, type: DecisionOptionType.DENIED,
-              onDecisionPressed: () {
+    SupportUtils.showDecisionDialog(
+      'are_you_sure_cancel_booking'.tr,
+      lstOptions: [
+        DecisionOption(
+          'yes_cancel_it'.tr,
+          type: DecisionOptionType.DENIED,
+          onDecisionPressed: () {
             if (curBooking.isAvailableCancel()) {
               updateBookingStatus(BookingStatus.CANCELED);
             } else {
               getBookingHistoryDetail();
-              SupportUtils.showToast('cannot_cancel_this_booking'.tr,
-                  type: ToastType.ERROR);
+              SupportUtils.showToast(
+                'cannot_cancel_this_booking'.tr,
+                type: ToastType.ERROR,
+              );
             }
-          }),
-          DecisionOption('no'.tr, onDecisionPressed: null, isImportant: true)
-        ]);
+          },
+        ),
+        DecisionOption('no'.tr, onDecisionPressed: null, isImportant: true),
+      ],
+    );
   }
 
   void letsPaymentWithOnlinePayment() async {
     if (await _reCheckPaymentAvailable()) {
       final request = GetPaymentKeyRequest(
-          capture: false,
-          additionalMessage:
-              "${curBooking.nameShop} (${curBooking.addressShop})",
-          items: _getListPaymentItems());
+        shopID: curBooking.shopID,
+        capture: false,
+        additionalMessage: "${curBooking.nameShop} (${curBooking.addressShop})",
+        items: _getListPaymentItems(),
+      );
 
       /// Lets payment this booking
       var result = await Get.toNamed(AppRoutes.PYAYMENT, arguments: request);
@@ -233,10 +260,7 @@ class BookingDetailController extends GetxController {
     } else {
       // check amount
       if (calculateCurrBookingAmount() <= 0) {
-        SupportUtils.showToast(
-          'amount_not_valid'.tr,
-          type: ToastType.ERROR,
-        );
+        SupportUtils.showToast('amount_not_valid'.tr, type: ToastType.ERROR);
         return false;
       }
 
@@ -247,44 +271,52 @@ class BookingDetailController extends GetxController {
   _getListPaymentItems() {
     List<PaymentItem> lstPaymentItems = [];
     var _bookingDiscount = 0;
-    var _isPaymentWithLimitedAndOnline = curBooking.payment!.typePayment ==
+    var _isPaymentWithLimitedAndOnline =
+        curBooking.payment!.typePayment ==
         BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE;
     var _priceSortedBlocks = List<Blocks>.from(curBooking.blocks!)
       ..sort((a, b) => a.price!.compareTo(b.price!));
-    var _totalBlocksToPay = _isPaymentWithLimitedAndOnline
-        ? curBooking.payment!.turnVisa!
-        : _priceSortedBlocks.length;
+    var _totalBlocksToPay =
+        _isPaymentWithLimitedAndOnline
+            ? curBooking.payment!.turnVisa!
+            : _priceSortedBlocks.length;
 
     for (var i = 0; i < _totalBlocksToPay; i++) {
       final block = _priceSortedBlocks[i];
       _bookingDiscount += block.discount!.round();
 
-      lstPaymentItems.add(PaymentItem(
-        id: block.blockID,
-        name: block.getNameBlock(),
-        price: block.price!.round(),
-        quantity: 1,
-      ));
+      lstPaymentItems.add(
+        PaymentItem(
+          id: block.blockID,
+          name: block.getNameBlock(),
+          price: block.price!.round(),
+          quantity: 1,
+        ),
+      );
     }
 
     for (var i = _totalBlocksToPay; i < _priceSortedBlocks.length; i++) {
       final block = _priceSortedBlocks[i];
 
-      lstPaymentItems.add(PaymentItem(
-        id: block.blockID,
-        name: block.getNameBlock(),
-        price: 0,
-        quantity: 1,
-      ));
+      lstPaymentItems.add(
+        PaymentItem(
+          id: block.blockID,
+          name: block.getNameBlock(),
+          price: 0,
+          quantity: 1,
+        ),
+      );
     }
 
     if (_bookingDiscount > 0) {
-      lstPaymentItems.add(PaymentItem(
-        id: DateTime.now().millisecondsSinceEpoch,
-        name: 'Discount',
-        price: _bookingDiscount,
-        quantity: 1,
-      ));
+      lstPaymentItems.add(
+        PaymentItem(
+          id: DateTime.now().millisecondsSinceEpoch,
+          name: 'Discount',
+          price: _bookingDiscount,
+          quantity: 1,
+        ),
+      );
     }
 
     return lstPaymentItems;

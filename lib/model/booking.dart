@@ -34,18 +34,25 @@ class Booking extends BaseResponseError {
   Blocks? getBookingCurrent() {
     if (blocks != null && blocks!.isNotEmpty) {
       var dateNow = DateTime.now();
-      var timeCurrent = DateTime.utc(dateNow.year, dateNow.month, dateNow.day,
-              dateNow.hour, dateNow.minute)
-          .millisecondsSinceEpoch;
+      var timeCurrent =
+          DateTime.utc(
+            dateNow.year,
+            dateNow.month,
+            dateNow.day,
+            dateNow.hour,
+            dateNow.minute,
+          ).millisecondsSinceEpoch;
       var block = blocks!.firstWhere(
-          (element) =>
-              element.rangeStart! <= timeCurrent &&
-              timeCurrent <= element.rangeEnd!,
-          orElse: () => new Blocks()..blockID = -1);
+        (element) =>
+            element.rangeStart! <= timeCurrent &&
+            timeCurrent <= element.rangeEnd!,
+        orElse: () => new Blocks()..blockID = -1,
+      );
       if (block.blockID == -1) {
         block = blocks!.firstWhere(
-            (element) => element.rangeStart! > timeCurrent,
-            orElse: () => blocks!.last);
+          (element) => element.rangeStart! > timeCurrent,
+          orElse: () => blocks!.last,
+        );
         return block;
       }
       return block;
@@ -53,30 +60,31 @@ class Booking extends BaseResponseError {
     return blocks!.first;
   }
 
-  Booking(
-      {this.bookID,
-      this.bookCode,
-      this.dateBook,
-      this.datePlay,
-      this.userID,
-      this.statusID,
-      this.desription,
-      this.createdDate,
-      this.updatedDate,
-      this.userCreated,
-      this.userUpdated,
-      this.shopID,
-      this.slotID,
-      this.codeShop,
-      this.nameShop,
-      this.codeSlot,
-      this.addressShop,
-      this.phoneShop,
-      this.timeCancelMinute,
-      this.blocks,
-      this.payment,
-      this.isShopManager,
-      this.nameSlot});
+  Booking({
+    this.bookID,
+    this.bookCode,
+    this.dateBook,
+    this.datePlay,
+    this.userID,
+    this.statusID,
+    this.desription,
+    this.createdDate,
+    this.updatedDate,
+    this.userCreated,
+    this.userUpdated,
+    this.shopID,
+    this.slotID,
+    this.codeShop,
+    this.nameShop,
+    this.codeSlot,
+    this.addressShop,
+    this.phoneShop,
+    this.timeCancelMinute,
+    this.blocks,
+    this.payment,
+    this.isShopManager,
+    this.nameSlot,
+  });
 
   Booking.fromJson(Map<String, dynamic> json) {
     var _booksJson = json['Books'];
@@ -113,9 +121,10 @@ class Booking extends BaseResponseError {
       blocks = _getSortBookingAvailablePlayTime(_rawLstBlocks);
     }
 
-    payment = json["payment"] == null
-        ? null
-        : BookingPayment.fromJson(json['payment']);
+    payment =
+        json["payment"] == null
+            ? null
+            : BookingPayment.fromJson(json['payment']);
   }
 
   Map<String, dynamic> toJson() {
@@ -188,19 +197,18 @@ class Booking extends BaseResponseError {
           0;
 
   bool isAvailableCancel() {
-    return this.isShopManager ??
-        false ||
-            this.statusID == BookingStatus.WAITING_PAYMENT ||
-            (this.statusID == BookingStatus.PAID &&
-                (this.blocks![0].rangeStart! -
-                        (60 * timeCancelMinute! * 1000) -
-                        DateTime.utc(
-                          DateTime.now().year,
-                          DateTime.now().month,
-                          DateTime.now().day,
-                          DateTime.now().hour,
-                          DateTime.now().minute,
-                        ).millisecondsSinceEpoch) >
-                    0);
+    return (this.isShopManager ?? false) ||
+        this.statusID == BookingStatus.WAITING_PAYMENT ||
+        (this.statusID == BookingStatus.PAID &&
+            (this.blocks![0].rangeStart! -
+                    (60 * timeCancelMinute! * 1000) -
+                    DateTime.utc(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      DateTime.now().hour,
+                      DateTime.now().minute,
+                    ).millisecondsSinceEpoch) >
+                0);
   }
 }

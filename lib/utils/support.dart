@@ -26,7 +26,7 @@ extension TextUtilsStringExtension on String {
   ///
   /// Characters considered "whitespace" are listed [here](https://stackoverflow.com/a/59826129/10830091).
   bool get isNullEmptyOrWhitespace =>
-      this == null || this.isEmpty || this.trim().isEmpty;
+      this.isEmpty || this.trim().isEmpty;
 }
 
 extension MapExtension on Map {

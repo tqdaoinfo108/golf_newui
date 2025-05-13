@@ -35,21 +35,23 @@ class GolfApi {
   }
 
   Future<BaseResponse<User?>> login(
-      String username, String password, String lastTimeLogin) async {
+    String username,
+    String password,
+    String lastTimeLogin,
+  ) async {
     String? response;
 
     try {
-      response = await apiClient.login(
-        basicAuthentication,
-        {
-          'UUserID': username,
-          'PassWord': password,
-          'LastLogin': lastTimeLogin,
-        },
-      );
+      response = await apiClient.login(basicAuthentication, {
+        'UUserID': username,
+        'PassWord': password,
+        'LastLogin': lastTimeLogin,
+      });
 
       return BaseResponse<User?>.fromJson(
-          jsonDecode(response!), (json) => User.fromJson(json));
+        jsonDecode(response!),
+        (json) => User.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -57,36 +59,50 @@ class GolfApi {
   }
 
   Future<BaseResponse<User?>> signUp(
-      User userInfo, String lastTimeLogin, String languageCode) async {
+    User userInfo,
+    String lastTimeLogin,
+    String languageCode,
+  ) async {
     String? response;
     try {
-      response = await apiClient.signUp(
-        basicAuthentication,
-        {
-          'UUserID': userInfo.uUserID,
-          'Email': userInfo.email,
-          'FullName': userInfo.fullName,
-          'PassWord': userInfo.password,
-          'Provider': userInfo.provider,
-          'ProviderUserID': userInfo.providerUserID,
-          'LastLogin': lastTimeLogin,
-          'LanguageCode': languageCode,
-        },
-      );
+      response = await apiClient.signUp(basicAuthentication, {
+        'UUserID': userInfo.uUserID,
+        'Email': userInfo.email,
+        'FullName': userInfo.fullName,
+        'PassWord': userInfo.password,
+        'Provider': userInfo.provider,
+        'ProviderUserID': userInfo.providerUserID,
+        'LastLogin': lastTimeLogin,
+        'LanguageCode': languageCode,
+      });
 
       return BaseResponse<User>.fromJson(
-          jsonDecode(response!), (json) => User.fromJson(json));
+        jsonDecode(response!),
+        (json) => User.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
     }
   }
 
-  Future<ShopModel?> getShop(double? log, double? lat, int countList,
-      String keySearch, int? uerId) async {
+  Future<ShopModel?> getShop(
+    double? log,
+    double? lat,
+    int countList,
+    String keySearch,
+    int? uerId,
+  ) async {
     try {
       var response = await apiClient.getShop(
-          defaultAuthentication, log, lat, keySearch, 0, 100, uerId);
+        defaultAuthentication,
+        log,
+        lat,
+        keySearch,
+        0,
+        100,
+        uerId,
+      );
       return ShopModel.fromJson(jsonDecode(response ?? ""));
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -97,7 +113,12 @@ class GolfApi {
   Future<ShopItemModel?> getShopDetail(int? shopId, int? uerId) async {
     try {
       var response = await apiClient.getShopDetail(
-          defaultAuthentication, shopId, 0, 0, uerId);
+        defaultAuthentication,
+        shopId,
+        0,
+        0,
+        uerId,
+      );
       return ShopItemModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -117,10 +138,17 @@ class GolfApi {
   }
 
   Future<BlockModel?> getBlock(
-      int? slotID, int? time, String dateTimeClient) async {
+    int? slotID,
+    int? time,
+    String dateTimeClient,
+  ) async {
     try {
       var response = await apiClient.getBlock(
-          defaultAuthentication, slotID, time, dateTimeClient);
+        defaultAuthentication,
+        slotID,
+        time,
+        dateTimeClient,
+      );
       return BlockModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -129,10 +157,13 @@ class GolfApi {
   }
 
   Future<BookingResponeModel?> createBooking(
-      Map<String, dynamic> jsonBody) async {
+    Map<String, dynamic> jsonBody,
+  ) async {
     try {
-      var response =
-          await apiClient.createBooking(defaultAuthentication, jsonBody);
+      var response = await apiClient.createBooking(
+        defaultAuthentication,
+        jsonBody,
+      );
       return BookingResponeModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -142,17 +173,30 @@ class GolfApi {
   }
 
   Future<BaseResponse<List<Booking>?>> getLstHistoryBooking(
-      int? userID, int status, int page, int limit) async {
+    int? userID,
+    int status,
+    int page,
+    int limit,
+  ) async {
     String? response;
     try {
       response = await apiClient.getLstHistoryBooking(
-          defaultAuthentication, userID, status, page, limit);
+        defaultAuthentication,
+        userID,
+        status,
+        page,
+        limit,
+      );
 
       return BaseResponse<List<Booking>>.fromJson(
-          jsonDecode(response!),
-          (json) => (json as List<dynamic>)
-              .map<Booking>((i) => Booking.fromJson(i as Map<String, dynamic>))
-              .toList());
+        jsonDecode(response!),
+        (json) =>
+            (json as List<dynamic>)
+                .map<Booking>(
+                  (i) => Booking.fromJson(i as Map<String, dynamic>),
+                )
+                .toList(),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -163,7 +207,10 @@ class GolfApi {
     String? response;
     try {
       response = await apiClient.getHistoryBookingDetail(
-          defaultAuthentication, userID, bookID);
+        defaultAuthentication,
+        userID,
+        bookID,
+      );
 
       return Booking.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -173,11 +220,17 @@ class GolfApi {
   }
 
   Future<BaseResponse<String?>> getBookingQRCodeString(
-      int? userID, int? bookID) async {
+    int? userID,
+    int? bookID,
+  ) async {
     String? response;
     try {
-      response = await apiClient.getBookingQRCodeString(defaultAuthentication,
-          userID, bookID, SupportUtils.getTimeZoneNameID());
+      response = await apiClient.getBookingQRCodeString(
+        defaultAuthentication,
+        userID,
+        bookID,
+        SupportUtils.getTimeZoneNameID(),
+      );
 
       return BaseResponse<String>()..data = response;
     } on DioError catch (error, stacktrace) {
@@ -194,7 +247,8 @@ class GolfApi {
       return BaseResponse<String>()..data = jsonDecode(response!)['data'];
     } on DioError catch (error, stacktrace) {
       print(
-          "Exception occured: ${error.response!.statusMessage} stackTrace: $stacktrace");
+        "Exception occured: ${error.response!.statusMessage} stackTrace: $stacktrace",
+      );
       return BaseResponse()..setException(ApplicationError.withDioError(error));
     }
   }
@@ -202,9 +256,11 @@ class GolfApi {
   Future<User> updateImagePath(String? imagePath) async {
     String? response;
     try {
-      var boody = UserUpdatePathModel(
-              new Auth(), new UserUpdatePath(imagesPaths: imagePath))
-          .toJson();
+      var boody =
+          UserUpdatePathModel(
+            new Auth(),
+            new UserUpdatePath(imagesPaths: imagePath),
+          ).toJson();
       response = await apiClient.updateImagePath(defaultAuthentication, boody);
       return User.fromJson(jsonDecode(response!)['data']);
     } on DioError catch (error, stacktrace) {
@@ -214,18 +270,27 @@ class GolfApi {
   }
 
   Future<BaseResponse<User?>> updateProfile(
-      String fullName, String phone, String email) async {
+    String fullName,
+    String phone,
+    String email,
+  ) async {
     String? response;
     try {
-      var boody = UserUpdateProfileModel(
-              new Auth(),
-              new UserUpdateProfile(
-                  fullName: fullName, phone: phone, email: email))
-          .toJson();
+      var boody =
+          UserUpdateProfileModel(
+            new Auth(),
+            new UserUpdateProfile(
+              fullName: fullName,
+              phone: phone,
+              email: email,
+            ),
+          ).toJson();
       response = await apiClient.updateProfile(defaultAuthentication, boody);
 
       return BaseResponse<User>.fromJson(
-          jsonDecode(response!), (json) => User.fromJson(json));
+        jsonDecode(response!),
+        (json) => User.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -233,11 +298,16 @@ class GolfApi {
   }
 
   Future<BaseResponse<String?>> updateBookingStatus(
-      int? bookId, int status) async {
+    int? bookId,
+    int status,
+  ) async {
     String? response;
     try {
       response = await apiClient.updateBookingStatus(
-          defaultAuthentication, bookId, {'status': status});
+        defaultAuthentication,
+        bookId,
+        {'status': status},
+      );
 
       return BaseResponse<String?>()..setData(response);
     } on DioError catch (error, stacktrace) {
@@ -249,8 +319,10 @@ class GolfApi {
   Future<BaseResponse<int?>> addPayment(AuthBody body) async {
     String? response;
     try {
-      response =
-          await apiClient.addPayment(defaultAuthentication, body.toJson());
+      response = await apiClient.addPayment(
+        defaultAuthentication,
+        body.toJson(),
+      );
 
       return BaseResponse<int>.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -260,11 +332,18 @@ class GolfApi {
   }
 
   Future<NotificationModel?> getNotification(
-      int? user, int page, int limit) async {
+    int? user,
+    int page,
+    int limit,
+  ) async {
     String? response;
     try {
       response = await apiClient.getNotification(
-          defaultAuthentication, user, page, limit);
+        defaultAuthentication,
+        user,
+        page,
+        limit,
+      );
 
       return NotificationModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -280,11 +359,16 @@ class GolfApi {
     var _userId = SupportUtils.prefs.getInt(USER_ID);
     var _userName = SupportUtils.prefs.getString(USERNAME);
     try {
-      response =
-          await apiClient.getProfile(defaultAuthentication, _userId, _userName);
+      response = await apiClient.getProfile(
+        defaultAuthentication,
+        _userId,
+        _userName,
+      );
 
       return BaseResponse.fromJson(
-          jsonDecode(response!), (json) => User.fromJson(json));
+        jsonDecode(response!),
+        (json) => User.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -292,15 +376,22 @@ class GolfApi {
   }
 
   Future<BaseResponse<bool>> changePassword(
-      String oldPassword, String newPassword) async {
+    String oldPassword,
+    String newPassword,
+  ) async {
     String? response;
-    var _body = AuthBody<Map<String, dynamic>>()
-      ..setAuth(Auth())
-      ..setData({'PassWordOld': oldPassword, 'PassWordNew': newPassword},
-          dataToJson: (data) => data);
+    var _body =
+        AuthBody<Map<String, dynamic>>()
+          ..setAuth(Auth())
+          ..setData({
+            'PassWordOld': oldPassword,
+            'PassWordNew': newPassword,
+          }, dataToJson: (data) => data);
     try {
-      response =
-          await apiClient.changePass(defaultAuthentication, _body.toJson());
+      response = await apiClient.changePass(
+        defaultAuthentication,
+        _body.toJson(),
+      );
 
       return BaseResponse<bool>.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -310,14 +401,20 @@ class GolfApi {
   }
 
   Future<BaseResponse<User?>> resetPassword(
-      String email, String languageCode) async {
+    String email,
+    String languageCode,
+  ) async {
     String? response;
     try {
-      response = await apiClient.resetPassword(
-          basicAuthentication, {'email': email, 'languageCode': languageCode});
+      response = await apiClient.resetPassword(basicAuthentication, {
+        'email': email,
+        'languageCode': languageCode,
+      });
 
       return BaseResponse<User>.fromJson(
-          jsonDecode(response!), (json) => User.fromJson(json));
+        jsonDecode(response!),
+        (json) => User.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -325,14 +422,20 @@ class GolfApi {
   }
 
   Future<BaseResponse<User?>> verifyAccount(
-      String? email, String languageCode) async {
+    String? email,
+    String languageCode,
+  ) async {
     String? response;
     try {
-      response = await apiClient.veryfiveAccount(defaultAuthentication,
-          {'email': email, 'languageCode': languageCode});
+      response = await apiClient.veryfiveAccount(defaultAuthentication, {
+        'email': email,
+        'languageCode': languageCode,
+      });
 
       return BaseResponse<User>.fromJson(
-          jsonDecode(response!), (json) => User.fromJson(json));
+        jsonDecode(response!),
+        (json) => User.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -345,7 +448,9 @@ class GolfApi {
       response = await apiClient.getUUserID(basicAuthentication);
 
       return BaseResponse<String>.fromJson(
-          jsonDecode(response!), (json) => json);
+        jsonDecode(response!),
+        (json) => json,
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -355,8 +460,10 @@ class GolfApi {
   Future<BaseResponse<String?>> clearNotification(int? userID) async {
     String? response;
     try {
-      response =
-          await apiClient.clearNotification(defaultAuthentication, userID);
+      response = await apiClient.clearNotification(
+        defaultAuthentication,
+        userID,
+      );
 
       return BaseResponse()..setData(response);
     } on DioError catch (error, stacktrace) {
@@ -366,16 +473,26 @@ class GolfApi {
   }
 
   Future<BaseResponse<List<ShopVipMember>>?> getAllShopVipMember(
-      int? shopId, int? page, int? limit) async {
+    int? shopId,
+    int? page,
+    int? limit,
+  ) async {
     String? response;
     try {
       response = await apiClient.getAllShopVipMember(
-          defaultAuthentication, shopId, 1, page, limit);
+        defaultAuthentication,
+        shopId,
+        1,
+        page,
+        limit,
+      );
 
       return BaseResponse.fromJson(
-          jsonDecode(response!),
-          (json) => List<ShopVipMember>.from(
-              json.map((item) => ShopVipMember.fromJson(item))));
+        jsonDecode(response!),
+        (json) => List<ShopVipMember>.from(
+          json.map((item) => ShopVipMember.fromJson(item)),
+        ),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -383,7 +500,8 @@ class GolfApi {
   }
 
   Future<BaseResponse<List<UserVipMember>>?> getUserVipMember(
-      int? userId) async {
+    int? userId,
+  ) async {
     String? response;
     try {
       response = await apiClient.getUserCards(defaultAuthentication, userId);
@@ -401,10 +519,14 @@ class GolfApi {
     String? response;
     try {
       response = await apiClient.registerVipMember(
-          defaultAuthentication, body.toJson());
+        defaultAuthentication,
+        body.toJson(),
+      );
 
       return BaseResponse<UserVipMember>.fromJson(
-          jsonDecode(response!), (json) => UserVipMember.fromJson(json));
+        jsonDecode(response!),
+        (json) => UserVipMember.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -415,7 +537,9 @@ class GolfApi {
     String? response;
     try {
       response = await apiClient.updateVipMemberAutoRenew(
-          defaultAuthentication, body.toJson());
+        defaultAuthentication,
+        body.toJson(),
+      );
 
       return BaseResponse<bool>.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -427,11 +551,15 @@ class GolfApi {
   Future<BaseResponse<PaymentKeyResponse?>> getPaymentKey(AuthBody body) async {
     String? response;
     try {
-      response =
-          await apiClient.getPaymentKey(defaultAuthentication, body.toJson());
+      response = await apiClient.getPaymentKey(
+        defaultAuthentication,
+        body.toJson(),
+      );
 
       return BaseResponse<PaymentKeyResponse>.fromJson(
-          jsonDecode(response!), (json) => PaymentKeyResponse.fromJson(json));
+        jsonDecode(response!),
+        (json) => PaymentKeyResponse.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -439,14 +567,19 @@ class GolfApi {
   }
 
   Future<BaseResponse<UserVipMember?>> addPaymentVipMember(
-      AuthBody body) async {
+    AuthBody body,
+  ) async {
     String? response;
     try {
       response = await apiClient.addPaymentVipMember(
-          defaultAuthentication, body.toJson());
+        defaultAuthentication,
+        body.toJson(),
+      );
 
       return BaseResponse<UserVipMember>.fromJson(
-          jsonDecode(response!), (json) => UserVipMember.fromJson(json));
+        jsonDecode(response!),
+        (json) => UserVipMember.fromJson(json),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -463,12 +596,20 @@ class GolfApi {
     String? response;
     try {
       response = await apiClient.getTransactionHistory(
-          defaultAuthentication, userId, dateFrom, dateEnd, page, limit);
+        defaultAuthentication,
+        userId,
+        dateFrom,
+        dateEnd,
+        page,
+        limit,
+      );
 
       return BaseResponse.fromJson(
-          jsonDecode(response!),
-          (json) => List<Transaction>.from(
-              json.map((item) => Transaction.fromJson(item))));
+        jsonDecode(response!),
+        (json) => List<Transaction>.from(
+          json.map((item) => Transaction.fromJson(item)),
+        ),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));
@@ -489,10 +630,17 @@ class GolfApi {
   }
 
   Future<ShopModel> getListShopFavorite(
-      int? page, int? limit, int? uerId) async {
+    int? page,
+    int? limit,
+    int? uerId,
+  ) async {
     try {
       var response = await apiClient.getListShopFavorite(
-          defaultAuthentication, page, limit, uerId);
+        defaultAuthentication,
+        page,
+        limit,
+        uerId,
+      );
 
       return ShopModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -504,8 +652,11 @@ class GolfApi {
   Future<BaseResponse<bool>> changeFavorite(int? shopId, int? uerId) async {
     String? response;
     try {
-      response =
-          await apiClient.changeFavorite(defaultAuthentication, shopId, uerId);
+      response = await apiClient.changeFavorite(
+        defaultAuthentication,
+        shopId,
+        uerId,
+      );
 
       return BaseResponse<bool>()..data = jsonDecode(response!)['data'];
     } on DioError catch (error, stacktrace) {
@@ -516,8 +667,10 @@ class GolfApi {
 
   Future<BaseResponse<String>> getKeyConfigByKey(String keyConfig) async {
     try {
-      var response =
-          await apiClient.getConfigByKey(basicAuthentication, keyConfig);
+      var response = await apiClient.getConfigByKey(
+        basicAuthentication,
+        keyConfig,
+      );
 
       return BaseResponse.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -539,8 +692,24 @@ class GolfApi {
 
   Future<BaseResponse<bool>> cardMpiCheckResult(String orderID) async {
     try {
-      var response =
-          await apiClient.cardMpiCheckResult(basicAuthentication, orderID);
+      var response = await apiClient.cardMpiCheckResult(
+        basicAuthentication,
+        orderID,
+      );
+
+      return BaseResponse.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
+  Future<BaseResponse<bool>> getGroupUserByEmail(String email) async {
+    try {
+      var response = await apiClient.getGroupUserByEmail(
+        email,
+        basicAuthentication,
+      );
 
       return BaseResponse.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {

@@ -45,8 +45,11 @@ class BuyVipListController extends GetxController
 
   getAllShopVipMember() async {
     _lstVipMemberStillBusy = true;
-    var res =
-        await new GolfApi().getAllShopVipMember(shop!.shopID, _page, _limit);
+    var res = await new GolfApi().getAllShopVipMember(
+      shop!.shopID,
+      _page,
+      _limit,
+    );
 
     if (res != null) {
       _total.value = res.total!;
@@ -55,11 +58,16 @@ class BuyVipListController extends GetxController
       change(_lstVipMembers, status: RxStatus.success());
     } else {
       if (res!.getException == null) {
-        res.setException(ApplicationError.withCode(
-            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+        res.setException(
+          ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+          ),
+        );
       }
-      change(res.data,
-          status: RxStatus.error(res.getException!.getErrorMessage()));
+      change(
+        res.data,
+        status: RxStatus.error(res.getException!.getErrorMessage()),
+      );
     }
     _lstVipMemberStillBusy = false;
   }
@@ -74,32 +82,42 @@ class BuyVipListController extends GetxController
     }
   }
 
-  Future<bool> registerVipMember(ShopVipMember vipMember,
-      PaymentKeyResponse? paymentInfo, int status, int isRenew) async {
+  Future<bool> registerVipMember(
+    ShopVipMember vipMember,
+    PaymentKeyResponse? paymentInfo,
+    int status,
+    int isRenew,
+  ) async {
     /// Call Service
-    final _result =
-        await GolfApi().addPaymentVipMember(AuthBody<Map<String, dynamic>>()
-          ..setAuth(Auth())
-          ..setData({
-            'CodeMemberID': vipMember.codeMemberId,
-            'Order_ID': paymentInfo?.oderId ?? "",
-            'PaymentCode': paymentInfo?.paymentKey ?? "",
-            'Status': status,
-            'IsRenew': isRenew
-          }, dataToJson: (data) => data));
+    final _result = await GolfApi().addPaymentVipMember(
+      AuthBody<Map<String, dynamic>>()
+        ..setAuth(Auth())
+        ..setData({
+          'CodeMemberID': vipMember.codeMemberId,
+          'Order_ID': paymentInfo?.oderId ?? "",
+          'PaymentCode': paymentInfo?.paymentKey ?? "",
+          'Status': status,
+          'IsRenew': isRenew,
+        }, dataToJson: (data) => data),
+    );
 
     /// Handle result
     if (_result.data != null) {
       return true;
     } else {
       if (_result.getException == null) {
-        _result.setException(ApplicationError.withCode(
-            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+        _result.setException(
+          ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+          ),
+        );
       }
 
       /// Show Error
-      SupportUtils.showToast('register_vip_member_fail'.tr,
-          type: ToastType.ERROR);
+      SupportUtils.showToast(
+        'register_vip_member_fail'.tr,
+        type: ToastType.ERROR,
+      );
 
       return false;
     }
@@ -108,20 +126,23 @@ class BuyVipListController extends GetxController
   Future<bool> letsPayment(ShopVipMember vipMember, {int isRenew = 1}) async {
     _registerVipMemberStillBusy.value = true;
     final request = GetPaymentKeyRequest(
-        capture: true,
-        additionalMessage: "${vipMember.nameCodeMember} (" +
-            (vipMember.typeCodeMember == VipMemberType.UNLIMIT
-                ? "unlimited".tr
-                : "${vipMember.numberPlayInMonth} ${"turns".tr.toLowerCase()}") +
-            " / ${"month".tr.toLowerCase()})",
-        items: [
-          PaymentItem(
-            id: vipMember.codeMemberId,
-            name: vipMember.nameCodeMember,
-            price: vipMember.amount!.round(),
-            quantity: 1,
-          )
-        ]);
+      capture: true,
+      shopID: vipMember.shopId,
+      additionalMessage:
+          "${vipMember.nameCodeMember} (" +
+          (vipMember.typeCodeMember == VipMemberType.UNLIMIT
+              ? "unlimited".tr
+              : "${vipMember.numberPlayInMonth} ${"turns".tr.toLowerCase()}") +
+          " / ${"month".tr.toLowerCase()})",
+      items: [
+        PaymentItem(
+          id: vipMember.codeMemberId,
+          name: vipMember.nameCodeMember,
+          price: vipMember.amount!.round(),
+          quantity: 1,
+        ),
+      ],
+    );
 
     /// Lets payment this booking
     var result = await Get.toNamed(AppRoutes.PYAYMENT, arguments: request);
@@ -130,8 +151,12 @@ class BuyVipListController extends GetxController
     if (result != null) {
       /// Payment successful
       if ((result as PageResult).resultCode == PageResultCode.OK) {
-        var isPayment = await registerVipMember(vipMember,
-            (result as PageResult<PaymentKeyResponse>).data, 1, isRenew);
+        var isPayment = await registerVipMember(
+          vipMember,
+          (result as PageResult<PaymentKeyResponse>).data,
+          1,
+          isRenew,
+        );
         if (isPayment) {
           _registerVipMemberStillBusy.value = false;
           return true;

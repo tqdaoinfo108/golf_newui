@@ -36,8 +36,12 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
                 color: Color(0xffF5F6FF),
               ),
               child: Center(
-                child: Image.asset("assets/images/mail.png", height: 48,
-                  width: 48, color: Color(0xff3F51BC),),
+                child: Image.asset(
+                  "assets/images/mail.png",
+                  height: 48,
+                  width: 48,
+                  color: Color(0xff3F51BC),
+                ),
               ),
             ),
           ),
@@ -46,7 +50,7 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
             flex: 8,
             child: Container(
               height: 120,
-              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(10),
@@ -72,10 +76,12 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
                     style: textStyle,
                     maxLines: 2,
                   ),
-                  SizedBox(height: 1.0.h),
+                  SizedBox(height: 4),
                   AutoSizeText(
                     "at".tr + ": " + noti.message!,
-                    style: textStyle,
+                    style: theme.textTheme.bodySmall!.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),

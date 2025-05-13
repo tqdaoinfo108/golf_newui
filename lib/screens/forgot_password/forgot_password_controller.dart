@@ -40,14 +40,21 @@ class ForgotPasswordController extends GetxController {
       return 'email_not_alow_empty'.tr;
     }
     var _isValidEmail = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(email);
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(email);
     if (!_isValidEmail) {
       isValidatedEmail = false;
       return 'email_invalid'.tr;
     }
     isValidatedEmail = true;
     return null;
+  }
+
+  Future<bool> getListGroupByEmail() async {
+    isForgotPasswordProgressing = true;
+    final _resetPasswordResult = await GolfApi().getGroupUserByEmail(email);
+    await Future.delayed(Duration(seconds: 5));
+    return true;
   }
 
   Future<bool> letsResetPassword() async {
@@ -57,8 +64,10 @@ class ForgotPasswordController extends GetxController {
     isForgotPasswordProgressing = true;
 
     // Call Service Reset Password
-    final _resetPasswordResult = await GolfApi()
-        .resetPassword(email, languageCode.languageCode.toLowerCase());
+    final _resetPasswordResult = await GolfApi().resetPassword(
+      email,
+      languageCode.languageCode.toLowerCase(),
+    );
     isForgotPasswordProgressing = false;
 
     /// Handle Register result
@@ -68,24 +77,33 @@ class ForgotPasswordController extends GetxController {
       if (_resetPasswordResult.getException == null) {
         if (_resetPasswordResult.status == 406) {
           _resetPasswordResult.setException(
-              ApplicationError.withMessage('password_change_failed'.tr));
+            ApplicationError.withMessage('password_change_failed'.tr),
+          );
         }
         if (_resetPasswordResult.status == 408) {
           _resetPasswordResult.setException(
-              ApplicationError.withMessage('account_has_been_blocked'.tr));
+            ApplicationError.withMessage('account_has_been_blocked'.tr),
+          );
         }
         if (_resetPasswordResult.status == 407) {
-          _resetPasswordResult.setException(ApplicationError.withMessage(
-              "${'unverified_account'.tr}. ${'password_change_failed'.tr}"));
+          _resetPasswordResult.setException(
+            ApplicationError.withMessage(
+              "${'unverified_account'.tr}. ${'password_change_failed'.tr}",
+            ),
+          );
         }
         if (_resetPasswordResult.status == 409) {
           _resetPasswordResult.setException(
-              ApplicationError.withMessage('email_not_exist_in_system'.tr));
+            ApplicationError.withMessage('email_not_exist_in_system'.tr),
+          );
         }
 
         if (_resetPasswordResult.getException == null) {
-          _resetPasswordResult.setException(ApplicationError.withCode(
-              ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+          _resetPasswordResult.setException(
+            ApplicationError.withCode(
+              ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+            ),
+          );
         }
       }
       forgotPasswordErrorMessage =

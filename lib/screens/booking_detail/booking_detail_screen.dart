@@ -165,94 +165,68 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                 ),
                               ),
                               // button
-                              Container(
-                                alignment: Alignment.bottomCenter,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 15.0.sp,
-                                  horizontal: 4.0.h,
-                                ),
-                                child: _buildButton(
-                                  themeData,
-                                  controller.curBooking,
-                                  onPaymentPressed:
-                                      () => _letsPayment(
-                                        context,
-                                        onPayByOnLinePayment:
-                                            controller
-                                                .letsPaymentWithOnlinePayment,
-                                        onPayByVipMember:
-                                            controller.letsPaymentWithVipMember,
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  if (controller.curBooking.statusID ==
+                                      BookingStatus.PAID)
+                                    Container(
+                                      alignment: Alignment.bottomCenter,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 4.0.h,
                                       ),
-                                  onCancelPressed: controller.cancelBooking,
-                                ),
-                              ),
-
-                              if (controller.curBooking.statusID ==
-                                  BookingStatus.PAID)
-                                Container(
-                                  alignment: Alignment.bottomCenter,
-                                  margin: const EdgeInsets.only(bottom: 40),
-                                  padding: const EdgeInsets.all(20),
-                                  child: DefaultButton(
-                                    radius: 12,
-                                    text: 'show_qr'.tr,
-                                    textColor: Colors.white,
-                                    backgroundColor: GolfColor.GolfSubColor,
-                                    press: () {
-                                      showModalBottomSheet(context: context, builder: (c){
-                                        return Scaffold(
-                                          backgroundColor: GolfColor.GolfSubColor,
-                                          appBar: ApplicationAppBar(context,'ti'
-                                              'cket_information'.tr
-                                          ),
-                                          body: QRCodeInfo(
-                                              context, controller.qrCodeString,
+                                      child: DefaultButton(
+                                        radius: 12,
+                                        text: 'show_qr'.tr,
+                                        textColor: Colors.white,
+                                        backgroundColor: GolfColor.GolfSubColor,
+                                        press: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (c) {
+                                              return Scaffold(
+                                                backgroundColor:
+                                                    GolfColor.GolfSubColor,
+                                                appBar: ApplicationAppBar(
+                                                  context,
+                                                  'ticket_information'.tr,
+                                                ),
+                                                body: QRCodeInfo(
+                                                  context,
+                                                  controller.qrCodeString,
                                                   controller.curBooking,
-                                            ),
-                                        );
-                                      });
-                                    },
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    alignment: Alignment.bottomCenter,
+                                    margin: const EdgeInsets.only(bottom: 40),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4.0.h,
+                                    ),
+                                    child: _buildButton(
+                                      themeData,
+                                      controller.curBooking,
+                                      onPaymentPressed:
+                                          () => _letsPayment(
+                                            context,
+                                            onPayByOnLinePayment:
+                                                controller
+                                                    .letsPaymentWithOnlinePayment,
+                                            onPayByVipMember:
+                                                controller
+                                                    .letsPaymentWithVipMember,
+                                          ),
+                                      onCancelPressed: controller.cancelBooking,
+                                    ),
                                   ),
-                                ),
-                              SizedBox(height: 20),
-                              /// Canceled pannel
-                              // Container(
-                              //   alignment: AlignmentDirectional.topEnd,
-                              //   child:
-                              //       controller.curBooking.statusID !=
-                              //               BookingStatus.CANCELED
-                              //           ? Container()
-                              //           : Transform.rotate(
-                              //             alignment:
-                              //                 AlignmentDirectional.bottomStart,
-                              //             angle: 0.7,
-                              //             child: Container(
-                              //               padding: EdgeInsets.symmetric(
-                              //                 vertical: 10,
-                              //                 horizontal: 30,
-                              //               ),
-                              //               decoration: BoxDecoration(
-                              //                 borderRadius: BorderRadius.all(
-                              //                   Radius.circular(10),
-                              //                 ),
-                              //                 color: Colors.transparent,
-                              //                 border: Border.all(
-                              //                   color: Colors.red,
-                              //                 ),
-                              //               ),
-                              //               child: Text(
-                              //                 'canceled'.tr,
-                              //                 style: themeData
-                              //                     .textTheme
-                              //                     .titleSmall!
-                              //                     .copyWith(
-                              //                       color: Colors.red,
-                              //                       fontSize: 10.0.sp,
-                              //                     ),
-                              //               ),
-                              //             ),
-                              //           ),
-                              // ),
+                                ],
+                              ),
                             ],
                           ),
                         ),

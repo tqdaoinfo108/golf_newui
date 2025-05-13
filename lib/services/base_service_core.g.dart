@@ -23,19 +23,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/authorization/login',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/authorization/login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -46,26 +55,42 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/register',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/register',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
 
   @override
   Future<String?> getShop(
-      auth, longitude, latitude, keySearch, start, limit, userID) async {
+    auth,
+    longitude,
+    latitude,
+    keySearch,
+    start,
+    limit,
+    userID,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'Longitude': longitude,
@@ -73,52 +98,75 @@ class _ApiClient implements ApiClient {
       r'keySearch': keySearch,
       r'start': start,
       r'limit': limit,
-      r'userID': userID
+      r'userID': userID,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/shop/get',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/shop/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
 
   @override
   Future<String?> getShopDetail(
-      auth, shopID, longitude, latitude, userID) async {
+    auth,
+    shopID,
+    longitude,
+    latitude,
+    userID,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'shopID': shopID,
       r'Longitude': longitude,
       r'Latitude': latitude,
-      r'userID': userID
+      r'userID': userID,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/shop/getshopdetailbyid',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/shop/getshopdetailbyid',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -130,18 +178,27 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/slot/get',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/slot/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -152,23 +209,32 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{
       r'SlotID': slotID,
       r'TimeBooking': timeBooking,
-      r'DateTimeClient': dateTimeClient
+      r'DateTimeClient': dateTimeClient,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/block/get',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/block/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -179,44 +245,66 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/booking/insert',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/booking/insert',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
 
   @override
   Future<String?> getLstHistoryBooking(
-      auth, userID, status, page, limit) async {
+    auth,
+    userID,
+    status,
+    page,
+    limit,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options,
-            'api/booking/gethistorybooking/${userID}/${page}/${limit}/${status}',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/booking/gethistorybooking/${userID}/${page}/${limit}/${status}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -228,19 +316,27 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(
-            _dio.options, 'api/booking/getbookingdetail/${userID}/${bookID}',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/booking/getbookingdetail/${userID}/${bookID}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -252,19 +348,27 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options,
-            'api/booking/getstringqrcode/${userID}/${bookID}/${timeZone}',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/booking/getstringqrcode/${userID}/${bookID}/${timeZone}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -276,15 +380,27 @@ class _ApiClient implements ApiClient {
     final _headers = <String, dynamic>{r'Authorization': auth};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    _data.files.add(MapEntry(
+    _data.files.add(
+      MapEntry(
         'file',
-        MultipartFile.fromFileSync(file.path,
-            filename: file.path.split(Platform.pathSeparator).last)));
-    final _result = await _dio.fetch<String>(_setStreamType<String>(
+        MultipartFile.fromFileSync(
+          file.path,
+          filename: file.path.split(Platform.pathSeparator).last,
+        ),
+      ),
+    );
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
         Options(method: 'POST', headers: _headers, extra: _extra)
-            .compose(_dio.options, 'api/avatar/upload',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'api/avatar/upload',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -295,19 +411,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/changepass',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/changepass',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -320,11 +445,18 @@ class _ApiClient implements ApiClient {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
         Options(method: 'POST', headers: _headers, extra: _extra)
-            .compose(_dio.options, 'api/user/imagepath/update',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              'api/user/imagepath/update',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -334,23 +466,32 @@ class _ApiClient implements ApiClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'UserID': userID,
-      r'UUSerID': uUSerID
+      r'UUSerID': uUSerID,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/profile',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/profile',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -361,19 +502,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/update',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/update',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -385,19 +535,28 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/booking/updatestatus/${bookId}',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/booking/updatestatus/${bookId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -408,19 +567,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/booking/updatepayment',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/booking/updatepayment',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -431,23 +599,32 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{
       r'userID': userID,
       r'page': page,
-      r'limit': limit
+      r'limit': limit,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/notification/get',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/notification/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -458,19 +635,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/forgotpassword',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/forgotpassword',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -481,19 +667,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/veryfiveaccount',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/veryfiveaccount',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -504,18 +699,27 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/getcodepop',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/getcodepop',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -527,18 +731,27 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/notification/clearall',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/notification/clearall',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -550,23 +763,32 @@ class _ApiClient implements ApiClient {
       r'shopID': shopID,
       r'status': status,
       r'page': page,
-      r'limit': limit
+      r'limit': limit,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/codemember/getbyshopid',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/codemember/getbyshopid',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -578,22 +800,31 @@ class _ApiClient implements ApiClient {
       r'userID': userID,
       r'status': status,
       r'page': page,
-      r'limit': limit
+      r'limit': limit,
     };
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/usercodemember/getbyuserid',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/usercodemember/getbyuserid',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -604,19 +835,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/usercodemember/create',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/usercodemember/create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -627,19 +867,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/usercodemember/update/renew',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/usercodemember/update/renew',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -650,19 +899,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/payment/create/paymentkey',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/payment/create/paymentkey',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -673,49 +931,73 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/paymentcodemember/create',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/paymentcodemember/create',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
 
   @override
   Future<String?> getTransactionHistory(
-      auth, userID, dateFrom, dateEnd, page, limit) async {
+    auth,
+    userID,
+    dateFrom,
+    dateEnd,
+    page,
+    limit,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'userID': userID,
       r'dateFrom': dateFrom,
       r'dateEnd': dateEnd,
       r'page': page,
-      r'limit': limit
+      r'limit': limit,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/payment/gethistorybyuser',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/payment/gethistorybyuser',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -727,18 +1009,27 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/usercodemember/getmycard',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/usercodemember/getmycard',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -749,19 +1040,28 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/updatelanguage',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/updatelanguage',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -772,23 +1072,32 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'limit': limit,
-      r'userID': userID
+      r'userID': userID,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/shopuser/get',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/shopuser/get',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -800,18 +1109,27 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/config/getbykey',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/config/getbykey',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -823,18 +1141,27 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/user/disable',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/disable',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -846,18 +1173,59 @@ class _ApiClient implements ApiClient {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'GET',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/payment/mpiResult',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/payment/mpiResult',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<String?> getGroupUserByEmail(email, auth) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'email': email};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Content-Type': 'application/json',
+      r'Authorization': auth,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/user/get-group-shop-by-email',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }
@@ -867,23 +1235,32 @@ class _ApiClient implements ApiClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'shopID': shopID,
-      r'userID': userID
+      r'userID': userID,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',
-      r'Authorization': auth
+      r'Authorization': auth,
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'application/json')
-        .compose(_dio.options, 'api/shopuser/change',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'POST',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/shopuser/change',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
     final value = _result.data;
     return value;
   }

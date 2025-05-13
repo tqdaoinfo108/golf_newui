@@ -6,7 +6,6 @@ import 'package:golf_uiv2/screens/dashboard/dashboard_controller.dart';
 import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/widgets/dashboard_item.dart';
-import 'package:golf_uiv2/utils/support.dart';
 import 'package:sizer/sizer.dart';
 import 'package:golf_uiv2/themes/colors_custom.dart';
 
