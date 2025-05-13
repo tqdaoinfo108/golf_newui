@@ -35,7 +35,7 @@ class LoginScreen extends GetView<LoginController> {
             child: Opacity(
               opacity: 0.8,
               child: Image.asset(
-                "assets/images/logo.jpg",
+                "assets/images/logo.png",
                 width: SizerUtil.width / 2.2,
               ),
             ),
@@ -110,8 +110,7 @@ class LoginScreen extends GetView<LoginController> {
                                   : DefaultButton(
                                     text: 'login'.tr,
                                     textColor: Colors.white,
-                                    backgroundColor:
-                                        GolfColor.GolfSubColor,
+                                    backgroundColor: GolfColor.GolfSubColor,
                                     press:
                                         () => _loginPressed(
                                           _usernameFocusNode,
@@ -125,13 +124,14 @@ class LoginScreen extends GetView<LoginController> {
                               //   maxLines: 2,
                               // ),
                               // SizedBox(height: 2.0.w),
-                              TextClick(
-                                themeData: themeData,
-                                lastText: 'sign_up_now'.tr,
-                                onClicked: () async {
-                                  Get.toNamed(AppRoutes.SIGN_UP);
-                                },
-                              ),
+                              if (controller.isHideSocial)
+                                TextClick(
+                                  themeData: themeData,
+                                  lastText: 'sign_up_now'.tr,
+                                  onClicked: () async {
+                                    Get.toNamed(AppRoutes.SIGN_UP);
+                                  },
+                                ),
                             ],
                           ),
                         ],
@@ -144,64 +144,71 @@ class LoginScreen extends GetView<LoginController> {
           ),
           // Footer
           Spacer(),
-          Padding(
-            padding: EdgeInsets.only( bottom: 12.0.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 15,
-                  children: [
-                    SizedBox(
-                      width: 15.w,
-                      child: Divider(color: GolfColor.GolfSubColor,
-                        thickness: 2),
+          if (controller.isHideSocial)
+            Padding(
+              padding: EdgeInsets.only(bottom: 12.0.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 15,
+                    children: [
+                      SizedBox(
+                        width: 15.w,
+                        child: Divider(
+                          color: GolfColor.GolfSubColor,
+                          thickness: 2,
+                        ),
+                      ),
+                      Text(
+                        'or_login_with'.tr.toLowerCase(),
+                        style: themeData.textTheme.headlineSmall,
+                      ),
+                      SizedBox(
+                        width: 15.w,
+                        child: Divider(
+                          color: GolfColor.GolfSubColor,
+                          thickness: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (controller.isHideSocial) SizedBox(height: 4.0.w),
+                  if (controller.isHideSocial)
+                    _loginSocialButton(
+                      themeData,
+                      onLoginGooglePressed:
+                          () => loginWithSocialNetwork(
+                            SocialNetwork.GOOGLE,
+                            themeData,
+                          ),
+                      onLoginFacebookPressed:
+                          () => loginWithSocialNetwork(
+                            SocialNetwork.FACEBOOK,
+                            themeData,
+                          ),
+                      onLoginLinePressed:
+                          () => loginWithSocialNetwork(
+                            SocialNetwork.LINE,
+                            themeData,
+                          ),
+                      onLoginZaloPressed:
+                          () => loginWithSocialNetwork(
+                            SocialNetwork.ZALO,
+                            themeData,
+                          ),
+                      hasAppleLoginButton: controller.isAppleIdLoginAvailable,
+                      onLoginApplePressed:
+                          () => loginWithSocialNetwork(
+                            SocialNetwork.APPLE,
+                            themeData,
+                          ),
                     ),
-                    Text(
-                      'or_login_with'.tr.toLowerCase(),
-                      style: themeData.textTheme.headlineSmall,
-                    ),
-                    SizedBox(
-                      width: 15.w,
-                      child: Divider(color: GolfColor.GolfSubColor,
-                          thickness: 2),
-                    ),                    ],
-                ),
-                SizedBox(height: 4.0.w),
-                _loginSocialButton(
-                  themeData,
-                  onLoginGooglePressed:
-                      () => loginWithSocialNetwork(
-                        SocialNetwork.GOOGLE,
-                        themeData,
-                      ),
-                  onLoginFacebookPressed:
-                      () => loginWithSocialNetwork(
-                        SocialNetwork.FACEBOOK,
-                        themeData,
-                      ),
-                  onLoginLinePressed:
-                      () => loginWithSocialNetwork(
-                        SocialNetwork.LINE,
-                        themeData,
-                      ),
-                  onLoginZaloPressed:
-                      () => loginWithSocialNetwork(
-                        SocialNetwork.ZALO,
-                        themeData,
-                      ),
-                  hasAppleLoginButton: controller.isAppleIdLoginAvailable,
-                  onLoginApplePressed:
-                      () => loginWithSocialNetwork(
-                        SocialNetwork.APPLE,
-                        themeData,
-                      ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

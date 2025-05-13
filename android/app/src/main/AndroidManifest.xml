@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="Golf24"
+        android:label="MUJIN24"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

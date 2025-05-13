@@ -29,6 +29,7 @@ class LoginController extends GetxController {
   var isValidatedUserName = false;
   var isValidatedPasssword = false;
 
+
   @override
   void onReady() {
     super.onReady();
@@ -44,7 +45,23 @@ class LoginController extends GetxController {
         update();
       });
     }
+    getValueConfig();
   }
+
+  
+  Future<void> getValueConfig() async {
+    var _result = await GolfApi().getKeyConfigByKey("LoginWithSocial");
+
+    /// Handle result
+    if (_result.data != null && _result.data!.isNotEmpty) {
+       isHideSocial = _result.data == 'true';
+    }
+  }
+
+  final _isHideSocial = false.obs;
+  bool get isHideSocial => this._isHideSocial.value;
+  set isHideSocial(bool value) =>
+      this._isHideSocial.value = value;
 
   final _isAppleIdLoginAvailable = false.obs;
   bool get isAppleIdLoginAvailable => this._isAppleIdLoginAvailable.value;

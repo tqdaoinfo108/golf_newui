@@ -19,19 +19,19 @@ const int API_RECEIVE_RESPONSE_TIMEOUT = 30000; // milisenconds
 const int DEFAUTL_LIMIT = 20; // milisenconds
 
 // const String GOLF_CORE_API_URL = 'http://apigolfschedule.eappviet.com/';
-const String GOLF_CORE_API_URL = 'http://login.xn--24-zh4arfne.com:8080/';
+const String GOLF_CORE_API_URL = 'http://apigolf.gvbsoft.com/'; // http://login.xn--24-zh4arfne.com:8080/
 const String GOLF_CORE_API_AUTHORIZE =
     'VXNlckdvbGZTY2hlZHVsZTpVc2VyR29sZlNjaGVkdWxl';
 const String USER_AVATAR_PATH = 'api/avatar/view?fileName=';
 
-const String PAYMENT_API_URL = 'https://pay.veritrans.co.jp/';
-const String PAYMENT_POP_SCRIPT_URL =
-    'https://pay.veritrans.co.jp/pop/v1/javascripts/pop.js';
-const String PAYMENT_API_AUTHORIZE =
-    'NjEzNmYzMjMtYWE0My00ODQwLWJkMTktYWRjOTFmMzBlMjA3Og==';
+// const String PAYMENT_API_URL = 'https://pay.veritrans.co.jp/';
+// const String PAYMENT_POP_SCRIPT_URL =
+//     'https://pay.veritrans.co.jp/pop/v1/javascripts/pop.js';
+// const String PAYMENT_API_AUTHORIZE =
+//     'NjEzNmYzMjMtYWE0My00ODQwLWJkMTktYWRjOTFmMzBlMjA3Og==';
 // const String PAYMENT_POP_SERVER_KEY = '6136f323-aa43-4840-bd19-adc91f30e207';
 // const String PAYMENT_POP_PASSWORD = '';
-const String PAYMENT_POP_CLIENT_KEY = 'e84c118c-2faa-4eef-a69c-5bc2121f0ada';
+// const String PAYMENT_POP_CLIENT_KEY = 'e84c118c-2faa-4eef-a69c-5bc2121f0ada';
 const bool PAYMENT_DEBUG = true;
 const String PAYMENT_SUCCESS_URL = 'https://golf.payment.com/success';
 const String PAYMENT_FAILURE_URL = 'https://golf.payment.com/fail';
