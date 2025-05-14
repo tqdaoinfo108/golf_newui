@@ -226,5 +226,9 @@ const Map<String, String> en = {
   'only_this_time': 'Only this time',
   'booking_next_day_limit': 'Reservations can only be made {#} days in advance',
   "delete_account": "Delete account",
-  "show_qr" : "Show QR code"
+  "show_qr": "Show QR code",
+  "usage": "Usage",
+  "card_number": "Card number",
+  "expired_date": "Expired date",
+  "card_holder": "Card holder",
 };

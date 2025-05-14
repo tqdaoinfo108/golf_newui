@@ -201,4 +201,8 @@ const Map<String, String> jp = {
   'booking_next_day_limit': '{#}日前までのご予約のみ可能です。',
   "delete_account": "アカウントを削除する",
   "show_qr": "QRコードを表示",
+  "usage" :"使用状況",
+  "card_number": "カード番号",
+  "expired_date": "有効期限",
+  "card_holder": "カード名義（半角英字）",
 };

@@ -10,6 +10,8 @@ import 'package:golf_uiv2/widgets/text_field.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../model/group_model.dart';
+
 class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
@@ -84,22 +86,166 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                                       _controller.forgotPasswordErrorMessage =
                                           null;
                                       if (_controller.isValidatedEmail) {
-                                        var _loginResult =
-                                            await _controller
-                                                .getListGroupByEmail();
-                                        if (_loginResult) {
-                                          Get.back(
-                                            result: PageResult(
-                                              resultCode: PageResultCode.OK,
-                                            ),
-                                          );
-                                        } else {
+                                        await _controller.getListGroupByEmail();
+                                        if (controller.groupList.isEmpty) {
                                           SupportUtils.showToast(
-                                            _controller
-                                                .forgotPasswordErrorMessage,
+                                            'not_fount_data'.tr,
                                             type: ToastType.ERROR,
                                           );
+                                          return;
                                         }
+                                        showDialog<String>(
+                                          context: context,
+                                          builder:
+                                              (BuildContext context) => Obx(
+                                                () => Dialog(
+                                                  backgroundColor:
+                                                      GolfColor
+                                                          .BackgroundCardLightColor,
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      SizedBox(height: 20),
+                                                      Container(
+                                                        constraints:
+                                                            BoxConstraints(
+                                                              maxHeight: 300,
+                                                            ),
+                                                        child: SingleChildScrollView(
+                                                          child: Column(
+                                                            children: [
+                                                              for (var item
+                                                                  in controller
+                                                                      .groupList
+                                                                      .value)
+                                                                ListTile(
+                                                                  title: Text(
+                                                                    item.nameGroupShop ??
+                                                                        "",
+                                                                    style:
+                                                                        Theme.of(
+                                                                          context,
+                                                                        ).textTheme.bodyMedium,
+                                                                  ),
+                                                                  leading: Radio<
+                                                                    int
+                                                                  >(
+                                                                    value:
+                                                                        item.groupShopID!,
+                                                                    groupValue:
+                                                                        controller
+                                                                            .valueGroupChoose
+                                                                            .value,
+                                                                    onChanged: (
+                                                                      value,
+                                                                    ) {
+                                                                      controller
+                                                                          .valueGroupChoose
+                                                                          .value = value!;
+                                                                    },
+                                                                  ),
+                                                                ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 15,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                context,
+                                                              );
+                                                            },
+                                                            child: Text(
+                                                              'cancel'.tr,
+                                                              style:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .textTheme
+                                                                      .titleMedium,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 10),
+                                                          TextButton(
+                                                            onPressed: () async {
+                                                              if (controller
+                                                                      .valueGroupChoose
+                                                                      .value ==
+                                                                  0) {
+                                                                SupportUtils.showToast(
+                                                                  'application_error'
+                                                                      .tr,
+                                                                  type:
+                                                                      ToastType
+                                                                          .ERROR,
+                                                                );
+                                                                return;
+                                                              }
+                                                              Get.back();
+
+                                                              var _loginResult =
+                                                                  await _controller
+                                                                      .letsResetPassword();
+                                                              if (_loginResult) {
+                                                                Get.back(
+                                                                  result: PageResult(
+                                                                    resultCode:
+                                                                        PageResultCode
+                                                                            .OK,
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                SupportUtils.showToast(
+                                                                  _controller
+                                                                      .forgotPasswordErrorMessage,
+                                                                  type:
+                                                                      ToastType
+                                                                          .ERROR,
+                                                                );
+                                                              }
+                                                            },
+                                                            child: Text(
+                                                              'save'.tr,
+                                                              style:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .textTheme
+                                                                      .titleMedium,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                        );
+                                        // if (_loginResult) {
+                                        //   Get.back(
+                                        //     result: PageResult(
+                                        //       resultCode: PageResultCode.OK,
+                                        //     ),
+                                        //   );
+                                        // } else {
+                                        //   SupportUtils.showToast(
+                                        //     _controller
+                                        //         .forgotPasswordErrorMessage,
+                                        //     type: ToastType.ERROR,
+                                        //   );
+                                        // }
                                       } else {
                                         SupportUtils.showToast(
                                           _controller.validateEmail(

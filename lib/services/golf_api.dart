@@ -8,6 +8,7 @@ import 'package:golf_uiv2/model/base_respose.dart';
 import 'package:golf_uiv2/model/block_model.dart';
 import 'package:golf_uiv2/model/booking.dart';
 import 'package:golf_uiv2/model/booking_model.dart';
+import 'package:golf_uiv2/model/group_model.dart';
 import 'package:golf_uiv2/model/notification.dart';
 import 'package:golf_uiv2/model/payment_key_response.dart';
 import 'package:golf_uiv2/model/shop_model.dart';
@@ -403,12 +404,14 @@ class GolfApi {
   Future<BaseResponse<User?>> resetPassword(
     String email,
     String languageCode,
+    int groupShopID,
   ) async {
     String? response;
     try {
       response = await apiClient.resetPassword(basicAuthentication, {
         'email': email,
         'languageCode': languageCode,
+        'GroupShopID': groupShopID,
       });
 
       return BaseResponse<User>.fromJson(
@@ -704,14 +707,24 @@ class GolfApi {
     }
   }
 
-  Future<BaseResponse<bool>> getGroupUserByEmail(String email) async {
+  Future<BaseResponse<List<GroupModel>>> getGroupUserByEmail(
+    String email,
+  ) async {
     try {
       var response = await apiClient.getGroupUserByEmail(
         email,
         basicAuthentication,
       );
 
-      return BaseResponse.fromJson(jsonDecode(response!));
+      return BaseResponse<List<GroupModel>>.fromJson(
+        jsonDecode(response!),
+        (json) =>
+            (json as List<dynamic>)
+                .map<GroupModel>(
+                  (i) => GroupModel.fromJson(i as Map<String, dynamic>),
+                )
+                .toList(),
+      );
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));

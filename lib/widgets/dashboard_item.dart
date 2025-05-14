@@ -56,10 +56,10 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     /// Shop Name
-                    Text(booking.nameShop!, style: titleBold),
+                    Text(booking.nameShop ?? "", style: titleBold),
 
                     /// Shop address
-                    Text("予約時間", style: titleSub),
+                    Text(booking.addressShop ?? "", style: titleSub),
                     Text(
                       "${booking.getBookingCurrent()!.rangeStart!.toStringFormatHoursUTC()} - ${booking.getBookingCurrent()!.rangeEnd!.toStringFormatHoursUTC()}",
                       style: titleBold,
@@ -68,16 +68,19 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                       children: [
                         Column(
                           children: [
-                            Text("打席", style: titleSub),
-                            Text("1", style: titleBold),
+                            Text("slot".tr, style: titleSub),
+                            Text(
+                              "${booking.blocks?.length ?? 0}",
+                              style: titleBold,
+                            ),
                           ],
                         ),
                         Spacer(),
                         Column(
                           children: [
-                            Text("打席", style: titleSub),
+                            Text("price".tr, style: titleSub),
                             Text(
-                              "${booking.blocks?.length ?? 0}",
+                              "${booking.blocks!.fold(0.0, (sum, block) => sum + block.price!)}",
                               style: titleBold,
                             ),
                           ],
@@ -158,23 +161,44 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 5,
                     children: [
-                      Text("使用状況"),
+                      Text("usage".tr),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
+                          horizontal: 10,
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(40)),
                           color: bgColor,
                         ),
-                        child: Text(
-                          "未使用",
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child:
+                            (booking.statusID == BookingStatus.PAID ||
+                                    booking.statusID == BookingStatus.USED)
+                                ? Text(
+                                  'paid'.tr,
+                                  style: theme.textTheme.titleSmall!.copyWith(
+                                    fontSize: 8.0.sp,
+                                    color: Colors.white,
+                                  ),
+                                )
+                                : (booking.statusID ==
+                                        BookingStatus.WAITING_PAYMENT
+                                    ? Text(
+                                      'waiting_payment'.tr,
+                                      style: theme.textTheme.titleSmall!
+                                          .copyWith(
+                                            fontSize: 7.0.sp,
+                                            color: Colors.white,
+                                          ),
+                                    )
+                                    : Text(
+                                      'canceled'.tr,
+                                      style: theme.textTheme.titleSmall!
+                                          .copyWith(
+                                            fontSize: 8.0.sp,
+                                            color: Colors.white,
+                                          ),
+                                    )),
                       ),
                     ],
                   ),

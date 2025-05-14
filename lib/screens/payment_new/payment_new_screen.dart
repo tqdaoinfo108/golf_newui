@@ -22,10 +22,7 @@ class PaymentScreen extends GetView<PaymentController> {
 
     final formKey = GlobalKey<FormState>();
     var border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 0,
-      ),
+      borderSide: BorderSide(color: Colors.transparent, width: 0),
     );
 
     void _onValidate() async {
@@ -37,17 +34,16 @@ class PaymentScreen extends GetView<PaymentController> {
             var isSuccess = await GolfApi().cardMpiCheckResult(rs.oderId!);
             if (isSuccess.data ?? false) {
               Get.back(
-                  result: PageResult(resultCode: PageResultCode.OK, data: rs));
-            } else {
-              Get.back(
-                result: PageResult(resultCode: PageResultCode.FAIL),
+                result: PageResult(resultCode: PageResultCode.OK, data: rs),
               );
+            } else {
+              Get.back(result: PageResult(resultCode: PageResultCode.FAIL));
             }
           } else {
-            Get.back(
-              result: PageResult(resultCode: PageResultCode.FAIL),
-            );
+            Get.back(result: PageResult(resultCode: PageResultCode.FAIL));
           }
+        } else {
+          SupportUtils.showToast('server_error'.tr, type: ToastType.ERROR);
         }
       }
     }
@@ -61,7 +57,8 @@ class PaymentScreen extends GetView<PaymentController> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
-        appBar: ApplicationAppBarLarge(context,
+        appBar: ApplicationAppBarLarge(
+          context,
           "back".tr,
           onBackPressed: () async {
             onRequestBack();
@@ -69,7 +66,7 @@ class PaymentScreen extends GetView<PaymentController> {
           },
         ),
         body: Container(
-          padding: const EdgeInsets.only(top: kToolbarHeight *2.3),
+          padding: const EdgeInsets.only(top: kToolbarHeight * 2.3),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -82,114 +79,129 @@ class PaymentScreen extends GetView<PaymentController> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-                  color: Color(0xffF1F1FA)
+              color: Color(0xffF1F1FA),
             ),
             child: Column(
               children: [
                 Obx(
                   () => Expanded(
-                    child: controller.isLoading.value
-                        ? Center(child: CircularProgressIndicator())
-                        : SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                CreditCardFormCustom(
-                                  formKey: formKey,
-                                  obscureCvv: true,
-                                  obscureNumber: false,
-                                  cardNumber: controller.cardNumber.value,
-                                  cvvCode: controller.cvvCode.value,
-                                  isHolderNameVisible: true,
-                                  isCardNumberVisible: true,
-                                  isExpiryDateVisible: true,
-                                  cardHolderName: controller.cardHolderName.value,
-                                  expiryDate: controller.expiryDate.value,
-                                  themeColor: GolfColor.GolfPrimaryColor,
-                                  textColor: themeData.iconTheme.color!,
-                                  cardNumberDecoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: const EdgeInsets.all(8),
-                                    hintStyle: GoogleFonts.inter(
-                                        color: themeData.iconTheme.color),
-                                    labelStyle: GoogleFonts.inter(
-                                        color: themeData.iconTheme.color),
-                                    labelText: 'Card Number',
-                                    hintText: 'XXXX XXXX XXXX XXXX',
-                                    focusedBorder: border,
-                                    enabledBorder: border,
-                                  ),
-                                  expiryDateDecoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: const EdgeInsets.all(8),
-                                    hintStyle: GoogleFonts.inter(
-                                        color: themeData.iconTheme.color),
-                                    labelStyle: GoogleFonts.inter(
-                                        color: themeData.iconTheme.color),
-                                    focusedBorder: border,
-                                    enabledBorder: border,
-                                    labelText: 'Expired Date',
-                                    hintText: 'XX/XX',
-                                  ),
-                                  cvvCodeDecoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: const EdgeInsets.all(8),
-                                    hintStyle: GoogleFonts.inter(
-                                        color: themeData.iconTheme.color),
-                                    labelStyle: GoogleFonts.inter(
-                                        color: themeData.iconTheme.color),
-                                    focusedBorder: border,
-                                    enabledBorder: border,
-                                    labelText: 'CVV',
-                                    hintText: 'XXX',
-                                  ),
-                                  cardHolderDecoration: InputDecoration(
+                    child:
+                        controller.isLoading.value
+                            ? Center(child: CircularProgressIndicator())
+                            : SingleChildScrollView(
+                              child: Column(
+                                children: <Widget>[
+                                  CreditCardFormCustom(
+                                    formKey: formKey,
+                                    obscureCvv: true,
+                                    obscureNumber: false,
+                                    cardNumber: controller.cardNumber.value,
+                                    cvvCode: controller.cvvCode.value,
+                                    isHolderNameVisible: true,
+                                    isCardNumberVisible: true,
+                                    isExpiryDateVisible: true,
+                                    cardHolderName:
+                                        controller.cardHolderName.value,
+                                    expiryDate: controller.expiryDate.value,
+                                    themeColor: GolfColor.GolfPrimaryColor,
+                                    textColor: themeData.iconTheme.color!,
+                                    cardNumberDecoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.white,
                                       contentPadding: const EdgeInsets.all(8),
                                       hintStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color),
+                                        color: themeData.iconTheme.color,
+                                      ),
                                       labelStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color),
+                                        color: themeData.iconTheme.color,
+                                      ),
+                                      labelText: 'card_number'.tr,
+                                      hintText: 'XXXX XXXX XXXX XXXX',
                                       focusedBorder: border,
                                       enabledBorder: border,
-                                      labelText: 'Card Holder',
-                                      hintText: "XXX XXX XXX"),
-                                  onCreditCardModelChange:
-                                      controller.onCreditCardModelChange,
-                                  cardNumberController:
-                                      controller.cardNumberController,
-                                  expiryDateController:
-                                      controller.expiryDateController,
-                                  cvvCodeController: controller.cvvCodeController,
-                                  cardHolderNameController:
-                                      controller.cardHolderNameController,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    expiryDateDecoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding: const EdgeInsets.all(8),
+                                      hintStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color,
+                                      ),
+                                      labelStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color,
+                                      ),
+                                      focusedBorder: border,
+                                      enabledBorder: border,
+                                      labelText: 'expired_date'.tr,
+                                      hintText: 'XX/XX',
+                                    ),
+                                    cvvCodeDecoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding: const EdgeInsets.all(8),
+                                      hintStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color,
+                                      ),
+                                      labelStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color,
+                                      ),
+                                      focusedBorder: border,
+                                      enabledBorder: border,
+                                      labelText: 'CVV',
+                                      hintText: 'XXX',
+                                    ),
+                                    cardHolderDecoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      contentPadding: const EdgeInsets.all(8),
+                                      hintStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color,
+                                      ),
+                                      labelStyle: GoogleFonts.inter(
+                                        color: themeData.iconTheme.color,
+                                      ),
+                                      focusedBorder: border,
+                                      enabledBorder: border,
+                                      labelText: 'card_holder'.tr,
+                                      hintText: "XXX XXX XXX",
+                                    ),
+                                    onCreditCardModelChange:
+                                        controller.onCreditCardModelChange,
+                                    cardNumberController:
+                                        controller.cardNumberController,
+                                    expiryDateController:
+                                        controller.expiryDateController,
+                                    cvvCodeController:
+                                        controller.cvvCodeController,
+                                    cardHolderNameController:
+                                        controller.cardHolderNameController,
                                   ),
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  child: DefaultButton(
-                                    radius: 10,
-                                    text: 'payment'.tr,
-                                    textColor: Colors.white,
-                                    backgroundColor: Color(0xff08D586),
-                                    press: () {
-                                      _onValidate();
-                                    },
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 15,
+                                    ),
+                                    width: double.infinity,
+                                    alignment: Alignment.center,
+                                    child: DefaultButton(
+                                      radius: 10,
+                                      text: 'payment'.tr,
+                                      textColor: Colors.white,
+                                      backgroundColor: Color(0xff08D586),
+                                      press: () {
+                                        _onValidate();
+                                      },
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
                   ),
                 ),
               ],
@@ -201,14 +213,22 @@ class PaymentScreen extends GetView<PaymentController> {
   }
 
   onRequestBack() {
-    SupportUtils.showDecisionDialog('you_have_not_complete_the_payment'.tr,
-        lstOptions: [
-          DecisionOption('yes'.tr, type: DecisionOptionType.DENIED,
-              onDecisionPressed: () {
+    SupportUtils.showDecisionDialog(
+      'you_have_not_complete_the_payment'.tr,
+      lstOptions: [
+        DecisionOption(
+          'yes'.tr,
+          type: DecisionOptionType.DENIED,
+          onDecisionPressed: () {
             Get.back(result: PageResult(resultCode: PageResultCode.FAIL));
-          }),
-          DecisionOption('continue_payment'.tr,
-              onDecisionPressed: null, isImportant: true)
-        ]);
+          },
+        ),
+        DecisionOption(
+          'continue_payment'.tr,
+          onDecisionPressed: null,
+          isImportant: true,
+        ),
+      ],
+    );
   }
 }

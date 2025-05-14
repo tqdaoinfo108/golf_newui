@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/application_error.dart';
+import 'package:golf_uiv2/model/group_model.dart';
 import 'package:golf_uiv2/services/golf_api.dart';
 import 'package:golf_uiv2/translations/localization_service.dart';
 import 'package:golf_uiv2/utils/constants.dart';
@@ -30,6 +31,9 @@ class ForgotPasswordController extends GetxController {
   set forgotPasswordErrorMessage(String? value) =>
       this._forgotPasswordErrorMessage.value = value;
 
+  RxList<GroupModel> groupList = RxList();
+  RxInt valueGroupChoose = RxInt(0);
+
   String? validateEmail(String? value) {
     // update value
     email = value?.trim() ?? '';
@@ -50,11 +54,11 @@ class ForgotPasswordController extends GetxController {
     return null;
   }
 
-  Future<bool> getListGroupByEmail() async {
+  Future<void> getListGroupByEmail() async {
     isForgotPasswordProgressing = true;
     final _resetPasswordResult = await GolfApi().getGroupUserByEmail(email);
-    await Future.delayed(Duration(seconds: 5));
-    return true;
+    groupList.value = _resetPasswordResult.data ?? [];
+    isForgotPasswordProgressing = false;
   }
 
   Future<bool> letsResetPassword() async {
@@ -67,6 +71,7 @@ class ForgotPasswordController extends GetxController {
     final _resetPasswordResult = await GolfApi().resetPassword(
       email,
       languageCode.languageCode.toLowerCase(),
+      valueGroupChoose.value,
     );
     isForgotPasswordProgressing = false;
 
