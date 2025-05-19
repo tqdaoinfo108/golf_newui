@@ -1167,9 +1167,9 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<String?> cardMpiCheckResult(auth, orderID) async {
+  Future<String?> cardMpiCheckResult(auth, orderID,shopID) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'orderID': orderID};
+    final queryParameters = <String, dynamic>{r'orderID': orderID, r'shopID': shopID};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
       r'Content-Type': 'application/json',

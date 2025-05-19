@@ -31,7 +31,7 @@ class PaymentScreen extends GetView<PaymentController> {
         if (rs != null) {
           var result = await Get.toNamed(AppRoutes.PYAYMENT_WEB, arguments: rs);
           if (result as bool) {
-            var isSuccess = await GolfApi().cardMpiCheckResult(rs.oderId!);
+            var isSuccess = await GolfApi().cardMpiCheckResult(rs.oderId!, rs.shopID!);
             if (isSuccess.data ?? false) {
               Get.back(
                 result: PageResult(resultCode: PageResultCode.OK, data: rs),

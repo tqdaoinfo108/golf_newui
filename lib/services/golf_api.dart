@@ -693,11 +693,11 @@ class GolfApi {
     }
   }
 
-  Future<BaseResponse<bool>> cardMpiCheckResult(String orderID) async {
+  Future<BaseResponse<bool>> cardMpiCheckResult(String orderID, int shopID) async {
     try {
       var response = await apiClient.cardMpiCheckResult(
         basicAuthentication,
-        orderID,
+        orderID,shopID
       );
 
       return BaseResponse.fromJson(jsonDecode(response!));

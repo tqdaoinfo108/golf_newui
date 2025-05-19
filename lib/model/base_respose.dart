@@ -5,6 +5,7 @@ class BaseResponse<T> {
   T? data;
   int? status;
   int? total;
+  int? shopID;
 
   setException(ApplicationError error) {
     _error = error;
@@ -31,6 +32,7 @@ class BaseResponse<T> {
       data = _tmp == null ? null : dataFromJson(_tmp);
     }
     status = json.containsKey('status') ? json['status'] : -100;
+    shopID = json.containsKey('shopID') ? json['shopID'] : 0;
     total = json.containsKey('total')
         ? json['total']
         : json.containsKey('totals')

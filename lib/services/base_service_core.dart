@@ -296,6 +296,7 @@ abstract class ApiClient {
   Future<String?> cardMpiCheckResult(
     @Header("Authorization") String auth,
     @Query("orderID") String orderID,
+    @Query("shopID") int shopID,
   );
 
   @GET("api/user/get-group-shop-by-email")

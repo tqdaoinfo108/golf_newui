@@ -21,7 +21,8 @@ class PaymentKeyResponse {
     String? reqRedirectionUri;
     String? mstatus;
     String? cardNumber;
-
+    int? shopID;
+    
     PaymentKeyResponse copyWith({
         String? paymentKey,
         String? status,

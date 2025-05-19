@@ -72,7 +72,7 @@ class PaymentController extends GetxController
     isLoading.value = false;
     /// Handle result
     if (_result.data != null) {
-      return _result.data;
+      return _result.data?..shopID = _result.shopID;
     } else {
       if (_result.getException == null) {
         _result.setException(ApplicationError.withCode(
