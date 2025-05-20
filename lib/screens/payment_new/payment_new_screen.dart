@@ -31,7 +31,10 @@ class PaymentScreen extends GetView<PaymentController> {
         if (rs != null) {
           var result = await Get.toNamed(AppRoutes.PYAYMENT_WEB, arguments: rs);
           if (result as bool) {
-            var isSuccess = await GolfApi().cardMpiCheckResult(rs.oderId!, rs.shopID!);
+            var isSuccess = await GolfApi().cardMpiCheckResult(
+              rs.oderId!,
+              rs.shopID!,
+            );
             if (isSuccess.data ?? false) {
               Get.back(
                 result: PageResult(resultCode: PageResultCode.OK, data: rs),
@@ -48,10 +51,12 @@ class PaymentScreen extends GetView<PaymentController> {
       }
     }
 
-    return PopScope(
-      canPop: true,
-      onPopInvokedWithResult: (bool didPop, Object? result) async {
-        onRequestBack();
+    return WillPopScope(
+      onWillPop: () async {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          onRequestBack();
+        });
+        return false;
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
