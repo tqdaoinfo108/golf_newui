@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by gdev on 5/23/22.
+  
+*/
+"NSCameraUsageDescription"="Application needs access to camera for profile setup.";
+"NSLocationAlwaysUsageDescription"="Application needs your location to search for nearby shops.";
+"NSLocationWhenInUseUsageDescription"="Application needs your location to search for nearby shops.";
+"NSPhotoLibraryUsageDescription"="Application needs access to library for profile setup.";
+"CFBundleDisplayName"="Golf Booking";

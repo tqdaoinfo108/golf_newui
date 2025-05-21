@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by gdev on 5/23/22.
+  
+*/
+"NSCameraUsageDescription"="アプリケーションはプロファイル設定のためにカメラにアクセスする必要があります。";
+"NSLocationAlwaysUsageDescription" = "アプリケーションは、近くのお店を検索するためにあなたの場所を必要とします。";
+"NSLocationWhenInUseUsageDescription" = "アプリケーションは、近くのお店を検索するためにあなたの場所を必要とします。";
+"NSPhotoLibraryUsageDescription"="アプリケーションはプロファイル設定のためにライブラリにアクセスする必要があります。";
+"CFBundleDisplayName"="ゴルフ24";
