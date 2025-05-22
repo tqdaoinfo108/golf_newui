@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Image.asset("assets/images/add.png", color: GolfColor
-                  .GolfSubColor, width: 56, height: 56),
+                  .GolfSubColor, width: 48, height: 48),
             ),
           ),
           bottomNavigationBar: Container(
@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
               unselectedItemColor: GolfColor.GolfSubColor,
               items: [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home, size: 40),
+                  icon: Icon(Icons.home, size: 35),
                   label: 'home'.tr,
                 ),
                 BottomNavigationBarItem(
@@ -78,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                   label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person, size: 40),
+                  icon: Icon(Icons.person, size: 35),
                   label: 'setting'.tr,
                 ),
               ],

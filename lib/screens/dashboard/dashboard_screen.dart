@@ -90,7 +90,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         ),
               ),
               Container(
-                height: 25.h + kToolbarHeight,
+                height: 20.h + kToolbarHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -182,7 +182,7 @@ class DashboardScreen extends GetView<DashboardController> {
                       ),
                     ),
                     Transform.translate(
-                      offset: Offset(0, 40),
+                      offset: Offset(0, 60),
                       child: Container(
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.symmetric(horizontal: 10),

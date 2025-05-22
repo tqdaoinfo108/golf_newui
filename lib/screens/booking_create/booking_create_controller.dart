@@ -14,6 +14,8 @@ import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/keys.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
+import '../home/home_controller.dart';
+
 class BookingCreateController extends GetxController {
   ExpandableController? exMachineController;
   ExpandableController? exSlotController;
@@ -45,6 +47,7 @@ class BookingCreateController extends GetxController {
   int? userId;
   @override
   void onInit() {
+    super.onInit();
     exMachineController = new ExpandableController(initialExpanded: true);
     exSlotController = new ExpandableController(initialExpanded: false);
     userId = SupportUtils.prefs.getInt(USER_ID);
@@ -60,7 +63,21 @@ class BookingCreateController extends GetxController {
         ).millisecondsSinceEpoch ~/
         1000;
     textDayOfWeek = DateTime.now().millisecondsSinceEpoch.toStringFormatDate();
-    super.onInit();
+  }
+
+  void onReset() async {
+    lstSlot = <SlotItemModel>[];
+    lstBlock = <BlockItemModel>[];
+    var _dateTemp = DateTime.now();
+    dateIntCurrent =
+        DateTime.utc(
+          _dateTemp.year,
+          _dateTemp.month,
+          _dateTemp.day,
+        ).millisecondsSinceEpoch ~/
+        1000;
+    textDayOfWeek = DateTime.now().millisecondsSinceEpoch.toStringFormatDate();
+    getSlotFirst();
   }
 
   void getSlotFirst() async {
@@ -217,7 +234,10 @@ class BookingCreateController extends GetxController {
               ))
             .toJson();
     var result = await GolfApi().createBooking(jsonBody);
-    Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
+    await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
+    onReset();
+    final controller = Get.find<HomeController>();
+    controller.changePageIndex(0);
   }
 
   void onCancelBooking() {

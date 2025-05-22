@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/router/app_pages.dart';
@@ -140,7 +139,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               translations: LocalizationService(),
               locale: LocalizationService.locale,
-              defaultTransition: Transition.native,
+              defaultTransition: Transition.noTransition,
               initialRoute: _isLogined ? AppRoutes.HOME : AppRoutes.LOGIN,
               initialBinding: _isLogined ? HomeBinding() : LoginBinding(),
               getPages: AppScreens.list,

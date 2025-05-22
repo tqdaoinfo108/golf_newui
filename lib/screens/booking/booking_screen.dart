@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
 import 'package:golf_uiv2/screens/booking/booking_controller.dart';
-import 'package:golf_uiv2/themes/colors_custom.dart';
 import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/support.dart';

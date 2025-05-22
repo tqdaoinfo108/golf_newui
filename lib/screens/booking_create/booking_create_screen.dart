@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:golf_uiv2/model/decision_option.dart';
 import 'package:golf_uiv2/model/page_result.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
-import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/utils/support.dart';
-import 'package:golf_uiv2/widgets/application_appbar.dart';
 import 'package:golf_uiv2/widgets/booking_create_widget.dart';
 import 'package:golf_uiv2/widgets/booking_item.dart';
 import 'package:golf_uiv2/widgets/button_default.dart';
@@ -16,6 +14,7 @@ import 'package:sizer/sizer.dart';
 import '../../model/shop_model.dart';
 import 'booking_create_controller.dart';
 
+// ignore: must_be_immutable
 class BookingCreateScreen extends GetView<BookingCreateController> {
   BookingCreateScreen(this.data, {super.key});
   ShopItemModel data;
@@ -120,7 +119,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
             ),
             Container(
               alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(bottom: 20, right: 20, left: 20),
+              padding: EdgeInsets.only(bottom: 30, right: 20, left: 20, top: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.start,

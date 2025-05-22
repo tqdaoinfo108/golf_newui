@@ -43,7 +43,7 @@ AppBar ApplicationAppBarLarge(
 }) {
   return AppBar(
     titleSpacing: 0,
-    toolbarHeight: kToolbarHeight * 2,
+    toolbarHeight: kToolbarHeight,
     elevation: 0,
     scrolledUnderElevation: 0,
     leading: IconButton(
