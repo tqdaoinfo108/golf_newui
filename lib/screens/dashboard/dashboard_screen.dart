@@ -28,7 +28,7 @@ class DashboardScreen extends GetView<DashboardController> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 25.h),
-                height: 75.h,
+                height: 75.h ,
                 color: Colors.white,
                 child:
                     (controller.isLoadingBookingHistory &&
@@ -90,8 +90,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         ),
               ),
               Container(
-                height: 25.h,
-                padding: const EdgeInsets.only(top: kToolbarHeight),
+                height: 25.h + kToolbarHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -103,6 +102,7 @@ class DashboardScreen extends GetView<DashboardController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: kToolbarHeight),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -173,7 +173,7 @@ class DashboardScreen extends GetView<DashboardController> {
                               width: 48,
                               color: Colors.white.withOpacity(0.8),
                             ),
-
+                
                           IconButton(onPressed: (){
                             Get.toNamed(AppRoutes.NOTIFICATIONS);
                           }, icon: Icon(Icons

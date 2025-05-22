@@ -26,153 +26,148 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
     controller.shopSelected = data;
     controller.getSlotFirst();
 
-    return Obx (() =>  Scaffold(
-      backgroundColor: themeData.colorScheme.background,
-      extendBody: true,
-      body: Flex(
-        direction: Axis.vertical,
-        children: [
-          /// Booking Information
-          Container(
-            padding: const EdgeInsets.only(top: kToolbarHeight * 2, right:
-            10, left: 10, bottom: 10),
-            decoration: BoxDecoration(
-
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFF241D59), Color(0xFF232F7C)],
-                stops: [0.0, 0.5225],
+    return Obx(
+      () => Scaffold(
+        backgroundColor: themeData.colorScheme.background,
+        extendBody: true,
+        body: Flex(
+          direction: Axis.vertical,
+          children: [
+            /// Booking Information
+            Container(
+              padding: const EdgeInsets.only(
+                top: kToolbarHeight,
+                right: 10,
+                left: 10,
+                bottom: 10,
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF241D59), Color(0xFF232F7C)],
+                  stops: [0.0, 0.5225],
+                ),
+              ),
+              child: Obx(
+                () => Stack(
+                  children: [
+                    shopItemView(
+                      themeData,
+                      controller.shopSelected!,
+                      onFavoriteChanged:
+                          (val) => controller.changeFavorite(
+                            controller.shopSelected!.shopID,
+                          ),
+                    ),
+                    (controller.shopSelected!.countMemberCode! > 0)
+                        ? Positioned(
+                          bottom: 15.0.sp,
+                          right: 45.0.sp,
+                          child: _buildBuyVipMemberButton(
+                            themeData,
+                            onPressed:
+                                () => Get.toNamed(
+                                  AppRoutes.BUY_VIP_LIST,
+                                  arguments: controller.shopSelected,
+                                )!.then((res) => _registerVipMemberBacked(res)),
+                          ),
+                        )
+                        : Container(),
+                  ],
+                ),
               ),
             ),
-            child: Obx(
-              () => Stack(
-                children: [
-                  shopItemView(
-                    themeData,
-                    controller.shopSelected!,
-                    onFavoriteChanged:
-                        (val) => controller.changeFavorite(
-                          controller.shopSelected!.shopID,
-                        ),
+
+            // / Booking time chooser
+            Expanded(
+              child: SizedBox(
+                height: double.infinity, // <-----
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      /// Choose date
+                      chooseDateBooking(
+                        context,
+                        themeData,
+                        controller,
+                        controller.shopSelected!.dayLimitBooking ?? 30,
+                        (_value) {
+                          controller.onDateChange(_value);
+                        },
+                      ),
+                      SizedBox(height: 10),
+              
+                      /// Choose machine
+                      chooseSlotBooking(
+                        controller,
+                        context,
+                        themeData,
+                        controller.lstSlot,
+                      ),
+                      SizedBox(height: 10),
+                      chooseBlockBooking(
+                        controller,
+                        context,
+                        themeData,
+                        controller.lstBlock,
+                      ),
+            SizedBox(height: 20),
+                    ],
                   ),
-                  (controller.shopSelected!.countMemberCode! > 0)
-                      ? Positioned(
-                        bottom: 15.0.sp,
-                        right: 45.0.sp,
-                        child: _buildBuyVipMemberButton(
-                          themeData,
-                          onPressed:
-                              () => Get.toNamed(
-                                AppRoutes.BUY_VIP_LIST,
-                                arguments: controller.shopSelected,
-                              )!.then((res) => _registerVipMemberBacked(res)),
-                        ),
-                      )
-                      : Container(),
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding: EdgeInsets.only(bottom: 20, right: 20, left: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: DefaultButton(
+                      text: 'cancel'.tr,
+                      textColor: Colors.white,
+                      backgroundColor: Color(0xff4053BF),
+                      radius: 15,
+                      press: () {
+                        controller.onCancelBooking();
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: DefaultButton(
+                      text: 'create'.tr,
+                      textColor: Colors.white,
+                      backgroundColor: Color(0xff232E7A),
+                      radius: 15,
+                      press: () {
+                        SupportUtils.showDecisionDialog(
+                          'are_you_sure_create_booking'.tr,
+                          lstOptions: [
+                            DecisionOption(
+                              'yes'.tr,
+                              type: DecisionOptionType.EXPECTATION,
+                              onDecisionPressed: () {
+                                controller.onCreateBooking();
+                              },
+                            ),
+                            DecisionOption('no'.tr, onDecisionPressed: null),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-
-          // / Booking time chooser
-          Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  height: double.infinity, // <-----
-                  padding: EdgeInsets.only(
-                    bottom: 90,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        /// Choose date
-                        chooseDateBooking(
-                          context,
-                          themeData,
-                          controller,
-                          controller.shopSelected!.dayLimitBooking ?? 30,
-                          (_value) {
-                            controller.onDateChange(_value);
-                          },
-                        ),
-                        SizedBox(height: 10),
-
-                        /// Choose machine
-                        chooseSlotBooking(
-                          controller,
-                          context,
-                          themeData,
-                          controller.lstSlot,
-                        ),
-                        SizedBox(height: 10),
-                        chooseBlockBooking(
-                          controller,
-                          context,
-                          themeData,
-                          controller.lstBlock,
-                        ),
-                        SizedBox(height: 20),
-                        Container(
-                          alignment: Alignment.bottomCenter,
-                          padding: EdgeInsets.only(bottom: 20, right: 20, left: 20),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: DefaultButton(
-                                  text: 'cancel'.tr,
-                                  textColor: Colors.white,
-                                  backgroundColor: Color(0xff4053BF),
-                                  radius: 15,
-                                  press: () {
-                                    controller.onCancelBooking();
-                                  },
-                                ),
-                              ),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: DefaultButton(
-                                  text: 'create'.tr,
-                                  textColor: Colors.white,
-                                  backgroundColor: Color(0xff232E7A),
-                                  radius: 15,
-                                  press: () {
-                                    SupportUtils.showDecisionDialog(
-                                      'are_you_sure_create_booking'.tr,
-                                      lstOptions: [
-                                        DecisionOption(
-                                          'yes'.tr,
-                                          type: DecisionOptionType.EXPECTATION,
-                                          onDecisionPressed: () {
-                                            controller.onCreateBooking();
-                                          },
-                                        ),
-                                        DecisionOption(
-                                          'no'.tr,
-                                          onDecisionPressed: null,
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+            SizedBox(height: 90),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   _buildBuyVipMemberButton(ThemeData appTheme, {void Function()? onPressed}) =>

@@ -29,7 +29,6 @@ class LoginController extends GetxController {
   var isValidatedUserName = false;
   var isValidatedPasssword = false;
 
-
   @override
   void onReady() {
     super.onReady();
@@ -45,23 +44,21 @@ class LoginController extends GetxController {
         update();
       });
     }
+
     getValueConfig();
   }
 
-  
   Future<void> getValueConfig() async {
     var _result = await GolfApi().getKeyConfigByKey("LoginWithSocial");
 
     /// Handle result
     if (_result.data != null && _result.data!.isNotEmpty) {
-       isHideSocial = _result.data == 'true';
+      isHideSocial.value = _result.data == 'true';
+      update();
     }
   }
 
-  final _isHideSocial = false.obs;
-  bool get isHideSocial => this._isHideSocial.value;
-  set isHideSocial(bool value) =>
-      this._isHideSocial.value = value;
+  RxBool isHideSocial = false.obs;
 
   final _isAppleIdLoginAvailable = false.obs;
   bool get isAppleIdLoginAvailable => this._isAppleIdLoginAvailable.value;
@@ -119,8 +116,11 @@ class LoginController extends GetxController {
     var _currentTime = DateTime.now().millisecondsSinceEpoch;
 
     /// Call Service Login
-    final _loginResult =
-        await GolfApi().login(userName, userPassword, "$_currentTime");
+    final _loginResult = await GolfApi().login(
+      userName,
+      userPassword,
+      "$_currentTime",
+    );
 
     isLoginProgressing = false;
 
@@ -129,30 +129,39 @@ class LoginController extends GetxController {
       /// Save user information to sharepreferences
       SupportUtils.prefs.setBool(HAS_LOGINED, true);
       SupportUtils.prefs.setString(
-          AUTH,
-          base64Url.encode(
-              utf8.encode("${_loginResult.data!.uUserID}:$_currentTime")));
+        AUTH,
+        base64Url.encode(
+          utf8.encode("${_loginResult.data!.uUserID}:$_currentTime"),
+        ),
+      );
       SupportUtils.prefs.setString(USERNAME, _loginResult.data!.uUserID!);
       SupportUtils.prefs.setString(USER_FULLNAME, _loginResult.data!.fullName!);
       SupportUtils.prefs.setString(USER_EMAIL, _loginResult.data!.email!);
       SupportUtils.prefs.setInt(USER_ID, _loginResult.data!.userID!);
       SupportUtils.prefs.setString(USER_PHONE, _loginResult.data!.phone!);
-      SupportUtils.prefs
-          .setString(USER_AVATAR, _loginResult.data!.imagesPaths!);
-      SupportUtils.prefs
-          .setInt(VERIFIED_EMAIL, _loginResult.data!.confirmEmail!);
+      SupportUtils.prefs.setString(
+        USER_AVATAR,
+        _loginResult.data!.imagesPaths!,
+      );
+      SupportUtils.prefs.setInt(
+        VERIFIED_EMAIL,
+        _loginResult.data!.confirmEmail!,
+      );
       SupportUtils.prefs.setInt(VERIFY_TIME_MILI, 0);
 
       // subscribeToTopic
       FirebaseMessaging.instance.subscribeToTopic(
-          'notification-golfsystem-user' +
-              _loginResult.data!.userID.toString());
-      FirebaseMessaging.instance
-          .subscribeToTopic('notification-golfsystem-all');
+        'notification-golfsystem-user' + _loginResult.data!.userID.toString(),
+      );
+      FirebaseMessaging.instance.subscribeToTopic(
+        'notification-golfsystem-all',
+      );
 
       // change language
-      SupportUtils.prefs
-          .setString(APP_LANGUAGE_CODE, _loginResult.data!.languageCode!);
+      SupportUtils.prefs.setString(
+        APP_LANGUAGE_CODE,
+        _loginResult.data!.languageCode!,
+      );
       LocalizationService.changeLocale();
 
       return true;
@@ -160,20 +169,25 @@ class LoginController extends GetxController {
       if (_loginResult.getException == null) {
         /// User not exist or incorrect password
         if (_loginResult.status == 401) {
-          _loginResult.setException(ApplicationError.withMessage(
-              'user_name_or_password_incorrect'.tr));
+          _loginResult.setException(
+            ApplicationError.withMessage('user_name_or_password_incorrect'.tr),
+          );
         }
 
         /// This user is inactive
         if (_loginResult.status == 402) {
           _loginResult.setException(
-              ApplicationError.withMessage('account_has_been_blocked'.tr));
+            ApplicationError.withMessage('account_has_been_blocked'.tr),
+          );
         }
 
         /// If exception still null, let's define exception to applciation exception
         if (_loginResult.getException == null) {
-          _loginResult.setException(ApplicationError.withCode(
-              ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+          _loginResult.setException(
+            ApplicationError.withCode(
+              ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+            ),
+          );
         }
       }
       loginErrorMessage = _loginResult.getException?.getErrorMessage();
@@ -189,8 +203,11 @@ class LoginController extends GetxController {
     var _locale = LocalizationService.locale;
 
     /// Call Service Login
-    final _loginResult = await GolfApi()
-        .signUp(user, "$_currentTime", _locale.languageCode.toLowerCase());
+    final _loginResult = await GolfApi().signUp(
+      user,
+      "$_currentTime",
+      _locale.languageCode.toLowerCase(),
+    );
 
     isLoginProgressing = false;
 
@@ -199,32 +216,43 @@ class LoginController extends GetxController {
       /// Save user information to sharepreferences
       SupportUtils.prefs.setBool(HAS_LOGINED, true);
       SupportUtils.prefs.setString(
-          AUTH,
-          base64Url.encode(
-              utf8.encode("${_loginResult.data!.uUserID}:$_currentTime")));
+        AUTH,
+        base64Url.encode(
+          utf8.encode("${_loginResult.data!.uUserID}:$_currentTime"),
+        ),
+      );
       SupportUtils.prefs.setString(USERNAME, _loginResult.data!.uUserID!);
       SupportUtils.prefs.setString(USER_FULLNAME, _loginResult.data!.fullName!);
       SupportUtils.prefs.setString(USER_EMAIL, _loginResult.data!.email!);
       SupportUtils.prefs.setInt(USER_ID, _loginResult.data!.userID!);
       SupportUtils.prefs.setString(USER_PHONE, _loginResult.data!.phone!);
-      SupportUtils.prefs
-          .setString(USER_AVATAR, _loginResult.data!.imagesPaths!);
-      SupportUtils.prefs
-          .setString(USER_PROVIDDER_ID, _loginResult.data!.providerUserID!);
-      SupportUtils.prefs
-          .setInt(VERIFIED_EMAIL, _loginResult.data!.confirmEmail!);
+      SupportUtils.prefs.setString(
+        USER_AVATAR,
+        _loginResult.data!.imagesPaths!,
+      );
+      SupportUtils.prefs.setString(
+        USER_PROVIDDER_ID,
+        _loginResult.data!.providerUserID!,
+      );
+      SupportUtils.prefs.setInt(
+        VERIFIED_EMAIL,
+        _loginResult.data!.confirmEmail!,
+      );
       SupportUtils.prefs.setInt(VERIFY_TIME_MILI, 0);
 
       // subscribeToTopic
       FirebaseMessaging.instance.subscribeToTopic(
-          'notification-golfsystem-user' +
-              _loginResult.data!.userID.toString());
-      FirebaseMessaging.instance
-          .subscribeToTopic('notification-golfsystem-all');
+        'notification-golfsystem-user' + _loginResult.data!.userID.toString(),
+      );
+      FirebaseMessaging.instance.subscribeToTopic(
+        'notification-golfsystem-all',
+      );
 
       // change language
-      SupportUtils.prefs
-          .setString(APP_LANGUAGE_CODE, _loginResult.data!.languageCode!);
+      SupportUtils.prefs.setString(
+        APP_LANGUAGE_CODE,
+        _loginResult.data!.languageCode!,
+      );
       LocalizationService.changeLocale();
 
       return true;
@@ -233,30 +261,37 @@ class LoginController extends GetxController {
         /// This user is inactive
         if (_loginResult.status == 402) {
           _loginResult.setException(
-              ApplicationError.withMessage('account_has_been_blocked'.tr));
+            ApplicationError.withMessage('account_has_been_blocked'.tr),
+          );
         }
 
         /// User existed, cannot sign up
         if (_loginResult.status == 403) {
-          _loginResult
-              .setException(ApplicationError.withMessage('account_existed'.tr));
+          _loginResult.setException(
+            ApplicationError.withMessage('account_existed'.tr),
+          );
         }
 
         if (_loginResult.status == 404) {
           _loginResult.setException(
-              ApplicationError.withMessage('email_already_exists'.tr));
+            ApplicationError.withMessage('email_already_exists'.tr),
+          );
         }
 
         /// There is some problem, cannot signup account
         if (_loginResult.status == 405) {
-          _loginResult
-              .setException(ApplicationError.withMessage('cannot_signup'.tr));
+          _loginResult.setException(
+            ApplicationError.withMessage('cannot_signup'.tr),
+          );
         }
 
         /// If exception still null, let's define exception to applciation exception
         if (_loginResult.getException == null) {
-          _loginResult.setException(ApplicationError.withCode(
-              ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+          _loginResult.setException(
+            ApplicationError.withCode(
+              ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+            ),
+          );
         }
       }
       loginErrorMessage = _loginResult.getException?.getErrorMessage();
@@ -292,12 +327,10 @@ class LoginController extends GetxController {
 
     try {
       GoogleSignIn _googleSignIn = GoogleSignIn(
-          scopes: [
-            'email',
-            'https://www.googleapis.com/auth/contacts.readonly',
-          ],
-          clientId:
-              "501243301896-9qpglq4c6tg055b69dh280hge721il32.apps.googleusercontent.com");
+        scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly'],
+        clientId:
+            "501243301896-9qpglq4c6tg055b69dh280hge721il32.apps.googleusercontent.com",
+      );
       var _googleAcc = await _googleSignIn.signIn();
       if (_googleAcc != null &&
           !_googleAcc.isBlank! &&

@@ -24,192 +24,207 @@ class LoginScreen extends GetView<LoginController> {
     final _passwordFocusNode = FocusNode();
 
     ThemeData themeData = Theme.of(context);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      body: Column(
-        spacing: 10,
-        children: [
-          SvgPicture.asset("assets/svg/new_login_top_bg.svg", width: 100.w),
-          Center(
-            child: Opacity(
-              opacity: 0.8,
-              child: Image.asset(
-                "assets/images/logo.png",
-                width: SizerUtil.width / 2.2,
-              ),
-            ),
+    return Obx(
+      () => Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height,
           ),
-
-          /// Login Form
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Obx(
-              () => AbsorbPointer(
-                absorbing: controller.isLoginProgressing,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return IntrinsicHeight(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 4.0.w),
-
-                              /// Username
-                              TexFieldValidate(
-                                _usernameFocusNode,
-                                hintText: 'username'.tr,
-                                icon: AppIcon.indentity_user,
-                                accentColor: GolfColor.GolfPrimaryColor,
-                                validate: controller.validateUsername,
-                                themeData: themeData,
-                              ),
-                              SizedBox(height: 2.0.w),
-
-                              /// Password
-                              TexFieldValidate(
-                                _passwordFocusNode,
-                                hintText: 'password'.tr,
-                                icon: Icons.lock,
-                                accentColor: GolfColor.GolfPrimaryColor,
-                                validate: controller.validatePassword,
-                                themeData: themeData,
-                                isPassword: true,
-                              ),
-                              SizedBox(height: 3.0.w),
-
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: TextClick(
-                                  themeData: themeData,
-                                  lastText: 'forgot_password'.tr,
-                                  onClicked: () async {
-                                    var _resetPasswordResult =
-                                        await Get.toNamed(
-                                          AppRoutes.FORGOT_PASSWORD,
-                                        );
-                                    if (_resetPasswordResult != null &&
-                                        (_resetPasswordResult as PageResult)
-                                                .resultCode ==
-                                            PageResultCode.OK) {
-                                      SupportUtils.showToast(
-                                        'reset_password_sueccessful'.tr,
-                                        type: ToastType.SUCCESSFUL,
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(height: 8.0.w),
-                              controller.isLoginProgressing
-                                  ? AppLoadingIndicator()
-                                  : DefaultButton(
-                                    text: 'login'.tr,
-                                    textColor: Colors.white,
-                                    backgroundColor: GolfColor.GolfSubColor,
-                                    press:
-                                        () => _loginPressed(
-                                          _usernameFocusNode,
-                                          _passwordFocusNode,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                spacing: 10,
+                children: [
+                 Column(
+                  children: [
+                     SvgPicture.asset("assets/svg/new_login_top_bg.svg", width: 100.w),
+                  Center(
+                    child: Opacity(
+                      opacity: 0.8,
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                        width: SizerUtil.width / 2.2,
+                      ),
+                    ),
+                  ),
+              
+                  /// Login Form
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    child: Obx(
+                      () => AbsorbPointer(
+                        absorbing: controller.isLoginProgressing,
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return IntrinsicHeight(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 4.0.w),
+              
+                                      /// Username
+                                      TexFieldValidate(
+                                        _usernameFocusNode,
+                                        hintText: 'username'.tr,
+                                        icon: AppIcon.indentity_user,
+                                        accentColor: GolfColor.GolfPrimaryColor,
+                                        validate: controller.validateUsername,
+                                        themeData: themeData,
+                                      ),
+                                      SizedBox(height: 2.0.w),
+              
+                                      /// Password
+                                      TexFieldValidate(
+                                        _passwordFocusNode,
+                                        hintText: 'password'.tr,
+                                        icon: Icons.lock,
+                                        accentColor: GolfColor.GolfPrimaryColor,
+                                        validate: controller.validatePassword,
+                                        themeData: themeData,
+                                        isPassword: true,
+                                      ),
+                                      SizedBox(height: 3.0.w),
+              
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: TextClick(
+                                          themeData: themeData,
+                                          lastText: 'forgot_password'.tr,
+                                          onClicked: () async {
+                                            var _resetPasswordResult =
+                                                await Get.toNamed(
+                                                  AppRoutes.FORGOT_PASSWORD,
+                                                );
+                                            if (_resetPasswordResult != null &&
+                                                (_resetPasswordResult as PageResult)
+                                                        .resultCode ==
+                                                    PageResultCode.OK) {
+                                              SupportUtils.showToast(
+                                                'reset_password_sueccessful'.tr,
+                                                type: ToastType.SUCCESSFUL,
+                                              );
+                                            }
+                                          },
                                         ),
+                                      ),
+                                      SizedBox(height: 8.0.w),
+                                      controller.isLoginProgressing
+                                          ? AppLoadingIndicator()
+                                          : DefaultButton(
+                                            text: 'login'.tr,
+                                            textColor: Colors.white,
+                                            backgroundColor: GolfColor.GolfSubColor,
+                                            press:
+                                                () => _loginPressed(
+                                                  _usernameFocusNode,
+                                                  _passwordFocusNode,
+                                                ),
+                                          ),
+                                      SizedBox(height: 2.0.w),
+                                      // Text(
+                                      //   'dont_have_account'.tr,
+                                      //   style: themeData.textTheme.headlineSmall,
+                                      //   maxLines: 2,
+                                      // ),
+                                      // SizedBox(height: 2.0.w),
+                                      if (controller.isHideSocial.value)
+                                        TextClick(
+                                          themeData: themeData,
+                                          lastText: 'sign_up_now'.tr,
+                                          onClicked: () async {
+                                            Get.toNamed(AppRoutes.SIGN_UP);
+                                          },
+                                        ),
+                                    ],
                                   ),
-                              SizedBox(height: 2.0.w),
-                              // Text(
-                              //   'dont_have_account'.tr,
-                              //   style: themeData.textTheme.headlineSmall,
-                              //   maxLines: 2,
-                              // ),
-                              // SizedBox(height: 2.0.w),
-                              if (controller.isHideSocial)
-                                TextClick(
-                                  themeData: themeData,
-                                  lastText: 'sign_up_now'.tr,
-                                  onClicked: () async {
-                                    Get.toNamed(AppRoutes.SIGN_UP);
-                                  },
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  ],
+                 ),
+                  // Footer
+                  if (controller.isHideSocial.value)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 12.0.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            spacing: 15,
+                            children: [
+                              SizedBox(
+                                width: 15.w,
+                                child: Divider(
+                                  color: GolfColor.GolfSubColor,
+                                  thickness: 2,
                                 ),
+                              ),
+                              Text(
+                                'or_login_with'.tr.toLowerCase(),
+                                style: themeData.textTheme.headlineSmall,
+                              ),
+                              SizedBox(
+                                width: 15.w,
+                                child: Divider(
+                                  color: GolfColor.GolfSubColor,
+                                  thickness: 2,
+                                ),
+                              ),
                             ],
+                          ),
+                          SizedBox(height: 4.0.w),
+                          _loginSocialButton(
+                            themeData,
+                            onLoginGooglePressed:
+                                () => loginWithSocialNetwork(
+                                  SocialNetwork.GOOGLE,
+                                  themeData,
+                                ),
+                            onLoginFacebookPressed:
+                                () => loginWithSocialNetwork(
+                                  SocialNetwork.FACEBOOK,
+                                  themeData,
+                                ),
+                            onLoginLinePressed:
+                                () => loginWithSocialNetwork(
+                                  SocialNetwork.LINE,
+                                  themeData,
+                                ),
+                            onLoginZaloPressed:
+                                () => loginWithSocialNetwork(
+                                  SocialNetwork.ZALO,
+                                  themeData,
+                                ),
+                            hasAppleLoginButton: controller.isAppleIdLoginAvailable,
+                            onLoginApplePressed:
+                                () => loginWithSocialNetwork(
+                                  SocialNetwork.APPLE,
+                                  themeData,
+                                ),
                           ),
                         ],
                       ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-          // Footer
-          Spacer(),
-          if (controller.isHideSocial)
-            Padding(
-              padding: EdgeInsets.only(bottom: 12.0.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 15,
-                    children: [
-                      SizedBox(
-                        width: 15.w,
-                        child: Divider(
-                          color: GolfColor.GolfSubColor,
-                          thickness: 2,
-                        ),
-                      ),
-                      Text(
-                        'or_login_with'.tr.toLowerCase(),
-                        style: themeData.textTheme.headlineSmall,
-                      ),
-                      SizedBox(
-                        width: 15.w,
-                        child: Divider(
-                          color: GolfColor.GolfSubColor,
-                          thickness: 2,
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (controller.isHideSocial) SizedBox(height: 4.0.w),
-                  if (controller.isHideSocial)
-                    _loginSocialButton(
-                      themeData,
-                      onLoginGooglePressed:
-                          () => loginWithSocialNetwork(
-                            SocialNetwork.GOOGLE,
-                            themeData,
-                          ),
-                      onLoginFacebookPressed:
-                          () => loginWithSocialNetwork(
-                            SocialNetwork.FACEBOOK,
-                            themeData,
-                          ),
-                      onLoginLinePressed:
-                          () => loginWithSocialNetwork(
-                            SocialNetwork.LINE,
-                            themeData,
-                          ),
-                      onLoginZaloPressed:
-                          () => loginWithSocialNetwork(
-                            SocialNetwork.ZALO,
-                            themeData,
-                          ),
-                      hasAppleLoginButton: controller.isAppleIdLoginAvailable,
-                      onLoginApplePressed:
-                          () => loginWithSocialNetwork(
-                            SocialNetwork.APPLE,
-                            themeData,
-                          ),
                     ),
                 ],
               ),
             ),
-        ],
+          ),
+        ),
       ),
     );
   }
