@@ -23,74 +23,10 @@ class DashboardScreen extends GetView<DashboardController> {
       },
       builder: (_) {
         return Obx(
-          () => Stack(
-            alignment: Alignment.topCenter,
+          () => Column(
             children: [
               Container(
-                margin: EdgeInsets.only(top: 25.h),
-                height: 75.h ,
-                color: Colors.white,
-                child:
-                    (controller.isLoadingBookingHistory &&
-                            !controller.isLoadingMore)
-                        ? Center(child: CircularProgressIndicator())
-                        : controller.lstDateBooking.isEmpty
-                        ? Center(
-                          child: Text(
-                            'not_found_booking'.tr,
-                            style: theme.textTheme.headlineLarge,
-                          ),
-                        )
-                        : NotificationListener<ScrollNotification>(
-                          onNotification: (ScrollNotification scrollInfo) {
-                            if (scrollInfo.metrics.pixels ==
-                                    scrollInfo.metrics.maxScrollExtent &&
-                                controller.totalLoadedBooking <
-                                    controller.totalBooking! &&
-                                !controller.isLoadingBookingHistory) {
-                              /// This is Load More Call
-                              controller.isLoadingMore = true;
-                              controller.getListBooking();
-                            }
-                            return false;
-                          },
-                          child: ListView.builder(
-                            itemCount:
-                                controller.totalLoadedBooking <
-                                        controller.totalBooking!
-                                    ? controller.lstDateBooking.length + 1
-                                    : controller.lstDateBooking.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return index == controller.lstDateBooking.length
-                                  ? Container(
-                                    height:
-                                        controller.isLoadingBookingHistory
-                                            ? 60
-                                            : 0,
-                                    child: Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  )
-                                  : bookingListItemView(
-                                    theme,
-                                    controller.mapMyBooking[controller
-                                        .lstDateBooking[index]]!,
-                                    (_bookingItem) {
-                                      Get.toNamed(
-                                        AppRoutes.BOOKING_DETAIL,
-                                        arguments: _bookingItem.bookID,
-                                      )!.then((value) {
-                                        controller.page = 1;
-                                        controller.getListBooking();
-                                      });
-                                    },
-                                  );
-                            },
-                          ),
-                        ),
-              ),
-              Container(
-                height: 20.h + kToolbarHeight,
+                padding: EdgeInsets.only(bottom: kToolbarHeight * 1.5),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -152,14 +88,6 @@ class DashboardScreen extends GetView<DashboardController> {
                                           ),
                                         ],
                                       ),
-                                      // Text(
-                                      //   DateTime.now().millisecondsSinceEpoch
-                                      //       .toStringFormatDate(),
-                                      //   style: TextStyle(
-                                      //     color: Colors.white70,
-                                      //     fontSize: 12.0.sp,
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ],
@@ -173,91 +101,169 @@ class DashboardScreen extends GetView<DashboardController> {
                               width: 48,
                               color: Colors.white.withOpacity(0.8),
                             ),
-                
-                          IconButton(onPressed: (){
-                            Get.toNamed(AppRoutes.NOTIFICATIONS);
-                          }, icon: Icon(Icons
-                              .notifications, color: Colors.white,))
+
+                          IconButton(
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.NOTIFICATIONS);
+                            },
+                            icon: Icon(
+                              Icons.notifications,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    Transform.translate(
-                      offset: Offset(0, 60),
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        margin: const EdgeInsets.symmetric(horizontal: 10),
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(.5),
-                              blurRadius: 7, // Độ mờ của bóng
-                              offset: Offset(0, 3), // Vị trí bóng (x, y)
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            DefaultTabController(
-                              length: 3,
-                              initialIndex: controller.pageNumber.value,
-                              child: TabBar(
-                                indicatorColor: GolfColor.GolfSubColor,
-                                unselectedLabelColor: Colors.white,
-                                onTap:
-                                    (value) async =>
-                                        await controller.onTab(value),
-                                tabs: [
-                                  SizedBox(
-                                    height: 45.0.sp,
-                                    child: Tab(
-                                      child: rowTabbar(
-                                        theme,
-                                        Icons.check,
-                                        'success'.tr,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 45.0.sp,
-                                    child: Tab(
-                                      child: Stack(
-                                        alignment: AlignmentDirectional.center,
-                                        children: [
-                                          rowTabbar(
-                                            theme,
-                                            Icons.payment,
-                                            "wait_payment".tr,
-                                          ),
-                                          Obx(
-                                            () => _buildBadge(
-                                              theme,
-                                              controller.totalWaitPayment,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 45.0.sp,
-                                    child: Tab(
-                                      child: rowTabbar(
-                                        theme,
-                                        Icons.cancel_outlined,
-                                        'canceled'.tr,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                  ],
+                ),
+              ),
+              Transform.translate(
+                offset: Offset(0, kToolbarHeight * -1),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 10 ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(.5),
+                            blurRadius: 7, // Độ mờ của bóng
+                            offset: Offset(0, 3), // Vị trí bóng (x, y)
+                          ),
+                        ],
                       ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          DefaultTabController(
+                            length: 3,
+                            initialIndex: controller.pageNumber.value,
+                            child: TabBar(
+                              indicatorColor: GolfColor.GolfSubColor,
+                              unselectedLabelColor: Colors.white,
+                              onTap:
+                                  (value) async =>
+                                      await controller.onTab(value),
+                              tabs: [
+                                SizedBox(
+                                  height: 45.0.sp,
+                                  child: Tab(
+                                    child: rowTabbar(
+                                      theme,
+                                      Icons.check,
+                                      'success'.tr,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 45.0.sp,
+                                  child: Tab(
+                                    child: Stack(
+                                      alignment: AlignmentDirectional.center,
+                                      children: [
+                                        rowTabbar(
+                                          theme,
+                                          Icons.payment,
+                                          "wait_payment".tr,
+                                        ),
+                                        Obx(
+                                          () => _buildBadge(
+                                            theme,
+                                            controller.totalWaitPayment,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 45.0.sp,
+                                  child: Tab(
+                                    child: rowTabbar(
+                                      theme,
+                                      Icons.cancel_outlined,
+                                      'canceled'.tr,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 75.h,
+                      color: Colors.white,
+                      padding: const EdgeInsets.only(bottom: 160),
+                      child:
+                          (controller.isLoadingBookingHistory &&
+                                  !controller.isLoadingMore)
+                              ? Center(child: CircularProgressIndicator())
+                              : controller.lstDateBooking.isEmpty
+                              ? Center(
+                                child: Text(
+                                  'not_found_booking'.tr,
+                                  style: theme.textTheme.headlineLarge,
+                                ),
+                              )
+                              : NotificationListener<ScrollNotification>(
+                                onNotification: (
+                                  ScrollNotification scrollInfo,
+                                ) {
+                                  if (scrollInfo.metrics.pixels ==
+                                          scrollInfo.metrics.maxScrollExtent &&
+                                      controller.totalLoadedBooking <
+                                          controller.totalBooking! &&
+                                      !controller.isLoadingBookingHistory) {
+                                    /// This is Load More Call
+                                    controller.isLoadingMore = true;
+                                    controller.getListBooking();
+                                  }
+                                  return false;
+                                },
+                                child: ListView.builder(
+                                  itemCount:
+                                      controller.totalLoadedBooking <
+                                              controller.totalBooking!
+                                          ? controller.lstDateBooking.length + 1
+                                          : controller.lstDateBooking.length,
+                                  itemBuilder: (
+                                    BuildContext context,
+                                    int index,
+                                  ) {
+                                    return index ==
+                                            controller.lstDateBooking.length
+                                        ? Container(
+                                          height:
+                                              controller.isLoadingBookingHistory
+                                                  ? 60
+                                                  : 0,
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        )
+                                        : bookingListItemView(
+                                          theme,
+                                          controller.mapMyBooking[controller
+                                              .lstDateBooking[index]]!,
+                                          (_bookingItem) {
+                                            Get.toNamed(
+                                              AppRoutes.BOOKING_DETAIL,
+                                              arguments: _bookingItem.bookID,
+                                            )!.then((value) {
+                                              controller.page = 1;
+                                              controller.getListBooking();
+                                            });
+                                          },
+                                        );
+                                  },
+                                ),
+                              ),
                     ),
                   ],
                 ),

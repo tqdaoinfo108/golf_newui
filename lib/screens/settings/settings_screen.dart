@@ -41,7 +41,7 @@ class SettingsScreen extends GetView<SettingController> {
           child: Column(
             children: [
               Container(
-                height: 35.h,
+                height: 40.h,
                 padding: const EdgeInsets.only(top: kToolbarHeight),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -55,77 +55,83 @@ class SettingsScreen extends GetView<SettingController> {
                   margin: const EdgeInsets.only(bottom: 40),
                   alignment: Alignment.topCenter,
                   child: Obx(
-                        () => Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                    () => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          spacing: 10,
                           children: [
-                            Column(
+                            (_controller.userInfo!.imagesPaths ?? "").isBlank!
+                                ? DefaultAvatar()
+                                : Avatar(
+                                  avatarPath:
+                                      '$GOLF_CORE_API_URL$USER_AVATAR_PATH${_controller.userInfo!.imagesPaths}',
+                                ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               spacing: 10,
                               children: [
-                                (_controller.userInfo!.imagesPaths ?? "").isBlank!
-                                    ? DefaultAvatar()
-                                    : Avatar(
-                                  avatarPath:
-                                  '$GOLF_CORE_API_URL$USER_AVATAR_PATH${_controller.userInfo!.imagesPaths}',
-                                ),
-                                Column(
-                                  spacing: 10,
-                                  children: [
-                                    Text(
-                                      _controller.userInfo!.fullName ?? '',
-                                      style: themeData.textTheme.headlineSmall!
-                                          .copyWith(fontSize: 14, fontWeight:
-                                      FontWeight.bold, color: Colors.white),
-                                    ),
-                                    Visibility(
-                                      visible:
-                                      _controller.userInfo!.confirmEmail ==
-                                          ConfirmEmailStatus.UNCONFIRMED,
-                                      child: InkWell(
-                                        onTap:
-                                        (() => Get.toNamed(
-                                          AppRoutes.PROFILE,
-                                        )!.then(
-                                              (value) =>
-                                              controller.updateUserInfo(),
-                                        )),
-                                        child: Text(
-                                          '(${'unverified_account'.tr})',
-                                          style: themeData.textTheme.titleSmall!
-                                              .copyWith(
-                                            color: themeData.colorScheme.error,
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                Text(
+                                  _controller.userInfo!.fullName ?? '',
+                                  style: themeData.textTheme.headlineSmall!
+                                      .copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
                                       ),
-                                    ),
-                                    _buildMyVipMember(themeData, controller.totalVipMembers),
-                                  ],
                                 ),
+                                // Visibility(
+                                //   visible:
+                                //   _controller.userInfo!.confirmEmail ==
+                                //       ConfirmEmailStatus.UNCONFIRMED,
+                                //   child: InkWell(
+                                //     onTap:
+                                //     (() => Get.toNamed(
+                                //       AppRoutes.PROFILE,
+                                //     )!.then(
+                                //           (value) =>
+                                //           controller.updateUserInfo(),
+                                //     )),
+                                //     child: Text(
+                                //       '(${'unverified_account'.tr})',
+                                //       style: themeData.textTheme.titleSmall!
+                                //           .copyWith(
+                                //         color: themeData.colorScheme.error,
+                                //         fontStyle: FontStyle.italic,
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                                _buildMyVipMember(
+                                  themeData,
+                                  controller.totalVipMembers,
+                                ),
+                                if (controller.userInfo!.isUserManager ?? false)
+                                  Image.asset(
+                                    "assets/icons/person_vip.png",
+                                    width: 24,
+                                    color: Colors.white.withOpacity(0.8),
+                                  ),
                               ],
                             ),
-                            if (controller.userInfo!.isUserManager ?? false)
-                              Image.asset(
-                                "assets/icons/person_vip.png",
-                                width: 48,
-                                color: Colors.white.withOpacity(0.8),
-                              ),
                           ],
                         ),
+                      ],
+                    ),
                   ),
                 ),
               ),
 
               Transform.translate(
-                offset: Offset(0, -60),
+                offset: Offset(0, 10.h * -1),
                 child: SingleChildScrollView(
                   child: Container(
                     margin: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(12)
-                        ),
-                      color: Colors.white
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: Colors.white,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -138,7 +144,7 @@ class SettingsScreen extends GetView<SettingController> {
                         }, Icons.person),
                         settingItem(context, 'transaction_history'.tr, () {
                           Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
-                        },  Icons.history),
+                        }, Icons.history),
                         settingItemWithImage(context, 'buy_vip_member'.tr, () {
                           Get.toNamed(
                             AppRoutes.BUY_VIP_SHOP_LIST,
@@ -153,29 +159,45 @@ class SettingsScreen extends GetView<SettingController> {
                         // settingItem(context, 'change_theme'.tr, () {
                         //   Get.to(ChangeThemeModeScreen());
                         // }, Icons.format_paint_sharp),
-                        settingItemWithImage(context, 'change_password'.tr, () async {
-                          var _changePasswordResult = await Get.toNamed(
-                            AppRoutes.CHANGE_PASSWORD,
-                          );
-                          if (_changePasswordResult != null &&
-                              (_changePasswordResult as PageResult)
-                                      .resultCode ==
-                                  PageResultCode.OK) {
-                            SupportUtils.showToast(
-                              'change_password_success'.tr,
-                              type: ToastType.SUCCESSFUL,
+                        settingItemWithImage(
+                          context,
+                          'change_password'.tr,
+                          () async {
+                            var _changePasswordResult = await Get.toNamed(
+                              AppRoutes.CHANGE_PASSWORD,
                             );
-                          }
-                        }, "assets/images/lock.png"),
-                        settingItem(context, 'about_app'.tr, () {
-                          Get.to(AboutAppScreen());
-                        }, Icons.info_outline, color: Color(0xff8E99FF)),
-                        settingItemWithImage(context, 'sign_out'.tr, () {
-                          SupportUtils.letsLogout();
-                          Get.offAllNamed(AppRoutes.LOGIN);
-                        }, "assets/images/sign_out.png", color: Color(0xffFFACAC)),
+                            if (_changePasswordResult != null &&
+                                (_changePasswordResult as PageResult)
+                                        .resultCode ==
+                                    PageResultCode.OK) {
+                              SupportUtils.showToast(
+                                'change_password_success'.tr,
+                                type: ToastType.SUCCESSFUL,
+                              );
+                            }
+                          },
+                          "assets/images/lock.png",
+                        ),
+                        settingItem(
+                          context,
+                          'about_app'.tr,
+                          () {
+                            Get.to(AboutAppScreen());
+                          },
+                          Icons.info_outline,
+                          color: Color(0xff8E99FF),
+                        ),
+                        settingItemWithImage(
+                          context,
+                          'sign_out'.tr,
+                          () {
+                            SupportUtils.letsLogout();
+                            Get.offAllNamed(AppRoutes.LOGIN);
+                          },
+                          "assets/images/sign_out.png",
+                          color: Color(0xffFFACAC),
+                        ),
                         SizedBox(height: 10),
-
                       ],
                     ),
                   ),
@@ -192,10 +214,9 @@ class SettingsScreen extends GetView<SettingController> {
     return total == 0
         ? Container()
         : InkWell(
-          child:  Text(
+          child: Text(
             'vip_member'.tr,
-            style: appTheme.textTheme.titleSmall!
-                .copyWith(
+            style: appTheme.textTheme.titleSmall!.copyWith(
               color: appTheme.colorScheme.secondary,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.bold,
