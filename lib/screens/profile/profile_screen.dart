@@ -124,32 +124,32 @@ class ProfileScreen extends GetView<ProfileController> {
                   ),
                   SizedBox(height: 2.0.h),
 
-                  Visibility(
-                      visible: !_controller.isVerifiedAccount,
-                      child: AbsorbPointer(
-                        absorbing: _controller.isSentVerify,
-                        child: Opacity(
-                          opacity: !_controller.isSentVerify ? 1.0 : 0.2,
-                          child: DefaultButton(
-                            text: 'verify_email'.tr +
-                                (_controller.availableVerifyTimeLeft > 0
-                                    ? ' (${controller.availableVerifyTimeLeft})'
-                                    : ''),
-                            textColor: Colors.white,
-                            backgroundColor: Colors.orange,
-                            press: () async {
-                              // Unfocus Textfield
-                              _fullNameFocusNode.unfocus();
-                              _emailFocusNode.unfocus();
-                              _passwordFocusNode.unfocus();
-                              _confirmPasswordFocusNode.unfocus();
+                  // Visibility(
+                  //     visible: !_controller.isVerifiedAccount,
+                  //     child: AbsorbPointer(
+                  //       absorbing: _controller.isSentVerify,
+                  //       child: Opacity(
+                  //         opacity: !_controller.isSentVerify ? 1.0 : 0.2,
+                  //         child: DefaultButton(
+                  //           text: 'verify_email'.tr +
+                  //               (_controller.availableVerifyTimeLeft > 0
+                  //                   ? ' (${controller.availableVerifyTimeLeft})'
+                  //                   : ''),
+                  //           textColor: Colors.white,
+                  //           backgroundColor: Colors.orange,
+                  //           press: () async {
+                  //             // Unfocus Textfield
+                  //             _fullNameFocusNode.unfocus();
+                  //             _emailFocusNode.unfocus();
+                  //             _passwordFocusNode.unfocus();
+                  //             _confirmPasswordFocusNode.unfocus();
 
-                              verifyEmailAccount();
-                            },
-                          ),
-                        ),
-                      )),
-                  SizedBox(height: 2.0.h),
+                  //             verifyEmailAccount();
+                  //           },
+                  //         ),
+                  //       ),
+                  //     )),
+                  // SizedBox(height: 2.0.h),
 
                   Visibility(
                       visible: controller.isRemoveUser,

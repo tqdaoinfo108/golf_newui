@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/router/app_pages.dart';
@@ -31,7 +30,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   /// Set up Line Sdk
   WidgetsFlutterBinding.ensureInitialized();
-  LineSDK.instance.setup("2007243633").then((_) {
+  LineSDK.instance.setup("2007478079").then((_) {
     print("LineSDK Prepared");
   });
   // init firebase message
