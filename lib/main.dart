@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +19,8 @@ import 'firebase_options.dart';
 import 'screens/login/login_controller.dart';
 import 'utils/keys.dart';
 import 'screens/home/home_binding.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -27,20 +30,62 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
 
+final StreamController<NotificationResponse> selectNotificationStream =
+    StreamController<NotificationResponse>.broadcast();
+
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+@pragma('vm:entry-point')
+void notificationTapBackground(NotificationResponse notificationResponse) {
+  // ignore: avoid_print
+  print(
+    'notification(${notificationResponse.id}) action tapped: '
+    '${notificationResponse.actionId} with'
+    ' payload: ${notificationResponse.payload}',
+  );
+  if (notificationResponse.input?.isNotEmpty ?? false) {
+    // ignore: avoid_print
+    print(
+      'notification action tapped with input: ${notificationResponse.input}',
+    );
+  }
+}
+
 void main() async {
   /// Set up Line Sdk
   WidgetsFlutterBinding.ensureInitialized();
+  // dev@gpn.com.vn
   LineSDK.instance.setup("2007478079").then((_) {
     print("LineSDK Prepared");
   });
+
+  // android
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('assets/ic_launcher.png');
+
+  final DarwinInitializationSettings initializationSettingsDarwin =
+      DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        notificationCategories: [],
+      );
+
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsDarwin,
+    macOS: initializationSettingsDarwin,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse: selectNotificationStream.add,
+    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  );
+
   // init firebase message
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  /// Set up Zalo Sdk
-  // if (Platform.isAndroid) {
-  //   await ZaloFlutter.getHashKeyAndroid();
-  // }
 
   SharedPreferences.getInstance().then((value) {
     SupportUtils.prefs = value;
@@ -56,17 +101,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _isLogined = SupportUtils.prefs.containsKey(HAS_LOGINED) &&
+  var _isLogined =
+      SupportUtils.prefs.containsKey(HAS_LOGINED) &&
       SupportUtils.prefs.getBool(HAS_LOGINED)!;
 
   ThemeMode appThemeMode = ThemeMode.system;
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  // FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
   @override
   void initState() {
-    _isLogined = SupportUtils.prefs.containsKey(HAS_LOGINED) &&
+    _isLogined =
+        SupportUtils.prefs.containsKey(HAS_LOGINED) &&
         SupportUtils.prefs.getBool(HAS_LOGINED)! &&
         SupportUtils.prefs.containsKey(AUTH) &&
         SupportUtils.prefs.getString(AUTH)!.isNotEmpty;
@@ -85,47 +131,59 @@ class _MyAppState extends State<MyApp> {
     }
 
     super.initState();
-    // requestPermisstion(_firebaseMessaging, flutterLocalNotificationsPlugin);
-
-    // android
-    // var initializationSettingsAndroid =
-    //     new AndroidInitializationSettings('@mipmap/ic_launcher');
-    // final IOSInitializationSettings initializationSettingsIOS =
-    //     IOSInitializationSettings(
-    //   requestSoundPermission: true,
-    //   requestBadgePermission: true,
-    //   requestAlertPermission: true,
-    // );
-    //
-    // var initializationSettings = new InitializationSettings(
-    //     android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    // flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    // flutterLocalNotificationsPlugin!.initialize(initializationSettings,
-    //     onSelectNotification: (payload) async {
-    //   var id = int.parse(payload!);
-    //   onSelectNotification(id);
-    // });
-
+    _requestPermissions();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
-        // _showNotificationWithDefaultSound({'data': message.data});
+        _showNotificationWithDefaultSound(
+          message.notification?.title ?? "",
+          message.notification?.body ?? "",
+          0
+        );
       }
     });
+  }
 
-    // _firebaseMessaging.configure(
-    //   onMessage: (Map<String, dynamic> message) async {
-    //     print("onMessage: $message");
-    //     _showNotificationWithDefaultSound(message);
-    //   },
-    //   onLaunch: (Map<String, dynamic> message) async {
-    //     print("onLaunch: $message");
-    //     _showNotificationWithDefaultSound(message);
-    //   },
-    //   onResume: (Map<String, dynamic> message) async {
-    //     print("onResume: $message");
-    //     _showNotificationWithDefaultSound(message);
-    //   },
-    // );
+  Future<void> _requestPermissions() async {
+    if (Platform.isIOS || Platform.isMacOS) {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
+    } else if (Platform.isAndroid) {
+      flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
+    }
+  }
+
+  Future _showNotificationWithDefaultSound(
+    String title,
+    String message,
+    int bookingID,
+  ) async {
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+      'Golf system',
+      'Calendar reminder',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    var platformChannelSpecifics = new NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+    await flutterLocalNotificationsPlugin.show(
+      DateTime.now().microsecond,
+      title,
+      message,
+      platformChannelSpecifics,
+      payload: "",
+    );
   }
 
   @override
