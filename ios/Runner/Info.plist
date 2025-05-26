@@ -31,10 +31,8 @@
 			<string>zalo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>zalo-2128351127985284191</string>
-				<string>line3rdp.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-				<string>fb336345055305247</string>
-				<string>com.googleusercontent.apps.885696080098-92bjev8tebjgjjp5utrntcqmdsa8i5ej</string>
+			    <string>line3rdp.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+				<string>com.googleusercontent.apps.501243301896-eqqibhkup30laqbvcuob1k5o2aaefan6</string>
 			</array>
 		</dict>
 	</array>
@@ -90,9 +88,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>ZaloAppID</key>
-	<string>2128351127985284191</string>
-	<key>ZaloAppKey</key>
-	<string>28ETNVJXk9ALk21ZYUMs</string>
 </dict>
 </plist>
