@@ -70,7 +70,7 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                           children: [
                             Text("slot".tr, style: titleSub),
                             Text(
-                              "${booking.blocks?.length ?? 0}",
+                              "${booking.nameSlot}",
                               style: titleBold,
                             ),
                           ],
