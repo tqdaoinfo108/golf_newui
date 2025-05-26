@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/decision_option.dart';
@@ -214,10 +214,10 @@ class SupportUtils {
   }
 
   static Future<bool> logoutFacebook() async {
-    final accessToken = await FacebookAuth.instance.accessToken;
-    if (accessToken != null) {
-      await FacebookAuth.instance.logOut();
-    }
+    // final accessToken = await FacebookAuth.instance.accessToken;
+    // if (accessToken != null) {
+    //   await FacebookAuth.instance.logOut();
+    // }
     return true;
   }
 

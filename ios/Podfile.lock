@@ -8,14 +8,6 @@ PODS:
   - audio_session (0.0.1):
     - Flutter
   - CropViewController (2.7.4)
-  - FBAEMKit (17.1.0):
-    - FBSDKCoreKit_Basics (= 17.1.0)
-  - FBSDKCoreKit (17.1.0):
-    - FBAEMKit (= 17.1.0)
-    - FBSDKCoreKit_Basics (= 17.1.0)
-  - FBSDKCoreKit_Basics (17.1.0)
-  - FBSDKLoginKit (17.1.0):
-    - FBSDKCoreKit (= 17.1.0)
   - Firebase/CoreOnly (11.8.0):
     - FirebaseCore (~> 11.8.0)
   - Firebase/Messaging (11.8.0):
@@ -51,13 +43,10 @@ PODS:
   - Flutter (1.0.0)
   - flutter_credit_card (0.0.1):
     - Flutter
-  - flutter_facebook_auth (7.1.1):
-    - FBSDKLoginKit (~> 17.1.0)
-    - Flutter
   - flutter_line_sdk (2.5.1):
     - Flutter
     - LineSDKSwift (~> 5.3)
-  - flutter_secure_storage (6.0.0):
+  - flutter_local_notifications (0.0.1):
     - Flutter
   - google_sign_in_ios (0.0.1):
     - AppAuth (>= 1.7.4)
@@ -155,9 +144,8 @@ DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_credit_card (from `.symlinks/plugins/flutter_credit_card/ios`)
-  - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
   - flutter_line_sdk (from `.symlinks/plugins/flutter_line_sdk/ios`)
-  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - hl_image_picker_ios (from `.symlinks/plugins/hl_image_picker_ios/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/darwin`)
@@ -177,10 +165,6 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - CropViewController
-    - FBAEMKit
-    - FBSDKCoreKit
-    - FBSDKCoreKit_Basics
-    - FBSDKLoginKit
     - Firebase
     - FirebaseCore
     - FirebaseCoreInternal
@@ -207,12 +191,10 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_credit_card:
     :path: ".symlinks/plugins/flutter_credit_card/ios"
-  flutter_facebook_auth:
-    :path: ".symlinks/plugins/flutter_facebook_auth/ios"
   flutter_line_sdk:
     :path: ".symlinks/plugins/flutter_line_sdk/ios"
-  flutter_secure_storage:
-    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   hl_image_picker_ios:
@@ -246,10 +228,6 @@ SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   audio_session: 19e9480dbdd4e5f6c4543826b2e8b0e4ab6145fe
   CropViewController: 3489bbf95a3e11c654382b0bae08ac645cdf1b93
-  FBAEMKit: cb719c53575a3be86ea873279f30d6a2c4e15881
-  FBSDKCoreKit: ecdb980a24633ccb012700299ceb16d0235e14d2
-  FBSDKCoreKit_Basics: 045101c4a9ef10c845347424d73a29aae02c3e43
-  FBSDKLoginKit: 69eb59b2f839aba635616df6e422acd0ca88030a
   Firebase: d80354ed7f6df5f9aca55e9eb47cc4b634735eaf
   firebase_core: ac395f994af4e28f6a38b59e05a88ca57abeb874
   firebase_messaging: 7e223f4ee7ca053bf4ce43748e84a6d774ec9728
@@ -259,9 +237,8 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 487b634ccdf6f7b7ff180fdcb2a9935490f764e8
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_credit_card: 48fb35065294868bc6a3e7f18a42f28929b84f48
-  flutter_facebook_auth: 48be46091bd1a5cc5a66055f1228a9d99a28bfaa
   flutter_line_sdk: cf3c5341030e8183f1184f08fcf691da39a702ce
-  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
+  flutter_local_notifications: ff50f8405aaa0ccdc7dcfb9022ca192e8ad9688f
   google_sign_in_ios: 4111e87aa5e24a4404f00ea13479f35e571969cc
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db

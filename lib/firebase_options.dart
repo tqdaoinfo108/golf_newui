@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAJkLfH1JcbyxNJz8OJo-PeNGQdqYNX3qI',
-    appId: '1:501243301896:ios:d01e5cd047509e0bcd81bd',
+    appId: '1:501243301896:ios:9d04cfd1473b7833cd81bd',
     messagingSenderId: '501243301896',
     projectId: 'golfapp-new-70ef4',
     storageBucket: 'golfapp-new-70ef4.firebasestorage.app',
-    androidClientId: '501243301896-g176hvfni7fhh9557p06q0ve722e8vh8.apps.googleusercontent.com',
-    iosClientId: '501243301896-6hadb1cu6a3khhfhr327pn9el8drl2vl.apps.googleusercontent.com',
-    iosBundleId: 'jp.homebear.evcharge',
+    androidClientId: '501243301896-jvdr97npkvo42pcg6gdpj2nvgef5tja0.apps.googleusercontent.com',
+    iosClientId: '501243301896-eqqibhkup30laqbvcuob1k5o2aaefan6.apps.googleusercontent.com',
+    iosBundleId: 'jp.gpro.24hgolf',
   );
 }

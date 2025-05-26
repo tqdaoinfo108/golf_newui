@@ -33,7 +33,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 final StreamController<NotificationResponse> selectNotificationStream =
     StreamController<NotificationResponse>.broadcast();
 
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {

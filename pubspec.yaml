@@ -20,7 +20,7 @@ dependencies:
   google_fonts: ^6.2.1
   expandable: ^5.0.1 #expandable
   dio: ^5.8.0+1
-  flutter_facebook_auth: ^7.1.1
+  # flutter_facebook_auth: ^7.1.1
   retrofit: any
   logger: any
   shared_preferences: ^2.5.2
@@ -44,6 +44,8 @@ dependencies:
   flutter_line_sdk: ^2.5.1
   hl_image_picker_pro: ^1.2.18
   hl_image_picker: ^1.2.16
+  flutter_local_notifications: ^19.2.1
+
 
 dev_dependencies:
   flutter_test:

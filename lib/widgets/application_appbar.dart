@@ -40,7 +40,7 @@ AppBar ApplicationAppBarLarge(
   String title, {
   Color? backgroundColor,
   Future<bool> Function()? onBackPressed,
-}) {
+}) {  
   return AppBar(
     titleSpacing: 0,
     toolbarHeight: kToolbarHeight,

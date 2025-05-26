@@ -5,7 +5,7 @@ import LinkPresentation
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
-    @available(iOS 9.0, *)
+    @available(iOS 13.0, *)
     override func application(
         _ app: UIApplication,
         open url: URL,
