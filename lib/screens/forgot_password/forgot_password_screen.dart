@@ -94,6 +94,31 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                                           );
                                           return;
                                         }
+
+                                        if (controller.groupList.length == 1) {
+                                          controller.valueGroupChoose.value =
+                                              controller
+                                                  .groupList
+                                                  .first
+                                                  .groupShopID!;
+                                          var _loginResult =
+                                              await _controller
+                                                  .letsResetPassword();
+                                          if (_loginResult) {
+                                            Get.back(
+                                              result: PageResult(
+                                                resultCode: PageResultCode.OK,
+                                              ),
+                                            );
+                                          } else {
+                                            SupportUtils.showToast(
+                                              _controller
+                                                  .forgotPasswordErrorMessage,
+                                              type: ToastType.ERROR,
+                                            );
+                                          }
+                                          return;
+                                        }
                                         showDialog<String>(
                                           context: context,
                                           builder:

@@ -61,7 +61,7 @@ void main() async {
 
   // android
   const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('assets/ic_launcher.png');
+      AndroidInitializationSettings('@mipmap/ic_launcher');
 
   final DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(

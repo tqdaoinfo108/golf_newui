@@ -164,7 +164,7 @@ class SupportUtils {
         icon = icon ?? Icons.error_outline;
         break;
       case ToastType.WARNING:
-        _textColor = Colors.orangeAccent;
+        _textColor = Colors.deepOrange;
         icon = icon ?? Icons.warning_amber_outlined;
         break;
       default:
@@ -179,7 +179,7 @@ class SupportUtils {
         colorText: _textColor,
         snackPosition: SnackPosition.BOTTOM,
         icon: hasIcon ? _icon : null,
-        backgroundColor: Colors.black12,
+        backgroundColor: Colors.grey.shade400,
         padding: EdgeInsets.all(20),
         borderRadius: 5,
         duration: Duration(milliseconds: durationMili),

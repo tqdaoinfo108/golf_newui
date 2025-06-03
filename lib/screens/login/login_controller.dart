@@ -328,8 +328,7 @@ class LoginController extends GetxController {
     try {
       GoogleSignIn _googleSignIn = GoogleSignIn(
         scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly'],
-        clientId:
-            "501243301896-eqqibhkup30laqbvcuob1k5o2aaefan6.apps.googleusercontent.com",
+        
       );
       var _googleAcc = await _googleSignIn.signIn();
       if (_googleAcc != null &&
