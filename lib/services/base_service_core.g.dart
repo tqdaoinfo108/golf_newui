@@ -10,7 +10,7 @@ part of 'base_service_core.dart';
 
 class _ApiClient implements ApiClient {
   _ApiClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://login.xn--24-zh4arfne.com:8080/';
+    baseUrl ??= 'http://api.mujin24.com/';
   }
 
   final Dio _dio;
