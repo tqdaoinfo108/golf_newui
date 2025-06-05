@@ -269,7 +269,7 @@ Widget shopItemViewNoEvent(ThemeData themeData, Shops shop) {
             ),
             SizedBox(width: 2.0.h),
             Text(
-              shop.range.toString() + " km",
+              "${shop.range} km",
               style: themeData.textTheme.headlineSmall,
             ),
           ],
@@ -329,11 +329,9 @@ Widget bookingDetailListBlockView(
       bookingDetailItemView(
         themeData,
         i == 0
-            ? 'time_booking'.tr + ' (' + lstBlock.length.toString() + ')'
+            ? '${'time_booking'.tr} (${lstBlock.length})'
             : null,
-        lstBlock[i].rangeStart!.toStringFormatHoursUTC() +
-            ' - ' +
-            lstBlock[i].rangeEnd!.toStringFormatHoursUTC(),
+        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}',
       ),
     );
   }
@@ -351,10 +349,7 @@ Widget bookingDetailListBlockSimpleView(
   String _lstWidget = "";
   for (int i = 0; i < lstBlock.length; i++) {
     _lstWidget +=
-        lstBlock[i].rangeStart!.toStringFormatHoursUTC() +
-        ' - ' +
-        lstBlock[i].rangeEnd!.toStringFormatHoursUTC() +
-        (i == lstBlock.length - 1 ? " " : ", ");
+        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}${i == lstBlock.length - 1 ? " " : ", "}';
   }
   return Container(
     alignment: Alignment.centerLeft,

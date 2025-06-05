@@ -231,4 +231,5 @@ const Map<String, String> en = {
   "card_number": "Card number",
   "expired_date": "Expired date",
   "card_holder": "Card holder",
-};
+  "used": "Used"
+  };

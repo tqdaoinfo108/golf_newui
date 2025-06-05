@@ -69,10 +69,7 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                         Column(
                           children: [
                             Text("slot".tr, style: titleSub),
-                            Text(
-                              "${booking.nameSlot}",
-                              style: titleBold,
-                            ),
+                            Text("${booking.nameSlot}", style: titleBold),
                           ],
                         ),
                         Spacer(),
@@ -161,7 +158,15 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                     mainAxisAlignment: MainAxisAlignment.center,
                     spacing: 5,
                     children: [
-                      Text("usage".tr),
+                      if (booking.statusID == BookingStatus.USED)
+                        Text(
+                          'used'.tr,
+                          style: theme.textTheme.titleSmall!.copyWith(
+                            fontSize: 12.0.sp,
+                            color: const Color.fromARGB(255, 26, 18, 139),
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,

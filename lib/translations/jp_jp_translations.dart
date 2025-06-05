@@ -205,4 +205,5 @@ const Map<String, String> jp = {
   "card_number": "カード番号",
   "expired_date": "有効期限",
   "card_holder": "カード名義（半角英字）",
+  "used": "使用済み"
 };
