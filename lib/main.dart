@@ -12,6 +12,7 @@ import 'package:golf_uiv2/themes/themes.dart';
 import 'package:golf_uiv2/translations/localization_service.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/support.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 // import 'package:zalo_flutter/zalo_flutter.dart';
@@ -50,16 +51,28 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
     );
   }
 }
-
 void main() async {
-  /// Set up Line Sdk
   WidgetsFlutterBinding.ensureInitialized();
-  // dev@gpn.com.vn
-  LineSDK.instance.setup("2007478079").then((_) {
-    print("LineSDK Prepared");
-  });
 
-  // android
+  // Khởi tạo Firebase trước
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Đăng ký background handler cho Firebase Messaging
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Tạo notification channel cho Android
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'golf_channel', // id
+    'Golf Notifications', // title
+    description: 'This channel is used for golf notifications.',
+    importance: Importance.high,
+  );
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  // Khởi tạo local notification
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -83,14 +96,17 @@ void main() async {
     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
   );
 
-  // init firebase message
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Lấy token Firebase (in ra để kiểm tra)
+  String? token = await FirebaseMessaging.instance.getToken();
+  print('Firebase Messaging Token: $token');
+
+  // Set up Line Sdk
+  LineSDK.instance.setup("2007478079").then((_) {
+    print("LineSDK Prepared");
+  });
 
   SharedPreferences.getInstance().then((value) {
     SupportUtils.prefs = value;
-
-    /// Run Application
     runApp(MyApp());
   });
 }
@@ -111,14 +127,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    super.initState();
+
+    _requestPermissions();
+
     _isLogined =
         SupportUtils.prefs.containsKey(HAS_LOGINED) &&
         SupportUtils.prefs.getBool(HAS_LOGINED)! &&
         SupportUtils.prefs.containsKey(AUTH) &&
         SupportUtils.prefs.getString(AUTH)!.isNotEmpty;
+
     // switch theme
-    switch (SupportUtils.prefs.getString(APP_THEME_MODE) ??
-        ThemeModeCode.SYSTEM_MODE) {
+    switch (SupportUtils.prefs.getString(APP_THEME_MODE) ?? ThemeModeCode.SYSTEM_MODE) {
       case ThemeModeCode.SYSTEM_MODE:
         appThemeMode = ThemeMode.system;
         break;
@@ -130,51 +150,51 @@ class _MyAppState extends State<MyApp> {
         break;
     }
 
-    super.initState();
-    _requestPermissions();
+
+    // Lắng nghe thông báo khi app đang foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         _showNotificationWithDefaultSound(
           message.notification?.title ?? "",
           message.notification?.body ?? "",
-          0
+          0,
         );
       }
     });
+
+    // Lắng nghe khi user nhấn vào notification (kể cả khi app đã tắt)
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Notification clicked: ${message.data}');
+      // Xử lý điều hướng nếu cần
+    });
   }
 
-  Future<void> _requestPermissions() async {
-    if (Platform.isIOS || Platform.isMacOS) {
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin
-          >()
-          ?.requestPermissions(alert: true, badge: true, sound: true);
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-            MacOSFlutterLocalNotificationsPlugin
-          >()
-          ?.requestPermissions(alert: true, badge: true, sound: true);
-    } else if (Platform.isAndroid) {
-      flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin
-          >();
+Future<void> _requestPermissions() async {
+  if (Platform.isIOS) {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
+  } else if (Platform.isAndroid) {
+    // Xin quyền thông báo cho Android 13+
+    if (await Permission.notification.isDenied) {
+      await Permission.notification.request();
     }
   }
+}
 
   Future _showNotificationWithDefaultSound(
     String title,
     String message,
     int bookingID,
   ) async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'Golf system',
-      'Calendar reminder',
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'golf_channel', // id phải trùng với channel đã tạo
+      'Golf Notifications',
+      channelDescription: 'This channel is used for golf notifications.',
       importance: Importance.max,
       priority: Priority.high,
     );
-    var platformChannelSpecifics = new NotificationDetails(
+    var platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
     );
     await flutterLocalNotificationsPlugin.show(

@@ -231,5 +231,8 @@ const Map<String, String> en = {
   "card_number": "Card number",
   "expired_date": "Expired date",
   "card_holder": "Card holder",
-  "used": "Used"
-  };
+  "used": "Used",
+  "delete_account_confirmation":
+      "Do you want to delete your account? All data in this app (including settings, account, and database) will be permanently deleted.",
+  'delete_account_successful': "Deletion successful",
+};

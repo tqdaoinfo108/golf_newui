@@ -169,7 +169,9 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   if (controller.curBooking.statusID ==
-                                      BookingStatus.PAID)
+                                          BookingStatus.PAID ||
+                                      controller.curBooking.statusID ==
+                                          BookingStatus.USED)
                                     Container(
                                       alignment: Alignment.bottomCenter,
                                       padding: EdgeInsets.symmetric(
