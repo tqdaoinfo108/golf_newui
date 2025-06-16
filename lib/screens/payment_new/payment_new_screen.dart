@@ -110,6 +110,9 @@ class PaymentScreen extends GetView<PaymentController> {
                                     expiryDate: controller.expiryDate.value,
                                     themeColor: GolfColor.GolfPrimaryColor,
                                     textColor: themeData.iconTheme.color!,
+                                    numberValidationMessage: "card_number_invalid".tr,
+                                    dateValidationMessage: "expired_date_invalid".tr,
+                                    cvvValidationMessage: "cvv_invalid".tr,
                                     cardNumberDecoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.white,

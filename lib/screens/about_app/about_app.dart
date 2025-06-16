@@ -14,7 +14,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   var controller =
       WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..loadRequest(Uri.parse("https://www.sky-trak.com/overview.html"));
+        ..loadRequest(Uri.parse("https://mujin24.com/?p=TermOfService"));
   @override
   Widget build(BuildContext context) {
     return Scaffold(

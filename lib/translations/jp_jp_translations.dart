@@ -62,7 +62,7 @@ const Map<String, String> jp = {
   'waiting_payment': '支払未完了',
   'paid': 'お支払完了',
   'canceled': 'キャンセル済',
-  'are_you_sure_cancel_booking': '予約をキャンセルしますか？',
+  'are_you_sure_cancel_booking': '予約をキャンセルしますか？\n※まだ予約は確定しておりませんので、料金は発生いたしません',
   'yes_cancel_it': 'はい',
   'no': 'いいえ',
   'yes': 'はい',
@@ -203,10 +203,14 @@ const Map<String, String> jp = {
   "show_qr": "QRコードを表示",
   "usage": "使用状況",
   "card_number": "カード番号",
+  "card_number_invalid": "カード番号を入力してください",
+  "expired_date_invalid": "有効期限を入力してください",
+  "cvv_invalid": "CVVを入力してください",
   "expired_date": "有効期限",
   "card_holder": "カード名義（半角英字）",
   "used": "使用済み",
   "delete_account_confirmation":
       "アカウント削除しますか？このアプリの全てのデータ（設定、アカウント、データベースを含む）が完全に削除されます。",
   'delete_account_successful': "削除成功",
+  
 };
