@@ -93,9 +93,9 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
           decisionDescription: "agree_auto_renew_payment_note".tr,
           lstOptions: [
             DecisionOption('cancel'.tr,
-                type: DecisionOptionType.DENIED, onDecisionPressed: null),
+                type: DecisionOptionType.WARNING, onDecisionPressed: null),
             DecisionOption('only_this_time'.tr,
-                type: DecisionOptionType.WARNING,
+                type: DecisionOptionType.DENIED,
                 onDecisionPressed: () =>
                     _paymentAndRegister(vipMember, isRenew: 0)),
             DecisionOption('auto_renew'.tr,

@@ -88,7 +88,7 @@ const Map<String, String> jp = {
   'not_fount_data': 'データが見つかりません。',
   'reset_password': 'パスワードリセット',
   'reset_password_sueccessful':
-      'パスワードリセットのリクエストを行われました。ご登録されたメールをログインし、新しいパスワードでログインしてください。',
+      'ご入力頂いたメールアドレスを再設定パスワードを送信いたしました。\nメールボックスをご確認の上、新しパスワードでログインしてください',
   'old_password': '現在パスワード',
   'old_password_not_alow_empty': '必須',
   'change_password': 'パスワード変更',
@@ -129,7 +129,7 @@ const Map<String, String> jp = {
   'cards': 'カード',
   'transaction_history': '予約履歴',
   'buy_vip_member': '会員・回数券購入',
-  'list_vip_memeber': '会員・回数券リスト',
+  'list_vip_memeber': '月会員・回数券',
   'month': '月',
   'register': '購入',
   'not_have_vip_member': 'この店舗の会員ではありません。',
@@ -163,8 +163,8 @@ const Map<String, String> jp = {
   'please_buy_other_card': '他の回数券をご購入するかオンライン決済でお支払いください。',
   'registered_limited_turn_vip_member_at': '...にて会員カードを購入されています。',
   'unlimited_months': '月無制限',
-  'do_you_want_to_auto_renew_membership': 'サブスクリプションサービス受けますか？',
-  'agree_auto_renew_payment_note': '会員を購入すると、定期的な支払を自動に処理されます',
+  'do_you_want_to_auto_renew_membership': '月会員を購入しますか？',
+  'agree_auto_renew_payment_note': '購入月内、予約し放題・プレイし放題！\n※自動決済を希望する方は【自動決済】を、\n1回のみの購入は【今回のみ】を選択してください。',
   'are_you_sure_register_memvership_at': 'でメンバーシップを登録してもよろしいですか',
   'are_you_sure_register_turn_at': 'ターンを登録してもよろしいですか',
   'with_a_total_of': '合計で',
@@ -178,7 +178,7 @@ const Map<String, String> jp = {
       '現在、アプリは限られた写真にのみアクセスできます。 すべての写真を許可するように設定に移動するか、選択した限定写真を変更してください。',
   'app_not_have_permission_to_access_the_photos':
       'アプリには写真にアクセスする権限がありません。設定に移動し、アプリが写真にアクセスできるようにして続行してください。',
-  'would_you_like_to_buy_limit_time_at': '&&&店舗で...回練習を購入しますか？',
+  'would_you_like_to_buy_limit_time_at': '&&&で...回数券を購入しますか？\n1つの予約枠ごとに、回数券1回分を消費しま',
   'email_not_exist_in_system':
       'メールアドレスがシステムに存在しません。アカウントをもう一度確認するか、管理者にサポートを依頼してください',
   'online': 'オンライン',

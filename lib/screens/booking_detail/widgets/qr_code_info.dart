@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:golf_uiv2/model/booking.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:golf_uiv2/widgets/booking_item.dart';
-import 'package:golf_uiv2/widgets/pressable.dart';
 import 'package:golf_uiv2/widgets/widget_custom.dart';
 import 'package:sizer/sizer.dart';
 

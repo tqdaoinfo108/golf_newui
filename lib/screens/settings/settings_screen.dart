@@ -4,13 +4,11 @@ import 'package:golf_uiv2/model/page_result.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
 import 'package:golf_uiv2/screens/about_app/about_app.dart';
 import 'package:golf_uiv2/screens/change_language/change_language_scree.dart';
-import 'package:golf_uiv2/screens/change_theme_mode/change_theme_mode_screen.dart';
 import 'package:golf_uiv2/screens/settings/settings_controller.dart';
 import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/widgets/avatar.dart';
 import 'package:golf_uiv2/widgets/default_avatar.dart';
-import 'package:golf_uiv2/widgets/pressable.dart';
 import 'package:sizer/sizer.dart';
 import 'package:golf_uiv2/widgets/settings_item.dart';
 import 'package:golf_uiv2/utils/support.dart';
@@ -41,8 +39,6 @@ class SettingsScreen extends GetView<SettingController> {
           child: Column(
             children: [
               Container(
-                height: 40.h,
-                padding: const EdgeInsets.only(top: kToolbarHeight),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -52,7 +48,6 @@ class SettingsScreen extends GetView<SettingController> {
                   ),
                 ),
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 40),
                   alignment: Alignment.topCenter,
                   child: Obx(
                     () => Column(
@@ -62,6 +57,7 @@ class SettingsScreen extends GetView<SettingController> {
                         Column(
                           spacing: 10,
                           children: [
+                            SizedBox(height: kTextTabBarHeight),
                             (_controller.userInfo!.imagesPaths ?? "").isBlank!
                                 ? DefaultAvatar()
                                 : Avatar(
@@ -123,82 +119,98 @@ class SettingsScreen extends GetView<SettingController> {
                   ),
                 ),
               ),
-
-              Transform.translate(
-                offset: Offset(0, 10.h * -1),
-                child: SingleChildScrollView(
-                  child: Container(
-                    margin: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10),
-                        settingItem(context, 'account_infomation'.tr, () {
-                          Get.toNamed(
-                            AppRoutes.PROFILE,
-                          )!.then((value) => controller.updateUserInfo());
-                        }, Icons.person),
-                        settingItem(context, 'transaction_history'.tr, () {
-                          Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
-                        }, Icons.history),
-                        settingItemWithImage(context, 'buy_vip_member'.tr, () {
-                          Get.toNamed(
-                            AppRoutes.BUY_VIP_SHOP_LIST,
-                          )!.then((_) => controller.getMyVipMember());
-                        }, "assets/images/member.png"),
-                        settingItem(context, 'favorite_shop'.tr, () {
-                          Get.toNamed(AppRoutes.FAVORITE_SHOP);
-                        }, Icons.favorite),
-                        settingItem(context, 'change_language'.tr, () {
-                          Get.to(ChangeLanguageScreen());
-                        }, Icons.language),
-                        // settingItem(context, 'change_theme'.tr, () {
-                        //   Get.to(ChangeThemeModeScreen());
-                        // }, Icons.format_paint_sharp),
-                        settingItemWithImage(
-                          context,
-                          'change_password'.tr,
-                          () async {
-                            var _changePasswordResult = await Get.toNamed(
-                              AppRoutes.CHANGE_PASSWORD,
-                            );
-                            if (_changePasswordResult != null &&
-                                (_changePasswordResult as PageResult)
-                                        .resultCode ==
-                                    PageResultCode.OK) {
-                              SupportUtils.showToast(
-                                'change_password_success'.tr,
-                                type: ToastType.SUCCESSFUL,
-                              );
-                            }
-                          },
-                          "assets/images/lock.png",
-                        ),
-                        settingItem(
-                          context,
-                          'about_app'.tr,
-                          () {
-                            Get.to(AboutAppScreen());
-                          },
-                          Icons.info_outline,
-                          color: Color(0xff8E99FF),
-                        ),
-                        settingItemWithImage(
-                          context,
-                          'sign_out'.tr,
-                          () {
-                            SupportUtils.letsLogout();
-                            Get.offAllNamed(AppRoutes.LOGIN);
-                          },
-                          "assets/images/sign_out.png",
-                          color: Color(0xffFFACAC),
-                        ),
-                        SizedBox(height: 10),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: GolfColor.GolfGrayBackgroundColor,
+                    gradient: LinearGradient(
+                      tileMode: TileMode.mirror,
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xFF232F7C), GolfColor.GolfGrayBackgroundColor],
+                      stops: [
+                        0.2, // 10% trên là xanh
+                        0.2, // từ 10% trở đi là trắng
                       ],
+                    ),
+                  ),
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      child: SafeArea(
+                        child: Container(
+                          margin: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              settingItem(context, 'account_infomation'.tr, () {
+                                Get.toNamed(
+                                  AppRoutes.PROFILE,
+                                )!.then((value) => controller.updateUserInfo());
+                              }, Icons.person),
+                              settingItem(context, 'transaction_history'.tr, () {
+                                Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
+                              }, Icons.history),
+                              settingItemWithImage(context, 'buy_vip_member'.tr, () {
+                                Get.toNamed(
+                                  AppRoutes.BUY_VIP_SHOP_LIST,
+                                )!.then((_) => controller.getMyVipMember());
+                              }, "assets/images/member.png"),
+                              settingItem(context, 'favorite_shop'.tr, () {
+                                Get.toNamed(AppRoutes.FAVORITE_SHOP);
+                              }, Icons.favorite),
+                              settingItem(context, 'change_language'.tr, () {
+                                Get.to(ChangeLanguageScreen());
+                              }, Icons.language),
+                              // settingItem(context, 'change_theme'.tr, () {
+                              //   Get.to(ChangeThemeModeScreen());
+                              // }, Icons.format_paint_sharp),
+                              settingItemWithImage(
+                                context,
+                                'change_password'.tr,
+                                () async {
+                                  var _changePasswordResult = await Get.toNamed(
+                                    AppRoutes.CHANGE_PASSWORD,
+                                  );
+                                  if (_changePasswordResult != null &&
+                                      (_changePasswordResult as PageResult)
+                                              .resultCode ==
+                                          PageResultCode.OK) {
+                                    SupportUtils.showToast(
+                                      'change_password_success'.tr,
+                                      type: ToastType.SUCCESSFUL,
+                                    );
+                                  }
+                                },
+                                "assets/images/lock.png",
+                              ),
+                              settingItem(
+                                context,
+                                'about_app'.tr,
+                                () {
+                                  Get.to(AboutAppScreen());
+                                },
+                                Icons.info_outline,
+                                color: Color(0xff8E99FF),
+                              ),
+                              settingItemWithImage(
+                                context,
+                                'sign_out'.tr,
+                                () {
+                                  SupportUtils.letsLogout();
+                                  Get.offAllNamed(AppRoutes.LOGIN);
+                                },
+                                "assets/images/sign_out.png",
+                                color: Color(0xffFFACAC),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

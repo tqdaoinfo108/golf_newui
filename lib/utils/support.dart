@@ -303,7 +303,7 @@ class SupportUtils {
                           _optionTextColor = Colors.green;
                           break;
                         case DecisionOptionType.WARNING:
-                          _optionTextColor = Colors.yellow;
+                          _optionTextColor = Colors.black;
                           break;
                         case DecisionOptionType.DENIED:
                           _optionTextColor = Colors.red;

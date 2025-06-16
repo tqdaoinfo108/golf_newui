@@ -34,7 +34,7 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
   return InkWell(
     onTap: () => onTap.call(),
     child: Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         color: bgColor,
