@@ -89,7 +89,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                                         await _controller.getListGroupByEmail();
                                         if (controller.groupList.isEmpty) {
                                           SupportUtils.showToast(
-                                            'not_fount_data'.tr,
+                                            'account_not_found'.tr,
                                             type: ToastType.ERROR,
                                           );
                                           return;

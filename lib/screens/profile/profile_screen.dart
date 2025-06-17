@@ -162,7 +162,7 @@ class ProfileScreen extends GetView<ProfileController> {
                           backgroundColor: Colors.red,
                           press: () async {
                             SupportUtils.showDecisionDialog(
-                              "${"delete_account_confirmation".tr} ",
+                              "delete_account_confirmation_title".tr,
                               lstOptions: [
                                 DecisionOption(
                                   'yes'.tr,
@@ -177,7 +177,7 @@ class ProfileScreen extends GetView<ProfileController> {
                                     if (isResult) {
                                       SupportUtils.letsLogout();
                                       SupportUtils.showToast(
-                                        "success".tr,
+                                        "delete_account_successful".tr,
                                         type: ToastType.SUCCESSFUL,
                                       );
                                       Get.offAllNamed(AppRoutes.LOGIN);

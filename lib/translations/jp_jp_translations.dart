@@ -106,7 +106,7 @@ const Map<String, String> jp = {
   'old_password_incorrect': 'パスワードを正しくありません。入力直してください。',
   'update_profile_success': 'プロフィールを更新しました。',
   'email_already_exists': 'このメールは既に登録されています。',
-  'are_you_sure_create_booking': '予約確定しますか？',
+  'are_you_sure_create_booking': '予約確定しますか？\n※ご予約確定後にお支払いが完了すると、キャンセルはできません。現在の時点では料金は発生しておりません。',
   'phone_invalid': '電話番号が正しくありません。',
   'success': '予約確定',
   'wait_payment': '予約未完了',
@@ -209,8 +209,10 @@ const Map<String, String> jp = {
   "expired_date": "有効期限",
   "card_holder": "カード名義（半角英字）",
   "used": "使用済み",
+  "delete_account_confirmation_title":
+      "ご入力いただいたアカウントは存在しません。\nメールアドレスに誤りがないかご確認ください。",
   "delete_account_confirmation":
-      "アカウント削除しますか？このアプリの全てのデータ（設定、アカウント、データベースを含む）が完全に削除されます。",
-  'delete_account_successful': "削除成功",
-  
+      "アカウントを削除すると、すべてのサービスがご利用いただけなくなります。",
+  "delete_account_successful": "削除成功",
+  "account_not_found": "このメールアドレスに該当するアカウントが見つかりません。"
 };

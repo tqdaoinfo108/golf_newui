@@ -134,81 +134,79 @@ class SettingsScreen extends GetView<SettingController> {
                       ],
                     ),
                   ),
-                  child: Expanded(
-                    child: SingleChildScrollView(
-                      child: SafeArea(
-                        child: Container(
-                          margin: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 10),
-                              settingItem(context, 'account_infomation'.tr, () {
-                                Get.toNamed(
-                                  AppRoutes.PROFILE,
-                                )!.then((value) => controller.updateUserInfo());
-                              }, Icons.person),
-                              settingItem(context, 'transaction_history'.tr, () {
-                                Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
-                              }, Icons.history),
-                              settingItemWithImage(context, 'buy_vip_member'.tr, () {
-                                Get.toNamed(
-                                  AppRoutes.BUY_VIP_SHOP_LIST,
-                                )!.then((_) => controller.getMyVipMember());
-                              }, "assets/images/member.png"),
-                              settingItem(context, 'favorite_shop'.tr, () {
-                                Get.toNamed(AppRoutes.FAVORITE_SHOP);
-                              }, Icons.favorite),
-                              settingItem(context, 'change_language'.tr, () {
-                                Get.to(ChangeLanguageScreen());
-                              }, Icons.language),
-                              // settingItem(context, 'change_theme'.tr, () {
-                              //   Get.to(ChangeThemeModeScreen());
-                              // }, Icons.format_paint_sharp),
-                              settingItemWithImage(
-                                context,
-                                'change_password'.tr,
-                                () async {
-                                  var _changePasswordResult = await Get.toNamed(
-                                    AppRoutes.CHANGE_PASSWORD,
+                  child: SingleChildScrollView(
+                    child: SafeArea(
+                      child: Container(
+                        margin: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10),
+                            settingItem(context, 'account_infomation'.tr, () {
+                              Get.toNamed(
+                                AppRoutes.PROFILE,
+                              )!.then((value) => controller.updateUserInfo());
+                            }, Icons.person),
+                            settingItem(context, 'transaction_history'.tr, () {
+                              Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
+                            }, Icons.history),
+                            settingItemWithImage(context, 'buy_vip_member'.tr, () {
+                              Get.toNamed(
+                                AppRoutes.BUY_VIP_SHOP_LIST,
+                              )!.then((_) => controller.getMyVipMember());
+                            }, "assets/images/member.png"),
+                            settingItem(context, 'favorite_shop'.tr, () {
+                              Get.toNamed(AppRoutes.FAVORITE_SHOP);
+                            }, Icons.favorite),
+                            settingItem(context, 'change_language'.tr, () {
+                              Get.to(ChangeLanguageScreen());
+                            }, Icons.language),
+                            // settingItem(context, 'change_theme'.tr, () {
+                            //   Get.to(ChangeThemeModeScreen());
+                            // }, Icons.format_paint_sharp),
+                            settingItemWithImage(
+                              context,
+                              'change_password'.tr,
+                              () async {
+                                var _changePasswordResult = await Get.toNamed(
+                                  AppRoutes.CHANGE_PASSWORD,
+                                );
+                                if (_changePasswordResult != null &&
+                                    (_changePasswordResult as PageResult)
+                                            .resultCode ==
+                                        PageResultCode.OK) {
+                                  SupportUtils.showToast(
+                                    'change_password_success'.tr,
+                                    type: ToastType.SUCCESSFUL,
                                   );
-                                  if (_changePasswordResult != null &&
-                                      (_changePasswordResult as PageResult)
-                                              .resultCode ==
-                                          PageResultCode.OK) {
-                                    SupportUtils.showToast(
-                                      'change_password_success'.tr,
-                                      type: ToastType.SUCCESSFUL,
-                                    );
-                                  }
-                                },
-                                "assets/images/lock.png",
-                              ),
-                              settingItem(
-                                context,
-                                'about_app'.tr,
-                                () {
-                                  Get.to(AboutAppScreen());
-                                },
-                                Icons.info_outline,
-                                color: Color(0xff8E99FF),
-                              ),
-                              settingItemWithImage(
-                                context,
-                                'sign_out'.tr,
-                                () {
-                                  SupportUtils.letsLogout();
-                                  Get.offAllNamed(AppRoutes.LOGIN);
-                                },
-                                "assets/images/sign_out.png",
-                                color: Color(0xffFFACAC),
-                              ),
-                            ],
-                          ),
+                                }
+                              },
+                              "assets/images/lock.png",
+                            ),
+                            settingItem(
+                              context,
+                              'about_app'.tr,
+                              () {
+                                Get.to(AboutAppScreen());
+                              },
+                              Icons.info_outline,
+                              color: Color(0xff8E99FF),
+                            ),
+                            settingItemWithImage(
+                              context,
+                              'sign_out'.tr,
+                              () {
+                                SupportUtils.letsLogout();
+                                Get.offAllNamed(AppRoutes.LOGIN);
+                              },
+                              "assets/images/sign_out.png",
+                              color: Color(0xffFFACAC),
+                            ),
+                          ],
                         ),
                       ),
                     ),

@@ -235,7 +235,10 @@ const Map<String, String> en = {
   "expired_date": "Expired date",
   "card_holder": "Card holder",
   "used": "Used",
+    "delete_account_confirmation_title":
+      "We couldn’t find an account with that email address.\nPlease make sure it’s entered correctly.",
   "delete_account_confirmation":
       "Do you want to delete your account? All data in this app (including settings, account, and database) will be permanently deleted.",
   'delete_account_successful': "Deletion successful",
+  "account_not_found": "No account found for this email address",
 };
