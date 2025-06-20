@@ -163,6 +163,8 @@ class ProfileScreen extends GetView<ProfileController> {
                           press: () async {
                             SupportUtils.showDecisionDialog(
                               "delete_account_confirmation_title".tr,
+                              decisionDescription: 
+                                  "delete_account_confirmation".tr,
                               lstOptions: [
                                 DecisionOption(
                                   'yes'.tr,

@@ -62,7 +62,8 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                               ),
                             ),
                             Text(
-                              "${controller.curBooking.blocks![0].rangeStart!.toStringFormatHoursUTC()}" " - ${controller.curBooking.blocks![0].rangeEnd!.toStringFormatHoursUTC()}",
+                              "${controller.curBooking.blocks![0].rangeStart!.toStringFormatHoursUTC()}"
+                              " - ${controller.curBooking.blocks![0].rangeEnd!.toStringFormatHoursUTC()}",
                               style: GoogleFonts.openSans(
                                 // headerLine 6
                                 fontSize: 32,
@@ -185,7 +186,8 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                           showModalBottomSheet(
                                             context: context,
                                             isScrollControlled:
-                                                true, // Cho phép modal cao hơn mặc định
+                                                true, // Cho phép modal cao hơn mặc địnhs
+                                            useSafeArea: true,
                                             builder: (c) {
                                               return Scaffold(
                                                 backgroundColor:
