@@ -206,7 +206,7 @@ const Map<String, String> jp = {
   "card_number_invalid": "16桁のカード番号を正しく入力してください",
   "card_number_empty": "カード番号を入力してください",
   "card_number_hint": "「例：1234 5678 9012 3456」",
-  "expired_date_invalid": "有効期限を入力",
+  "expired_date_invalid": "有効期限が正しくありません",
   "cvv_invalid": "3桁の数字を入力してください（AMEXは4桁）",
   "expired_date": "有効期限（月 / 年）",
   "expired_date_empty": "有効期限を入力してください",
