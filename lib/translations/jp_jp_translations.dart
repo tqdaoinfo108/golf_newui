@@ -221,5 +221,7 @@ const Map<String, String> jp = {
   "delete_account_confirmation":
       "アカウントを削除すると、すべてのサービスがご利用いただけなくなります。",
   "delete_account_successful": "削除成功",
-  "account_not_found": "このメールアドレスに該当するアカウントが見つかりません。"
+  "account_not_found": "このメールアドレスに該当するアカウントが見つかりません。",
+  "sign_out_confirmation_title": "サインアウトしますか？"
+
 };

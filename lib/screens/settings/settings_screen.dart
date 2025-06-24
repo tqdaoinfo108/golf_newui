@@ -9,9 +9,10 @@ import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/widgets/avatar.dart';
 import 'package:golf_uiv2/widgets/default_avatar.dart';
-import 'package:sizer/sizer.dart';
 import 'package:golf_uiv2/widgets/settings_item.dart';
 import 'package:golf_uiv2/utils/support.dart';
+
+import '../../model/decision_option.dart';
 
 class SettingsScreen extends GetView<SettingController> {
   @override
@@ -127,7 +128,10 @@ class SettingsScreen extends GetView<SettingController> {
                       tileMode: TileMode.mirror,
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0xFF232F7C), GolfColor.GolfGrayBackgroundColor],
+                      colors: [
+                        Color(0xFF232F7C),
+                        GolfColor.GolfGrayBackgroundColor,
+                      ],
                       stops: [
                         0.2, // 10% trên là xanh
                         0.2, // từ 10% trở đi là trắng
@@ -154,11 +158,16 @@ class SettingsScreen extends GetView<SettingController> {
                             settingItem(context, 'transaction_history'.tr, () {
                               Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
                             }, Icons.history),
-                            settingItemWithImage(context, 'buy_vip_member'.tr, () {
-                              Get.toNamed(
-                                AppRoutes.BUY_VIP_SHOP_LIST,
-                              )!.then((_) => controller.getMyVipMember());
-                            }, "assets/images/member.png"),
+                            settingItemWithImage(
+                              context,
+                              'buy_vip_member'.tr,
+                              () {
+                                Get.toNamed(
+                                  AppRoutes.BUY_VIP_SHOP_LIST,
+                                )!.then((_) => controller.getMyVipMember());
+                              },
+                              "assets/images/member.png",
+                            ),
                             settingItem(context, 'favorite_shop'.tr, () {
                               Get.toNamed(AppRoutes.FAVORITE_SHOP);
                             }, Icons.favorite),
@@ -199,9 +208,26 @@ class SettingsScreen extends GetView<SettingController> {
                             settingItemWithImage(
                               context,
                               'sign_out'.tr,
-                              () {
-                                SupportUtils.letsLogout();
-                                Get.offAllNamed(AppRoutes.LOGIN);
+                              () async {
+                                SupportUtils.showDecisionDialog(
+                                  "sign_out_confirmation_title".tr,
+                                  lstOptions: [
+                                    DecisionOption(
+                                      'cancel'.tr,
+                                      onDecisionPressed: null,
+                                    ),
+
+                                    DecisionOption(
+                                      'yes'.tr,
+                                      type: DecisionOptionType.DENIED,
+                                      isImportant: true,
+                                      onDecisionPressed: () {
+                                        SupportUtils.letsLogout();
+                                        Get.offAllNamed(AppRoutes.LOGIN);
+                                      },
+                                    ),
+                                  ],
+                                );
                               },
                               "assets/images/sign_out.png",
                               color: Color(0xffFFACAC),
