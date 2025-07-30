@@ -104,6 +104,7 @@ class GolfApi {
         100,
         uerId,
       );
+      print(response);
       return ShopModel.fromJson(jsonDecode(response ?? ""));
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -120,6 +121,8 @@ class GolfApi {
         0,
         uerId,
       );
+
+      print(response);
       return ShopItemModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");

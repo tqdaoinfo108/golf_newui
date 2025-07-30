@@ -332,11 +332,9 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
     final typePayment = controller.curBooking.payment!.typePayment;
     final totalBlockToPay = controller.curBooking.payment!.turnToPlay;
     final remainTurnVipCard = controller.curBooking.payment!.remainingTurn;
-    final shopHasConfigLimit =
-        controller.curBooking.payment!.shopFinshAndContinue;
+    final shopHasConfigLimit = controller.curBooking.payment!.shopFinshAndContinue;
 
-    if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED ||
-        typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
+    if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED || typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
       onPayByVipMember?.call();
     } else if (typePayment == BookingDetailPaymentType.ONLINE) {
       if (shopHasConfigLimit! && totalBlockToPay! > 1) {
