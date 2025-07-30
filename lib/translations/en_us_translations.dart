@@ -248,4 +248,5 @@ const Map<String, String> en = {
       "If you delete your account, you will no longer be able to use any services.",
   "delete_account_successful": "Deleted successfully",
   "account_not_found": "No account found for this email address.",
+  "sign_out_confirmation_title": "Do you want to sign out?",
 };

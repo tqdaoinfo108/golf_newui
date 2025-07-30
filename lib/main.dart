@@ -34,7 +34,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 final StreamController<NotificationResponse> selectNotificationStream =
     StreamController<NotificationResponse>.broadcast();
 
- FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    new FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
@@ -51,6 +52,7 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
     );
   }
 }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -69,7 +71,9 @@ void main() async {
   );
 
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >()
       ?.createNotificationChannel(channel);
 
   // Khởi tạo local notification
@@ -97,8 +101,10 @@ void main() async {
   );
 
   // Lấy token Firebase (in ra để kiểm tra)
-  String? token = await FirebaseMessaging.instance.getToken();
-  print('Firebase Messaging Token: $token');
+  try {
+    String? token = await FirebaseMessaging.instance.getToken();
+    print('Firebase Messaging Token: $token');
+  } catch (e) {}
 
   // Set up Line Sdk
   LineSDK.instance.setup("2007478079").then((_) {
@@ -138,7 +144,8 @@ class _MyAppState extends State<MyApp> {
         SupportUtils.prefs.getString(AUTH)!.isNotEmpty;
 
     // switch theme
-    switch (SupportUtils.prefs.getString(APP_THEME_MODE) ?? ThemeModeCode.SYSTEM_MODE) {
+    switch (SupportUtils.prefs.getString(APP_THEME_MODE) ??
+        ThemeModeCode.SYSTEM_MODE) {
       case ThemeModeCode.SYSTEM_MODE:
         appThemeMode = ThemeMode.system;
         break;
@@ -149,7 +156,6 @@ class _MyAppState extends State<MyApp> {
         appThemeMode = ThemeMode.dark;
         break;
     }
-
 
     // Lắng nghe thông báo khi app đang foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -169,18 +175,20 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-Future<void> _requestPermissions() async {
-  if (Platform.isIOS) {
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(alert: true, badge: true, sound: true);
-  } else if (Platform.isAndroid) {
-    // Xin quyền thông báo cho Android 13+
-    if (await Permission.notification.isDenied) {
-      await Permission.notification.request();
+  Future<void> _requestPermissions() async {
+    if (Platform.isIOS) {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >()
+          ?.requestPermissions(alert: true, badge: true, sound: true);
+    } else if (Platform.isAndroid) {
+      // Xin quyền thông báo cho Android 13+
+      if (await Permission.notification.isDenied) {
+        await Permission.notification.request();
+      }
     }
   }
-}
 
   Future _showNotificationWithDefaultSound(
     String title,

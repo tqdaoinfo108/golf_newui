@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
 
 AppBar ApplicationAppBar(
   BuildContext context,
@@ -12,6 +11,7 @@ AppBar ApplicationAppBar(
     titleSpacing: 0,
     elevation: 0,
     scrolledUnderElevation: 0,
+    centerTitle: false,
     leading: IconButton(
       icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
       onPressed: () {
