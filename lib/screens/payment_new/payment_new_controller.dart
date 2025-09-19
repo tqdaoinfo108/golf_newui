@@ -37,6 +37,7 @@ class PaymentController extends GetxController
   bool useGlassMorphism = false;
 
   RxString cvvErrorText = "".obs;
+  RxBool isAgreedToTerms = false.obs;
 
 
   final MaskedTextController cardNumberController = MaskedTextController(
@@ -67,8 +68,7 @@ class PaymentController extends GetxController
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     cardNumber.value = creditCardModel!.cardNumber;
     expiryDate.value = creditCardModel.expiryDate;
-    cardHolderName.value =
-        TiengViet.parse(creditCardModel.cardHolderName).toUpperCase();
+    cardHolderName.value = creditCardModel.cardHolderName.replaceAll(RegExp(r'[^a-zA-Z\s]'), '');
     cvvCode.value = creditCardModel.cvvCode;
     isCvvFocused.value = creditCardModel.isCvvFocused;
     refresh();

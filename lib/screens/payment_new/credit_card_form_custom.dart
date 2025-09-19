@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:get/get.dart';
-import 'package:tiengviet/tiengviet.dart';
 
 import 'credit_card_validator.dart';
 import 'masked_text_controller.dart';
@@ -339,7 +338,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
             Visibility(
               visible: widget.isExpiryDateVisible,
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery.of(context).size.width ,
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
                 child: TextFormField(
@@ -419,7 +418,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 margin: const EdgeInsets.only(left: 16, top: 8, right: 16),
-                width: MediaQuery.of(context).size.width * 0.75,
+                width: MediaQuery.of(context).size.width ,
                 child: TextFormField(
                   key: widget.cvvCodeKey,
                   obscureText: widget.obscureCvv,
@@ -481,10 +480,10 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                   controller: widget.cardHolderNameController,
                   onChanged: (String value) {
                     setState(() {
-                      widget.cardHolderNameController!.text =
-                          TiengViet.parse(
-                            widget.cardHolderNameController!.text,
-                          ).toUpperCase();
+                      // Chỉ cho phép ký tự Latin (A-Z, a-z, dấu cách)
+                      String filteredValue = value.replaceAll(RegExp(r'[^a-zA-Z\s]'), '');
+                      
+                      widget.cardHolderNameController!.text = filteredValue.toUpperCase();
                       cardHolderName = widget.cardHolderNameController!.text;
                       creditCardModel.cardHolderName = cardHolderName;
                       onCreditCardModelChange(creditCardModel);
@@ -513,6 +512,10 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                   validator: widget.cardHolderValidator ?? (String? value) {
                     if (value == null || value.isEmpty) {
                       return 'card_holder_empty'.tr;
+                    }
+                    // Kiểm tra chỉ chứa ký tự Latin và dấu cách
+                    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                      return 'Please enter only alphabetic characters'.tr;
                     }
                     return null;
                   },

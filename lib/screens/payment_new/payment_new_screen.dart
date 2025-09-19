@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/decision_option.dart';
-import 'package:golf_uiv2/router/app_routers.dart';
 import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:golf_uiv2/widgets/application_appbar.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../model/page_result.dart';
-import '../../services/golf_api.dart';
 import '../../widgets/button_default.dart';
 import 'credit_card_form_custom.dart';
 import 'payment_new_controller.dart';
@@ -164,6 +163,40 @@ class PaymentScreen extends GetView<PaymentController> {
                                           controller.cardHolderNameController,
                                     ),
                                   ),
+                                  // Checkbox đồng ý điều khoản
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
+                                    child: Obx(
+                                      () => Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Checkbox(
+                                            value: controller.isAgreedToTerms.value,
+                                            onChanged: (value) {
+                                              controller.isAgreedToTerms.value = value ?? false;
+                                            },
+                                            activeColor: GolfColor.GolfPrimaryColor,
+                                          ),
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                _showPaymentLawWebView(context);
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(top: 12.0),
+                                                child: Text(
+                                                  "i_agree_to_the_specified_commercial_transactions_law".tr,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                   Container(
                                     margin: const EdgeInsets.symmetric(
                                       horizontal: 16,
@@ -177,14 +210,20 @@ class PaymentScreen extends GetView<PaymentController> {
                                     ),
                                     width: double.infinity,
                                     alignment: Alignment.center,
-                                    child: DefaultButton(
-                                      radius: 10,
-                                      text: 'payment'.tr,
-                                      textColor: Colors.white,
-                                      backgroundColor: Color(0xff08D586),
-                                      press: () {
-                                        controller.onValidate();
-                                      },
+                                    child: Obx(
+                                      () => DefaultButton(
+                                        radius: 10,
+                                        text: 'payment'.tr,
+                                        textColor: Colors.white,
+                                        backgroundColor: controller.isAgreedToTerms.value 
+                                            ? Color(0xff08D586) 
+                                            : Colors.grey,
+                                        press: controller.isAgreedToTerms.value
+                                            ? () {
+                                                controller.onValidate();
+                                              }
+                                            : null,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -197,6 +236,62 @@ class PaymentScreen extends GetView<PaymentController> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showPaymentLawWebView(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: EdgeInsets.all(20),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: GolfColor.GolfPrimaryColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "i_agree_to_the_specified_commercial_transactions_law".tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: Icon(Icons.close, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    child: WebViewWidget(
+                      controller: WebViewController()
+                        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                        ..loadRequest(Uri.parse('https://mujin24.com/?p=paymentlaw')),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

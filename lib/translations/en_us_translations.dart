@@ -249,4 +249,6 @@ const Map<String, String> en = {
   "delete_account_successful": "Deleted successfully",
   "account_not_found": "No account found for this email address.",
   "sign_out_confirmation_title": "Do you want to sign out?",
+  "i_agree_to_the_specified_commercial_transactions_law": "I agree to the Specified Commercial Transactions Law",
+  "Please enter only alphabetic characters": "Please enter only alphabetic characters"
 };
