@@ -79,7 +79,7 @@ const Map<String, String> jp = {
   'search': '店舗を検索',
   'nearest_list': '現在地周辺',
   'create': '作成',
-  'choose_slot': '打席選択',
+  'choose_slot': 'プラン選択 ',
   'choose_block': '時間帯選択',
   'sign_out': 'サインアウト',
   'book_success': 'ご予約確定しました。',
@@ -222,7 +222,7 @@ const Map<String, String> jp = {
       "アカウントを削除すると、すべてのサービスがご利用いただけなくなります。",
   "delete_account_successful": "削除成功",
   "account_not_found": "このメールアドレスに該当するアカウントが見つかりません。",
-  "i_agree_to_the_specified_commercial_transactions_law": "特定商取引法に基づく表記に同意します",
+  "i_agree_to_the_specified_commercial_transactions_law": "決済利用規約",
   "sign_out_confirmation_title": "サインアウトしますか？",
   "Please enter only alphabetic characters": "半角英字のみ入力してください"
 

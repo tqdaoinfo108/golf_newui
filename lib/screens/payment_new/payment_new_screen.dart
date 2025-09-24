@@ -171,14 +171,20 @@ class PaymentScreen extends GetView<PaymentController> {
                                     ),
                                     child: Obx(
                                       () => Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Checkbox(
-                                            value: controller.isAgreedToTerms.value,
+                                            value:
+                                                controller
+                                                    .isAgreedToTerms
+                                                    .value,
                                             onChanged: (value) {
-                                              controller.isAgreedToTerms.value = value ?? false;
+                                              controller.isAgreedToTerms.value =
+                                                  value ?? false;
                                             },
-                                            activeColor: GolfColor.GolfPrimaryColor,
+                                            activeColor:
+                                                GolfColor.GolfPrimaryColor,
                                           ),
                                           Expanded(
                                             child: GestureDetector(
@@ -186,9 +192,18 @@ class PaymentScreen extends GetView<PaymentController> {
                                                 _showPaymentLawWebView(context);
                                               },
                                               child: Padding(
-                                                padding: const EdgeInsets.only(top: 12.0),
+                                                padding: const EdgeInsets.only(
+                                                  top: 12.0,
+                                                ),
                                                 child: Text(
-                                                  "i_agree_to_the_specified_commercial_transactions_law".tr,
+                                                  "i_agree_to_the_specified_commercial_transactions_law"
+                                                      .tr,
+                                                  style: TextStyle(
+                                                    color: Colors.blue,
+                                                    decoration:
+                                                        TextDecoration
+                                                            .underline,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -215,14 +230,16 @@ class PaymentScreen extends GetView<PaymentController> {
                                         radius: 10,
                                         text: 'payment'.tr,
                                         textColor: Colors.white,
-                                        backgroundColor: controller.isAgreedToTerms.value 
-                                            ? Color(0xff08D586) 
-                                            : Colors.grey,
-                                        press: controller.isAgreedToTerms.value
-                                            ? () {
-                                                controller.onValidate();
-                                              }
-                                            : null,
+                                        backgroundColor:
+                                            controller.isAgreedToTerms.value
+                                                ? Color(0xff08D586)
+                                                : Colors.grey,
+                                        press:
+                                            controller.isAgreedToTerms.value
+                                                ? () {
+                                                  controller.onValidate();
+                                                }
+                                                : null,
                                       ),
                                     ),
                                   ),
@@ -242,53 +259,62 @@ class PaymentScreen extends GetView<PaymentController> {
   void _showPaymentLawWebView(BuildContext context) {
     showDialog(
       context: context,
+      fullscreenDialog: true,
       builder: (BuildContext context) {
-        return Dialog(
-          insetPadding: EdgeInsets.all(20),
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: GolfColor.GolfPrimaryColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                    ),
+        return Dialog.fullscreen(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: GolfColor.GolfPrimaryColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          "i_agree_to_the_specified_commercial_transactions_law".tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                ),
+                child: Row(
+                  spacing: 8,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
+                          Text(
+                            'back'.tr,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: Icon(Icons.close, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    child: WebViewWidget(
-                      controller: WebViewController()
-                        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                        ..loadRequest(Uri.parse('https://mujin24.com/?p=paymentlaw')),
                     ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  child: WebViewWidget(
+                    controller:
+                        WebViewController()
+                          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                          ..loadRequest(
+                            Uri.parse('https://mujin24.com/?p=paymentlaw'),
+                          ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

@@ -78,7 +78,7 @@ void main() async {
 
   // Khởi tạo local notification
   const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+      AndroidInitializationSettings('@mipmap/launcher_icon');
 
   final DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(
