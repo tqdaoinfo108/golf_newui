@@ -17,6 +17,7 @@ class Blocks {
   double? discount;
   double? amountAfterDiscount;
   bool? isActive;
+  bool? isBooking;
 
   String getNameBlock() {
     return rangeStart!.toStringFormatHoursUTC() +
@@ -40,7 +41,7 @@ class Blocks {
       this.price,
       this.discount,
       this.amountAfterDiscount,
-      this.isActive});
+      this.isActive, this.isBooking});
 
   Blocks.fromJson(Map<String, dynamic> json) {
     blockID = json['BlockID'];
@@ -57,7 +58,7 @@ class Blocks {
     discount = json['Discount'];
     amountAfterDiscount = json['AmountAfterDiscount'];
     isActive = json['IsActive'];
-
+    isBooking = json['IsBooking'];
     var _tmpRangeStartDate = DateTime.fromMillisecondsSinceEpoch(
       (json['RangeStart']) * 1000,
       isUtc: true,

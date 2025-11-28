@@ -330,7 +330,7 @@ Widget chooseItemBlockViewCell(
 ) {
   return InkWell(
     onTap: () {
-      if (blockItemModel.isActive!) {
+      if (blockItemModel.isActive! && blockItemModel.isBooking) {
         bookingCreateController.onChangeBlockExpanded(item: blockItemModel);
       }
     },
@@ -339,7 +339,7 @@ Widget chooseItemBlockViewCell(
         borderRadius: BorderRadius.all(Radius.circular(1.0.h)),
         border: Border.all(color: Colors.black54),
         color:
-            blockItemModel.isActive!
+            blockItemModel.isActive! && blockItemModel.isBooking
                 ? blockItemModel.isSelect
                     ? GolfColor.GolfPrimaryColor
                     : Colors.white

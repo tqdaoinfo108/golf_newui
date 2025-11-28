@@ -36,6 +36,7 @@ class BlockItemModel {
   double? rangeEnd;
   bool? isActive;
   bool isSelect = false;
+  bool isBooking = false;
 
   String getNameBlock() {
     return rangeStart!.toInt().toStringFormatHoursUTC() +
@@ -58,6 +59,7 @@ class BlockItemModel {
     isActive = json['IsActive'];
     rangeStart = (json['RangeStart']) * 1000;
     rangeEnd = (json['RangeEnd']) * 1000;
+    isBooking = json["IsBooking"] ?? false;
   }
 
   Map<String, dynamic> toJson() {
