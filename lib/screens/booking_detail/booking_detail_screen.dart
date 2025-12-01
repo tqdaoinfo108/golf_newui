@@ -340,9 +340,10 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
         controller.curBooking.payment!.shopFinshAndContinue;
 
     if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED ||
-        typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
+        typePayment == BookingDetailPaymentType.MEMBER_LIMITED || typePayment == 5) {
       onPayByVipMember?.call();
-    } else if (typePayment == BookingDetailPaymentType.ONLINE || typePayment == 6) {
+    } else if (typePayment == BookingDetailPaymentType.ONLINE ||
+        typePayment == 6) {
       if (shopHasConfigLimit! && totalBlockToPay! > 1) {
         _alertNotAllowUseVipCard(onPayByOnLinePayment);
       } else if (shopHasConfigLimit && remainTurnVipCard! > 0) {
@@ -351,10 +352,8 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
         onPayByOnLinePayment?.call();
       }
     } else if (typePayment ==
-        BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE || typePayment == 5) {
+        BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE) {
       _alertNotEnoughVipCardTurn(onPayByOnLinePayment);
-    } else {
-      onOrtherPayment5And6?.call();
-    }
+    } 
   }
 }
