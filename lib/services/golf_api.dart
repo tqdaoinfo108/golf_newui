@@ -145,6 +145,7 @@ class GolfApi {
     int? slotID,
     int? time,
     String dateTimeClient,
+    int userID
   ) async {
     try {
       var response = await apiClient.getBlock(
@@ -152,6 +153,7 @@ class GolfApi {
         slotID,
         time,
         dateTimeClient,
+        userID
       );
       return BlockModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {

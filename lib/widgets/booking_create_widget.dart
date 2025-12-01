@@ -328,37 +328,86 @@ Widget chooseItemBlockViewCell(
   BookingCreateController bookingCreateController,
   BlockItemModel blockItemModel,
 ) {
+  // Xác định badge type
+  Widget? badge;
+  if (blockItemModel.isBlockCodeMember == true) {
+    // Member badge
+    badge = Container(
+      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        'VIP',
+        style: GoogleFonts.inter(
+          fontSize: 8,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    );
+  } else if (blockItemModel.isBlockCodeMember == false) {
+    // Visa badge
+    badge = Container(
+      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      decoration: BoxDecoration(
+        color: Color(0xFF1A1F71),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        'VISA',
+        style: GoogleFonts.inter(
+          fontSize: 8,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
   return InkWell(
     onTap: () {
       if (blockItemModel.isActive! && blockItemModel.isBooking) {
         bookingCreateController.onChangeBlockExpanded(item: blockItemModel);
       }
     },
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(1.0.h)),
-        border: Border.all(color: Colors.black54),
-        color:
-            blockItemModel.isActive! && blockItemModel.isBooking
-                ? blockItemModel.isSelect
-                    ? GolfColor.GolfPrimaryColor
-                    : Colors.white
-                : Color(0xff8C98D9),
-      ),
-      alignment: Alignment.center,
-      child: AutoSizeText(
-        blockItemModel.getNameBlock(),
-        style: GoogleFonts.inter(
-          fontSize: 14,
-          fontWeight: FontWeight.w700,
-          color:
-              blockItemModel.isSelect
-                  ? Colors.white
-                  : GolfColor.GolfPrimaryColor,
+    child: Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(1.0.h)),
+            border: Border.all(color: Colors.black54),
+            color:
+                blockItemModel.isActive! && blockItemModel.isBooking
+                    ? blockItemModel.isSelect
+                        ? GolfColor.GolfPrimaryColor
+                        : Colors.white
+                    : Color(0xff8C98D9),
+          ),
+          alignment: Alignment.center,
+          child: AutoSizeText(
+            blockItemModel.getNameBlock(),
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color:
+                  blockItemModel.isSelect
+                      ? Colors.white
+                      : GolfColor.GolfPrimaryColor,
+            ),
+            maxLines: 1,
+            minFontSize: 6,
+          ),
         ),
-        maxLines: 1,
-        minFontSize: 6,
-      ),
+        // Badge ở góc trên bên phải
+        if (badge != null)
+          Positioned(
+            top: 2,
+            right: 2,
+            child: badge,
+          ),
+      ],
     ),
   );
 }

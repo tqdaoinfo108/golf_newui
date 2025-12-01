@@ -68,6 +68,8 @@ abstract class ApiClient {
     @Query("SlotID") int? slotID,
     @Query("TimeBooking") int? timeBooking,
     @Query("DateTimeClient") String dateTimeClient,
+    @Query("UserID") int UserID,
+
   );
 
   @POST("api/booking/insert")

@@ -226,6 +226,9 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                             onPayByVipMember:
                                                 controller
                                                     .letsPaymentWithVipMember,
+                                            onOrtherPayment5And6:
+                                                controller
+                                                    .letsPaymentOrther5and6,
                                           ),
                                       onCancelPressed: controller.cancelBooking,
                                     ),
@@ -328,15 +331,18 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
     BuildContext context, {
     void Function()? onPayByVipMember,
     void Function()? onPayByOnLinePayment,
+    void Function()? onOrtherPayment5And6,
   }) {
     final typePayment = controller.curBooking.payment!.typePayment;
     final totalBlockToPay = controller.curBooking.payment!.turnToPlay;
     final remainTurnVipCard = controller.curBooking.payment!.remainingTurn;
-    final shopHasConfigLimit = controller.curBooking.payment!.shopFinshAndContinue;
+    final shopHasConfigLimit =
+        controller.curBooking.payment!.shopFinshAndContinue;
 
-    if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED || typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
+    if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED ||
+        typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
       onPayByVipMember?.call();
-    } else if (typePayment == BookingDetailPaymentType.ONLINE) {
+    } else if (typePayment == BookingDetailPaymentType.ONLINE || typePayment == 6) {
       if (shopHasConfigLimit! && totalBlockToPay! > 1) {
         _alertNotAllowUseVipCard(onPayByOnLinePayment);
       } else if (shopHasConfigLimit && remainTurnVipCard! > 0) {
@@ -345,8 +351,10 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
         onPayByOnLinePayment?.call();
       }
     } else if (typePayment ==
-        BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE) {
+        BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE || typePayment == 5) {
       _alertNotEnoughVipCardTurn(onPayByOnLinePayment);
+    } else {
+      onOrtherPayment5And6?.call();
     }
   }
 }

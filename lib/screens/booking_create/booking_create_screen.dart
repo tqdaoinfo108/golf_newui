@@ -96,7 +96,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         },
                       ),
                       SizedBox(height: 10),
-              
+
                       /// Choose machine
                       chooseSlotBooking(
                         controller,
@@ -111,7 +111,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         themeData,
                         controller.lstBlock,
                       ),
-            SizedBox(height: 20),
+                      SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -119,7 +119,12 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
             ),
             Container(
               alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(bottom: 30, right: 20, left: 20, top: 10),
+              padding: EdgeInsets.only(
+                bottom: 30,
+                right: 20,
+                left: 20,
+                top: 10,
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.start,

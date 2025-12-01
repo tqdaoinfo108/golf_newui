@@ -1,8 +1,6 @@
 import 'package:get/get.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
 import 'package:golf_uiv2/screens/booking/booking_controller.dart';
-import 'package:golf_uiv2/screens/booking_create/booking_create_binding.dart';
-import 'package:golf_uiv2/screens/booking_create/booking_create_screen.dart';
 import 'package:golf_uiv2/screens/booking_detail/booking_detail_binding.dart';
 import 'package:golf_uiv2/screens/booking_detail/booking_detail_screen.dart';
 import 'package:golf_uiv2/screens/buy_vip_list/buy_vip_list_bindings.dart';

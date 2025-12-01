@@ -32,7 +32,7 @@ class BookingCreateController extends GetxController {
   set lstSlot(List<SlotItemModel> value) => this._lstSlot.value = value;
 
   final RxList<BlockItemModel> _lstBlock = <BlockItemModel>[].obs;
-  List<BlockItemModel> get lstBlock => this._lstBlock;
+  List<BlockItemModel> get lstBlock => this._lstBlock.where((item) => item.isActive == null || item.isActive!).toList();
   set lstBlock(List<BlockItemModel> value) => this._lstBlock.value = value;
 
   String? machineValue = 'choose_slot'.tr;
@@ -140,6 +140,7 @@ class BookingCreateController extends GetxController {
       lstSlot.where((_v) => _v.isSelect).first.slotID,
       dateIntCurrent,
       _strDatTimeCurrent,
+      SupportUtils.prefs.getInt(USER_ID) ?? 0
     );
 
     lstBlock.clear();

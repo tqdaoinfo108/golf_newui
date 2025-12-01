@@ -229,6 +229,43 @@ class BookingDetailController extends GetxController {
     }
   }
 
+// ko dùng
+  void letsPaymentOrther5and6() async {
+    if (await _reCheckPaymentAvailable()) {
+      final request = GetPaymentKeyRequest(
+        shopID: curBooking.shopID,
+        capture: false,
+        additionalMessage: "${curBooking.nameShop} (${curBooking.addressShop})",
+        items: _getListPaymentItems(),
+      );
+
+      /// Lets payment this booking
+      var result = await Get.toNamed(AppRoutes.PYAYMENT, arguments: request);
+
+      /// Payment completed
+      if (result != null) {
+        /// Payment successful
+        if ((result as PageResult).resultCode == PageResultCode.OK) {
+          var isPayment = await addPayment(
+            paymentInfo: (result as PageResult<PaymentKeyResponse>).data,
+          );
+          if (isPayment) {
+            SupportUtils.showToast(
+              'payment_success'.tr,
+              type: ToastType.SUCCESSFUL,
+            );
+            await getQRCodeString();
+          }
+        }
+
+        /// Payment Failure
+        if (result.resultCode == PageResultCode.FAIL) {
+          SupportUtils.showToast('payment_failure'.tr, type: ToastType.ERROR);
+        }
+      }
+    }
+  }
+
   void letsPaymentWithVipMember() async {
     if (await _reCheckPaymentAvailable()) {
       if (curBooking.payment!.typePayment ==

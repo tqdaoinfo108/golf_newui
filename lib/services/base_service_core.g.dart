@@ -204,12 +204,13 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<String?> getBlock(auth, slotID, timeBooking, dateTimeClient) async {
+  Future<String?> getBlock(auth, slotID, timeBooking, dateTimeClient, UserID) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'SlotID': slotID,
       r'TimeBooking': timeBooking,
       r'DateTimeClient': dateTimeClient,
+      r'UserID': UserID,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
