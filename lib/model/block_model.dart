@@ -28,6 +28,7 @@ class BlockModel extends BaseResponseError {
 }
 
 class BlockItemModel {
+  int? stt;
   int? blockID;
   String? codeBlock;
   String? nameBlock;
@@ -65,6 +66,7 @@ class BlockItemModel {
     isBooking = json["IsBooking"] ?? false;
     isShow = json["IsShow"];
     isBlockCodeMember =  json["IsBlockCodeMember"];
+    stt = json["STT"];
   }
 
   Map<String, dynamic> toJson() {

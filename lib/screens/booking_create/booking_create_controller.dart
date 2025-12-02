@@ -326,6 +326,15 @@ class BookingCreateController extends GetxController {
       return;
     }
 
+    // Check for 4 consecutive blocks
+    if (_hasConsecutiveBlocks(lstBlockSelected, 4)) {
+      SupportUtils.showToast(
+        'cannot_select_4_consecutive_blocks'.tr,
+        type: ToastType.ERROR,
+      );
+      return;
+    }
+
     var createBookingModel = new BookingInsertItemModel(
       selectedPaymentMethod?.codeMemberId == 0,
     );
@@ -362,5 +371,64 @@ class BookingCreateController extends GetxController {
 
   void updateShopVipMember() {
     _shopSelected.value = shopSelected!.copyWith(isUserMemberCode: 1);
+  }
+
+  /// Check if there are N consecutive blocks selected based on stt
+  bool _hasConsecutiveBlocks(List<BlockItemModel> selectedBlocks, int count) {
+    if (selectedBlocks.length < count) return false;
+    
+    // Sort by stt
+    var sortedBlocks = List<BlockItemModel>.from(selectedBlocks)
+      ..sort((a, b) => (a.stt ?? 0).compareTo(b.stt ?? 0));
+    
+    int consecutiveCount = 1;
+    for (int i = 1; i < sortedBlocks.length; i++) {
+      if ((sortedBlocks[i].stt ?? 0) == (sortedBlocks[i - 1].stt ?? 0) + 1) {
+        consecutiveCount++;
+        if (consecutiveCount >= count) {
+          return true;
+        }
+      } else {
+        consecutiveCount = 1;
+      }
+    }
+    return false;
+  }
+
+  /// Check if a block is bookable based on current time + 10 minutes
+  /// Block is bookable if: dateIntCurrent + rangeStart > now + 10 minutes
+  bool isBlockBookable(BlockItemModel block) {
+    if (dateIntCurrent == null || block.rangeStart == null) return false;
+    
+    // Get the selected date (local)
+    final now = DateTime.now();
+    final selectedDate = DateTime.fromMillisecondsSinceEpoch(
+      dateIntCurrent! * 1000,
+      isUtc: true,
+    );
+    
+    // rangeStart is time offset in milliseconds from 00:00 UTC
+    // Convert to hours and minutes
+    final blockTimeUtc = DateTime.fromMillisecondsSinceEpoch(
+      block.rangeStart!.toInt(),
+      isUtc: true,
+    );
+    final blockHour = blockTimeUtc.hour;
+    final blockMinute = blockTimeUtc.minute;
+    
+    // Create block start time in local timezone using selected date + block time
+    final blockStartTimeLocal = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      blockHour,
+      blockMinute,
+    );
+    
+    // Current local time + 10 minutes
+    final minBookableTime = now.add(Duration(minutes: 10));
+    
+    // Block is bookable if its start time is after the minimum bookable time
+    return blockStartTimeLocal.isAfter(minBookableTime);
   }
 }

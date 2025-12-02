@@ -687,7 +687,9 @@ Widget chooseItemBlockViewCell(
   BookingCreateController bookingCreateController,
   BlockItemModel blockItemModel,
 ) {
-  final isActive = blockItemModel.isActive! && blockItemModel.isBooking;
+  // Check if block is bookable (time constraint: date + block time + 10min > now)
+  final isTimeValid = bookingCreateController.isBlockBookable(blockItemModel);
+  final isActive = blockItemModel.isActive! && blockItemModel.isBooking && isTimeValid;
   final isSelected = blockItemModel.isSelect;
   
   // Xác định badge type

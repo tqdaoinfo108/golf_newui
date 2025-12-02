@@ -122,6 +122,7 @@ const Map<String, String> jp = {
   'your_booking_will_start_in': 'ご予約は...分後開始致します。',
   'minutes': ' 分',
   'no_time_frame_selected': '選択時間帯がありません',
+  'cannot_select_4_consecutive_blocks': '連続する4つの時間帯を選択することはできません',
   'password_change_failed': 'パスワードの変更に失敗しました。アカウントをもう一度確認するか、管理者にサポートを依頼してください',
   'email_have_exists': 'このメールが既に登録されています。',
   'vip_member': '会員・回数券詳細',
