@@ -22,17 +22,9 @@ class BookingInsertItemModel {
   int? shopID;
   String? timeZoneName;
   List<int?>? blocks;
-
-  BookingInsertItemModel(
+  bool isVisa;
+  BookingInsertItemModel(this.isVisa,
       {this.datePlay, this.slotID, this.shopID, this.blocks});
-
-  BookingInsertItemModel.fromJson(Map<String, dynamic> json) {
-    datePlay = json['DatePlay'];
-    slotID = json['SlotID'];
-    shopID = json['ShopID'];
-    blocks = json['Blocks'].cast<int>();
-    timeZoneName = json['TimeZoneName'];
-  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -41,6 +33,7 @@ class BookingInsertItemModel {
     data['ShopID'] = this.shopID;
     data['Blocks'] = this.blocks;
     data['TimeZoneName'] = this.timeZoneName;
+    data['IsVisa'] = isVisa;
     return data;
   }
 }

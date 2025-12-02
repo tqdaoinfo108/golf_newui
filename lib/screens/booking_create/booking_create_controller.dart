@@ -14,11 +14,35 @@ import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/keys.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
+import '../../model/shop_vip_memeber.dart';
 import '../home/home_controller.dart';
 
 class BookingCreateController extends GetxController {
   ExpandableController? exMachineController;
   ExpandableController? exSlotController;
+  ExpandableController? exPaymentMethodController;
+
+  // Rx variables for expand state to trigger UI rebuild
+  final RxBool _isPaymentMethodExpanded = true.obs;
+  bool get isPaymentMethodExpanded => _isPaymentMethodExpanded.value;
+  set isPaymentMethodExpanded(bool value) {
+    _isPaymentMethodExpanded.value = value;
+    exPaymentMethodController?.expanded = value;
+  }
+
+  final RxBool _isMachineExpanded = false.obs;
+  bool get isMachineExpanded => _isMachineExpanded.value;
+  set isMachineExpanded(bool value) {
+    _isMachineExpanded.value = value;
+    exMachineController?.expanded = value;
+  }
+
+  final RxBool _isBlockExpanded = true.obs;
+  bool get isBlockExpanded => _isBlockExpanded.value;
+  set isBlockExpanded(bool value) {
+    _isBlockExpanded.value = value;
+    exSlotController?.expanded = value;
+  }
   // ShopItemModel shopSelected;
   // List<SlotItemModel> lstSlot;
   // List<BlockItemModel> lstBlock;
@@ -32,8 +56,24 @@ class BookingCreateController extends GetxController {
   set lstSlot(List<SlotItemModel> value) => this._lstSlot.value = value;
 
   final RxList<BlockItemModel> _lstBlock = <BlockItemModel>[].obs;
-  List<BlockItemModel> get lstBlock => this._lstBlock.where((item) => item.isActive == null || item.isActive!).toList();
+  List<BlockItemModel> get lstBlock =>
+      this._lstBlock.where((item) => item.isShow != false).toList();
   set lstBlock(List<BlockItemModel> value) => this._lstBlock.value = value;
+
+  // Payment method list
+  final RxList<ShopVipMember> _lstPaymentMethod = <ShopVipMember>[].obs;
+  List<ShopVipMember> get lstPaymentMethod => this._lstPaymentMethod;
+  set lstPaymentMethod(List<ShopVipMember> value) =>
+      this._lstPaymentMethod.value = value;
+
+  // Selected payment method
+  final Rx<ShopVipMember?> _selectedPaymentMethod = Rx<ShopVipMember?>(null);
+  ShopVipMember? get selectedPaymentMethod => this._selectedPaymentMethod.value;
+  set selectedPaymentMethod(ShopVipMember? value) =>
+      this._selectedPaymentMethod.value = value;
+
+  // Flag to check if payment method is selected
+  bool get isPaymentMethodSelected => selectedPaymentMethod != null;
 
   String? machineValue = 'choose_slot'.tr;
   String slotValue = 'choose_block'.tr;
@@ -48,12 +88,17 @@ class BookingCreateController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    exMachineController = new ExpandableController(initialExpanded: true);
+    exMachineController = new ExpandableController(initialExpanded: false);
     exSlotController = new ExpandableController(initialExpanded: false);
+    exPaymentMethodController = new ExpandableController(initialExpanded: true);
     userId = SupportUtils.prefs.getInt(USER_ID);
     // init data
+
+    shopSelected = Get.arguments;
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];
+    lstPaymentMethod = <ShopVipMember>[];
+    selectedPaymentMethod = null;
     var _dateTemp = DateTime.now();
     dateIntCurrent =
         DateTime.utc(
@@ -68,6 +113,8 @@ class BookingCreateController extends GetxController {
   void onReset() async {
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];
+    lstPaymentMethod = <ShopVipMember>[];
+    selectedPaymentMethod = null;
     var _dateTemp = DateTime.now();
     dateIntCurrent =
         DateTime.utc(
@@ -81,10 +128,47 @@ class BookingCreateController extends GetxController {
   }
 
   void getSlotFirst() async {
+    await getPaymentMethods();
     await getSlot();
     if (lstSlot.length > 0) {
       lstSlot[0].isSelect = true;
     }
+  }
+
+  Future getPaymentMethods() async {
+    try {
+      var response = await GolfApi().getListMemberPayment(
+        shopSelected!.shopID!,
+        userId!,
+      );
+      if (response.data != null) {
+        lstPaymentMethod = response.data!;
+      }
+    } on DioException catch (error, _) {
+      print("Error getting payment methods: $error");
+    }
+    update();
+  }
+
+  void onSelectPaymentMethod(ShopVipMember? paymentMethod) {
+    selectedPaymentMethod = paymentMethod;
+    // Collapse payment method and expand machine selection after payment method is selected
+    if (paymentMethod != null) {
+      isPaymentMethodExpanded = false;
+      isMachineExpanded = true;
+    }
+    update();
+  }
+
+  void onTogglePaymentMethodExpanded() {
+    isPaymentMethodExpanded = !isPaymentMethodExpanded;
+    if (isPaymentMethodExpanded) {
+      isMachineExpanded = false;
+      isBlockExpanded = false;
+      lstSlot.forEach((e) => e.isSelect = false);
+      lstBlock.forEach((e) => e.isSelect = false);
+    }
+    update();
   }
 
   Future getShopDetail() async {
@@ -127,6 +211,14 @@ class BookingCreateController extends GetxController {
   }
 
   Future getBlock() async {
+    // Check if any slot is selected
+    var selectedSlots = lstSlot.where((_v) => _v.isSelect);
+    if (selectedSlots.isEmpty) {
+      lstBlock.clear();
+      update();
+      return;
+    }
+
     // dateTimeClient fomart 2021-11-02-03-30 ngày giờ hệ thống
     var dateTime = DateTime.now();
     String _strDatTimeCurrent = [
@@ -137,10 +229,11 @@ class BookingCreateController extends GetxController {
       dateTime.minute,
     ].join('-');
     var listValue = await new GolfApi().getBlock(
-      lstSlot.where((_v) => _v.isSelect).first.slotID,
+      selectedSlots.first.slotID,
       dateIntCurrent,
       _strDatTimeCurrent,
-      SupportUtils.prefs.getInt(USER_ID) ?? 0
+      SupportUtils.prefs.getInt(USER_ID) ?? 0,
+      selectedPaymentMethod?.codeMemberId == 0,
     );
 
     lstBlock.clear();
@@ -160,23 +253,40 @@ class BookingCreateController extends GetxController {
         }
       }
     }
-    exMachineController!.expanded = !exMachineController!.expanded;
+    isMachineExpanded = !isMachineExpanded;
     exSlotController!.expanded = !exSlotController!.expanded;
+    // Close payment method when opening machine
+    if (isMachineExpanded) {
+      isPaymentMethodExpanded = false;
+      isBlockExpanded = false;
+      lstBlock.forEach((e) => e.isSelect = false);
+    } else {
+      isBlockExpanded = true;
+    }
     getBlock();
+
     update();
   }
 
   void onChangeBlockExpanded({BlockItemModel? item}) {
     if (item != null) {
+      // Select/deselect block item
       var bookings = lstBlock.where((_v) => _v.blockID == item.blockID);
 
       if (bookings.length > 0) {
         final bookingItem = bookings.first;
         bookingItem.isSelect = !bookingItem.isSelect;
       }
+      _lstBlock.refresh();
+    } else {
+      // Toggle expand/collapse (header click)
+      isBlockExpanded = !isBlockExpanded;
     }
+    update();
+  }
 
-    _lstBlock.refresh();
+  void onToggleBlockExpanded() {
+    isBlockExpanded = !isBlockExpanded;
     update();
   }
 
@@ -216,7 +326,9 @@ class BookingCreateController extends GetxController {
       return;
     }
 
-    var createBookingModel = new BookingInsertItemModel();
+    var createBookingModel = new BookingInsertItemModel(
+      selectedPaymentMethod?.codeMemberId == 0,
+    );
     createBookingModel.datePlay = dateIntCurrent;
     createBookingModel.slotID = idSlot;
     createBookingModel.shopID = shopSelected!.shopID;
@@ -235,15 +347,17 @@ class BookingCreateController extends GetxController {
               ))
             .toJson();
     var result = await GolfApi().createBooking(jsonBody);
-    await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
+    await Get.offNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
     onReset();
     final controller = Get.find<HomeController>();
     controller.changePageIndex(0);
   }
 
   void onCancelBooking() {
-    Get.toNamed("/test", id: 1);
-    Get.delete<BookingCreateController>();
+    // Get.toNamed("/test", id: 1);
+    // Get.delete<BookingCreateController>();
+
+    Get.back();
   }
 
   void updateShopVipMember() {

@@ -204,13 +204,15 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<String?> getBlock(auth, slotID, timeBooking, dateTimeClient, UserID) async {
+  Future<String?> getBlock(auth, slotID, timeBooking, dateTimeClient, userID, isVisa) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'SlotID': slotID,
       r'TimeBooking': timeBooking,
       r'DateTimeClient': dateTimeClient,
-      r'UserID': UserID,
+      r'UserID': userID,
+      r'IsVisa': isVisa,
+
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{
@@ -1277,5 +1279,40 @@ class _ApiClient implements ApiClient {
       }
     }
     return requestOptions;
+  }
+  
+  @override
+  Future<String?> getListCodeMemberPayment(String auth, int shopID, int userID) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'shopID': shopID,
+      r'userID': userID,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Content-Type': 'application/json',
+      r'Authorization': auth,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<String>(
+      _setStreamType<String>(
+        Options(
+              method: 'GET',
+              headers: _headers,
+              extra: _extra,
+              contentType: 'application/json',
+            )
+            .compose(
+              _dio.options,
+              'api/usercodemember/get-list-code-member-payment',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+      ),
+    );
+    final value = _result.data;
+    return value;
   }
 }

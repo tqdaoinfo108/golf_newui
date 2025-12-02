@@ -11,18 +11,15 @@ import 'package:golf_uiv2/widgets/button_default.dart';
 import 'package:golf_uiv2/widgets/pressable_text.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../model/shop_model.dart';
 import 'booking_create_controller.dart';
 
 // ignore: must_be_immutable
 class BookingCreateScreen extends GetView<BookingCreateController> {
-  BookingCreateScreen(this.data, {super.key});
-  ShopItemModel data;
+  BookingCreateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
-    controller.shopSelected = data;
     controller.getSlotFirst();
 
     return Obx(
@@ -49,31 +46,23 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                 ),
               ),
               child: Obx(
-                () => Stack(
-                  children: [
-                    shopItemView(
-                      themeData,
-                      controller.shopSelected!,
-                      onFavoriteChanged:
-                          (val) => controller.changeFavorite(
-                            controller.shopSelected!.shopID,
-                          ),
-                    ),
-                    (controller.shopSelected!.countMemberCode! > 0)
-                        ? Positioned(
-                          bottom: 15.0.sp,
-                          right: 45.0.sp,
-                          child: _buildBuyVipMemberButton(
-                            themeData,
-                            onPressed:
-                                () => Get.toNamed(
-                                  AppRoutes.BUY_VIP_LIST,
-                                  arguments: controller.shopSelected,
-                                )!.then((res) => _registerVipMemberBacked(res)),
-                          ),
+                () => shopItemView(
+                  themeData,
+                  controller.shopSelected!,
+                  onFavoriteChanged:
+                      (val) => controller.changeFavorite(
+                        controller.shopSelected!.shopID,
+                      ),
+                  buyVipMemberButton: (controller.shopSelected!.countMemberCode ?? 0) > 0
+                      ? _buildBuyVipMemberButton(
+                          themeData,
+                          onPressed:
+                              () => Get.toNamed(
+                                AppRoutes.BUY_VIP_LIST,
+                                arguments: controller.shopSelected,
+                              )!.then((res) => _registerVipMemberBacked(res)),
                         )
-                        : Container(),
-                  ],
+                      : null,
                 ),
               ),
             ),
@@ -85,6 +74,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      SizedBox(height: 10),
                       /// Choose date
                       chooseDateBooking(
                         context,
@@ -97,12 +87,31 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                       ),
                       SizedBox(height: 10),
 
-                      /// Choose machine
-                      chooseSlotBooking(
-                        controller,
-                        context,
-                        themeData,
-                        controller.lstSlot,
+                      /// Choose payment method
+                      if (controller.lstPaymentMethod.isNotEmpty)
+                        choosePaymentMethod(
+                          context,
+                          themeData,
+                          controller,
+                          controller.lstPaymentMethod,
+                        ),
+                      if (controller.lstPaymentMethod.isNotEmpty)
+                        SizedBox(height: 10),
+
+                      /// Choose machine (only enabled after payment method selected)
+                      AbsorbPointer(
+                        absorbing: controller.lstPaymentMethod.isNotEmpty && 
+                                   !controller.isPaymentMethodSelected,
+                        child: Opacity(
+                          opacity: controller.lstPaymentMethod.isEmpty || 
+                                   controller.isPaymentMethodSelected ? 1.0 : 0.5,
+                          child: chooseSlotBooking(
+                            controller,
+                            context,
+                            themeData,
+                            controller.lstSlot,
+                          ),
+                        ),
                       ),
                       SizedBox(height: 10),
                       chooseBlockBooking(
@@ -167,7 +176,6 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                 ],
               ),
             ),
-            SizedBox(height: 90),
           ],
         ),
       ),

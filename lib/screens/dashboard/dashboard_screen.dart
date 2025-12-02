@@ -19,8 +19,11 @@ class DashboardScreen extends GetView<DashboardController> {
     return GetBuilder<DashboardController>(
       initState: (_state) {
         controller.page = 1;
-        controller.getListBooking();
-        controller.updateUserInfo();
+        // Delay to avoid setState during build
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          controller.getListBooking();
+          controller.updateUserInfo();
+        });
       },
       builder: (_) {
         return Obx(

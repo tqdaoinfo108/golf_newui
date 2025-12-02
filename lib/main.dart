@@ -129,8 +129,6 @@ class _MyAppState extends State<MyApp> {
 
   ThemeMode appThemeMode = ThemeMode.system;
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
   @override
   void initState() {
     super.initState();

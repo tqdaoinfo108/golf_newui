@@ -19,122 +19,159 @@ Widget shopItemView(
   void Function()? onItemPressed,
   bool enabled = true,
   Function(bool)? onFavoriteChanged,
+  Widget? buyVipMemberButton,
 }) {
   var textBody = themeData.textTheme.headlineMedium?.copyWith(
     color: GolfColor.GolfSubColor,
-    fontSize: 14,
+    fontSize: 12,
   );
   var textTitle = themeData.textTheme.headlineMedium?.copyWith(
     color: GolfColor.GolfSubColor,
     fontWeight: FontWeight.bold,
-    fontSize: 16,
+    fontSize: 14,
   );
   return shops.codeShop == null ? SizedBox() : Stack(
+    clipBehavior: Clip.none,
     children: [
       Padding(
-        padding: EdgeInsets.only(bottom: 2.0.w),
+        padding: EdgeInsets.only(bottom: 1.0.w),
         child: Pressable(
-          padding: EdgeInsets.all(2.0.h),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(2.0.h),
+          borderRadius: BorderRadius.circular(12),
           backgroundColor: themeData.colorScheme.onBackground,
           onPress: onItemPressed,
           enabled: enabled,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              RichText(
-                text: TextSpan(
-                  style: themeData.textTheme.headlineSmall!.copyWith(
-                    color: themeData.colorScheme.surface,
-                  ),
-                  children: <InlineSpan>[
-                    (shops.isMember ?? false)
-                        ? _buildMemberText(themeData)
-                        : TextSpan(),
-                    (shops.countMemberLimit ?? 0) > 0
-                        ? _buildVipLimitText(themeData, shops.countMemberLimit)
-                        : TextSpan(),
-                    (shops.isShopManager ?? false)
-                        ? WidgetSpan(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: Image.asset(
-                              "assets/icons/person_vip.png",
-                              width: 24,
-                            ),
-                          ),
-                        )
-                        : TextSpan(),
-                    TextSpan(text: "${shops.nameShop}", style: textTitle),
-                  ],
-                ),
-              ),
-              SizedBox(height: 1.0.h),
-              Text(shops.addressShop ?? "N/A", style: textBody),
-              SizedBox(height: 1.0.h),
+              // Row 1: Tên shop + badges
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset("assets/images/phone.png", color: GolfColor
-                      .GolfSubColor, width: 18, height: 18),
-                  SizedBox(width: 2.0.h),
-                  Text(
-                    shops.phoneShop ?? "N/A",
-                    style: textBody,
+                  if (shops.isMember ?? false)
+                    Padding(
+                      padding: EdgeInsets.only(right: 4),
+                      child: Icon(
+                        Icons.card_membership,
+                        size: 16,
+                        color: themeData.colorScheme.secondary,
+                      ),
+                    ),
+                  if ((shops.countMemberLimit ?? 0) > 0)
+                    Container(
+                      margin: EdgeInsets.only(right: 4),
+                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: themeData.colorScheme.primary,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        "${shops.countMemberLimit}",
+                        style: TextStyle(
+                          fontSize: 9,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  if (shops.isShopManager ?? false)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4),
+                      child: Image.asset(
+                        "assets/icons/person_vip.png",
+                        width: 18,
+                      ),
+                    ),
+                  Expanded(
+                    child: Text(
+                      shops.nameShop ?? "",
+                      style: textTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  // Favorite button inline
+                  if (onFavoriteChanged != null)
+                    GestureDetector(
+                      onTap: () => onFavoriteChanged(!shops.isFavorite!),
+                      child: Icon(
+                        shops.isFavorite! ? Icons.favorite : Icons.favorite_outline,
+                        color: shops.isFavorite! ? Colors.red[400] : GolfColor.GolfSubColor,
+                        size: 20,
+                      ),
+                    ),
+                ],
+              ),
+              SizedBox(height: 6),
+              // Row 2: Địa chỉ (full width)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.location_on, size: 14, color: GolfColor.GolfSubColor),
+                  SizedBox(width: 4),
+                  Expanded(
+                    child: Text(
+                      shops.addressShop ?? "N/A",
+                      style: textBody,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 1.0.h),
+              SizedBox(height: 4),
+              // Row 3: Phone + Distance + Buy VIP Member button
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset("assets/images/office.png", color: GolfColor
-                      .GolfSubColor, width: 18, height: 18),
-                  SizedBox(width: 2.0.h),
+                  Icon(Icons.phone, size: 14, color: GolfColor.GolfSubColor),
+                  SizedBox(width: 4),
+                  Flexible(
+                    child: Text(
+                      shops.phoneShop ?? "N/A",
+                      style: textBody,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Icon(Icons.near_me, size: 14, color: GolfColor.GolfSubColor),
+                  SizedBox(width: 4),
                   Text(
                     "${shops.distance} km",
                     style: textBody,
                   ),
+                  if (buyVipMemberButton != null) ...[
+                    Spacer(),
+                    buyVipMemberButton,
+                  ],
                 ],
               ),
             ],
           ),
         ),
       ),
-      shops.discount != 0
-          ? Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-              decoration: BoxDecoration(
-                color:
-                    shops.discount! < 100 ? Colors.red[400] : Colors.green[400],
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(2.0.h),
-                  bottomLeft: Radius.circular(8),
-                ), // green shaped
-              ),
-              child: Text(
-                shops.discount! < 100
-                    ? "-" + (100 - shops.discount!.toInt()).toString() + "%"
-                    : "+" + (shops.discount!.toInt() - 100).toString() + "%",
+      // Discount badge
+      if (shops.discount != null && shops.discount != 0)
+        Positioned(
+          top: 0,
+          right: 0,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+            decoration: BoxDecoration(
+              color: shops.discount! < 100 ? Colors.red[400] : Colors.green[400],
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomLeft: Radius.circular(8),
               ),
             ),
-          )
-          : Container(),
-      Positioned(
-        bottom: 2.0.w,
-        right: 0,
-        child: _buildFavoriteButton(
-          themeData,
-          isFavorite: shops.isFavorite!,
-          onFavoriteChanged: onFavoriteChanged,
+            child: Text(
+              shops.discount! < 100
+                  ? "-${(100 - shops.discount!.toInt())}%"
+                  : "+${(shops.discount!.toInt() - 100)}%",
+              style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+            ),
+          ),
         ),
-      ),
     ],
   );
   // .onTap(() {

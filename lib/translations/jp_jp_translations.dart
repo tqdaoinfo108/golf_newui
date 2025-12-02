@@ -224,6 +224,11 @@ const Map<String, String> jp = {
   "account_not_found": "このメールアドレスに該当するアカウントが見つかりません。",
   "i_agree_to_the_specified_commercial_transactions_law": "決済利用規約",
   "sign_out_confirmation_title": "サインアウトしますか？",
-  "Please enter only alphabetic characters": "半角英字のみ入力してください"
-
+  "Please enter only alphabetic characters": "半角英字のみ入力してください",
+  "select_date": "日付を選択",
+  "select_machine": "打席を選択",
+  "select_time": "時間を選択",
+  "days": "日",
+  "payment_method": "お支払い方法",
+  "select_payment_method": "お支払い方法を選択"
 };

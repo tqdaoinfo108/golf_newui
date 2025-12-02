@@ -145,7 +145,8 @@ class GolfApi {
     int? slotID,
     int? time,
     String dateTimeClient,
-    int userID
+    int userID,
+    bool isVisa
   ) async {
     try {
       var response = await apiClient.getBlock(
@@ -153,7 +154,8 @@ class GolfApi {
         slotID,
         time,
         dateTimeClient,
-        userID
+        userID,
+        isVisa
       );
       return BlockModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -727,6 +729,32 @@ class GolfApi {
             (json as List<dynamic>)
                 .map<GroupModel>(
                   (i) => GroupModel.fromJson(i as Map<String, dynamic>),
+                )
+                .toList(),
+      );
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
+  Future<BaseResponse<List<ShopVipMember>>> getListMemberPayment(
+    int shopID,
+    int userID,
+  ) async {
+    try {
+      var response = await apiClient.getListCodeMemberPayment(
+        defaultAuthentication,
+        shopID,
+        userID,
+      );
+
+      return BaseResponse<List<ShopVipMember>>.fromJson(
+        jsonDecode(response!),
+        (json) =>
+            (json as List<dynamic>)
+                .map<ShopVipMember>(
+                  (i) => ShopVipMember.fromJson(i as Map<String, dynamic>),
                 )
                 .toList(),
       );

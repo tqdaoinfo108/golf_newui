@@ -37,7 +37,7 @@ class BlockItemModel {
   bool? isActive;
   bool isSelect = false;
   bool isBooking = false;
-  bool isShow = true;
+  bool? isShow;
   bool? isBlockCodeMember;
 
 
@@ -63,7 +63,7 @@ class BlockItemModel {
     rangeStart = (json['RangeStart']) * 1000;
     rangeEnd = (json['RangeEnd']) * 1000;
     isBooking = json["IsBooking"] ?? false;
-    isShow = json["IsBooking"] ?? true;
+    isShow = json["IsShow"];
     isBlockCodeMember =  json["IsBlockCodeMember"];
   }
 

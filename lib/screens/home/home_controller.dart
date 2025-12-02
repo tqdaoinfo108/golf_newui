@@ -17,8 +17,8 @@ class HomeController extends GetxController {
     Get.find<DashboardController>().justUpdateWaitPaymentTotal();
     if (index == 1) {
       Get.lazyPut(()=>BookingCreateController());
-      Get.toNamed("/test", id: 1);
-      Get.delete<BookingCreateController>();
+      // Get.toNamed("/test", id: 1);
+      // Get.delete<BookingCreateController>();
     }
     update();
   }

@@ -69,7 +69,7 @@ abstract class ApiClient {
     @Query("TimeBooking") int? timeBooking,
     @Query("DateTimeClient") String dateTimeClient,
     @Query("UserID") int UserID,
-
+    @Query("IsVisa") bool isVisa,
   );
 
   @POST("api/booking/insert")
@@ -306,5 +306,13 @@ abstract class ApiClient {
   Future<String?> getGroupUserByEmail(
     @Header("Authorization") String auth,
     @Query("email") String email,
+  );
+
+  @GET("api/usercodemember/get-list-code-member-payment")
+  @Headers(headerDefault)
+  Future<String?> getListCodeMemberPayment(
+    @Header("Authorization") String auth,
+    @Query("shopID") int shopID,
+    @Query("userID") int userID,
   );
 }

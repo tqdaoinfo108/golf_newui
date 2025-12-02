@@ -250,5 +250,11 @@ const Map<String, String> en = {
   "account_not_found": "No account found for this email address.",
   "sign_out_confirmation_title": "Do you want to sign out?",
   "i_agree_to_the_specified_commercial_transactions_law": "I agree to the Specified Commercial Transactions Law",
-  "Please enter only alphabetic characters": "Please enter only alphabetic characters"
+  "Please enter only alphabetic characters": "Please enter only alphabetic characters",
+  "select_date": "Select Date",
+  "select_machine": "Select Machine",
+  "select_time": "Select Time",
+  "days": "days",
+  "payment_method": "Payment Method",
+  "select_payment_method": "Select payment method"
 };

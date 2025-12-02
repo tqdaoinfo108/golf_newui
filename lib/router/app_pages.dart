@@ -33,6 +33,8 @@ import 'package:golf_uiv2/screens/terms_of_use/terms_of_use_screen.dart';
 import 'package:golf_uiv2/screens/transaction_history/transaction_history_bindings.dart';
 import 'package:golf_uiv2/screens/transaction_history/transaction_history_screen.dart';
 
+import '../screens/booking_create/booking_create_binding.dart';
+import '../screens/booking_create/booking_create_screen.dart';
 import '../screens/notifications/notifications_screen.dart';
 import '../screens/payment_new/payment_new_controller.dart';
 import '../screens/payment_new/payment_new_screen.dart';
@@ -51,11 +53,11 @@ class AppScreens {
         SettingBinding()
       ],
     ),
-    // GetPage(
-    //   name: AppRoutes.BOOKING_CREATE,
-    //   page: () => BookingCreateScreen(),
-    //   binding: BookingCreateBinding(),
-    // ),
+    GetPage(
+      name: AppRoutes.BOOKING_CREATE,
+      page: () => BookingCreateScreen(),
+      binding: BookingCreateBinding(),
+    ),
     GetPage(
       name: AppRoutes.LOGIN,
       page: () => LoginScreen(),
