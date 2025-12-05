@@ -134,7 +134,7 @@ const Map<String, String> en = {
   'your_booking_will_start_in': 'Your booking will start in ... minutes',
   'minutes': ' minutes',
   'no_time_frame_selected': 'No time frame selected',
-  'cannot_select_4_consecutive_blocks': 'Cannot select 4 consecutive blocks',
+  'cannot_select_4_consecutive_blocks': 'Cannot select multiple consecutive blocks',
   'password_change_failed':
       'Password change failed, please check your account again or contact admin for support',
   'email_have_exists': 'Email have exists',

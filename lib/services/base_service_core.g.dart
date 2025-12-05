@@ -765,6 +765,7 @@ class _ApiClient implements ApiClient {
     final queryParameters = <String, dynamic>{
       r'shopID': shopID,
       r'status': status,
+      r'userID': SupportUtils.prefs.getInt(USER_ID),
       r'page': page,
       r'limit': limit,
     };
@@ -1282,11 +1283,12 @@ class _ApiClient implements ApiClient {
   }
   
   @override
-  Future<String?> getListCodeMemberPayment(String auth, int shopID, int userID) async {
+  Future<String?> getListCodeMemberPayment(String auth, int shopID, int userID, int datePlay ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'shopID': shopID,
       r'userID': userID,
+      r'datePlay': datePlay,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{

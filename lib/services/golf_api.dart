@@ -146,7 +146,7 @@ class GolfApi {
     int? time,
     String dateTimeClient,
     int userID,
-    bool isVisa
+    int userCodeMemberID 
   ) async {
     try {
       var response = await apiClient.getBlock(
@@ -155,7 +155,7 @@ class GolfApi {
         time,
         dateTimeClient,
         userID,
-        isVisa
+        userCodeMemberID 
       );
       return BlockModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -741,12 +741,14 @@ class GolfApi {
   Future<BaseResponse<List<ShopVipMember>>> getListMemberPayment(
     int shopID,
     int userID,
+    int datePlay
   ) async {
     try {
       var response = await apiClient.getListCodeMemberPayment(
         defaultAuthentication,
         shopID,
         userID,
+        datePlay
       );
 
       return BaseResponse<List<ShopVipMember>>.fromJson(

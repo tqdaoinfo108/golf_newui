@@ -127,6 +127,14 @@ class BookingCreateController extends GetxController {
     getSlotFirst();
   }
 
+  resetValue() async {
+    await getPaymentMethods();
+    isMachineExpanded = false;
+    isBlockExpanded = false;
+    isPaymentMethodExpanded = true;
+    selectedPaymentMethod = null;
+  }
+
   void getSlotFirst() async {
     await getPaymentMethods();
     await getSlot();
@@ -140,6 +148,7 @@ class BookingCreateController extends GetxController {
       var response = await GolfApi().getListMemberPayment(
         shopSelected!.shopID!,
         userId!,
+        dateIntCurrent!,
       );
       if (response.data != null) {
         lstPaymentMethod = response.data!;
@@ -233,7 +242,7 @@ class BookingCreateController extends GetxController {
       dateIntCurrent,
       _strDatTimeCurrent,
       SupportUtils.prefs.getInt(USER_ID) ?? 0,
-      selectedPaymentMethod?.codeMemberId == 0,
+      selectedPaymentMethod?.codeMemberId ?? 0,
     );
 
     lstBlock.clear();
@@ -311,7 +320,7 @@ class BookingCreateController extends GetxController {
           dateIntCurrent! * 1000,
           isUtc: true,
         ).endOfDay().millisecondsSinceEpoch.toStringFormatDate();
-
+    resetValue();
     getBlock();
   }
 
@@ -327,7 +336,10 @@ class BookingCreateController extends GetxController {
     }
 
     // Check for 4 consecutive blocks
-    if (_hasConsecutiveBlocks(lstBlockSelected, 4)) {
+    if (_hasConsecutiveBlocks(
+      lstBlockSelected,
+      selectedPaymentMethod?.bookingConsecutiveLimit ?? 2,
+    )) {
       SupportUtils.showToast(
         'cannot_select_4_consecutive_blocks'.tr,
         type: ToastType.ERROR,
@@ -335,7 +347,7 @@ class BookingCreateController extends GetxController {
       return;
     }
 
-    var createBookingModel = new BookingInsertItemModel(
+    var createBookingModel = BookingInsertItemModel(
       selectedPaymentMethod?.codeMemberId == 0,
     );
     createBookingModel.datePlay = dateIntCurrent;
@@ -376,11 +388,11 @@ class BookingCreateController extends GetxController {
   /// Check if there are N consecutive blocks selected based on stt
   bool _hasConsecutiveBlocks(List<BlockItemModel> selectedBlocks, int count) {
     if (selectedBlocks.length < count) return false;
-    
+
     // Sort by stt
     var sortedBlocks = List<BlockItemModel>.from(selectedBlocks)
       ..sort((a, b) => (a.stt ?? 0).compareTo(b.stt ?? 0));
-    
+
     int consecutiveCount = 1;
     for (int i = 1; i < sortedBlocks.length; i++) {
       if ((sortedBlocks[i].stt ?? 0) == (sortedBlocks[i - 1].stt ?? 0) + 1) {
@@ -399,14 +411,14 @@ class BookingCreateController extends GetxController {
   /// Block is bookable if: dateIntCurrent + rangeStart > now + 10 minutes
   bool isBlockBookable(BlockItemModel block) {
     if (dateIntCurrent == null || block.rangeStart == null) return false;
-    
+
     // Get the selected date (local)
     final now = DateTime.now();
     final selectedDate = DateTime.fromMillisecondsSinceEpoch(
       dateIntCurrent! * 1000,
       isUtc: true,
     );
-    
+
     // rangeStart is time offset in milliseconds from 00:00 UTC
     // Convert to hours and minutes
     final blockTimeUtc = DateTime.fromMillisecondsSinceEpoch(
@@ -415,7 +427,7 @@ class BookingCreateController extends GetxController {
     );
     final blockHour = blockTimeUtc.hour;
     final blockMinute = blockTimeUtc.minute;
-    
+
     // Create block start time in local timezone using selected date + block time
     final blockStartTimeLocal = DateTime(
       selectedDate.year,
@@ -424,10 +436,10 @@ class BookingCreateController extends GetxController {
       blockHour,
       blockMinute,
     );
-    
+
     // Current local time + 10 minutes
     final minBookableTime = now.add(Duration(minutes: 10));
-    
+
     // Block is bookable if its start time is after the minimum bookable time
     return blockStartTimeLocal.isAfter(minBookableTime);
   }

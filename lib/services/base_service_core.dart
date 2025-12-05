@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 import 'package:golf_uiv2/utils/constants.dart';
+
+import '../utils/keys.dart';
+import '../utils/support.dart';
 part 'base_service_core.g.dart';
 
 @RestApi(baseUrl: GOLF_CORE_API_URL)
@@ -69,7 +72,7 @@ abstract class ApiClient {
     @Query("TimeBooking") int? timeBooking,
     @Query("DateTimeClient") String dateTimeClient,
     @Query("UserID") int UserID,
-    @Query("IsVisa") bool isVisa,
+    @Query("userCodeMemberID ") int isVisa,
   );
 
   @POST("api/booking/insert")
@@ -314,5 +317,6 @@ abstract class ApiClient {
     @Header("Authorization") String auth,
     @Query("shopID") int shopID,
     @Query("userID") int userID,
+    @Query("datePlay ") int datePlay,
   );
 }

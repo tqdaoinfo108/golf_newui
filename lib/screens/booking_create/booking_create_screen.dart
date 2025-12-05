@@ -26,157 +26,160 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
       () => Scaffold(
         backgroundColor: themeData.colorScheme.background,
         extendBody: true,
-        body: Flex(
-          direction: Axis.vertical,
-          children: [
-            /// Booking Information
-            Container(
-              padding: const EdgeInsets.only(
-                top: kToolbarHeight,
-                right: 10,
-                left: 10,
-                bottom: 10,
-              ),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF241D59), Color(0xFF232F7C)],
-                  stops: [0.0, 0.5225],
+        body: Padding(
+          padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom > 0 ? kToolbarHeight : 0),
+          child: Flex(
+            direction: Axis.vertical,
+            children: [
+              /// Booking Information
+              Container(
+                padding: const EdgeInsets.only(
+                  top: kToolbarHeight,
+                  right: 10,
+                  left: 10,
+                  bottom: 10,
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xFF241D59), Color(0xFF232F7C)],
+                    stops: [0.0, 0.5225],
+                  ),
+                ),
+                child: Obx(
+                  () => shopItemView(
+                    themeData,
+                    controller.shopSelected!,
+                    onFavoriteChanged:
+                        (val) => controller.changeFavorite(
+                          controller.shopSelected!.shopID,
+                        ),
+                    buyVipMemberButton: (controller.shopSelected!.countMemberCode ?? 0) > 0
+                        ? _buildBuyVipMemberButton(
+                            themeData,
+                            onPressed:
+                                () => Get.toNamed(
+                                  AppRoutes.BUY_VIP_LIST,
+                                  arguments: controller.shopSelected,
+                                )!.then((res) => _registerVipMemberBacked(res)),
+                          )
+                        : null,
+                  ),
                 ),
               ),
-              child: Obx(
-                () => shopItemView(
-                  themeData,
-                  controller.shopSelected!,
-                  onFavoriteChanged:
-                      (val) => controller.changeFavorite(
-                        controller.shopSelected!.shopID,
-                      ),
-                  buyVipMemberButton: (controller.shopSelected!.countMemberCode ?? 0) > 0
-                      ? _buildBuyVipMemberButton(
-                          themeData,
-                          onPressed:
-                              () => Get.toNamed(
-                                AppRoutes.BUY_VIP_LIST,
-                                arguments: controller.shopSelected,
-                              )!.then((res) => _registerVipMemberBacked(res)),
-                        )
-                      : null,
-                ),
-              ),
-            ),
-
-            // / Booking time chooser
-            Expanded(
-              child: SizedBox(
-                height: double.infinity, // <-----
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10),
-                      /// Choose date
-                      chooseDateBooking(
-                        context,
-                        themeData,
-                        controller,
-                        controller.shopSelected!.dayLimitBooking ?? 30,
-                        (_value) {
-                          controller.onDateChange(_value);
-                        },
-                      ),
-                      SizedBox(height: 10),
-
-                      /// Choose payment method
-                      if (controller.lstPaymentMethod.isNotEmpty)
-                        choosePaymentMethod(
+          
+              // / Booking time chooser
+              Expanded(
+                child: SizedBox(
+                  height: double.infinity, // <-----
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10),
+                        /// Choose date
+                        chooseDateBooking(
                           context,
                           themeData,
                           controller,
-                          controller.lstPaymentMethod,
+                          controller.shopSelected!.dayLimitBooking ?? 30,
+                          (_value) {
+                            controller.onDateChange(_value);
+                          },
                         ),
-                      if (controller.lstPaymentMethod.isNotEmpty)
                         SizedBox(height: 10),
-
-                      /// Choose machine (only enabled after payment method selected)
-                      AbsorbPointer(
-                        absorbing: controller.lstPaymentMethod.isNotEmpty && 
-                                   !controller.isPaymentMethodSelected,
-                        child: Opacity(
-                          opacity: controller.lstPaymentMethod.isEmpty || 
-                                   controller.isPaymentMethodSelected ? 1.0 : 0.5,
-                          child: chooseSlotBooking(
-                            controller,
+          
+                        /// Choose payment method
+                        if (controller.lstPaymentMethod.isNotEmpty)
+                          choosePaymentMethod(
                             context,
                             themeData,
-                            controller.lstSlot,
+                            controller,
+                            controller.lstPaymentMethod,
+                          ),
+                        if (controller.lstPaymentMethod.isNotEmpty)
+                          SizedBox(height: 10),
+          
+                        /// Choose machine (only enabled after payment method selected)
+                        AbsorbPointer(
+                          absorbing: controller.lstPaymentMethod.isNotEmpty && 
+                                     !controller.isPaymentMethodSelected,
+                          child: Opacity(
+                            opacity: controller.lstPaymentMethod.isEmpty || 
+                                     controller.isPaymentMethodSelected ? 1.0 : 0.5,
+                            child: chooseSlotBooking(
+                              controller,
+                              context,
+                              themeData,
+                              controller.lstSlot,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      chooseBlockBooking(
-                        controller,
-                        context,
-                        themeData,
-                        controller.lstBlock,
-                      ),
-                      SizedBox(height: 20),
-                    ],
+                        SizedBox(height: 10),
+                        chooseBlockBooking(
+                          controller,
+                          context,
+                          themeData,
+                          controller.lstBlock,
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.only(
-                bottom: 30,
-                right: 20,
-                left: 20,
-                top: 10,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: DefaultButton(
-                      text: 'cancel'.tr,
-                      textColor: Colors.white,
-                      backgroundColor: Color(0xff4053BF),
-                      radius: 15,
-                      press: () {
-                        controller.onCancelBooking();
-                      },
+              Container(
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.only(
+                  bottom: 30,
+                  right: 20,
+                  left: 20,
+                  top: 10,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: DefaultButton(
+                        text: 'cancel'.tr,
+                        textColor: Colors.white,
+                        backgroundColor: Color(0xff4053BF),
+                        radius: 15,
+                        press: () {
+                          controller.onCancelBooking();
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: DefaultButton(
-                      text: 'create'.tr,
-                      textColor: Colors.white,
-                      backgroundColor: Color(0xff232E7A),
-                      radius: 15,
-                      press: () {
-                        SupportUtils.showDecisionDialog(
-                          'are_you_sure_create_booking'.tr,
-                          lstOptions: [
-                            DecisionOption(
-                              'yes'.tr,
-                              type: DecisionOptionType.EXPECTATION,
-                              onDecisionPressed: () {
-                                controller.onCreateBooking();
-                              },
-                            ),
-                            DecisionOption('no'.tr, onDecisionPressed: null),
-                          ],
-                        );
-                      },
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: DefaultButton(
+                        text: 'create'.tr,
+                        textColor: Colors.white,
+                        backgroundColor: Color(0xff232E7A),
+                        radius: 15,
+                        press: () {
+                          SupportUtils.showDecisionDialog(
+                            'are_you_sure_create_booking'.tr,
+                            lstOptions: [
+                              DecisionOption(
+                                'yes'.tr,
+                                type: DecisionOptionType.EXPECTATION,
+                                onDecisionPressed: () {
+                                  controller.onCreateBooking();
+                                },
+                              ),
+                              DecisionOption('no'.tr, onDecisionPressed: null),
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -195,10 +198,11 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
         onPress: onPressed,
       );
 
-  _registerVipMemberBacked(PageResult? result) {
+  _registerVipMemberBacked(PageResult? result) async {
     final controller = Get.find<BookingCreateController>();
     if (result != null && result.resultCode == PageResultCode.OK) {
-      controller.getShopDetail();
+      await controller.getShopDetail();
+      await controller.resetValue();
       SupportUtils.showToast(
         "register_vip_member_successful".tr,
         type: ToastType.SUCCESSFUL,
