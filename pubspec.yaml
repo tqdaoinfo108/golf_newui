@@ -21,7 +21,6 @@ dependencies:
   expandable: ^5.0.1 #expandable
   dio: ^5.8.0+1
   # flutter_facebook_auth: ^7.1.1
-  retrofit: any
   logger: any
   shared_preferences: ^2.5.2
   meta: ^1.16.0

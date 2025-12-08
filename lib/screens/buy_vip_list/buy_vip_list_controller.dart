@@ -52,8 +52,8 @@ class BuyVipListController extends GetxController
     );
 
     if (res != null) {
-      _total.value = res.total!;
-      _lstVipMembers.addAll(res.data!);
+      _total.value = res.total ?? 0;
+      _lstVipMembers.addAll(res.data ?? []);
 
       change(_lstVipMembers, status: RxStatus.success());
     } else {

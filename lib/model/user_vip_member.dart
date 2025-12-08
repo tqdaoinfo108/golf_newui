@@ -8,6 +8,7 @@ List<UserVipMember> userVipMemberFromJson(String str) =>
 
 class UserVipMember {
   UserVipMember({
+    this.bookingConsecutiveLimit,
     this.userId,
     this.userName,
     this.shopId,
@@ -23,6 +24,7 @@ class UserVipMember {
     this.isRenew,
     this.userCodeMemberId,
     this.listUserCodeMemberLimit,
+    this.nameCodeMember
   });
 
   int? userId;
@@ -40,44 +42,11 @@ class UserVipMember {
   int? isRenew;
   int? userCodeMemberId;
   List<UserVipMember>? listUserCodeMemberLimit;
-
-  UserVipMember copyWith({
-    int? userId,
-    String? userName,
-    int? shopId,
-    String? shopCode,
-    String? shopName,
-    String? shopAddress,
-    int? typeLimit,
-    int? sumBuyPlay,
-    int? sumUsePlay,
-    int? remainPlay,
-    int? fromDate,
-    int? toDate,
-    int? isRenew,
-    int? userCodeMemberId,
-    List<UserVipMember>? listUserCodeMemberLimit,
-  }) =>
-      UserVipMember(
-        userId: userId ?? this.userId,
-        userName: userName ?? this.userName,
-        shopId: shopId ?? this.shopId,
-        shopCode: shopCode ?? this.shopCode,
-        shopName: shopName ?? this.shopName,
-        shopAddress: shopAddress ?? this.shopAddress,
-        typeLimit: typeLimit ?? this.typeLimit,
-        sumBuyPlay: sumBuyPlay ?? this.sumBuyPlay,
-        sumUsePlay: sumUsePlay ?? this.sumUsePlay,
-        remainPlay: remainPlay ?? this.remainPlay,
-        fromDate: fromDate ?? this.fromDate,
-        toDate: toDate ?? this.toDate,
-        isRenew: isRenew ?? this.isRenew,
-        userCodeMemberId: userCodeMemberId ?? this.userCodeMemberId,
-        listUserCodeMemberLimit:
-            listUserCodeMemberLimit ?? this.listUserCodeMemberLimit,
-      );
+  String? nameCodeMember;
+  int? bookingConsecutiveLimit = 2;
 
   factory UserVipMember.fromJson(Map<String, dynamic> json) => UserVipMember(
+    
         userId: json["UserID"] == null ? null : json["UserID"],
         userName: json["UserName"] == null ? null : json["UserName"],
         shopId: json["ShopID"] == null ? null : json["ShopID"],
@@ -90,6 +59,8 @@ class UserVipMember {
         remainPlay: json["RemainPlay"] == null ? null : json["RemainPlay"],
         fromDate: json["FromDate"] == null ? null : json["FromDate"] * 1000,
         toDate: json["ToDate"] == null ? null : json["ToDate"] * 1000,
+         nameCodeMember:
+        json["NameCodeMember"] == null ? null : json["NameCodeMember"],
         isRenew: json["IsRenew"] == null ? null : json["IsRenew"],
         userCodeMemberId:
             json["UserCodeMemberID"] == null ? null : json["UserCodeMemberID"],
@@ -98,25 +69,6 @@ class UserVipMember {
             : List<UserVipMember>.from(json["ListUserCodeMemberLimit"]
                 .map((val) => UserVipMember.fromJson(val))),
       );
-
-  Map<String, dynamic> toJson() => {
-        "UserID": userId == null ? null : userId,
-        "UserName": userName == null ? null : userName,
-        "ShopID": shopId == null ? null : shopId,
-        "ShopCode": shopCode == null ? null : shopCode,
-        "ShopName": shopName == null ? null : shopName,
-        "ShopAddress": shopAddress == null ? null : shopAddress,
-        "TypeLimit": typeLimit == null ? null : typeLimit,
-        "SumBuyPlay": sumBuyPlay == null ? null : sumBuyPlay,
-        "SumUsePlay": sumUsePlay == null ? null : sumUsePlay,
-        "RemainPlay": remainPlay == null ? null : remainPlay,
-        "FromDate": fromDate == null ? null : fromDate,
-        "ToDate": toDate == null ? null : toDate,
-        "IsRenew": isRenew == null ? null : isRenew,
-        "UserCodeMemberID": userCodeMemberId == null ? null : userCodeMemberId,
-        "ListUserCodeMemberLimit":
-            listUserCodeMemberLimit == null ? null : listUserCodeMemberLimit,
-      };
 
   bool isUseable() {
     return this.typeLimit != VipMemberType.UNLIMIT ||

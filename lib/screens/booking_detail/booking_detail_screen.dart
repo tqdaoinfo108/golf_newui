@@ -46,7 +46,10 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                         padding: EdgeInsets.only(
                           left: 40,
                           right: 20,
-                          bottom: 20,
+                          bottom:
+                          MediaQuery.of(context).viewPadding.bottom > 0
+                              ? kToolbarHeight + 20
+                              : 20,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +99,8 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                   ),
                                   child: Column(
                                     spacing: 10,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -181,7 +185,8 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                         radius: 12,
                                         text: 'show_qr'.tr,
                                         textColor: Colors.white,
-                                        backgroundColor: GolfColor.GolfSubColor,
+                                        backgroundColor:
+                                            GolfColor.GolfSubColor,
                                         press: () {
                                           showModalBottomSheet(
                                             context: context,
@@ -230,7 +235,8 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                                 controller
                                                     .letsPaymentOrther5and6,
                                           ),
-                                      onCancelPressed: controller.cancelBooking,
+                                      onCancelPressed:
+                                          controller.cancelBooking,
                                     ),
                                   ),
                                 ],
@@ -340,7 +346,8 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
         controller.curBooking.payment!.shopFinshAndContinue;
 
     if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED ||
-        typePayment == BookingDetailPaymentType.MEMBER_LIMITED || typePayment == 5) {
+        typePayment == BookingDetailPaymentType.MEMBER_LIMITED ||
+        typePayment == 5) {
       onPayByVipMember?.call();
     } else if (typePayment == BookingDetailPaymentType.ONLINE ||
         typePayment == 6) {
@@ -354,6 +361,6 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
     } else if (typePayment ==
         BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE) {
       _alertNotEnoughVipCardTurn(onPayByOnLinePayment);
-    } 
+    }
   }
 }

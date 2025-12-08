@@ -254,7 +254,13 @@ const Map<String, String> en = {
   "Please enter only alphabetic characters": "Please enter only alphabetic characters",
   "select_date": "Select Date",
   "select_machine": "Select Machine",
-  "select_time": "Select Time",
+    "select_time": "Select Time",
+    "agree_and_continue": "Agree and continue",
+    "withdraw_membership": "Withdraw membership",
+    "membership_purchase_notice":
+            "・This membership will auto-renew.\n・Monthly fees will be charged automatically to your credit card.\n・To stop auto-renewal, please delete your account.\n・Payments are non-refundable.\n・You must agree to the Terms of Use and Privacy Policy.\n\nPlease review the above and tap 'Agree and continue' to proceed.",
+    "membership_cancel_notice":
+            "If you withdraw, your current membership ends immediately and\nauto-renew (future charges) stops.\n\n※ Past booking history and points cannot be restored after withdrawal.\n※ The current month's fee is not refunded on a pro-rated basis.\n\nDo you really want to withdraw?",
   "days": "days",
   "payment_method": "Payment Method",
   "select_payment_method": "Select payment method"

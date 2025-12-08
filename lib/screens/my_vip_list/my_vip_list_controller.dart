@@ -46,6 +46,33 @@ class MyVipListController extends GetxController
     }
   }
 
+  Future<void> cancelMember(UserVipMember vipMember) async {
+    var _result = BaseResponse<bool>();
+
+    /// Call Service
+    _result = await GolfApi().cancelVipMember(AuthBody<Map<String, dynamic>>()
+      ..setAuth(Auth())
+      ..setData({
+        'userCodeMemberID': vipMember.userCodeMemberId,
+      }, dataToJson: (data) => data));
+
+    /// Handle result
+    if (_result.data == null || !_result.data!) {
+      if (_result.getException == null) {
+        _result.setException(ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+      }
+
+      /// Show Error
+      SupportUtils.showToast(_result.getException!.getErrorMessage(),
+          type: ToastType.ERROR);
+    } else {
+      /// Success - refresh list
+      SupportUtils.showToast('success'.tr, type: ToastType.SUCCESSFUL);
+      getUserVipMember();
+    }
+  }
+
   Future<void> updateRenew(UserVipMember vipMember, bool isAutoRenew) async {
     var _result = BaseResponse<bool>();
 

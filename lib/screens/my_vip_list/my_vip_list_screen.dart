@@ -18,7 +18,7 @@ class MyVipListScreen extends GetView<MyVipListController> {
 
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar(context,"back".tr),
+      appBar: ApplicationAppBar(context, "back".tr),
       body: Container(
         decoration: BoxDecoration(
           color: appTheme.colorScheme.background,
@@ -34,17 +34,26 @@ class MyVipListScreen extends GetView<MyVipListController> {
             SizedBox(height: 20.0.sp),
             Flexible(
               child: controller.obx(
-                (lstVipMembers) => (lstVipMembers?.isEmpty ?? true)
-                    ? _buildEmptyList(appTheme)
-                    : AppListView(
-                        itemCount: lstVipMembers!.length,
-                        itemBuilder: (context, index) => MyVipListItem(
-                          vipMemberItem: lstVipMembers[index],
-                          autoRenewChanged: (val) =>
-                              controller.updateRenew(lstVipMembers[index], val),
-                          enable: lstVipMembers[index].isUseable(),
+                (lstVipMembers) =>
+                    (lstVipMembers?.isEmpty ?? true)
+                        ? _buildEmptyList(appTheme)
+                        : AppListView(
+                          itemCount: lstVipMembers!.length,
+                          itemBuilder:
+                              (context, index) => MyVipListItem(
+                                vipMemberItem: lstVipMembers[index],
+                                autoRenewChanged:
+                                    (val) => controller.updateRenew(
+                                      lstVipMembers[index],
+                                      val,
+                                    ),
+                                enable: lstVipMembers[index].isUseable(),
+                                cancelPressed:
+                                    () async => await controller.cancelMember(
+                                      lstVipMembers[index],
+                                    ),
+                              ),
                         ),
-                      ),
                 onLoading: _buildLoadingIndicator(appTheme),
                 onError: (error) {
                   SupportUtils.showToast(error, type: ToastType.ERROR);
@@ -59,21 +68,22 @@ class MyVipListScreen extends GetView<MyVipListController> {
   }
 
   Widget _buildEmptyList(ThemeData appTheme) => Container(
-        child: Center(
-          child: Text(
-            "not_have_vip_member".tr,
-            style: appTheme.textTheme.titleSmall
-                ?.copyWith(color: appTheme.colorScheme.surface),
-          ),
+    child: Center(
+      child: Text(
+        "not_have_vip_member".tr,
+        style: appTheme.textTheme.titleSmall?.copyWith(
+          color: appTheme.colorScheme.surface,
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _buildLoadingIndicator(ThemeData appTheme) => Container(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
+    child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    ),
+  );
 }

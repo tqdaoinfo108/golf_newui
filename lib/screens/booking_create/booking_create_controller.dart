@@ -15,6 +15,7 @@ import 'package:golf_uiv2/utils/keys.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
 import '../../model/shop_vip_memeber.dart';
+import '../../model/user_vip_member.dart';
 import '../home/home_controller.dart';
 
 class BookingCreateController extends GetxController {
@@ -61,15 +62,15 @@ class BookingCreateController extends GetxController {
   set lstBlock(List<BlockItemModel> value) => this._lstBlock.value = value;
 
   // Payment method list
-  final RxList<ShopVipMember> _lstPaymentMethod = <ShopVipMember>[].obs;
-  List<ShopVipMember> get lstPaymentMethod => this._lstPaymentMethod;
-  set lstPaymentMethod(List<ShopVipMember> value) =>
+  final RxList<UserVipMember> _lstPaymentMethod = <UserVipMember>[].obs;
+  List<UserVipMember> get lstPaymentMethod => this._lstPaymentMethod;
+  set lstPaymentMethod(List<UserVipMember> value) =>
       this._lstPaymentMethod.value = value;
 
   // Selected payment method
-  final Rx<ShopVipMember?> _selectedPaymentMethod = Rx<ShopVipMember?>(null);
-  ShopVipMember? get selectedPaymentMethod => this._selectedPaymentMethod.value;
-  set selectedPaymentMethod(ShopVipMember? value) =>
+  final Rx<UserVipMember?> _selectedPaymentMethod = Rx<UserVipMember?>(null);
+  UserVipMember? get selectedPaymentMethod => this._selectedPaymentMethod.value;
+  set selectedPaymentMethod(UserVipMember? value) =>
       this._selectedPaymentMethod.value = value;
 
   // Flag to check if payment method is selected
@@ -97,7 +98,7 @@ class BookingCreateController extends GetxController {
     shopSelected = Get.arguments;
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];
-    lstPaymentMethod = <ShopVipMember>[];
+    lstPaymentMethod = <UserVipMember>[];
     selectedPaymentMethod = null;
     var _dateTemp = DateTime.now();
     dateIntCurrent =
@@ -113,7 +114,7 @@ class BookingCreateController extends GetxController {
   void onReset() async {
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];
-    lstPaymentMethod = <ShopVipMember>[];
+    lstPaymentMethod = <UserVipMember>[];
     selectedPaymentMethod = null;
     var _dateTemp = DateTime.now();
     dateIntCurrent =
@@ -159,7 +160,7 @@ class BookingCreateController extends GetxController {
     update();
   }
 
-  void onSelectPaymentMethod(ShopVipMember? paymentMethod) {
+  void onSelectPaymentMethod(UserVipMember? paymentMethod) {
     selectedPaymentMethod = paymentMethod;
     // Collapse payment method and expand machine selection after payment method is selected
     if (paymentMethod != null) {
@@ -237,12 +238,12 @@ class BookingCreateController extends GetxController {
       dateTime.hour,
       dateTime.minute,
     ].join('-');
-    var listValue = await new GolfApi().getBlock(
+    var listValue = await GolfApi().getBlock(
       selectedSlots.first.slotID,
       dateIntCurrent,
       _strDatTimeCurrent,
       SupportUtils.prefs.getInt(USER_ID) ?? 0,
-      selectedPaymentMethod?.codeMemberId ?? 0,
+      selectedPaymentMethod?.userCodeMemberId ?? 0,
     );
 
     lstBlock.clear();
@@ -348,7 +349,7 @@ class BookingCreateController extends GetxController {
     }
 
     var createBookingModel = BookingInsertItemModel(
-      selectedPaymentMethod?.codeMemberId == 0,
+      selectedPaymentMethod?.userCodeMemberId == 0,
     );
     createBookingModel.datePlay = dateIntCurrent;
     createBookingModel.slotID = idSlot;
@@ -381,7 +382,7 @@ class BookingCreateController extends GetxController {
     Get.back();
   }
 
-  void updateShopVipMember() {
+  void updateUserVipMember() {
     _shopSelected.value = shopSelected!.copyWith(isUserMemberCode: 1);
   }
 

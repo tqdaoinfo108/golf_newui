@@ -12,12 +12,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
 import '../model/shop_vip_memeber.dart';
+import '../model/user_vip_member.dart';
 
 Widget choosePaymentMethod(
   BuildContext context,
   ThemeData themeData,
   BookingCreateController controller,
-  List<ShopVipMember> lstPaymentMethod,
+  List<UserVipMember> lstPaymentMethod,
 ) {
   final selectedPayment = controller.selectedPaymentMethod;
   final isExpanded = controller.isPaymentMethodExpanded;
@@ -139,7 +140,7 @@ Widget choosePaymentMethod(
               padding: EdgeInsets.all(12),
               child: Column(
                 children: lstPaymentMethod.map((payment) {
-                  final isSelected = controller.selectedPaymentMethod?.codeMemberId == payment.codeMemberId;
+                  final isSelected = controller.selectedPaymentMethod?.userCodeMemberId == payment.userCodeMemberId;
                   return InkWell(
                     onTap: () {
                       controller.onSelectPaymentMethod(payment);

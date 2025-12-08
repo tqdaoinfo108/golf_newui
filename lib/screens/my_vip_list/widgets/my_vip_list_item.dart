@@ -16,12 +16,14 @@ class MyVipListItem extends StatelessWidget {
     this.vipMemberItem,
     this.itemPressed,
     this.autoRenewChanged,
+    this.cancelPressed,
     this.enable = true,
   }) : super(key: key);
 
   final UserVipMember? vipMemberItem;
   final void Function()? itemPressed;
   final void Function(bool val)? autoRenewChanged;
+  final void Function()? cancelPressed;
   final bool enable;
 
   @override
@@ -123,51 +125,117 @@ class MyVipListItem extends StatelessWidget {
                 ),
                 vipMemberItem!.typeLimit == VipMemberType.UNLIMIT
                     ? Obx(
-                        () => _autoRenew.value
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  PressableText(
-                                    "cancel_auto_renew".tr,
-                                    backgroundColor: appTheme.colorScheme.error
-                                        .withOpacity(.8),
-                                    borderSide: BorderSide.none,
-                                    borderRadius:
-                                        BorderRadius.circular(15.0.sp),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 5.0.sp,
-                                      horizontal: 10.0.sp,
-                                    ),
-                                    style:
-                                        appTheme.textTheme.titleSmall!.copyWith(
-                                      color: appTheme.colorScheme.onError,
-                                      fontSize: 9.0.sp,
-                                    ),
-                                    onPress: () {
-                                      SupportUtils.showDecisionDialog(
-                                          "${"are_your_sure_cancel_auto_renew".tr} ",
-                                          lstOptions: [
-                                            DecisionOption(
-                                              'yes'.tr,
-                                              onDecisionPressed: () {
-                                                _autoRenew.value =
-                                                    !_autoRenew.value;
-                                                autoRenewChanged
-                                                    ?.call(_autoRenew.value);
-                                              },
-                                            ),
-                                            DecisionOption('no'.tr,
-                                                isImportant: true,
-                                                type: DecisionOptionType.DENIED,
-                                                onDecisionPressed: null),
-                                          ]);
-                                    },
-                                  ),
-                                ],
-                              )
-                            : Container(),
+                        () => Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            if (_autoRenew.value)
+                              PressableText(
+                                "cancel_auto_renew".tr,
+                                backgroundColor: appTheme.colorScheme.error
+                                    .withOpacity(.8),
+                                borderSide: BorderSide.none,
+                                borderRadius:
+                                    BorderRadius.circular(15.0.sp),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 5.0.sp,
+                                  horizontal: 10.0.sp,
+                                ),
+                                style:
+                                    appTheme.textTheme.titleSmall!.copyWith(
+                                  color: appTheme.colorScheme.onError,
+                                  fontSize: 9.0.sp,
+                                ),
+                                onPress: () {
+                                  SupportUtils.showDecisionDialog(
+                                      "${"are_your_sure_cancel_auto_renew".tr} ",
+                                      lstOptions: [
+                                        DecisionOption(
+                                          'yes'.tr,
+                                          onDecisionPressed: () {
+                                            _autoRenew.value =
+                                                !_autoRenew.value;
+                                            autoRenewChanged
+                                                ?.call(_autoRenew.value);
+                                          },
+                                        ),
+                                        DecisionOption('no'.tr,
+                                            isImportant: true,
+                                            type: DecisionOptionType.DENIED,
+                                            onDecisionPressed: null),
+                                      ]);
+                                },
+                              ),
+                            if (_autoRenew.value) SizedBox(width: 8.0.sp),
+                            PressableText(
+                              "cancel".tr,
+                              backgroundColor:
+                                  appTheme.colorScheme.error.withOpacity(.85),
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(15.0.sp),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 5.0.sp,
+                                horizontal: 10.0.sp,
+                              ),
+                              style: appTheme.textTheme.titleSmall!.copyWith(
+                                color: appTheme.colorScheme.onError,
+                                fontSize: 9.0.sp,
+                              ),
+                              onPress: () {
+                                SupportUtils.showDecisionDialog(
+                                    "${"membership_cancel_notice".tr}",
+                                    lstOptions: [
+                                      DecisionOption(
+                                        'withdraw_membership'.tr,
+                                        onDecisionPressed: () {
+                                          cancelPressed?.call();
+                                        },
+                                      ),
+                                      DecisionOption('cancel'.tr,
+                                          isImportant: true,
+                                          type: DecisionOptionType.DENIED,
+                                          onDecisionPressed: null),
+                                    ]);
+                              },
+                            ),
+                          ],
+                        ),
                       )
-                    : Container(),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          PressableText(
+                            "cancel".tr,
+                            backgroundColor:
+                                appTheme.colorScheme.error.withOpacity(.85),
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(15.0.sp),
+                            padding: EdgeInsets.symmetric(
+                              vertical: 5.0.sp,
+                              horizontal: 10.0.sp,
+                            ),
+                            style: appTheme.textTheme.titleSmall!.copyWith(
+                              color: appTheme.colorScheme.onError,
+                              fontSize: 9.0.sp,
+                            ),
+                            onPress: () {
+                              SupportUtils.showDecisionDialog(
+                                  "${"membership_cancel_notice".tr}",
+                                  lstOptions: [
+                                    DecisionOption(
+                                      'withdraw_membership'.tr,
+                                      onDecisionPressed: () {
+                                        cancelPressed?.call();
+                                      },
+                                    ),
+                                    DecisionOption('cancel'.tr,
+                                        isImportant: true,
+                                        type: DecisionOptionType.DENIED,
+                                        onDecisionPressed: null),
+                                  ]);
+                            },
+                          ),
+                        ],
+                      ),
               ],
             ),
           ]),

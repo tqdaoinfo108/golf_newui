@@ -558,6 +558,21 @@ class GolfApi {
     }
   }
 
+  Future<BaseResponse<bool>> cancelVipMember(AuthBody body) async {
+    String? response;
+    try {
+      response = await apiClient.cancelVipMember(
+        defaultAuthentication,
+        body.toJson(),
+      );
+
+      return BaseResponse<bool>.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
   Future<BaseResponse<PaymentKeyResponse?>> getPaymentKey(AuthBody body) async {
     String? response;
     try {
@@ -738,7 +753,7 @@ class GolfApi {
     }
   }
 
-  Future<BaseResponse<List<ShopVipMember>>> getListMemberPayment(
+  Future<BaseResponse<List<UserVipMember>>> getListMemberPayment(
     int shopID,
     int userID,
     int datePlay
@@ -751,12 +766,12 @@ class GolfApi {
         datePlay
       );
 
-      return BaseResponse<List<ShopVipMember>>.fromJson(
+      return BaseResponse<List<UserVipMember>>.fromJson(
         jsonDecode(response!),
         (json) =>
             (json as List<dynamic>)
-                .map<ShopVipMember>(
-                  (i) => ShopVipMember.fromJson(i as Map<String, dynamic>),
+                .map<UserVipMember>(
+                  (i) => UserVipMember.fromJson(i as Map<String, dynamic>),
                 )
                 .toList(),
       );
