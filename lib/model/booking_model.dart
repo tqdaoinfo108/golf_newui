@@ -22,8 +22,8 @@ class BookingInsertItemModel {
   int? shopID;
   String? timeZoneName;
   List<int?>? blocks;
-  bool isVisa;
-  BookingInsertItemModel(this.isVisa,
+  int? userCodeMemberID ;
+  BookingInsertItemModel(this.userCodeMemberID,
       {this.datePlay, this.slotID, this.shopID, this.blocks});
 
   Map<String, dynamic> toJson() {
@@ -33,7 +33,7 @@ class BookingInsertItemModel {
     data['ShopID'] = this.shopID;
     data['Blocks'] = this.blocks;
     data['TimeZoneName'] = this.timeZoneName;
-    data['IsVisa'] = isVisa;
+    data['UserCodeMemberID'] = userCodeMemberID;
     return data;
   }
 }

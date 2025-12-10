@@ -734,8 +734,8 @@ class GolfApi {
   ) async {
     try {
       var response = await apiClient.getGroupUserByEmail(
-        email,
         basicAuthentication,
+        email,
       );
 
       return BaseResponse<List<GroupModel>>.fromJson(

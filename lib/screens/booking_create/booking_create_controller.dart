@@ -349,7 +349,7 @@ class BookingCreateController extends GetxController {
     }
 
     var createBookingModel = BookingInsertItemModel(
-      selectedPaymentMethod?.userCodeMemberId == 0,
+      selectedPaymentMethod?.userCodeMemberId,
     );
     createBookingModel.datePlay = dateIntCurrent;
     createBookingModel.slotID = idSlot;
@@ -388,6 +388,7 @@ class BookingCreateController extends GetxController {
 
   /// Check if there are N consecutive blocks selected based on stt
   bool _hasConsecutiveBlocks(List<BlockItemModel> selectedBlocks, int count) {
+    count = count +1;
     if (selectedBlocks.length < count) return false;
 
     // Sort by stt
