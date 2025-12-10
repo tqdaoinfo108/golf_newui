@@ -111,14 +111,21 @@ class NotificationScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child:
-                          controller.isLoading
+                          controller.isLoading &&
+                                  controller.lstNotification.isEmpty
                               ? Center(child: CircularProgressIndicator())
-                              : controller.lstNotification.length > 0
-                              ? LoadMore(
+                              : controller.lstNotification.isEmpty
+                              ? Center(
+                                child: Text(
+                                  'not_fount_data'.tr,
+                                  style: themeData.textTheme.headlineLarge,
+                                ),
+                              )
+                              : LoadMore(
                                 textBuilder: controller.buildStringLoadMore,
                                 isFinish:
                                     controller.lstNotification.length >=
-                                    controller.total!,
+                                    (controller.total ?? 0),
                                 onLoadMore: controller.getListNotication,
                                 child: ListView.builder(
                                   padding: EdgeInsets.only(top: 2.0.h),
@@ -132,12 +139,6 @@ class NotificationScreen extends StatelessWidget {
                                     );
                                   },
                                   itemCount: controller.lstNotification.length,
-                                ),
-                              )
-                              : Center(
-                                child: Text(
-                                  'not_fount_data'.tr,
-                                  style: themeData.textTheme.headlineLarge,
                                 ),
                               ),
                     ),

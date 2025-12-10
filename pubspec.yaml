@@ -17,7 +17,7 @@ dependencies:
   get: ^4.7.2
   #nb_utils: ^4.4.12 # utils
   intl: ^0.20.2
-  google_fonts: ^6.2.1
+  google_fonts: ^6.3.3
   expandable: ^5.0.1 #expandable
   dio: ^5.8.0+1
   # flutter_facebook_auth: ^7.1.1
@@ -28,7 +28,7 @@ dependencies:
   pretty_qr_code: ^3.3.0
   sizer: ^2.0.15 # font scale
   auto_size_text: ^3.0.0 # text size
-  webview_flutter: ^4.10.0
+  webview_flutter: ^4.13.0
   loadmore: ^2.1.0
   firebase_messaging: ^15.2.4
   firebase_core: ^3.12.1
@@ -62,10 +62,6 @@ flutter:
     - assets/icons/
     - assets/svg/
     - assets/
-  fonts:
-    - family: AppIcon
-      fonts:
-        - asset: assets/fonts/AppIcon.ttf
 
 flutter_launcher_icons:
   android: "launcher_icon"

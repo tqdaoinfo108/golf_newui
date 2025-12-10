@@ -28,22 +28,55 @@ class NotificationController extends GetxController {
   List<NotificationItemModel> get lstNotification => this._lstNotification;
   set lstNotification(List<NotificationItemModel> value) =>
       this._lstNotification.value = value;
+
   @override
   void onInit() {
     super.onInit();
+    page = 1;
     lstNotification = <NotificationItemModel>[];
     getListNotication();
   }
 
   Future<bool> getListNotication() async {
-    final result = await GolfApi().getNotification(userId, page, litmit);
-    if (result != null && result.data!.length > 0) {
-      total = result.total;
-      lstNotification = result.data!;
+    print('📄 Loading notifications - Page: $page');
+
+    try {
+      final result = await GolfApi().getNotification(userId, page, litmit);
+
+      if (result != null && result.data != null && result.data!.isNotEmpty) {
+        total = result.total;
+
+        // Add to list instead of replacing
+        if (page == 1) {
+          // First page - replace
+          lstNotification = result.data!;
+          print('✅ First page loaded: ${result.data!.length} items');
+        } else {
+          // Load more - append
+          lstNotification.addAll(result.data!);
+          print(
+            '✅ Page $page loaded: ${result.data!.length} more items. Total: ${lstNotification.length}',
+          );
+        }
+
+        // Increment page for next load
+        page++;
+
+        isLoading = false;
+        update();
+        return true;
+      } else {
+        print('⚠️ No data returned from API');
+        isLoading = false;
+        update();
+        return false;
+      }
+    } catch (e) {
+      print('❌ Error loading notifications: $e');
+      isLoading = false;
+      update();
+      return false;
     }
-    isLoading = false;
-    update();
-    return true;
   }
 
   // Future<bool> getistNotificationMore() async {
@@ -55,13 +88,23 @@ class NotificationController extends GetxController {
 
   Future<bool> clearAllNotification() async {
     isLoading = true;
+    update();
+
     BaseResponse result = await GolfApi().clearNotification(userId);
+
     if (result.data.toString().contains('true')) {
+      // Reset everything
+      page = 1;
       total = 0;
       lstNotification.clear();
+
+      // Reload first page
       await getListNotication();
+
+      print('✅ All notifications cleared');
       return true;
     }
+
     isLoading = false;
     update();
     return false;

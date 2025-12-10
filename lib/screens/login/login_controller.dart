@@ -240,14 +240,17 @@ class LoginController extends GetxController {
       );
       SupportUtils.prefs.setInt(VERIFY_TIME_MILI, 0);
 
+      
       // subscribeToTopic
       FirebaseMessaging.instance.subscribeToTopic(
-        'notification-golfsystem-user' + _loginResult.data!.userID.toString(),
+        'notification-golfsystem-user${_loginResult.data!.userID}',
       );
       FirebaseMessaging.instance.subscribeToTopic(
         'notification-golfsystem-all',
       );
-
+      for (var shopID in _loginResult.data!.lstShopID ?? []) {
+        FirebaseMessaging.instance.subscribeToTopic(shopID);
+      }
       // change language
       SupportUtils.prefs.setString(
         APP_LANGUAGE_CODE,

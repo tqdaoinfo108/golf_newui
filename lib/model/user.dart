@@ -18,26 +18,28 @@ class User extends BaseResponseError {
   int? confirmEmail;
   SocialNetwork? socialNetwork;
   String? languageCode;
-
+  List<String>? lstShopID;
   // update v4
   List<ListShopManager>? listShopManager;
 
   get isUserManager => SupportUtils.prefs.getBool(IS_SHOP_MANAGER);
 
-  User(
-      {this.userID,
-      this.imagesPaths,
-      this.typeUserID,
-      this.uUserID,
-      this.fullName,
-      this.email,
-      this.phone,
-      this.password,
-      this.provider,
-      this.providerUserID,
-      this.socialNetwork,
-      this.confirmEmail,
-      this.languageCode});
+  User({
+    this.userID,
+    this.imagesPaths,
+    this.typeUserID,
+    this.uUserID,
+    this.fullName,
+    this.email,
+    this.phone,
+    this.password,
+    this.provider,
+    this.providerUserID,
+    this.socialNetwork,
+    this.confirmEmail,
+    this.languageCode,
+    this.lstShopID,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     userID = json['UserID'];
@@ -52,14 +54,37 @@ class User extends BaseResponseError {
     confirmEmail = json['ConfirmEmail'];
     languageCode = json['LanguageCode'];
 
-    this.listShopManager = json["listShopManager"] == null
-        ? null
-        : (json["listShopManager"] as List)
-            .map((e) => ListShopManager.fromJson(e))
-            .toList();
+    // Parse lstShopID safely
+    if (json['lstShopID'] != null) {
+      try {
+        if (json['lstShopID'] is List) {
+          lstShopID =
+              (json['lstShopID'] as List)
+                  .map((e) => e?.toString() ?? '')
+                  .where((s) => s.isNotEmpty)
+                  .toList();
+        } else if (json['lstShopID'] is String) {
+          lstShopID = [json['lstShopID'] as String];
+        }
+      } catch (e) {
+        print('Error parsing lstShopID: $e');
+        lstShopID = null;
+      }
+    } else {
+      lstShopID = null;
+    }
 
-    SupportUtils.prefs
-        .setBool(IS_SHOP_MANAGER, (listShopManager ?? []).isNotEmpty);
+    this.listShopManager =
+        json["listShopManager"] == null
+            ? null
+            : (json["listShopManager"] as List)
+                .map((e) => ListShopManager.fromJson(e))
+                .toList();
+
+    SupportUtils.prefs.setBool(
+      IS_SHOP_MANAGER,
+      (listShopManager ?? []).isNotEmpty,
+    );
   }
 
   Map<String, dynamic> toJson() {

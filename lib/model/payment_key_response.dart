@@ -8,7 +8,8 @@ class PaymentKeyResponse {
         this.resResponseContents,
         this.reqRedirectionUri,
         this.mstatus,
-        this.cardNumber
+        this.cardNumber,
+        this.authStartUrl,
     });
 
     String? paymentKey;
@@ -22,6 +23,7 @@ class PaymentKeyResponse {
     String? mstatus;
     String? cardNumber;
     int? shopID;
+    String? authStartUrl;
     
     PaymentKeyResponse copyWith({
         String? paymentKey,
@@ -47,7 +49,8 @@ class PaymentKeyResponse {
         resResponseContents: json["resResponseContents"] == null ? null : json["resResponseContents"],
         reqRedirectionUri: json["reqRedirectionUri"] == null ? null : json["reqRedirectionUri"],
         mstatus: json["mstatus"] == null ? null : json["mstatus"],
-        cardNumber: json["reqCardNumber"]
+        cardNumber: json["reqCardNumber"] == null ? null : json["reqCardNumber"],
+        authStartUrl: json["authStartUrl"] == null ? null : json["authStartUrl"],
     );
 
     Map<String, dynamic> toJson() => {

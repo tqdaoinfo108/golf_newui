@@ -60,7 +60,7 @@ class SignUpScreen extends GetView<SignUpController> {
                               controller: _controller.userNameController,
                               // initialValue: _controller.username,
                               hintText: 'username'.tr,
-                              icon: AppIcon.indentity_user,
+                              icon: Icons.person,
                               accentColor: GolfColor.GolfPrimaryColor,
                               validate: _controller.validateUsername,
                               themeData: themeData,

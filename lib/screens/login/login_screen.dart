@@ -71,7 +71,7 @@ class LoginScreen extends GetView<LoginController> {
                                       TexFieldValidate(
                                         _usernameFocusNode,
                                         hintText: 'username'.tr,
-                                        icon: AppIcon.indentity_user,
+                                        icon: Icons.person,
                                         accentColor:
                                             GolfColor.GolfPrimaryColor,
                                         validate: controller.validateUsername,

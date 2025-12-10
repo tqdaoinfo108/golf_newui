@@ -24,7 +24,7 @@ class BuyVipShopListController extends GetxController
   }
 
   void searchShopForPayVip(String query) async {
-    await _detectLocation();
+    // await _detectLocation();
     var res = await new GolfApi()
         .getShop(_log! > 0 ? _log : 0, _lat! > 0 ? _lat : 0, 10, query, userId);
 

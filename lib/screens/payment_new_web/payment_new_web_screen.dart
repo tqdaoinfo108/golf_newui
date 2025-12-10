@@ -15,39 +15,45 @@ import '../../widgets/application_appbar.dart';
 
 class PaymentWebScreen extends GetView<PaymentWebController> {
   onRequestBack() {
-    SupportUtils.showDecisionDialog('you_have_not_complete_the_payment'.tr,
-        lstOptions: [
-          DecisionOption('yes'.tr, type: DecisionOptionType.DENIED,
-              onDecisionPressed: () {
-          }),
-          DecisionOption('continue_payment'.tr,
-              onDecisionPressed: null, isImportant: true)
-        ]);
+    SupportUtils.showDecisionDialog(
+      'you_have_not_complete_the_payment'.tr,
+      lstOptions: [
+        DecisionOption(
+          'yes'.tr,
+          type: DecisionOptionType.DENIED,
+          onDecisionPressed: () {},
+        ),
+        DecisionOption(
+          'continue_payment'.tr,
+          onDecisionPressed: null,
+          isImportant: true,
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     ThemeData themeData = Theme.of(context);
     final webviewLoading = true.obs;
-    var controllerWeb = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (int progress) {
-          },
-          onPageStarted: (String url) {},
-          onPageFinished: (String url) {
-            webviewLoading.value = false;
-            if (url == controller.arg.reqRedirectionUri) {
-              Get.back(result: true);
-            }
-          },
-          onHttpError: (HttpResponseError error) {},
-          onWebResourceError: (WebResourceError error) {},
-        ),
-      )
-      ..loadHtmlString(controller.arg.resResponseContents!);
+    var controllerWeb =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (int progress) {},
+              onPageStarted: (String url) {},
+              onPageFinished: (String url) {
+                webviewLoading.value = false;
+                if (url == controller.arg.reqRedirectionUri) {
+                  Get.back(result: true);
+                }
+              },
+              onHttpError: (HttpResponseError error) {},
+              onWebResourceError: (WebResourceError error) {},
+            ),
+          )
+          ..loadRequest(Uri.parse(controller.arg.authStartUrl!));
     return WillPopScope(
       onWillPop: () async {
         onRequestBack();
@@ -56,7 +62,8 @@ class PaymentWebScreen extends GetView<PaymentWebController> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: GolfColor.GolfPrimaryColor,
-        appBar: ApplicationAppBar(context,
+        appBar: ApplicationAppBar(
+          context,
           "back".tr,
           onBackPressed: () async {
             onRequestBack();
@@ -72,11 +79,12 @@ class PaymentWebScreen extends GetView<PaymentWebController> {
                   height: double.infinity, // <-----
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(6.0.w),
-                        topRight: Radius.circular(6.0.w)),
+                      topLeft: Radius.circular(6.0.w),
+                      topRight: Radius.circular(6.0.w),
+                    ),
                     color: themeData.colorScheme.backgroundCardColor,
                   ),
-                  child: WebViewWidget(controller: controllerWeb)
+                  child: WebViewWidget(controller: controllerWeb),
                 ),
               ),
             ],

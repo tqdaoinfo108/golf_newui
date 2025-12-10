@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:golf_uiv2/screens/my_vip_list/my_vip_list_controller.dart';
 import 'package:golf_uiv2/screens/my_vip_list/widgets/my_vip_list_item.dart';
 import 'package:golf_uiv2/utils/color.dart';
-import 'package:golf_uiv2/utils/constants.dart';
-import 'package:golf_uiv2/utils/support.dart';
 import 'package:golf_uiv2/widgets/app_listview.dart';
 import 'package:golf_uiv2/widgets/application_appbar.dart';
 import 'package:sizer/sizer.dart';
@@ -56,8 +54,7 @@ class MyVipListScreen extends GetView<MyVipListController> {
                         ),
                 onLoading: _buildLoadingIndicator(appTheme),
                 onError: (error) {
-                  SupportUtils.showToast(error, type: ToastType.ERROR);
-                  return Container();
+                  return _buildErrorWidget(appTheme, error ?? 'error'.tr);
                 },
               ),
             ),
@@ -74,6 +71,23 @@ class MyVipListScreen extends GetView<MyVipListController> {
         style: appTheme.textTheme.titleSmall?.copyWith(
           color: appTheme.colorScheme.surface,
         ),
+      ),
+    ),
+  );
+
+  Widget _buildErrorWidget(ThemeData appTheme, String error) => Container(
+    child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline, color: Colors.red, size: 60),
+          SizedBox(height: 16),
+          Text(
+            error,
+            textAlign: TextAlign.center,
+            style: appTheme.textTheme.titleSmall?.copyWith(color: Colors.red),
+          ),
+        ],
       ),
     ),
   );

@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// Helper function to safely navigate back without snackbar errors
+void _safeBack() {
+  try {
+    // Try to close any open snackbars safely
+    if (Get.isSnackbarOpen == true) {
+      Get.closeAllSnackbars();
+    }
+  } catch (e) {
+    // Ignore snackbar errors
+    print('Ignoring snackbar error during back navigation: $e');
+  }
+
+  // Navigate back
+  if (Get.key.currentState?.canPop() ?? false) {
+    Navigator.of(Get.context!).pop();
+  }
+}
+
 AppBar ApplicationAppBar(
   BuildContext context,
   String title, {
@@ -18,11 +36,11 @@ AppBar ApplicationAppBar(
         if (onBackPressed != null) {
           onBackPressed.call().then((res) {
             if (res) {
-              Get.back();
+              _safeBack();
             }
           });
         } else {
-          Get.back();
+          _safeBack();
         }
       },
     ),
@@ -40,7 +58,7 @@ AppBar ApplicationAppBarLarge(
   String title, {
   Color? backgroundColor,
   Future<bool> Function()? onBackPressed,
-}) {  
+}) {
   return AppBar(
     titleSpacing: 0,
     toolbarHeight: kToolbarHeight,
@@ -53,11 +71,11 @@ AppBar ApplicationAppBarLarge(
         if (onBackPressed != null) {
           onBackPressed.call().then((res) {
             if (res) {
-              Get.back();
+              _safeBack();
             }
           });
         } else {
-          Get.back();
+          _safeBack();
         }
       },
     ),

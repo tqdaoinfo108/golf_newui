@@ -62,27 +62,38 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  /// Shop Name
-                  AutoSizeText(
-                    getTitleNotication(noti.typeID),
-                    style: textStyle,
-                    maxLines: 2,
-                  ),
-                  SizedBox(height: 1.0.h),
-
-                  /// Shop address
-                  AutoSizeText(
-                    "shop".tr + ": " + noti.title!,
-                    style: textStyle,
-                    maxLines: 2,
-                  ),
-                  SizedBox(height: 4),
-                  AutoSizeText(
-                    "at".tr + ": " + noti.message!,
-                    style: theme.textTheme.bodySmall!.copyWith(
-                      color: Colors.white,
+                  if (noti.typeID == 100 || noti.typeID == 101) ...[
+                    AutoSizeText(noti.title!, style: textStyle, maxLines: 2),
+                    SizedBox(height: 4),
+                    AutoSizeText(
+                      noti.message!,
+                      style: theme.textTheme.bodySmall!.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
+                  ] else ...[
+                    /// Shop Name
+                    AutoSizeText(
+                      getTitleNotication(noti.typeID),
+                      style: textStyle,
+                      maxLines: 2,
+                    ),
+                    SizedBox(height: 1.0.h),
+
+                    /// Shop address
+                    AutoSizeText(
+                      "shop".tr + ": " + noti.title!,
+                      style: textStyle,
+                      maxLines: 2,
+                    ),
+                    SizedBox(height: 4),
+                    AutoSizeText(
+                      "at".tr + ": " + noti.message!,
+                      style: theme.textTheme.bodySmall!.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

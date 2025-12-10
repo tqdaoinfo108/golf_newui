@@ -18,6 +18,7 @@ import 'package:sizer/sizer.dart';
 
 import 'color.dart';
 import 'constants.dart';
+
 extension TextUtilsStringExtension on String {
   /// Returns true if string is:
   /// - null
@@ -25,8 +26,7 @@ extension TextUtilsStringExtension on String {
   /// - whitespace string.
   ///
   /// Characters considered "whitespace" are listed [here](https://stackoverflow.com/a/59826129/10830091).
-  bool get isNullEmptyOrWhitespace =>
-      this.isEmpty || this.trim().isEmpty;
+  bool get isNullEmptyOrWhitespace => this.isEmpty || this.trim().isEmpty;
 }
 
 extension MapExtension on Map {
@@ -45,40 +45,50 @@ extension MapExtension on Map {
 extension IntFormat on int {
   String toStringFormatDateTime() {
     var dt = DateTime.fromMillisecondsSinceEpoch(this);
-    final DateFormat formatter =
-        DateFormat('yyyy/MM/dd, HH:mm:ss', Get.locale.toString());
+    final DateFormat formatter = DateFormat(
+      'yyyy/MM/dd, HH:mm:ss',
+      Get.locale.toString(),
+    );
     final String formatted = formatter.format(dt);
     return formatted;
   }
 
   String toStringFormatDate() {
     var dt = DateTime.fromMillisecondsSinceEpoch(this);
-    final DateFormat formatter =
-        DateFormat('yyyy/MM/dd EEEE', Get.locale.toString());
+    final DateFormat formatter = DateFormat(
+      'yyyy/MM/dd EEEE',
+      Get.locale.toString(),
+    );
     final String formatted = formatter.format(dt);
     return formatted;
   }
 
   String toStringFormatDateUTC() {
     var dt = DateTime.fromMillisecondsSinceEpoch(this, isUtc: true);
-    final DateFormat formatter =
-        DateFormat('yyyy/MM/dd EEEE', Get.locale.toString());
+    final DateFormat formatter = DateFormat(
+      'yyyy/MM/dd EEEE',
+      Get.locale.toString(),
+    );
     final String formatted = formatter.format(dt);
     return formatted;
   }
 
   String toStringFormatSimpleDate() {
     var dt = DateTime.fromMillisecondsSinceEpoch(this);
-    final DateFormat formatter =
-        DateFormat('yyyy/MM/dd', Get.locale.toString());
+    final DateFormat formatter = DateFormat(
+      'yyyy/MM/dd',
+      Get.locale.toString(),
+    );
     final String formatted = formatter.format(dt);
     return formatted;
   }
 
   String toStringFormatSimpleDateUTC() {
     var dt = DateTime.fromMillisecondsSinceEpoch(this, isUtc: true);
-    final DateFormat formatter =
-        DateFormat('yyyy/MM/dd', Get.locale.toString());
+    final DateFormat formatter = DateFormat(
+      'yyyy/MM/dd',
+      Get.locale.toString(),
+    );
     final String formatted = formatter.format(dt);
     return formatted;
   }
@@ -144,13 +154,132 @@ class SupportUtils {
     return result;
   }
 
-  static void showToast(String? text,
-      {ThemeData? themeData,
-      String? title,
-      ToastType type = ToastType.INFO,
-      IconData? icon,
-      bool hasIcon = true,
-      int durationMili = 3000}) {
+  static void showToast(
+    String? text, {
+    ThemeData? themeData,
+    String? title,
+    ToastType type = ToastType.INFO,
+    IconData? icon,
+    bool hasIcon = true,
+    int durationMili = 3000,
+  }) {
+    _showToastWithRetry(
+      text,
+      themeData: themeData,
+      title: title,
+      type: type,
+      icon: icon,
+      hasIcon: hasIcon,
+      durationMili: durationMili,
+      retryCount: 0,
+    );
+  }
+
+  static void _showToastWithRetry(
+    String? text, {
+    ThemeData? themeData,
+    String? title,
+    ToastType type = ToastType.INFO,
+    IconData? icon,
+    bool hasIcon = true,
+    int durationMili = 3000,
+    int retryCount = 0,
+  }) {
+    print('🔔 Toast attempt ${retryCount + 1}: "$text"');
+
+    // Safety check: ensure context and navigation are ready
+    if (Get.context == null) {
+      print('⚠️ Context is null, retry: $retryCount');
+      // Retry after a short delay if this is the first attempt
+      if (retryCount < 5) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          _showToastWithRetry(
+            text,
+            themeData: themeData,
+            title: title,
+            type: type,
+            icon: icon,
+            hasIcon: hasIcon,
+            durationMili: durationMili,
+            retryCount: retryCount + 1,
+          );
+        });
+      } else {
+        print('❌ Toast failed after 5 retries: Context is null');
+      }
+      return;
+    }
+
+    // Check if the widget tree is fully built by verifying overlay availability
+    final navigator = Navigator.maybeOf(Get.context!);
+    if (navigator == null) {
+      print('⚠️ Navigator is null, retry: $retryCount');
+      // Retry after a short delay
+      if (retryCount < 5) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          _showToastWithRetry(
+            text,
+            themeData: themeData,
+            title: title,
+            type: type,
+            icon: icon,
+            hasIcon: hasIcon,
+            durationMili: durationMili,
+            retryCount: retryCount + 1,
+          );
+        });
+      } else {
+        print('❌ Toast failed after 5 retries: Navigator is null');
+      }
+      return;
+    }
+
+    // Check if overlay is available without throwing
+    bool hasOverlay = false;
+    try {
+      final overlay = Overlay.maybeOf(Get.context!);
+      hasOverlay = overlay != null;
+    } catch (e) {
+      print('⚠️ Overlay check error: $e');
+      hasOverlay = false;
+    }
+
+    // If overlay not available after retries, try using ScaffoldMessenger as fallback
+    if (!hasOverlay) {
+      print('⚠️ Overlay is not available, retry: $retryCount');
+      // Retry after a short delay
+      if (retryCount < 5) {
+        Future.delayed(Duration(milliseconds: 200), () {
+          _showToastWithRetry(
+            text,
+            themeData: themeData,
+            title: title,
+            type: type,
+            icon: icon,
+            hasIcon: hasIcon,
+            durationMili: durationMili,
+            retryCount: retryCount + 1,
+          );
+        });
+        return;
+      } else {
+        print('⚠️ Overlay not ready, using ScaffoldMessenger fallback');
+        // Use ScaffoldMessenger as fallback
+        _showScaffoldSnackbar(
+          text,
+          themeData: themeData,
+          title: title,
+          type: type,
+          icon: icon,
+          hasIcon: hasIcon,
+          durationMili: durationMili,
+        );
+        return;
+      }
+    }
+
+    print('✅ All checks passed, showing GetX toast');
+
     Color _textColor;
     Icon _icon;
     themeData ??= Theme.of(Get.context!);
@@ -173,7 +302,11 @@ class SupportUtils {
     }
     _icon = Icon(icon, color: _textColor, size: 30);
 
-    Get.snackbar(title ?? '', text ?? '',
+    try {
+      print('📢 Calling Get.snackbar...');
+      Get.snackbar(
+        title ?? '',
+        text ?? '',
         titleText: title == null ? Container() : null,
         messageText: text == null ? Container() : null,
         colorText: _textColor,
@@ -184,7 +317,103 @@ class SupportUtils {
         borderRadius: 5,
         duration: Duration(milliseconds: durationMili),
         animationDuration: Duration(milliseconds: 300),
-        margin: EdgeInsets.only(bottom: 50, left: 10, right: 10));
+        margin: EdgeInsets.only(bottom: 50, left: 10, right: 10),
+      );
+      print('✨ Toast shown successfully!');
+    } catch (e) {
+      print('❌ Failed to show snackbar: $e');
+    }
+  }
+
+  static void _showScaffoldSnackbar(
+    String? text, {
+    ThemeData? themeData,
+    String? title,
+    ToastType type = ToastType.INFO,
+    IconData? icon,
+    bool hasIcon = true,
+    int durationMili = 3000,
+  }) {
+    if (Get.context == null) {
+      print('❌ Cannot show scaffold snackbar: Context is null');
+      return;
+    }
+
+    themeData ??= Theme.of(Get.context!);
+
+    Color _backgroundColor;
+    Color _textColor;
+    IconData _iconData;
+
+    switch (type) {
+      case ToastType.SUCCESSFUL:
+        _backgroundColor = GolfColor.GolfPrimaryColor;
+        _textColor = Colors.white;
+        _iconData = icon ?? Icons.check_circle_outline;
+        break;
+      case ToastType.ERROR:
+        _backgroundColor = Colors.red.shade700;
+        _textColor = Colors.white;
+        _iconData = icon ?? Icons.error_outline;
+        break;
+      case ToastType.WARNING:
+        _backgroundColor = Colors.deepOrange;
+        _textColor = Colors.white;
+        _iconData = icon ?? Icons.warning_amber_outlined;
+        break;
+      default:
+        _backgroundColor = Colors.grey.shade700;
+        _textColor = Colors.white;
+        _iconData = icon ?? Icons.info_outline;
+    }
+
+    try {
+      print('📢 Showing ScaffoldMessenger snackbar...');
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              if (hasIcon) ...[
+                Icon(_iconData, color: _textColor, size: 24),
+                SizedBox(width: 12),
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (title != null && title.isNotEmpty) ...[
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: _textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                    ],
+                    if (text != null && text.isNotEmpty)
+                      Text(
+                        text,
+                        style: TextStyle(color: _textColor, fontSize: 13),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: _backgroundColor,
+          duration: Duration(milliseconds: durationMili),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(bottom: 50, left: 10, right: 10),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        ),
+      );
+      print('✨ ScaffoldMessenger snackbar shown successfully!');
+    } catch (e) {
+      print('❌ Failed to show scaffold snackbar: $e');
+    }
   }
 
   static Future<void> letsLogout() async {
@@ -195,10 +424,11 @@ class SupportUtils {
 
     // subscribeToTopic
     FirebaseMessaging.instance.unsubscribeFromTopic(
-        'notification-golfsystem-user' +
-            SupportUtils.prefs.getInt(USER_ID).toString());
-    FirebaseMessaging.instance
-        .unsubscribeFromTopic('notification-golfsystem-all');
+      'notification-golfsystem-user${SupportUtils.prefs.getInt(USER_ID)}',
+    );
+    FirebaseMessaging.instance.unsubscribeFromTopic(
+      'notification-golfsystem-all',
+    );
 
     SupportUtils.prefs.setBool(HAS_LOGINED, false);
     SupportUtils.prefs.setString(AUTH, "");
@@ -211,6 +441,12 @@ class SupportUtils {
     SupportUtils.prefs.setString(USER_PROVIDDER_ID, "");
     SupportUtils.prefs.setInt(VERIFIED_EMAIL, 0);
     SupportUtils.prefs.setInt(VERIFY_TIME_MILI, 0);
+
+    try {
+      await FirebaseMessaging.instance.deleteToken();
+    } catch (e) {
+      print("Error delete FCM token: " + e.toString());
+    }
   }
 
   static Future<bool> logoutFacebook() async {
@@ -222,9 +458,7 @@ class SupportUtils {
   }
 
   static Future<bool> logoutGoogle() async {
-    GoogleSignIn _googleSignIn = GoogleSignIn(
-      scopes: ['email'],
-    );
+    GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
     var _isLogined = await _googleSignIn.isSignedIn();
     if (_isLogined) {
       await _googleSignIn.signOut();
@@ -245,19 +479,23 @@ class SupportUtils {
     return true;
   }
 
-  static void showDecisionDialog(String decisionMessage,
-      {ThemeData? themeData,
-      required List<DecisionOption> lstOptions,
-      String? decisionDescription}) {
+  static void showDecisionDialog(
+    String decisionMessage, {
+    ThemeData? themeData,
+    required List<DecisionOption> lstOptions,
+    String? decisionDescription,
+  }) {
     themeData ??= Theme.of(Get.context!);
 
-    Get.dialog(Container(
+    Get.dialog(
+      Container(
         alignment: AlignmentDirectional.center,
         padding: EdgeInsets.all(10.0.sp),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: themeData.colorScheme.backgroundCardColor),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: themeData.colorScheme.backgroundCardColor,
+          ),
           padding: EdgeInsets.only(left: 20, top: 35, right: 20, bottom: 15),
           constraints: BoxConstraints(maxWidth: 300.0.sp),
           child: Column(
@@ -267,23 +505,25 @@ class SupportUtils {
             children: [
               Text(
                 decisionMessage,
-                style: themeData.textTheme.headlineMedium?.copyWith(color:
-                GolfColor.GolfSubColor, fontWeight: FontWeight.bold),
+                style: themeData.textTheme.headlineMedium?.copyWith(
+                  color: GolfColor.GolfSubColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               decisionDescription != null
                   ? Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 5.0.sp,
-                        horizontal: 2.0.sp,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 5.0.sp,
+                      horizontal: 2.0.sp,
+                    ),
+                    child: Text(
+                      decisionDescription,
+                      style: themeData.textTheme.headlineLarge!.copyWith(
+                        fontSize: 10.0.sp,
+                        fontStyle: FontStyle.italic,
                       ),
-                      child: Text(
-                        decisionDescription,
-                        style: themeData.textTheme.headlineLarge!.copyWith(
-                          fontSize: 10.0.sp,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    )
+                    ),
+                  )
                   : Container(),
               SizedBox(height: 15),
               Row(
@@ -291,53 +531,63 @@ class SupportUtils {
                 children: [
                   Container(),
                   Expanded(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: lstOptions.map<Widget>((e) {
-                      var _optionTextColor;
-                      switch (e.type) {
-                        case DecisionOptionType.NORMAL:
-                          _optionTextColor = Colors.blue;
-                          break;
-                        case DecisionOptionType.EXPECTATION:
-                          _optionTextColor = Colors.green;
-                          break;
-                        case DecisionOptionType.WARNING:
-                          _optionTextColor = Colors.black;
-                          break;
-                        case DecisionOptionType.DENIED:
-                          _optionTextColor = Colors.red;
-                          break;
-                      }
-                      return TextButton(
-                          onPressed: () {
-                            if (e.isCompleteDecision) {
-                              Get.back<DecisionOption>(result: e);
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children:
+                          lstOptions.map<Widget>((e) {
+                            var _optionTextColor;
+                            switch (e.type) {
+                              case DecisionOptionType.NORMAL:
+                                _optionTextColor = Colors.blue;
+                                break;
+                              case DecisionOptionType.EXPECTATION:
+                                _optionTextColor = Colors.green;
+                                break;
+                              case DecisionOptionType.WARNING:
+                                _optionTextColor = Colors.black;
+                                break;
+                              case DecisionOptionType.DENIED:
+                                _optionTextColor = Colors.red;
+                                break;
                             }
-                            if (e.onDecisionPressed != null) {
-                              e.onDecisionPressed!();
-                            }
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 2.5, vertical: 1),
-                            child: Text(
-                              e.title,
-                              style: themeData!.textTheme.titleSmall!.copyWith(
-                                  fontSize: 11.0.sp,
-                                  color: _optionTextColor,
-                                  fontWeight: e.isImportant
-                                      ? FontWeight.bold
-                                      : FontWeight.normal),
-                            ),
-                          ));
-                    }).toList(),
-                  ))
+                            return TextButton(
+                              onPressed: () {
+                                if (e.isCompleteDecision) {
+                                  Get.back<DecisionOption>(result: e);
+                                }
+                                if (e.onDecisionPressed != null) {
+                                  e.onDecisionPressed!();
+                                }
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 2.5,
+                                  vertical: 1,
+                                ),
+                                child: Text(
+                                  e.title,
+                                  style: themeData!.textTheme.titleSmall!
+                                      .copyWith(
+                                        fontSize: 11.0.sp,
+                                        color: _optionTextColor,
+                                        fontWeight:
+                                            e.isImportant
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                      ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
-        )));
+        ),
+      ),
+    );
   }
 
   /// Generates a cryptographically secure random nonce, to be included in a
@@ -346,8 +596,10 @@ class SupportUtils {
     final charset =
         '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final random = Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
-        .join();
+    return List.generate(
+      length,
+      (_) => charset[random.nextInt(charset.length)],
+    ).join();
   }
 
   /// Returns the sha256 hash of [input] in hex notation.

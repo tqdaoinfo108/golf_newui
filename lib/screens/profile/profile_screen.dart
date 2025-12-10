@@ -82,7 +82,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         enable: false,
                         initialValue: _controller.username,
                         hintText: 'username'.tr,
-                        icon: AppIcon.indentity_user,
+                        icon: Icons.person,
                         accentColor: GolfColor.GolfPrimaryColor,
                         validate: _controller.validateUsername,
                         themeData: themeData,
