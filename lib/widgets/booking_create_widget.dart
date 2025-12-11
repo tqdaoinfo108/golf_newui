@@ -22,7 +22,7 @@ Widget choosePaymentMethod(
 ) {
   final selectedPayment = controller.selectedPaymentMethod;
   final isExpanded = controller.isPaymentMethodExpanded;
-  
+
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 16),
     decoration: BoxDecoration(
@@ -42,12 +42,13 @@ Widget choosePaymentMethod(
         Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: isExpanded
-                ? BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  )
-                : BorderRadius.circular(12),
+            borderRadius:
+                isExpanded
+                    ? BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    )
+                    : BorderRadius.circular(12),
             onTap: () {
               controller.onTogglePaymentMethodExpanded();
             },
@@ -82,13 +83,15 @@ Widget choosePaymentMethod(
                         ),
                         SizedBox(height: 2),
                         Text(
-                          selectedPayment?.nameCodeMember ?? 'select_payment_method'.tr,
+                          selectedPayment?.nameCodeMember ??
+                              'select_payment_method'.tr,
                           style: GoogleFonts.inter(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
-                            color: selectedPayment != null 
-                                ? GolfColor.GolfSubColor 
-                                : Colors.grey[400],
+                            color:
+                                selectedPayment != null
+                                    ? GolfColor.GolfSubColor
+                                    : Colors.grey[400],
                           ),
                         ),
                       ],
@@ -139,56 +142,81 @@ Widget choosePaymentMethod(
             child: Padding(
               padding: EdgeInsets.all(12),
               child: Column(
-                children: lstPaymentMethod.map((payment) {
-                  final isSelected = controller.selectedPaymentMethod?.userCodeMemberId == payment.userCodeMemberId;
-                  return InkWell(
-                    onTap: () {
-                      controller.onSelectPaymentMethod(payment);
-                    },
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                      margin: EdgeInsets.only(bottom: 6),
-                      decoration: BoxDecoration(
-                        color: isSelected ? GolfColor.GolfPrimaryColor : Colors.white,
+                children:
+                    lstPaymentMethod.map((payment) {
+                      final isSelected =
+                          controller.selectedPaymentMethod?.userCodeMemberId ==
+                          payment.userCodeMemberId;
+                      return InkWell(
+                        onTap: () {
+                          controller.onSelectPaymentMethod(payment);
+                        },
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: isSelected ? GolfColor.GolfPrimaryColor : Colors.grey[300]!,
-                          width: 1.5,
-                        ),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  color: GolfColor.GolfPrimaryColor.withOpacity(0.3),
-                                  blurRadius: 6,
-                                  offset: Offset(0, 2),
-                                ),
-                              ]
-                            : null,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            isSelected ? Icons.check_circle : Icons.radio_button_off,
-                            color: isSelected ? Colors.white : Colors.grey[400],
-                            size: 22,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 12,
                           ),
-                          SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              payment.nameCodeMember ?? '',
-                              style: GoogleFonts.inter(
-                                fontSize: 14,
-                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                color: isSelected ? Colors.white : GolfColor.GolfSubColor,
-                              ),
+                          margin: EdgeInsets.only(bottom: 6),
+                          decoration: BoxDecoration(
+                            color:
+                                isSelected
+                                    ? GolfColor.GolfPrimaryColor
+                                    : Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color:
+                                  isSelected
+                                      ? GolfColor.GolfPrimaryColor
+                                      : Colors.grey[300]!,
+                              width: 1.5,
                             ),
+                            boxShadow:
+                                isSelected
+                                    ? [
+                                      BoxShadow(
+                                        color: GolfColor
+                                            .GolfPrimaryColor.withOpacity(0.3),
+                                        blurRadius: 6,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ]
+                                    : null,
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
+                          child: Row(
+                            children: [
+                              Icon(
+                                isSelected
+                                    ? Icons.check_circle
+                                    : Icons.radio_button_off,
+                                color:
+                                    isSelected
+                                        ? Colors.white
+                                        : Colors.grey[400],
+                                size: 22,
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  payment.nameCodeMember ?? '',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 14,
+                                    fontWeight:
+                                        isSelected
+                                            ? FontWeight.w600
+                                            : FontWeight.w500,
+                                    color:
+                                        isSelected
+                                            ? Colors.white
+                                            : GolfColor.GolfSubColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
               ),
             ),
           ),
@@ -222,6 +250,13 @@ Widget chooseDateBooking(
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
+          // Lưu giá trị tạm khi scroll picker
+          DateTime? tempSelectedDate =
+              DateTime.fromMillisecondsSinceEpoch(
+                controller.dateIntCurrent! * 1000,
+                isUtc: true,
+              ).endOfDay();
+
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -255,9 +290,13 @@ Widget chooseDateBooking(
                             dateTimePickerTextStyle: CupertinoTextThemeData()
                                 .dateTimePickerTextStyle
                                 .copyWith(
-                                  color: themeData.textTheme.headlineSmall!.color,
+                                  color:
+                                      themeData.textTheme.headlineSmall!.color,
                                   fontFamily:
-                                      themeData.textTheme.headlineSmall!.fontFamily,
+                                      themeData
+                                          .textTheme
+                                          .headlineSmall!
+                                          .fontFamily,
                                 ),
                           ),
                         ),
@@ -265,13 +304,15 @@ Widget chooseDateBooking(
                           mode: CupertinoDatePickerMode.date,
                           minimumDate: DateTime.now().startOfDay(),
                           maximumDate:
-                              DateTime.now().add(Duration(days: nextDay)).startOfDay(),
-                          onDateTimeChanged: onDateChanged,
-                          initialDateTime:
-                              DateTime.fromMillisecondsSinceEpoch(
-                                controller.dateIntCurrent! * 1000,
-                                isUtc: true,
-                              ).endOfDay(),
+                              DateTime.now()
+                                  .add(Duration(days: nextDay))
+                                  .startOfDay(),
+                          onDateTimeChanged: (DateTime date) {
+                            // Chỉ lưu tạm, chưa gọi callback
+                            tempSelectedDate = date;
+                          },
+                          use24hFormat: true,
+                          initialDateTime: tempSelectedDate,
                         ),
                       ),
                     ),
@@ -279,7 +320,12 @@ Widget chooseDateBooking(
                 ),
               );
             },
-          );
+          ).then((_) {
+            // Gọi callback KHI ĐÓNG modal (swipe down hoặc tap outside)
+            if (tempSelectedDate != null) {
+              onDateChanged(tempSelectedDate!);
+            }
+          });
         },
         child: Padding(
           padding: EdgeInsets.all(14),
@@ -358,7 +404,7 @@ Widget chooseSlotBooking(
   List<SlotItemModel> lstSlot,
 ) {
   final isExpanded = bookingCreateController.isMachineExpanded;
-  
+
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 16),
     decoration: BoxDecoration(
@@ -378,12 +424,13 @@ Widget chooseSlotBooking(
         Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: isExpanded
-                ? BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  )
-                : BorderRadius.circular(12),
+            borderRadius:
+                isExpanded
+                    ? BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    )
+                    : BorderRadius.circular(12),
             onTap: () {
               bookingCreateController.onChangeSlotExpanded();
             },
@@ -499,7 +546,7 @@ Widget chooseItemSlotViewCell(
   SlotItemModel slotItemModel,
 ) {
   final isSelected = slotItemModel.isSelect;
-  
+
   return Material(
     color: Colors.transparent,
     child: InkWell(
@@ -516,15 +563,16 @@ Widget chooseItemSlotViewCell(
             color: isSelected ? GolfColor.GolfPrimaryColor : Colors.grey[300]!,
             width: 1.5,
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: GolfColor.GolfPrimaryColor.withOpacity(0.3),
-                    blurRadius: 6,
-                    offset: Offset(0, 2),
-                  ),
-                ]
-              : null,
+          boxShadow:
+              isSelected
+                  ? [
+                    BoxShadow(
+                      color: GolfColor.GolfPrimaryColor.withOpacity(0.3),
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                    ),
+                  ]
+                  : null,
         ),
         alignment: Alignment.center,
         child: AutoSizeText(
@@ -549,7 +597,7 @@ Widget chooseBlockBooking(
   List<BlockItemModel> lstBlock,
 ) {
   final isExpanded = bookingCreateController.isBlockExpanded;
-  
+
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 16),
     decoration: BoxDecoration(
@@ -569,12 +617,13 @@ Widget chooseBlockBooking(
         Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: isExpanded
-                ? BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  )
-                : BorderRadius.circular(12),
+            borderRadius:
+                isExpanded
+                    ? BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    )
+                    : BorderRadius.circular(12),
             onTap: () {
               bookingCreateController.onChangeBlockExpanded();
             },
@@ -690,9 +739,10 @@ Widget chooseItemBlockViewCell(
 ) {
   // Check if block is bookable (time constraint: date + block time + 10min > now)
   final isTimeValid = bookingCreateController.isBlockBookable(blockItemModel);
-  final isActive = blockItemModel.isActive! && blockItemModel.isBooking && isTimeValid;
+  final isActive =
+      blockItemModel.isActive! && blockItemModel.isBooking && isTimeValid;
   final isSelected = blockItemModel.isSelect;
-  
+
   // Xác định badge type
   Widget? badge;
   if (blockItemModel.isBlockCodeMember == true) {
@@ -761,36 +811,42 @@ Widget chooseItemBlockViewCell(
     color: Colors.transparent,
     child: InkWell(
       borderRadius: BorderRadius.circular(8),
-      onTap: isActive
-          ? () {
-              bookingCreateController.onChangeBlockExpanded(item: blockItemModel);
-            }
-          : null,
+      onTap:
+          isActive
+              ? () {
+                bookingCreateController.onChangeBlockExpanded(
+                  item: blockItemModel,
+                );
+              }
+              : null,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: !isActive
-              ? Colors.grey[200]
-              : isSelected
+          color:
+              !isActive
+                  ? Colors.grey[200]
+                  : isSelected
                   ? GolfColor.GolfPrimaryColor
                   : Colors.white,
           border: Border.all(
-            color: !isActive
-                ? Colors.grey[300]!
-                : isSelected
+            color:
+                !isActive
+                    ? Colors.grey[300]!
+                    : isSelected
                     ? GolfColor.GolfPrimaryColor
                     : Colors.grey[300]!,
             width: 1.5,
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: GolfColor.GolfPrimaryColor.withOpacity(0.3),
-                    blurRadius: 6,
-                    offset: Offset(0, 2),
-                  ),
-                ]
-              : null,
+          boxShadow:
+              isSelected
+                  ? [
+                    BoxShadow(
+                      color: GolfColor.GolfPrimaryColor.withOpacity(0.3),
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                    ),
+                  ]
+                  : null,
         ),
         child: Row(
           children: [
@@ -804,9 +860,10 @@ Widget chooseItemBlockViewCell(
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: !isActive
-                        ? Colors.grey[400]
-                        : isSelected
+                    color:
+                        !isActive
+                            ? Colors.grey[400]
+                            : isSelected
                             ? Colors.white
                             : GolfColor.GolfSubColor,
                   ),

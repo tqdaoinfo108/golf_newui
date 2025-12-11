@@ -44,7 +44,7 @@ dependencies:
   hl_image_picker_pro: ^1.2.18
   hl_image_picker: ^1.2.16
   flutter_local_notifications: ^19.2.1
-
+  cherry_toast: ^1.13.0
 
 dev_dependencies:
   flutter_test:

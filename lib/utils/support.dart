@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:golf_uiv2/themes/colors_custom.dart';
 import 'package:sizer/sizer.dart';
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 // import 'package:zalo_flutter/zalo_flutter.dart';
 
 import 'color.dart';
@@ -163,241 +165,114 @@ class SupportUtils {
     bool hasIcon = true,
     int durationMili = 3000,
   }) {
-    _showToastWithRetry(
-      text,
-      themeData: themeData,
-      title: title,
-      type: type,
-      icon: icon,
-      hasIcon: hasIcon,
-      durationMili: durationMili,
-      retryCount: 0,
-    );
-  }
-
-  static void _showToastWithRetry(
-    String? text, {
-    ThemeData? themeData,
-    String? title,
-    ToastType type = ToastType.INFO,
-    IconData? icon,
-    bool hasIcon = true,
-    int durationMili = 3000,
-    int retryCount = 0,
-  }) {
-    print('🔔 Toast attempt ${retryCount + 1}: "$text"');
-
-    // Safety check: ensure context and navigation are ready
+    // Use CherryToast for better reliability and animation
     if (Get.context == null) {
-      print('⚠️ Context is null, retry: $retryCount');
-      // Retry after a short delay if this is the first attempt
-      if (retryCount < 5) {
-        Future.delayed(Duration(milliseconds: 200), () {
-          _showToastWithRetry(
-            text,
-            themeData: themeData,
-            title: title,
-            type: type,
-            icon: icon,
-            hasIcon: hasIcon,
-            durationMili: durationMili,
-            retryCount: retryCount + 1,
-          );
-        });
-      } else {
-        print('❌ Toast failed after 5 retries: Context is null');
-      }
+      print('⚠️ Cannot show toast: Context is null');
       return;
     }
 
-    // Check if the widget tree is fully built by verifying overlay availability
-    final navigator = Navigator.maybeOf(Get.context!);
-    if (navigator == null) {
-      print('⚠️ Navigator is null, retry: $retryCount');
-      // Retry after a short delay
-      if (retryCount < 5) {
-        Future.delayed(Duration(milliseconds: 200), () {
-          _showToastWithRetry(
-            text,
-            themeData: themeData,
-            title: title,
-            type: type,
-            icon: icon,
-            hasIcon: hasIcon,
-            durationMili: durationMili,
-            retryCount: retryCount + 1,
-          );
-        });
-      } else {
-        print('❌ Toast failed after 5 retries: Navigator is null');
-      }
-      return;
-    }
-
-    // Check if overlay is available without throwing
-    bool hasOverlay = false;
-    try {
-      final overlay = Overlay.maybeOf(Get.context!);
-      hasOverlay = overlay != null;
-    } catch (e) {
-      print('⚠️ Overlay check error: $e');
-      hasOverlay = false;
-    }
-
-    // If overlay not available after retries, try using ScaffoldMessenger as fallback
-    if (!hasOverlay) {
-      print('⚠️ Overlay is not available, retry: $retryCount');
-      // Retry after a short delay
-      if (retryCount < 5) {
-        Future.delayed(Duration(milliseconds: 200), () {
-          _showToastWithRetry(
-            text,
-            themeData: themeData,
-            title: title,
-            type: type,
-            icon: icon,
-            hasIcon: hasIcon,
-            durationMili: durationMili,
-            retryCount: retryCount + 1,
-          );
-        });
-        return;
-      } else {
-        print('⚠️ Overlay not ready, using ScaffoldMessenger fallback');
-        // Use ScaffoldMessenger as fallback
-        _showScaffoldSnackbar(
-          text,
-          themeData: themeData,
-          title: title,
-          type: type,
-          icon: icon,
-          hasIcon: hasIcon,
-          durationMili: durationMili,
-        );
-        return;
-      }
-    }
-
-    print('✅ All checks passed, showing GetX toast');
-
-    Color _textColor;
-    Icon _icon;
-    themeData ??= Theme.of(Get.context!);
-    switch (type) {
-      case ToastType.SUCCESSFUL:
-        _textColor = GolfColor.GolfPrimaryColor;
-        icon = icon ?? Icons.check_circle_outline;
-        break;
-      case ToastType.ERROR:
-        _textColor = Colors.red.shade700;
-        icon = icon ?? Icons.error_outline;
-        break;
-      case ToastType.WARNING:
-        _textColor = Colors.deepOrange;
-        icon = icon ?? Icons.warning_amber_outlined;
-        break;
-      default:
-        _textColor = themeData.colorScheme.toastTextColor;
-        icon = icon ?? Icons.info_outline;
-    }
-    _icon = Icon(icon, color: _textColor, size: 30);
-
-    try {
-      print('📢 Calling Get.snackbar...');
-      Get.snackbar(
-        title ?? '',
-        text ?? '',
-        titleText: title == null ? Container() : null,
-        messageText: text == null ? Container() : null,
-        colorText: _textColor,
-        snackPosition: SnackPosition.TOP,
-        icon: hasIcon ? _icon : null,
-        backgroundColor: Colors.grey.shade400,
-        padding: EdgeInsets.all(20),
-        borderRadius: 5,
-        duration: Duration(milliseconds: durationMili),
-        animationDuration: Duration(milliseconds: 300),
-        margin: EdgeInsets.only(bottom: 50, left: 10, right: 10),
-      );
-      print('✨ Toast shown successfully!');
-    } catch (e) {
-      print('❌ Failed to show snackbar: $e');
-    }
-  }
-
-  static void _showScaffoldSnackbar(
-    String? text, {
-    ThemeData? themeData,
-    String? title,
-    ToastType type = ToastType.INFO,
-    IconData? icon,
-    bool hasIcon = true,
-    int durationMili = 1500,
-  }) {
-    if (Get.context == null) {
-      print('❌ Cannot show scaffold snackbar: Context is null');
-      return;
-    }
-
-    themeData ??= Theme.of(Get.context!);
-
-    Color _backgroundColor;
-    Color _textColor;
-    IconData _iconData;
+    // Convert duration to seconds for CherryToast
+    final durationInSeconds = Duration(milliseconds: durationMili);
 
     switch (type) {
       case ToastType.SUCCESSFUL:
-        _backgroundColor = GolfColor.GolfPrimaryColor;
-        _textColor = Colors.white;
-        _iconData = icon ?? Icons.check_circle_outline;
+        CherryToast.success(
+          title:
+              title != null && title.isNotEmpty
+                  ? Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                  : null,
+          description:
+              text != null && text.isNotEmpty
+                  ? Text(text, style: TextStyle(color: Colors.black))
+                  : null,
+          animationType: AnimationType.fromTop,
+          animationDuration: Duration(milliseconds: 300),
+          autoDismiss: true,
+          toastDuration: durationInSeconds,
+          toastPosition: Position.top,
+        ).show(Get.context!);
         break;
+
       case ToastType.ERROR:
-        _backgroundColor = Colors.red.shade700;
-        _textColor = Colors.white;
-        _iconData = icon ?? Icons.error_outline;
+        CherryToast.error(
+          title:
+              title != null && title.isNotEmpty
+                  ? Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                  : null,
+          description:
+              text != null && text.isNotEmpty
+                  ? Text(text, style: TextStyle(color: Colors.black))
+                  : null,
+          animationType: AnimationType.fromTop,
+          animationDuration: Duration(milliseconds: 300),
+          autoDismiss: true,
+          toastDuration: durationInSeconds,
+          toastPosition: Position.top,
+        ).show(Get.context!);
         break;
+
       case ToastType.WARNING:
-        _backgroundColor = Colors.deepOrange;
-        _textColor = Colors.white;
-        _iconData = icon ?? Icons.warning_amber_outlined;
+        CherryToast.warning(
+          title:
+              title != null && title.isNotEmpty
+                  ? Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                  : null,
+          description:
+              text != null && text.isNotEmpty
+                  ? Text(text, style: TextStyle(color: Colors.black))
+                  : null,
+          animationType: AnimationType.fromTop,
+          animationDuration: Duration(milliseconds: 300),
+          autoDismiss: true,
+          toastDuration: durationInSeconds,
+          toastPosition: Position.top,
+        ).show(Get.context!);
         break;
-      default:
-        _backgroundColor = Colors.grey.shade700;
-        _textColor = Colors.white;
-        _iconData = icon ?? Icons.info_outline;
+
+      default: // INFO
+        CherryToast.info(
+          title:
+              title != null && title.isNotEmpty
+                  ? Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                  : null,
+          description:
+              text != null && text.isNotEmpty
+                  ? Text(text, style: TextStyle(color: Colors.black))
+                  : null,
+          animationType: AnimationType.fromTop,
+          animationDuration: Duration(milliseconds: 300),
+          autoDismiss: true,
+          toastDuration: durationInSeconds,
+          toastPosition: Position.top,
+        ).show(Get.context!);
+        break;
     }
 
-    try {
-      print('📢 Showing GetX snackbar at top...');
-      
-      Get.snackbar(
-        title ?? '',
-        text ?? '',
-        titleText: title == null || title.isEmpty ? Container() : Text(
-          title,
-          style: TextStyle(
-            color: _textColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-        ),
-        messageText: text == null || text.isEmpty ? Container() : Text(
-          text,
-          style: TextStyle(color: _textColor, fontSize: 13),
-        ),
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: _backgroundColor,
-        icon: hasIcon ? Icon(_iconData, color: _textColor, size: 24) : null,
-        duration: Duration(milliseconds: durationMili),
-        margin: EdgeInsets.all(10),
-        borderRadius: 5,
-        padding: EdgeInsets.all(16),
-      );
-      
-      print('✨ GetX snackbar shown successfully!');
-    } catch (e) {
-      print('❌ Failed to show GetX snackbar: $e');
-    }
+    print('✨ CherryToast shown successfully!');
   }
 
   static Future<void> letsLogout() async {
