@@ -18,6 +18,8 @@ class Blocks {
   double? amountAfterDiscount;
   bool? isActive;
   bool? isBooking;
+  bool? isVisa;
+
 
   String getNameBlock() {
     return rangeStart!.toStringFormatHoursUTC() +
@@ -41,7 +43,7 @@ class Blocks {
       this.price,
       this.discount,
       this.amountAfterDiscount,
-      this.isActive, this.isBooking});
+      this.isActive, this.isBooking, this.isVisa});
 
   Blocks.fromJson(Map<String, dynamic> json) {
     blockID = json['BlockID'];
@@ -59,6 +61,8 @@ class Blocks {
     amountAfterDiscount = json['AmountAfterDiscount'];
     isActive = json['IsActive'];
     isBooking = json['IsBooking'];
+    
+    isVisa = json["IsVisa"];
     var _tmpRangeStartDate = DateTime.fromMillisecondsSinceEpoch(
       (json['RangeStart']) * 1000,
       isUtc: true,
@@ -104,6 +108,7 @@ class Blocks {
     data['Discount'] = this.discount;
     data['AmountAfterDiscount'] = this.amountAfterDiscount;
     data['IsActive'] = this.isActive;
+    data['IsVisa'] = this.isVisa;
     return data;
   }
 }

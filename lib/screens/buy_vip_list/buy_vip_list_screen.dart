@@ -57,10 +57,10 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
                           itemBuilder: (context, index) => BuyVipListItem(
                             vipMemberItem: lstVipMembers[index],
                             shopName: controller.shop!.nameShop,
-                            availableRegister:
-                                !(lstVipMembers[index].typeCodeMember ==
-                                        VipMemberType.UNLIMIT &&
-                                    (controller.shop!.isMember ?? false)),
+                            // availableRegister:
+                            //     !(lstVipMembers[index].typeCodeMember ==
+                            //             VipMemberType.UNLIMIT &&
+                            //         (controller.shop!.isMember ?? false)),
                             onRegisterPressed: () =>
                                 _pressedRegister(lstVipMembers[index]),
                           ),

@@ -270,7 +270,7 @@ class BookingCreateController extends GetxController {
       isPaymentMethodExpanded = false;
       isBlockExpanded = false;
       lstBlock.forEach((e) => e.isSelect = false);
-    } else {
+    } else if(idSlot != 0) {
       isBlockExpanded = true;
     }
     getBlock();
@@ -325,15 +325,15 @@ class BookingCreateController extends GetxController {
     getBlock();
   }
 
-  void onCreateBooking() async {
+  bool onValidateCreateBooking() {
     // Validator
     var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
-    if (lstBlockSelected.length <= 0) {
+    if (lstBlockSelected.isEmpty || idSlot == 0) {
       SupportUtils.showToast(
         'no_time_frame_selected'.tr,
         type: ToastType.ERROR,
       );
-      return;
+      return false;
     }
 
     // Check for 4 consecutive blocks
@@ -345,9 +345,14 @@ class BookingCreateController extends GetxController {
         'cannot_select_4_consecutive_blocks'.tr,
         type: ToastType.ERROR,
       );
-      return;
+      return false;
     }
 
+    return true;
+  }
+
+  void onCreateBooking() async {
+    var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
     var createBookingModel = BookingInsertItemModel(
       selectedPaymentMethod?.userCodeMemberId,
     );
@@ -388,7 +393,7 @@ class BookingCreateController extends GetxController {
 
   /// Check if there are N consecutive blocks selected based on stt
   bool _hasConsecutiveBlocks(List<BlockItemModel> selectedBlocks, int count) {
-    count = count +1;
+    count = count + 1;
     if (selectedBlocks.length < count) return false;
 
     // Sort by stt

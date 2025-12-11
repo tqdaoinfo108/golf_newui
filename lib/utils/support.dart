@@ -310,7 +310,7 @@ class SupportUtils {
         titleText: title == null ? Container() : null,
         messageText: text == null ? Container() : null,
         colorText: _textColor,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         icon: hasIcon ? _icon : null,
         backgroundColor: Colors.grey.shade400,
         padding: EdgeInsets.all(20),
@@ -332,7 +332,7 @@ class SupportUtils {
     ToastType type = ToastType.INFO,
     IconData? icon,
     bool hasIcon = true,
-    int durationMili = 3000,
+    int durationMili = 1500,
   }) {
     if (Get.context == null) {
       print('❌ Cannot show scaffold snackbar: Context is null');
@@ -368,51 +368,35 @@ class SupportUtils {
     }
 
     try {
-      print('📢 Showing ScaffoldMessenger snackbar...');
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              if (hasIcon) ...[
-                Icon(_iconData, color: _textColor, size: 24),
-                SizedBox(width: 12),
-              ],
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (title != null && title.isNotEmpty) ...[
-                      Text(
-                        title,
-                        style: TextStyle(
-                          color: _textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                    ],
-                    if (text != null && text.isNotEmpty)
-                      Text(
-                        text,
-                        style: TextStyle(color: _textColor, fontSize: 13),
-                      ),
-                  ],
-                ),
-              ),
-            ],
+      print('📢 Showing GetX snackbar at top...');
+      
+      Get.snackbar(
+        title ?? '',
+        text ?? '',
+        titleText: title == null || title.isEmpty ? Container() : Text(
+          title,
+          style: TextStyle(
+            color: _textColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
           ),
-          backgroundColor: _backgroundColor,
-          duration: Duration(milliseconds: durationMili),
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.only(bottom: 50, left: 10, right: 10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         ),
+        messageText: text == null || text.isEmpty ? Container() : Text(
+          text,
+          style: TextStyle(color: _textColor, fontSize: 13),
+        ),
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: _backgroundColor,
+        icon: hasIcon ? Icon(_iconData, color: _textColor, size: 24) : null,
+        duration: Duration(milliseconds: durationMili),
+        margin: EdgeInsets.all(10),
+        borderRadius: 5,
+        padding: EdgeInsets.all(16),
       );
-      print('✨ ScaffoldMessenger snackbar shown successfully!');
+      
+      print('✨ GetX snackbar shown successfully!');
     } catch (e) {
-      print('❌ Failed to show scaffold snackbar: $e');
+      print('❌ Failed to show GetX snackbar: $e');
     }
   }
 

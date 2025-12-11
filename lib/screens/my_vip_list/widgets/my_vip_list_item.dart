@@ -57,9 +57,16 @@ class MyVipListItem extends StatelessWidget {
                 children: [
                   Text(
                     "${vipMemberItem!.shopName}",
-                    style: appTheme.textTheme.headlineLarge!.copyWith(
+                    style: appTheme.textTheme.headlineMedium!.copyWith(
                       color: appTheme.colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "${vipMemberItem!.nameCodeMember}",
+                    style: appTheme.textTheme.headlineSmall!.copyWith(
+                      color: appTheme.colorScheme.onPrimary,
                     ),
                   ),
                   SizedBox(height: 45.0.sp),
@@ -75,7 +82,7 @@ class MyVipListItem extends StatelessWidget {
                       Expanded(
                         child: Text(
                           "${vipMemberItem!.shopAddress}",
-                          style: appTheme.textTheme.headlineSmall!.copyWith(
+                          style: appTheme.textTheme.bodyMedium!.copyWith(
                             color: appTheme.colorScheme.onPrimary,
                           ),
                         ),
@@ -97,7 +104,7 @@ class MyVipListItem extends StatelessWidget {
                               _autoRenew.value
                                   ? "${"next_renewal_date".tr}: ${vipMemberItem!.toDate!.toStringFormatSimpleDateUTC()}"
                                   : "${"expiration_date".tr}: ${vipMemberItem!.toDate!.toStringFormatSimpleDateUTC()}",
-                              style: appTheme.textTheme.headlineSmall!.copyWith(
+                              style: appTheme.textTheme.bodyMedium!.copyWith(
                                 color: appTheme.colorScheme.onPrimary,
                               ),
                             ),
@@ -106,7 +113,7 @@ class MyVipListItem extends StatelessWidget {
                             "${"from_date".tr.replaceFirst('...', "${vipMemberItem!.getLimitMemberFromDate()!.toStringFormatSimpleDateUTC()}")}" +
                                 " -- " +
                                 "${"to_date".tr.replaceFirst('...', "${vipMemberItem!.getLimitMemberToDate()!.toStringFormatSimpleDateUTC()}")}",
-                            style: appTheme.textTheme.headlineSmall!.copyWith(
+                            style: appTheme.textTheme.bodyMedium!.copyWith(
                               color: appTheme.colorScheme.onPrimary,
                             ),
                           ),
@@ -126,7 +133,7 @@ class MyVipListItem extends StatelessWidget {
                             ? "${"unlimited_turns".tr}"
                             : ("${"available_turns".tr}: " +
                                 "${vipMemberItem?.remainPlay} / ${vipMemberItem?.sumBuyPlay}")),
-                        style: appTheme.textTheme.headlineSmall!.copyWith(
+                        style: appTheme.textTheme.bodyMedium!.copyWith(
                           color: appTheme.colorScheme.onPrimary,
                         ),
                       ),

@@ -159,6 +159,10 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         backgroundColor: Color(0xff232E7A),
                         radius: 15,
                         press: () {
+                          if(!controller.onValidateCreateBooking()){
+                            return;
+                          }
+                          
                           SupportUtils.showDecisionDialog(
                             'are_you_sure_create_booking'.tr,
                             lstOptions: [

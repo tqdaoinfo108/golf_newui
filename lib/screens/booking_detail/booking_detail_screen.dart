@@ -47,9 +47,9 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                           left: 40,
                           right: 20,
                           bottom:
-                          MediaQuery.of(context).viewPadding.bottom > 0
-                              ? kToolbarHeight + 20
-                              : 20,
+                              MediaQuery.of(context).viewPadding.bottom > 0
+                                  ? kToolbarHeight + 20
+                                  : 20,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,8 +99,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                   ),
                                   child: Column(
                                     spacing: 10,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -178,6 +177,9 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                           BookingStatus.USED)
                                     Container(
                                       alignment: Alignment.bottomCenter,
+                                      margin: const EdgeInsets.only(
+                                        bottom: kToolbarHeight + 15,
+                                      ),
                                       padding: EdgeInsets.symmetric(
                                         horizontal: 4.0.h,
                                       ),
@@ -185,8 +187,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                         radius: 12,
                                         text: 'show_qr'.tr,
                                         textColor: Colors.white,
-                                        backgroundColor:
-                                            GolfColor.GolfSubColor,
+                                        backgroundColor: GolfColor.GolfSubColor,
                                         press: () {
                                           showModalBottomSheet(
                                             context: context,
@@ -215,7 +216,9 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                   SizedBox(height: 10),
                                   Container(
                                     alignment: Alignment.bottomCenter,
-                                    margin: const EdgeInsets.only(bottom: 40),
+                                      margin: const EdgeInsets.only(
+                                      bottom: kToolbarHeight,
+                                    ),
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 4.0.h,
                                     ),
@@ -235,8 +238,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                                 controller
                                                     .letsPaymentOrther5and6,
                                           ),
-                                      onCancelPressed:
-                                          controller.cancelBooking,
+                                      onCancelPressed: controller.cancelBooking,
                                     ),
                                   ),
                                 ],

@@ -30,150 +30,176 @@ Widget shopItemView(
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-  return shops.codeShop == null ? SizedBox() : Stack(
-    clipBehavior: Clip.none,
-    children: [
-      Padding(
-        padding: EdgeInsets.only(bottom: 1.0.w),
-        child: Pressable(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(12),
-          backgroundColor: themeData.colorScheme.onBackground,
-          onPress: onItemPressed,
-          enabled: enabled,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Row 1: Tên shop + badges
-              Row(
+  return shops.codeShop == null
+      ? SizedBox()
+      : Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(bottom: 1.0.w),
+            child: Pressable(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(12),
+              backgroundColor: themeData.colorScheme.onBackground,
+              onPress: onItemPressed,
+              enabled: enabled,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (shops.isMember ?? false)
-                    Padding(
-                      padding: EdgeInsets.only(right: 4),
-                      child: Icon(
-                        Icons.card_membership,
-                        size: 16,
-                        color: themeData.colorScheme.secondary,
-                      ),
-                    ),
-                  if ((shops.countMemberLimit ?? 0) > 0)
-                    Container(
-                      margin: EdgeInsets.only(right: 4),
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: themeData.colorScheme.primary,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        "${shops.countMemberLimit}",
-                        style: TextStyle(
-                          fontSize: 9,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                  // Row 1: Tên shop + badges
+                  Row(
+                    children: [
+                      if (shops.isMember ?? false)
+                        Padding(
+                          padding: EdgeInsets.only(right: 4),
+                          child: Icon(
+                            Icons.card_membership,
+                            size: 16,
+                            color: themeData.colorScheme.secondary,
+                          ),
+                        ),
+                      if ((shops.countMemberLimit ?? 0) > 0)
+                        Container(
+                          margin: EdgeInsets.only(right: 4),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 5,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: themeData.colorScheme.primary,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            "${shops.countMemberLimit}",
+                            style: TextStyle(
+                              fontSize: 9,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      if (shops.isShopManager ?? false)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: Image.asset(
+                            "assets/icons/person_vip.png",
+                            width: 18,
+                          ),
+                        ),
+                      Expanded(
+                        child: Text(
+                          shops.nameShop ?? "",
+                          style: textTitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
-                  if (shops.isShopManager ?? false)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: Image.asset(
-                        "assets/icons/person_vip.png",
-                        width: 18,
+                      // Favorite button inline
+                      if (onFavoriteChanged != null)
+                        GestureDetector(
+                          onTap: () => onFavoriteChanged(!shops.isFavorite!),
+                          child: Icon(
+                            shops.isFavorite!
+                                ? Icons.favorite
+                                : Icons.favorite_outline,
+                            color:
+                                shops.isFavorite!
+                                    ? Colors.red[400]
+                                    : GolfColor.GolfSubColor,
+                            size: 20,
+                          ),
+                        ),
+                    ],
+                  ),
+                  SizedBox(height: 6),
+                  // Row 2: Địa chỉ (full width)
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        size: 14,
+                        color: GolfColor.GolfSubColor,
                       ),
-                    ),
-                  Expanded(
-                    child: Text(
-                      shops.nameShop ?? "",
-                      style: textTitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  // Favorite button inline
-                  if (onFavoriteChanged != null)
-                    GestureDetector(
-                      onTap: () => onFavoriteChanged(!shops.isFavorite!),
-                      child: Icon(
-                        shops.isFavorite! ? Icons.favorite : Icons.favorite_outline,
-                        color: shops.isFavorite! ? Colors.red[400] : GolfColor.GolfSubColor,
-                        size: 20,
+                      SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          shops.addressShop ?? "N/A",
+                          style: textBody,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                ],
-              ),
-              SizedBox(height: 6),
-              // Row 2: Địa chỉ (full width)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Icons.location_on, size: 14, color: GolfColor.GolfSubColor),
-                  SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      shops.addressShop ?? "N/A",
-                      style: textBody,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    ],
+                  ),
+                  SizedBox(height: 4),
+                  // Row 3: Phone + Distance + Buy VIP Member button
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.phone,
+                        size: 14,
+                        color: GolfColor.GolfSubColor,
+                      ),
+                      SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          shops.phoneShop ?? "N/A",
+                          style: textBody,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(width: 12),
+                      Icon(
+                        Icons.near_me,
+                        size: 14,
+                        color: GolfColor.GolfSubColor,
+                      ),
+                      SizedBox(width: 4),
+                      Text("${shops.distance} km", style: textBody),
+                      if (buyVipMemberButton != null) ...[
+                        Spacer(),
+                        buyVipMemberButton,
+                      ],
+                    ],
                   ),
                 ],
-              ),
-              SizedBox(height: 4),
-              // Row 3: Phone + Distance + Buy VIP Member button
-              Row(
-                children: [
-                  Icon(Icons.phone, size: 14, color: GolfColor.GolfSubColor),
-                  SizedBox(width: 4),
-                  Flexible(
-                    child: Text(
-                      shops.phoneShop ?? "N/A",
-                      style: textBody,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  Icon(Icons.near_me, size: 14, color: GolfColor.GolfSubColor),
-                  SizedBox(width: 4),
-                  Text(
-                    "${shops.distance} km",
-                    style: textBody,
-                  ),
-                  if (buyVipMemberButton != null) ...[
-                    Spacer(),
-                    buyVipMemberButton,
-                  ],
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      // Discount badge
-      if (shops.discount != null && shops.discount != 0)
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-            decoration: BoxDecoration(
-              color: shops.discount! < 100 ? Colors.red[400] : Colors.green[400],
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(12),
-                bottomLeft: Radius.circular(8),
               ),
             ),
-            child: Text(
-              shops.discount! < 100
-                  ? "-${(100 - shops.discount!.toInt())}%"
-                  : "+${(shops.discount!.toInt() - 100)}%",
-              style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-            ),
           ),
-        ),
-    ],
-  );
+          // Discount badge
+          if (shops.discount != null && shops.discount != 0)
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+                decoration: BoxDecoration(
+                  color:
+                      shops.discount! < 100
+                          ? Colors.red[400]
+                          : Colors.green[400],
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12),
+                    bottomLeft: Radius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  shops.discount! < 100
+                      ? "-${(100 - shops.discount!.toInt())}%"
+                      : "+${(shops.discount!.toInt() - 100)}%",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      );
   // .onTap(() {
   //   if (onItemPressed != null) {
   //     onItemPressed.call();
@@ -305,10 +331,7 @@ Widget shopItemViewNoEvent(ThemeData themeData, Shops shop) {
               ),
             ),
             SizedBox(width: 2.0.h),
-            Text(
-              "${shop.range} km",
-              style: themeData.textTheme.headlineSmall,
-            ),
+            Text("${shop.range} km", style: themeData.textTheme.headlineSmall),
           ],
         ),
       ],
@@ -326,12 +349,21 @@ Widget bookingDetailItemView(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       title != null
-          ? Text(title, style: themeData.textTheme.bodyLarge!.copyWith(color:
-      Color(0xff8B90B9)))
+          ? Text(
+            title,
+            style: themeData.textTheme.bodyLarge!.copyWith(
+              color: Color(0xff8B90B9),
+            ),
+          )
           : Container(),
       SizedBox(height: 8),
-      Text(content, style: themeData.textTheme.bodyLarge!.copyWith
-        (fontWeight: FontWeight.bold, color: GolfColor.GolfSubColor)),
+      Text(
+        content,
+        style: themeData.textTheme.bodyLarge!.copyWith(
+          fontWeight: FontWeight.bold,
+          color: GolfColor.GolfSubColor,
+        ),
+      ),
     ],
   );
 }
@@ -365,10 +397,10 @@ Widget bookingDetailListBlockView(
     _lstWidget.add(
       bookingDetailItemView(
         themeData,
-        i == 0
-            ? '${'time_booking'.tr} (${lstBlock.length})'
-            : null,
-        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}',
+        i == 0 ? '${'time_booking'.tr} (${lstBlock.length})' : null,
+        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()} ${lstBlock[i].isVisa == true
+            ? "(¥${lstBlock[i].amountAfterDiscount?.toInt()})"
+            : "(VIP)"}',
       ),
     );
   }
@@ -391,7 +423,7 @@ Widget bookingDetailListBlockSimpleView(
   return Container(
     alignment: Alignment.centerLeft,
     child: AutoSizeText(
-      'time_booking'.tr + ": " + _lstWidget,
+      "${'time_booking'.tr}: $_lstWidget",
       style: GoogleFonts.openSans(
         // headerLine 6
         fontSize: 8.0.sp,
