@@ -157,6 +157,9 @@ class LoginController extends GetxController {
         'notification-golfsystem-all',
       );
 
+       for (var shopID in _loginResult.data!.lstTopicID ?? []) {
+        FirebaseMessaging.instance.subscribeToTopic(shopID);
+      }
       // change language
       SupportUtils.prefs.setString(
         APP_LANGUAGE_CODE,
@@ -248,7 +251,7 @@ class LoginController extends GetxController {
       FirebaseMessaging.instance.subscribeToTopic(
         'notification-golfsystem-all',
       );
-      for (var shopID in _loginResult.data!.lstShopID ?? []) {
+      for (var shopID in _loginResult.data!.lstTopicID ?? []) {
         FirebaseMessaging.instance.subscribeToTopic(shopID);
       }
       // change language

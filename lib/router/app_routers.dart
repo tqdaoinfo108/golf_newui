@@ -19,5 +19,6 @@ class AppRoutes {
   static const String PICK_IMAGE_LIST = '/pickImageList';
   static const String TERMS_OF_USE = '/termsOfUse';
   static const String NOTIFICATIONS = '/notification';
+  static const String NOTIFICATION_DETAIL = '/notificationDetail';
 
 }

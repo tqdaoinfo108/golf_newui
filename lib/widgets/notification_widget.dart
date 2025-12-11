@@ -11,7 +11,13 @@ import 'package:get/get.dart';
 Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
   var textStyle = theme.textTheme.headlineSmall!.copyWith(color: Colors.white);
   return InkWell(
-    onTap: () => Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: noti.iD),
+    onTap: () {
+      if(noti.typeID == 100 || noti.typeID == 101){
+        Get.toNamed(AppRoutes.NOTIFICATION_DETAIL, arguments: noti);
+      }else{
+        Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: noti.iD);
+      }
+    } ,
     child: Container(
       margin: EdgeInsets.only(bottom: 2.0.w, right: 2.0.w, left: 2.0.w),
       decoration: BoxDecoration(

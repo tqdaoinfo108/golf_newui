@@ -4,7 +4,8 @@ import 'package:golf_uiv2/utils/constants.dart';
 
 List<UserVipMember> userVipMemberFromJson(String str) =>
     List<UserVipMember>.from(
-        json.decode(str).map((x) => UserVipMember.fromJson(x)));
+      json.decode(str).map((x) => UserVipMember.fromJson(x)),
+    );
 
 class UserVipMember {
   UserVipMember({
@@ -24,7 +25,7 @@ class UserVipMember {
     this.isRenew,
     this.userCodeMemberId,
     this.listUserCodeMemberLimit,
-    this.nameCodeMember
+    this.nameCodeMember,
   });
 
   int? userId;
@@ -46,29 +47,33 @@ class UserVipMember {
   int? bookingConsecutiveLimit = 2;
 
   factory UserVipMember.fromJson(Map<String, dynamic> json) => UserVipMember(
-    
-        userId: json["UserID"] == null ? null : json["UserID"],
-        userName: json["UserName"] == null ? null : json["UserName"],
-        shopId: json["ShopID"] == null ? null : json["ShopID"],
-        shopCode: json["ShopCode"] == null ? null : json["ShopCode"],
-        shopName: json["ShopName"] == null ? null : json["ShopName"],
-        shopAddress: json["ShopAddress"] == null ? null : json["ShopAddress"],
-        typeLimit: json["TypeLimit"] == null ? null : json["TypeLimit"],
-        sumBuyPlay: json["SumBuyPlay"] == null ? null : json["SumBuyPlay"],
-        sumUsePlay: json["SumUsePlay"] == null ? null : json["SumUsePlay"],
-        remainPlay: json["RemainPlay"] == null ? null : json["RemainPlay"],
-        fromDate: json["FromDate"] == null ? null : json["FromDate"] * 1000,
-        toDate: json["ToDate"] == null ? null : json["ToDate"] * 1000,
-         nameCodeMember:
+    userId: json["UserID"] == null ? null : json["UserID"],
+    userName: json["UserName"] == null ? null : json["UserName"],
+    shopId: json["ShopID"] == null ? null : json["ShopID"],
+    shopCode: json["ShopCode"] == null ? null : json["ShopCode"],
+    shopName: json["ShopName"] == null ? null : json["ShopName"],
+    shopAddress: json["ShopAddress"] == null ? null : json["ShopAddress"],
+    typeLimit: json["TypeLimit"] == null ? null : json["TypeLimit"],
+    sumBuyPlay: json["SumBuyPlay"] == null ? null : json["SumBuyPlay"],
+    sumUsePlay: json["SumUsePlay"] == null ? null : json["SumUsePlay"],
+    remainPlay: json["RemainPlay"] == null ? null : json["RemainPlay"],
+    fromDate: json["FromDate"] == null ? null : json["FromDate"] * 1000,
+    toDate: json["ToDate"] == null ? null : json["ToDate"] * 1000,
+    nameCodeMember:
         json["NameCodeMember"] == null ? null : json["NameCodeMember"],
-        isRenew: json["IsRenew"] == null ? null : json["IsRenew"],
-        userCodeMemberId:
-            json["UserCodeMemberID"] == null ? null : json["UserCodeMemberID"],
-        listUserCodeMemberLimit: json["ListUserCodeMemberLimit"] == null
+    isRenew: json["IsRenew"] == null ? null : json["IsRenew"],
+    userCodeMemberId:
+        json["UserCodeMemberID"] == null ? null : json["UserCodeMemberID"],
+    bookingConsecutiveLimit: json["BookConsecutiveLimit"],
+    listUserCodeMemberLimit:
+        json["ListUserCodeMemberLimit"] == null
             ? null
-            : List<UserVipMember>.from(json["ListUserCodeMemberLimit"]
-                .map((val) => UserVipMember.fromJson(val))),
-      );
+            : List<UserVipMember>.from(
+              json["ListUserCodeMemberLimit"].map(
+                (val) => UserVipMember.fromJson(val),
+              ),
+            ),
+  );
 
   bool isUseable() {
     return this.typeLimit != VipMemberType.UNLIMIT ||
@@ -86,13 +91,11 @@ class UserVipMember {
 
   int? getLimitMemberFromDate() {
     return (List<UserVipMember>.from(listUserCodeMemberLimit!)
-          ..sort((a, b) => a.fromDate!.compareTo(b.fromDate!)))[0]
-        .fromDate;
+      ..sort((a, b) => a.fromDate!.compareTo(b.fromDate!)))[0].fromDate;
   }
 
   int? getLimitMemberToDate() {
     return (List<UserVipMember>.from(listUserCodeMemberLimit!)
-          ..sort((a, b) => b.toDate!.compareTo(a.toDate!)))[0]
-        .toDate;
+      ..sort((a, b) => b.toDate!.compareTo(a.toDate!)))[0].toDate;
   }
 }

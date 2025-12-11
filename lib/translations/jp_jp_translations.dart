@@ -237,5 +237,7 @@ const Map<String, String> jp = {
             "退会すると、現在ご利用中のメンバーシップは即時に終了し、\n翌月以降の自動更新（自動課金）は停止されます。\n\n※一度退会すると、過去の予約履歴やポイントは復元できません。\n※当月分の料金は日割りで返金されません。\n\n本当に退会しますか？",
   "days": "日",
   "payment_method": "お支払い方法",
-  "select_payment_method": "お支払い方法を選択"
+  "select_payment_method": "お支払い方法を選択",
+  "notification_detail": "お知らせ詳細",
+  "no_notification_data": "お知らせ情報がありません"
 };

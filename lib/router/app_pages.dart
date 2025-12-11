@@ -21,6 +21,8 @@ import 'package:golf_uiv2/screens/login/login_screen.dart';
 import 'package:golf_uiv2/screens/my_vip_list/my_vip_list_binding.dart';
 import 'package:golf_uiv2/screens/my_vip_list/my_vip_list_screen.dart';
 import 'package:golf_uiv2/screens/notifications/notifications_controller.dart';
+import 'package:golf_uiv2/screens/notification_detail/notification_detail_controller.dart';
+import 'package:golf_uiv2/screens/notification_detail/notification_detail_screen.dart';
 import 'package:golf_uiv2/screens/payment_new_web/payment_new_web_controller.dart';
 import 'package:golf_uiv2/screens/profile/profile_binding.dart';
 import 'package:golf_uiv2/screens/profile/profile_screen.dart';
@@ -138,6 +140,11 @@ class AppScreens {
       name: AppRoutes.NOTIFICATIONS,
       page: () => NotificationScreen(),
       binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.NOTIFICATION_DETAIL,
+      page: () => NotificationDetailScreen(),
+      binding: NotificationDetailBinding(),
     ),
   ];
 }

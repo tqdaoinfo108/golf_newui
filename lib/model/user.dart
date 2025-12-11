@@ -18,7 +18,7 @@ class User extends BaseResponseError {
   int? confirmEmail;
   SocialNetwork? socialNetwork;
   String? languageCode;
-  List<String>? lstShopID;
+  List<String>? lstTopicID;
   // update v4
   List<ListShopManager>? listShopManager;
 
@@ -38,7 +38,7 @@ class User extends BaseResponseError {
     this.socialNetwork,
     this.confirmEmail,
     this.languageCode,
-    this.lstShopID,
+    this.lstTopicID,
   });
 
   User.fromJson(Map<String, dynamic> json) {
@@ -54,24 +54,24 @@ class User extends BaseResponseError {
     confirmEmail = json['ConfirmEmail'];
     languageCode = json['LanguageCode'];
 
-    // Parse lstShopID safely
-    if (json['lstShopID'] != null) {
+    // Parse lstTopicID safely
+    if (json['lstTopicID'] != null) {
       try {
-        if (json['lstShopID'] is List) {
-          lstShopID =
-              (json['lstShopID'] as List)
+        if (json['lstTopicID'] is List) {
+          lstTopicID =
+              (json['lstTopicID'] as List)
                   .map((e) => e?.toString() ?? '')
                   .where((s) => s.isNotEmpty)
                   .toList();
-        } else if (json['lstShopID'] is String) {
-          lstShopID = [json['lstShopID'] as String];
+        } else if (json['lstTopicID'] is String) {
+          lstTopicID = [json['lstTopicID'] as String];
         }
       } catch (e) {
-        print('Error parsing lstShopID: $e');
-        lstShopID = null;
+        print('Error parsing lstTopicID: $e');
+        lstTopicID = null;
       }
     } else {
-      lstShopID = null;
+      lstTopicID = null;
     }
 
     this.listShopManager =

@@ -263,5 +263,7 @@ const Map<String, String> en = {
             "If you withdraw, your current membership ends immediately and\nauto-renew (future charges) stops.\n\n※ Past booking history and points cannot be restored after withdrawal.\n※ The current month's fee is not refunded on a pro-rated basis.\n\nDo you really want to withdraw?",
   "days": "days",
   "payment_method": "Payment Method",
-  "select_payment_method": "Select payment method"
+  "select_payment_method": "Select payment method",
+  "notification_detail": "Notification Detail",
+  "no_notification_data": "No notification data available"
 };
