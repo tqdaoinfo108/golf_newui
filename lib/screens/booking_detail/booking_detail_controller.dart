@@ -307,50 +307,14 @@ class BookingDetailController extends GetxController {
 
   _getListPaymentItems() {
     List<PaymentItem> lstPaymentItems = [];
-    var _bookingDiscount = 0;
-    var _isPaymentWithLimitedAndOnline =
-        curBooking.payment!.typePayment ==
-        BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE;
-    var _priceSortedBlocks = List<Blocks>.from(curBooking.blocks!)
-      ..sort((a, b) => a.price!.compareTo(b.price!));
-    var _totalBlocksToPay =
-        _isPaymentWithLimitedAndOnline
-            ? curBooking.payment!.turnVisa!
-            : _priceSortedBlocks.length;
 
-    for (var i = 0; i < _totalBlocksToPay; i++) {
-      final block = _priceSortedBlocks[i];
-      _bookingDiscount += block.discount!.round();
-
+    for (var i = 0; i < (curBooking.blocks?.length ?? 0); i++) {
+      final block = curBooking.blocks![i];
       lstPaymentItems.add(
         PaymentItem(
           id: block.blockID,
           name: block.getNameBlock(),
-          price: block.price!.round(),
-          quantity: 1,
-        ),
-      );
-    }
-
-    for (var i = _totalBlocksToPay; i < _priceSortedBlocks.length; i++) {
-      final block = _priceSortedBlocks[i];
-
-      lstPaymentItems.add(
-        PaymentItem(
-          id: block.blockID,
-          name: block.getNameBlock(),
-          price: 0,
-          quantity: 1,
-        ),
-      );
-    }
-
-    if (_bookingDiscount > 0) {
-      lstPaymentItems.add(
-        PaymentItem(
-          id: DateTime.now().millisecondsSinceEpoch,
-          name: 'Discount',
-          price: _bookingDiscount,
+          price: block.amountAfterDiscount!.round(),
           quantity: 1,
         ),
       );

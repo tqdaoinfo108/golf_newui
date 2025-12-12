@@ -177,9 +177,6 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                           BookingStatus.USED)
                                     Container(
                                       alignment: Alignment.bottomCenter,
-                                      margin: const EdgeInsets.only(
-                                        bottom: kToolbarHeight + 15,
-                                      ),
                                       padding: EdgeInsets.symmetric(
                                         horizontal: 4.0.h,
                                       ),
@@ -216,7 +213,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                   SizedBox(height: 10),
                                   Container(
                                     alignment: Alignment.bottomCenter,
-                                      margin: const EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                       bottom: kToolbarHeight,
                                     ),
                                     padding: EdgeInsets.symmetric(

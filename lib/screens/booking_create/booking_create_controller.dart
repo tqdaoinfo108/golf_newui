@@ -134,6 +134,8 @@ class BookingCreateController extends GetxController {
     isBlockExpanded = false;
     isPaymentMethodExpanded = true;
     selectedPaymentMethod = null;
+    idSlot =0;
+    lstBlock = [];
   }
 
   void getSlotFirst() async {
@@ -166,6 +168,8 @@ class BookingCreateController extends GetxController {
     if (paymentMethod != null) {
       isPaymentMethodExpanded = false;
       isMachineExpanded = true;
+      idSlot = 0;
+      lstBlock = [];
     }
     update();
   }
@@ -279,6 +283,7 @@ class BookingCreateController extends GetxController {
   }
 
   void onChangeBlockExpanded({BlockItemModel? item}) {
+    if(idSlot == null || idSlot == 0) return;
     if (item != null) {
       // Select/deselect block item
       var bookings = lstBlock.where((_v) => _v.blockID == item.blockID);
