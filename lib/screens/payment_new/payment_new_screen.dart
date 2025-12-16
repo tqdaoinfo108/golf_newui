@@ -31,7 +31,7 @@ class PaymentScreen extends GetView<PaymentController> {
         return false;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         appBar: ApplicationAppBarLarge(

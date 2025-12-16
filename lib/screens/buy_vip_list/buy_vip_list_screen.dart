@@ -147,7 +147,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
       return;
     }
 
-    controller.letsPayment(vipMember, isRenew: isRenew).then((res) {
+    controller.letsPayment(vipMember, isRenew: 0).then((res) {
       if (res) _completeRegisterVipMember();
     });
   }

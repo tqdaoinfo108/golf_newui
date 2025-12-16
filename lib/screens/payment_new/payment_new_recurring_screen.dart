@@ -31,7 +31,7 @@ class PaymentRecurringScreen extends GetView<PaymentRecurringController> {
         return false;
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         appBar: ApplicationAppBarLarge(
