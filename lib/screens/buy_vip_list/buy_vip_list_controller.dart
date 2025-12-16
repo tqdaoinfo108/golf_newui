@@ -13,6 +13,8 @@ import 'package:golf_uiv2/services/golf_api.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
+import '../../model/check_card_authorize_response.dart';
+
 class BuyVipListController extends GetxController
     with StateMixin<List<ShopVipMember>> {
   ShopItemModel? shop;
@@ -121,6 +123,86 @@ class BuyVipListController extends GetxController
 
       return false;
     }
+  }
+
+  Future<bool> letsPaymentRecurring(
+    ShopVipMember vipMember, {
+    int isRenew = 1,
+  }) async {
+    _registerVipMemberStillBusy.value = true;
+
+    /// Navigate to recurring payment page
+    var result = await Get.toNamed(
+      AppRoutes.PYAYMENT_RECURRING,
+      arguments: vipMember.codeMemberId,
+    );
+
+    /// Payment completed
+    if (result != null) {
+      /// Payment successful
+      if ((result as PageResult).resultCode == PageResultCode.OK) {
+        var response = result.data as CheckCardAuthorizeResponse;
+
+        // Check MPI result
+        var mpiCheckResult = await GolfApi().codeMemberMpiResult(
+          response.orderId ?? '',
+          vipMember.codeMemberId!,
+        );
+
+        if (mpiCheckResult.data ?? false) {
+          // Create recurring card
+          var createCardResult = await GolfApi().createRecurringCard(
+            AuthBody<Map<String, dynamic>>()
+              ..setAuth(Auth())
+              ..setData({
+                'cardNumber': response.cardNumber ?? '',
+                'cardExpire': response.cardExpire ?? '',
+                'securityCode': response.securityCode ?? '',
+                'cardholderName': response.cardholderName ?? '',
+                'codeMemberID': vipMember.codeMemberId,
+              }, dataToJson: (data) => data),
+          );
+
+          if (createCardResult.data ?? false) {
+            // Create PaymentKeyResponse from CheckCardAuthorizeResponse
+            var paymentInfo = PaymentKeyResponse(
+              oderId: response.orderId,
+              paymentKey: '',
+              status: response.mstatus,
+              authStartUrl: response.authStartUrl,
+            );
+
+            var isPayment = await registerVipMember(
+              vipMember,
+              paymentInfo,
+              1,
+              isRenew,
+            );
+
+            if (isPayment) {
+              _registerVipMemberStillBusy.value = false;
+              return true;
+            }
+          } else {
+            SupportUtils.showToast(
+              'create_recurring_card_failed'.tr,
+              type: ToastType.ERROR,
+            );
+          }
+        } else {
+          SupportUtils.showToast('mpi_check_failed'.tr, type: ToastType.ERROR);
+        }
+      }
+
+      /// Payment Failure
+      if (result.resultCode == PageResultCode.FAIL) {
+        SupportUtils.showToast('payment_failure'.tr, type: ToastType.ERROR);
+        await registerVipMember(vipMember, null, -1, isRenew);
+      }
+    }
+
+    _registerVipMemberStillBusy.value = false;
+    return false;
   }
 
   Future<bool> letsPayment(ShopVipMember vipMember, {int isRenew = 1}) async {

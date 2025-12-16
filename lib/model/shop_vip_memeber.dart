@@ -14,6 +14,7 @@ class ShopVipMember {
     this.updatedDate,
     this.userCreated,
     this.userUpdated,
+    this.isAllowReccuring
   });
 
   int? codeMemberId;
@@ -30,6 +31,7 @@ class ShopVipMember {
   String? userCreated;
   String? userUpdated;
   int bookingConsecutiveLimit = 2;
+  bool? isAllowReccuring;
 
   ShopVipMember copyWith({
     int? codeMemberId,
@@ -45,6 +47,7 @@ class ShopVipMember {
     int? updatedDate,
     String? userCreated,
     String? userUpdated,
+    bool? isAllowReccuring,
   }) => ShopVipMember( bookingConsecutiveLimit,
     codeMemberId: codeMemberId ?? this.codeMemberId,
     shopId: shopId ?? this.shopId,
@@ -54,6 +57,7 @@ class ShopVipMember {
     numberPlayInMonth: numberPlayInMonth ?? this.numberPlayInMonth,
     amount: amount ?? this.amount,
     status: status ?? this.status,
+    isAllowReccuring: isAllowReccuring ?? this.isAllowReccuring,
     description: description ?? this.description,
     createdDate: createdDate ?? this.createdDate,
     updatedDate: updatedDate ?? this.updatedDate,
@@ -63,23 +67,24 @@ class ShopVipMember {
 
   factory ShopVipMember.fromJson(Map<String, dynamic> json) => ShopVipMember(  json["BookConsecutiveLimit"] == null ? 2 : json["BookConsecutiveLimit"],
     codeMemberId: json["CodeMemberID"] == null ? null : json["CodeMemberID"],
-    shopId: json["ShopID"] == null ? null : json["ShopID"],
+    shopId: json["ShopID"],
     typeCodeMember:
-        json["TypeCodeMember"] == null ? null : json["TypeCodeMember"],
-    code: json["Code"] == null ? null : json["Code"],
+        json["TypeCodeMember"],
+    code: json["Code"],
     nameCodeMember:
-        json["NameCodeMember"] == null ? null : json["NameCodeMember"],
+        json["NameCodeMember"],
     numberPlayInMonth:
-        json["NumberPlayInMonth"] == null ? null : json["NumberPlayInMonth"],
-    amount: json["Amount"] == null ? null : json["Amount"],
-    status: json["Status"] == null ? null : json["Status"],
-    description: json["Description"] == null ? null : json["Description"],
+        json["NumberPlayInMonth"],
+    amount: json["Amount"],
+    status: json["Status"],
+    description: json["Description"],
     createdDate:
         json["CreatedDate"] == null ? null : json["CreatedDate"] * 1000,
     updatedDate:
         json["UpdatedDate"] == null ? null : json["UpdatedDate"] * 1000,
-    userCreated: json["UserCreated"] == null ? null : json["UserCreated"],
-    userUpdated: json["UserUpdated"] == null ? null : json["UserUpdated"],
+    userCreated: json["UserCreated"],
+    userUpdated: json["UserUpdated"],
+    isAllowReccuring: json["IsAllowReccuring"]
   );
 
   Map<String, dynamic> toJson() => {

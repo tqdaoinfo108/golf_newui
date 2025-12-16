@@ -8,6 +8,7 @@ import 'package:golf_uiv2/model/base_respose.dart';
 import 'package:golf_uiv2/model/block_model.dart';
 import 'package:golf_uiv2/model/booking.dart';
 import 'package:golf_uiv2/model/booking_model.dart';
+import 'package:golf_uiv2/model/check_card_authorize_response.dart';
 import 'package:golf_uiv2/model/group_model.dart';
 import 'package:golf_uiv2/model/notification.dart';
 import 'package:golf_uiv2/model/payment_key_response.dart';
@@ -146,7 +147,7 @@ class GolfApi {
     int? time,
     String dateTimeClient,
     int userID,
-    int userCodeMemberID 
+    int userCodeMemberID,
   ) async {
     try {
       var response = await apiClient.getBlock(
@@ -155,7 +156,7 @@ class GolfApi {
         time,
         dateTimeClient,
         userID,
-        userCodeMemberID 
+        userCodeMemberID,
       );
       return BlockModel.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
@@ -611,6 +612,66 @@ class GolfApi {
     }
   }
 
+  Future<BaseResponse<CheckCardAuthorizeResponse?>> checkCardAuthorize(
+    AuthBody body,
+  ) async {
+    String? response;
+    try {
+      response = await apiClient.checkCardAuthorize(
+        defaultAuthentication,
+        body.toJson(),
+      );
+
+      return BaseResponse<CheckCardAuthorizeResponse>.fromJson(
+        jsonDecode(response!),
+        (json) => CheckCardAuthorizeResponse.fromJson(json),
+      );
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
+  Future<BaseResponse<bool>> codeMemberMpiResult(
+    String orderId,
+    int codeMemberID,
+  ) async {
+    String? response;
+    try {
+      response = await apiClient.codeMemberMpiResult(
+        defaultAuthentication,
+        (AuthBody<Map<String, dynamic>>()
+              ..setAuth(Auth())
+              ..setData({
+                'orderId': orderId,
+                'codeMemberID': codeMemberID,
+              }, dataToJson: (data) => data)
+              ..toJson())
+            as Map<String, dynamic>,
+      );
+
+      return BaseResponse<bool>.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
+  Future<BaseResponse<bool>> createRecurringCard(AuthBody body) async {
+    String? response;
+    try {
+      response = await apiClient.createRecurringCard(
+        defaultAuthentication,
+        body.toJson(),
+      );
+
+      return BaseResponse<bool>.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
   Future<BaseResponse<List<Transaction>>?> getTransactionHistory(
     int? userId,
     int? page,
@@ -715,11 +776,15 @@ class GolfApi {
     }
   }
 
-  Future<BaseResponse<bool>> cardMpiCheckResult(String orderID, int shopID) async {
+  Future<BaseResponse<bool>> cardMpiCheckResult(
+    String orderID,
+    int shopID,
+  ) async {
     try {
       var response = await apiClient.cardMpiCheckResult(
         basicAuthentication,
-        orderID,shopID
+        orderID,
+        shopID,
       );
 
       return BaseResponse.fromJson(jsonDecode(response!));
@@ -756,14 +821,14 @@ class GolfApi {
   Future<BaseResponse<List<UserVipMember>>> getListMemberPayment(
     int shopID,
     int userID,
-    int datePlay
+    int datePlay,
   ) async {
     try {
       var response = await apiClient.getListCodeMemberPayment(
         defaultAuthentication,
         shopID,
         userID,
-        datePlay
+        datePlay,
       );
 
       return BaseResponse<List<UserVipMember>>.fromJson(

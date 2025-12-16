@@ -22,7 +22,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
 
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar(context,"back".tr),
+      appBar: ApplicationAppBar(context, "back".tr),
       body: Container(
         decoration: BoxDecoration(
           color: appTheme.colorScheme.background,
@@ -32,56 +32,65 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
           ),
         ),
         constraints: BoxConstraints.expand(),
-        child: Stack(children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0.sp,
-                  horizontal: 15.0.sp,
-                ),
-                child: Obx(
-                  () => Text(
-                    "${'list_vip_memeber'.tr} (${controller.total})",
-                    style: appTheme.textTheme.headlineSmall,
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.0.sp,
+                    horizontal: 15.0.sp,
+                  ),
+                  child: Obx(
+                    () => Text(
+                      "${'list_vip_memeber'.tr} (${controller.total})",
+                      style: appTheme.textTheme.headlineSmall,
+                    ),
                   ),
                 ),
-              ),
-              Flexible(
-                child: controller.obx(
-                  (lstVipMembers) => (lstVipMembers?.isEmpty ?? true)
-                      ? _buildEmptyList(appTheme)
-                      : AppListView(
-                          itemCount: lstVipMembers!.length,
-                          itemBuilder: (context, index) => BuyVipListItem(
-                            vipMemberItem: lstVipMembers[index],
-                            shopName: controller.shop!.nameShop,
-                            // availableRegister:
-                            //     !(lstVipMembers[index].typeCodeMember ==
-                            //             VipMemberType.UNLIMIT &&
-                            //         (controller.shop!.isMember ?? false)),
-                            onRegisterPressed: () =>
-                                _pressedRegister(lstVipMembers[index]),
-                          ),
-                          onLoadMore: () => controller.requestLoadMore(),
-                        ),
-                  onLoading: _buildLoadingIndicator(appTheme),
-                  onError: (error) {
-                    SupportUtils.showToast(error, type: ToastType.ERROR);
-                    return Container();
-                  },
+                Flexible(
+                  child: controller.obx(
+                    (lstVipMembers) =>
+                        (lstVipMembers?.isEmpty ?? true)
+                            ? _buildEmptyList(appTheme)
+                            : AppListView(
+                              itemCount: lstVipMembers!.length,
+                              itemBuilder:
+                                  (context, index) => BuyVipListItem(
+                                    vipMemberItem: lstVipMembers[index],
+                                    shopName: controller.shop!.nameShop,
+                                    // availableRegister:
+                                    //     !(lstVipMembers[index].typeCodeMember ==
+                                    //             VipMemberType.UNLIMIT &&
+                                    //         (controller.shop!.isMember ?? false)),
+                                    onRegisterPressed:
+                                        () => _pressedRegister(
+                                          lstVipMembers[index],
+                                        ),
+                                  ),
+                              onLoadMore: () => controller.requestLoadMore(),
+                            ),
+                    onLoading: _buildLoadingIndicator(appTheme),
+                    onError: (error) {
+                      SupportUtils.showToast(error, type: ToastType.ERROR);
+                      return Container();
+                    },
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Obx(() => controller.registerVipMemberStillBusy
-              ? Container(
-                  color: Colors.transparent,
-                  child: _buildLoadingIndicator(appTheme),
-                )
-              : Container()),
-        ]),
+              ],
+            ),
+            Obx(
+              () =>
+                  controller.registerVipMemberStillBusy
+                      ? Container(
+                        color: Colors.transparent,
+                        child: _buildLoadingIndicator(appTheme),
+                      )
+                      : Container(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -89,58 +98,85 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
   _pressedRegister(ShopVipMember vipMember) {
     if (vipMember.typeCodeMember == VipMemberType.UNLIMIT) {
       // unlimit -> isRenew có thể = 1
-      SupportUtils.showDecisionDialog("do_you_want_to_auto_renew_membership".tr,
-          decisionDescription: "agree_auto_renew_payment_note".tr,
-          lstOptions: [
-            DecisionOption('cancel'.tr,
-                type: DecisionOptionType.WARNING, onDecisionPressed: null),
-            DecisionOption('only_this_time'.tr,
-                type: DecisionOptionType.DENIED,
-                onDecisionPressed: () =>
-                    _paymentAndRegister(vipMember, isRenew: 0)),
-            DecisionOption('auto_renew'.tr,
+      SupportUtils.showDecisionDialog(
+        "do_you_want_to_auto_renew_membership".tr,
+        decisionDescription: "agree_auto_renew_payment_note".tr,
+        lstOptions: [
+          DecisionOption(
+            'cancel'.tr,
+            type: DecisionOptionType.WARNING,
+            onDecisionPressed: null,
+          ),
+          (vipMember.isAllowReccuring ?? true)
+              ? DecisionOption(
+                'auto_renew'.tr,
                 isImportant: true,
-                onDecisionPressed: () =>
-                    _paymentAndRegister(vipMember, isRenew: 1))
-          ]);
+                onDecisionPressed:
+                    () => _paymentAndRegister(vipMember, isRenew: 1),
+              )
+              : DecisionOption(
+                'only_this_time'.tr,
+                type: DecisionOptionType.DENIED,
+                onDecisionPressed:
+                    () => _paymentAndRegister(vipMember, isRenew: 0),
+              ),
+        ],
+      );
     } else {
       SupportUtils.showDecisionDialog(
-          "${"would_you_like_to_buy_limit_time_at".tr.replaceFirst('...', "${vipMember.numberPlayInMonth}").replaceFirst('&&&', "${controller.shop!.nameShop}")} ",
-          lstOptions: [
-            DecisionOption('no'.tr,
-                type: DecisionOptionType.DENIED, onDecisionPressed: null),
-            DecisionOption('yes'.tr,
-                isImportant: true,
-                onDecisionPressed: () => _paymentAndRegister(vipMember,
-                    isRenew: 0)), // k phải unlimit -> isRenew = 0
-          ]);
+        "${"would_you_like_to_buy_limit_time_at".tr.replaceFirst('...', "${vipMember.numberPlayInMonth}").replaceFirst('&&&', "${controller.shop!.nameShop}")} ",
+        lstOptions: [
+          DecisionOption(
+            'no'.tr,
+            type: DecisionOptionType.DENIED,
+            onDecisionPressed: null,
+          ),
+          DecisionOption(
+            'yes'.tr,
+            isImportant: true,
+            onDecisionPressed: () => _paymentAndRegister(vipMember, isRenew: 0),
+          ), // k phải unlimit -> isRenew = 0
+        ],
+      );
     }
   }
 
   _paymentAndRegister(ShopVipMember vipMember, {int isRenew = 1}) {
+    if (isRenew == 1) {
+      _paymentAndRegisterAutoRenew(vipMember);
+      return;
+    }
+
     controller.letsPayment(vipMember, isRenew: isRenew).then((res) {
       if (res) _completeRegisterVipMember();
     });
   }
 
+  _paymentAndRegisterAutoRenew(ShopVipMember vipMember) {
+    controller.letsPayment(vipMember).then((res) {
+      if (res) _completeRegisterVipMember();
+    });
+  }
+
   Widget _buildEmptyList(ThemeData appTheme) => Container(
-        child: Center(
-          child: Text(
-            "not_have_vip_member".tr,
-            style: appTheme.textTheme.titleSmall
-                ?.copyWith(color: appTheme.colorScheme.surface),
-          ),
+    child: Center(
+      child: Text(
+        "not_have_vip_member".tr,
+        style: appTheme.textTheme.titleSmall?.copyWith(
+          color: appTheme.colorScheme.surface,
         ),
-      );
+      ),
+    ),
+  );
 
   Widget _buildLoadingIndicator(ThemeData appTheme) => Container(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
+    child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    ),
+  );
 
   _completeRegisterVipMember() =>
       Get.back(result: PageResult(resultCode: PageResultCode.OK));

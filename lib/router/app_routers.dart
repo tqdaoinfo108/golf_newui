@@ -7,6 +7,7 @@ class AppRoutes {
   static const String PROFILE = '/profile';
   static const String PYAYMENT = '/payment';
   static const String PYAYMENT_WEB = '/payment_web';
+  static const String PYAYMENT_RECURRING = '/payment_recurring';
   static const String FORGOT_PASSWORD = '/forgotPassword';
   static const String CHANGE_PASSWORD = '/changePassword';
   static const String SETTING = '/setting';
@@ -20,5 +21,4 @@ class AppRoutes {
   static const String TERMS_OF_USE = '/termsOfUse';
   static const String NOTIFICATIONS = '/notification';
   static const String NOTIFICATION_DETAIL = '/notificationDetail';
-
 }

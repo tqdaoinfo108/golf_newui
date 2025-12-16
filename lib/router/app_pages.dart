@@ -40,6 +40,8 @@ import '../screens/booking_create/booking_create_screen.dart';
 import '../screens/notifications/notifications_screen.dart';
 import '../screens/payment_new/payment_new_controller.dart';
 import '../screens/payment_new/payment_new_screen.dart';
+import '../screens/payment_new/payment_new_recurring_controller.dart';
+import '../screens/payment_new/payment_new_recurring_screen.dart';
 import '../screens/payment_new_web/payment_new_web_screen.dart';
 
 class AppScreens {
@@ -52,7 +54,7 @@ class AppScreens {
         DashboardBinding(),
         BookingBinding(),
         NotificationBinding(),
-        SettingBinding()
+        SettingBinding(),
       ],
     ),
     GetPage(
@@ -90,6 +92,11 @@ class AppScreens {
       name: AppRoutes.PYAYMENT_WEB,
       page: () => PaymentWebScreen(),
       binding: PaymentWebdBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.PYAYMENT_RECURRING,
+      page: () => PaymentRecurringScreen(),
+      binding: PaymentRecurringBinding(),
     ),
     GetPage(
       name: AppRoutes.FORGOT_PASSWORD,

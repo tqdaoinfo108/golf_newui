@@ -55,18 +55,14 @@ class ApiClient {
     required String auth,
   }) async {
     try {
-       log(
-        "$endpoint \n${jsonEncode(auth)} \n${jsonEncode(body)}}",
-      );
+      log("$endpoint \n${jsonEncode(auth)} \n${jsonEncode(body)}}");
       final response = await _dio.post(
         endpoint,
         data: body,
         options: Options(headers: {'Authorization': auth}),
       );
 
-      log(
-        "\n${jsonEncode(response.data)}",
-      );
+      log("\n${jsonEncode(response.data)}");
 
       return _toJsonString(response.data);
     } catch (e) {
@@ -215,10 +211,27 @@ class ApiClient {
   Future<String?> addPaymentVipMember(String auth, Map<String, dynamic> body) =>
       _post('api/paymentcodemember/create', body: body, auth: auth);
 
+  Future<String?> checkCardAuthorize(String auth, Map<String, dynamic> body) =>
+      _post(
+        'api/paymentcodemember/check-card-authorize',
+        body: body,
+        auth: auth,
+      );
+
   Future<String?> cardMpiCheckResult(String auth, String orderID, int shopID) =>
       _get(
         'api/payment/mpiResult',
         queryParameters: {'orderID': orderID, 'shopID': shopID},
+        auth: auth,
+      );
+
+  Future<String?> codeMemberMpiResult(String auth, Map<String, dynamic> body) =>
+      _post('api/paymentcodemember/mpi-result', body: body, auth: auth);
+
+  Future<String?> createRecurringCard(String auth, Map<String, dynamic> body) =>
+      _post(
+        'api/paymentcodemember/create-reccuring-card',
+        body: body,
         auth: auth,
       );
 
