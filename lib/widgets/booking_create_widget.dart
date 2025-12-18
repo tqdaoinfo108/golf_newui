@@ -599,7 +599,7 @@ Widget chooseBlockBooking(
   final isExpanded = bookingCreateController.isBlockExpanded;
 
   return Container(
-    margin: EdgeInsets.symmetric(horizontal: 16),
+    margin: EdgeInsets.only(right: 10, left: 10),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12),
       color: themeData.colorScheme.backgroundCardColor,
@@ -715,7 +715,7 @@ Widget chooseBlockBooking(
               physics: NeverScrollableScrollPhysics(),
               itemCount: lstBlock.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 2.8,
+                childAspectRatio: 2.4,
                 crossAxisCount: 3,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,

@@ -11,15 +11,18 @@ import 'package:golf_uiv2/widgets/button_default.dart';
 import 'package:golf_uiv2/widgets/pressable_text.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../model/shop_model.dart';
 import 'booking_create_controller.dart';
 
 // ignore: must_be_immutable
 class BookingCreateScreen extends GetView<BookingCreateController> {
-  BookingCreateScreen({super.key});
-
+  BookingCreateScreen(this.data, {super.key});
+  ShopItemModel data;
+  
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
+    controller.shopSelected = data;
     controller.getSlotFirst();
 
     return Obx(
@@ -182,6 +185,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                   ],
                 ),
               ),
+              SizedBox(height: kBottomNavigationBarHeight + 32)
             ],
           ),
         ),

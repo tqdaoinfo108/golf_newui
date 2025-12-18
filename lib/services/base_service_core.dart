@@ -66,6 +66,7 @@ class ApiClient {
 
       return _toJsonString(response.data);
     } catch (e) {
+      log("ERROR: $endpoint \n${jsonEncode(e)}}");
       rethrow;
     }
   }
@@ -368,8 +369,8 @@ class ApiClient {
 
   Future<String?> changeFavorite(String auth, int? shopID, int? userID) =>
       _post(
-        'api/shopuser/change',
-        body: {'shopID': shopID, 'userID': userID},
+        'api/shopuser/change?shopID=$shopID&userID=$userID',
+        body: {},
         auth: auth,
       );
 

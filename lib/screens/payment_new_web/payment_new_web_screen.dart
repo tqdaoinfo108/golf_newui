@@ -21,7 +21,9 @@ class PaymentWebScreen extends GetView<PaymentWebController> {
         DecisionOption(
           'yes'.tr,
           type: DecisionOptionType.DENIED,
-          onDecisionPressed: () {},
+          onDecisionPressed: () {
+            Get.back(result: false);
+          },
         ),
         DecisionOption(
           'continue_payment'.tr,

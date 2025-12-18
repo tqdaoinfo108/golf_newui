@@ -14,12 +14,12 @@ class HomeController extends GetxController {
   }
 
   void changeTabIndex(int index) {
-    tabIndex = index;
+     tabIndex = index;
     Get.find<DashboardController>().justUpdateWaitPaymentTotal();
     if (index == 1) {
       Get.lazyPut(()=>BookingCreateController());
-      // Get.toNamed("/test", id: 1);
-      // Get.delete<BookingCreateController>();
+      Get.toNamed("/test", id: 1);
+      Get.delete<BookingCreateController>();
     }
     if (index == 2) {
       // Gọi lại getMyVipMember khi nhấn vào tab Settings

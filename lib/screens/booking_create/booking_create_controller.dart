@@ -14,7 +14,6 @@ import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/keys.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
-import '../../model/shop_vip_memeber.dart';
 import '../../model/user_vip_member.dart';
 import '../home/home_controller.dart';
 
@@ -95,7 +94,7 @@ class BookingCreateController extends GetxController {
     userId = SupportUtils.prefs.getInt(USER_ID);
     // init data
 
-    shopSelected = Get.arguments;
+    // shopSelected = Get.arguments;
     lstSlot = <SlotItemModel>[];
     lstBlock = <BlockItemModel>[];
     lstPaymentMethod = <UserVipMember>[];
@@ -379,17 +378,17 @@ class BookingCreateController extends GetxController {
               ))
             .toJson();
     var result = await GolfApi().createBooking(jsonBody);
-    await Get.offNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
+    await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
     onReset();
     final controller = Get.find<HomeController>();
     controller.changePageIndex(0);
   }
 
   void onCancelBooking() {
-    // Get.toNamed("/test", id: 1);
-    // Get.delete<BookingCreateController>();
+    Get.toNamed("/test", id: 1);
+    Get.delete<BookingCreateController>();
 
-    Get.back();
+    // Get.back();
   }
 
   void updateUserVipMember() {

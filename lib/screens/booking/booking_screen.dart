@@ -158,8 +158,8 @@ class BookingScreen extends StatelessWidget {
                                                 AppRoutes.BOOKING_CREATE,
                                                 arguments:
                                                     controller.lstShop[index],
-                                                // id: 1,
-                                              )?.then(
+                                                id: 1,
+                                              )!.then(
                                                 (value) => controller
                                                     .getShopByKeySearch(""),
                                               ),
