@@ -49,24 +49,6 @@ class BuyVipListItem extends StatelessWidget {
             Text("${vipMemberItem?.description}",
                 style: appTheme.textTheme.headlineSmall!
                     .copyWith(color: appTheme.colorScheme.onSurface)),
-            SizedBox(height: 5.0.sp),
-            Row(
-              children: [
-                Icon(
-                  Icons.play_arrow_outlined,
-                  color: appTheme.colorScheme.surface,
-                  size: 18.0.sp,
-                ),
-                SizedBox(width: 5.0.sp),
-                Text(
-                  (vipMemberItem!.typeCodeMember == VipMemberType.UNLIMIT
-                      ? "${"unlimited".tr} / ${"month".tr.toLowerCase()}"
-                      : "${vipMemberItem?.numberPlayInMonth} ${"turns".tr.toLowerCase()}"),
-                  style: appTheme.textTheme.titleSmall!
-                      .copyWith(color: appTheme.colorScheme.onSurface),
-                ),
-              ],
-            ),
             SizedBox(height: 3.0.sp),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

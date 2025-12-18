@@ -169,7 +169,7 @@ const Map<String, String> jp = {
   'are_you_sure_register_memvership_at': 'でメンバーシップを登録してもよろしいですか',
   'are_you_sure_register_turn_at': 'ターンを登録してもよろしいですか',
   'with_a_total_of': '合計で',
-  'available_turns': '利用可能な回数',
+  'available_turns': '利用可能回数（月）',
   'expiration_date': '有効期限',
   'unlimited_turns': '利用可能な回数：無制',
   'next_renewal_date': '次の更新日',
@@ -239,5 +239,6 @@ const Map<String, String> jp = {
   "payment_method": "お支払い方法",
   "select_payment_method": "お支払い方法を選択",
   "notification_detail": "お知らせ詳細",
-  "no_notification_data": "お知らせ情報がありません"
+  "no_notification_data": "お知らせ情報がありません",
+  "would_you_like_to_purchase": "...&&&購入しますか？"
 };

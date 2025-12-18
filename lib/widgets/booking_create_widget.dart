@@ -668,22 +668,22 @@ Widget chooseBlockBooking(
                       ],
                     ),
                   ),
-                  if (lstBlock.isNotEmpty)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.green[50],
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        '${lstBlock.where((b) => b.isSelect && b.isBooking).length}/${lstBlock.length}',
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          color: Colors.green[700],
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                  // if (lstBlock.isNotEmpty)
+                  //   Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.green[50],
+                  //       borderRadius: BorderRadius.circular(6),
+                  //     ),
+                  //     child: Text(
+                  //       '${lstBlock.where((b) => b.isSelect && b.isBooking).length}/${lstBlock.length}',
+                  //       style: GoogleFonts.inter(
+                  //         fontSize: 11,
+                  //         color: Colors.green[700],
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ),
                   SizedBox(width: 8),
                   AnimatedRotation(
                     turns: isExpanded ? 0.5 : 0,

@@ -130,7 +130,7 @@ class MyVipListItem extends StatelessWidget {
                       SizedBox(width: 5.0.sp),
                       Text(
                         (vipMemberItem!.typeLimit == VipMemberType.UNLIMIT
-                            ? "${"unlimited_turns".tr}"
+                            ? "unlimited_turns".tr
                             : ("${"available_turns".tr}: " +
                                 "${vipMemberItem?.remainPlay} / ${vipMemberItem?.sumBuyPlay}")),
                         style: appTheme.textTheme.bodyMedium!.copyWith(

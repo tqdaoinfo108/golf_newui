@@ -190,7 +190,7 @@ const Map<String, String> en = {
       'Are you sure you want to register membership at',
   'are_you_sure_register_turn_at': 'Are you sure you want to register turns at',
   'with_a_total_of': 'With a total of',
-  'available_turns': 'Available turns',
+  'available_turns': 'Available turns (monthly)',
   'expiration_date': 'Expiration date',
   'unlimited_turns': 'Unlimited turns',
   'next_renewal_date': 'Next renewal date',
@@ -265,5 +265,6 @@ const Map<String, String> en = {
   "payment_method": "Payment Method",
   "select_payment_method": "Select payment method",
   "notification_detail": "Notification Detail",
-  "no_notification_data": "No notification data available"
+  "no_notification_data": "No notification data available",
+  "would_you_like_to_purchase": "... &&& would you like to purchase?"
 };

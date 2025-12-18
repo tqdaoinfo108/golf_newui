@@ -59,7 +59,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
                               itemBuilder:
                                   (context, index) => BuyVipListItem(
                                     vipMemberItem: lstVipMembers[index],
-                                    shopName: controller.shop!.nameShop,
+                                    shopName: lstVipMembers[index].description,
                                     // availableRegister:
                                     //     !(lstVipMembers[index].typeCodeMember ==
                                     //             VipMemberType.UNLIMIT &&
@@ -124,7 +124,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
       );
     } else {
       SupportUtils.showDecisionDialog(
-        "${"would_you_like_to_buy_limit_time_at".tr.replaceFirst('...', "${vipMember.numberPlayInMonth}").replaceFirst('&&&', "${controller.shop!.nameShop}")} ",
+        "would_you_like_to_purchase".tr.replaceFirst('...', "${vipMember.nameCodeMember}").replaceFirst('&&&', "${vipMember.description}"),
         lstOptions: [
           DecisionOption(
             'no'.tr,
