@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:golf_uiv2/model/shop_vip_memeber.dart';
-import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:golf_uiv2/widgets/pressable_text.dart';
 import 'package:sizer/sizer.dart';
@@ -36,56 +35,75 @@ class BuyVipListItem extends StatelessWidget {
           children: [
             Text(
               "${vipMemberItem?.nameCodeMember}",
-              style: appTheme.textTheme.headlineSmall!
-                  .copyWith(color: appTheme.colorScheme.surface),
+              style: appTheme.textTheme.headlineMedium!.copyWith(
+                color: appTheme.colorScheme.surface,
+              ),
             ),
-            SizedBox(height: 5.0.sp),
-            Text(
-              "$shopName",
-              style: appTheme.textTheme.titleSmall!
-                  .copyWith(color: appTheme.colorScheme.onSurface),
-            ),
-            SizedBox(height: 5.0.sp),
-            Text("${vipMemberItem?.description}",
-                style: appTheme.textTheme.headlineSmall!
-                    .copyWith(color: appTheme.colorScheme.onSurface)),
             SizedBox(height: 3.0.sp),
+            Text(
+              "${vipMemberItem?.numberPlayInMonthText}",
+              style: appTheme.textTheme.bodyMedium!.copyWith(
+                color: appTheme.colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 3.0.sp),
+            Text(
+              "${vipMemberItem?.numberPlayInDayText}",
+              style: appTheme.textTheme.bodyMedium!.copyWith(
+                color: appTheme.colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 3.0.sp),
+            Text(
+              "${vipMemberItem?.numberConsecutiveText}",
+              style: appTheme.textTheme.bodyMedium!.copyWith(
+                color: appTheme.colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 3.0.sp),
+            Text(
+              "${vipMemberItem?.timeSlotText}",
+              style: appTheme.textTheme.bodyMedium!.copyWith(
+                color: appTheme.colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 3.0.sp),
+            Text(
+              "${vipMemberItem?.dayText}",
+              style: appTheme.textTheme.bodyMedium!.copyWith(
+                color: appTheme.colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.8.sp),
-                      child: Text("¥",
-                          style: appTheme.textTheme.titleSmall!.copyWith(
-                            color: appTheme.colorScheme.surface,
-                            fontSize: 16.0.sp,
-                          )),
-                    ),
-                    SizedBox(width: 5.0.sp),
-                    Text(
-                      "${vipMemberItem?.amount?.round().toStringFormatCurrency()}",
-                      style: appTheme.textTheme.titleSmall!
-                          .copyWith(color: appTheme.colorScheme.onSurface),
-                    ),
-                  ],
+                Text(
+                  "${vipMemberItem?.amount?.round().toStringFormatCurrency()}",
+                  style: appTheme.textTheme.titleMedium!.copyWith(
+                    color: appTheme.colorScheme.surface,
+                    fontSize: 14.0.sp,
+                    fontWeight: FontWeight.bold
+                  ),
                 ),
                 PressableText(
                   "register".tr,
-                  style: appTheme.textTheme.headlineSmall!
-                      .copyWith(color: appTheme.colorScheme.onSecondary),
+                  style: appTheme.textTheme.headlineSmall!.copyWith(
+                    color: appTheme.colorScheme.onSecondary,
+                  ),
                   backgroundColor: appTheme.colorScheme.secondary,
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(5.0.sp),
                   padding: EdgeInsets.symmetric(
-                      horizontal: 25.0.sp, vertical: 6.0.sp),
+                    horizontal: 25.0.sp,
+                    vertical: 6.0.sp,
+                  ),
                   onPress: () => onRegisterPressed?.call(),
                   enabled: availableRegister,
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

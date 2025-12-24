@@ -167,7 +167,7 @@ class ProfileScreen extends GetView<ProfileController> {
                                   "delete_account_confirmation".tr,
                               lstOptions: [
                                 DecisionOption(
-                                  'yes'.tr,
+                                  'agree_and_continue'.tr,
                                   onDecisionPressed: () async {
                                     _fullNameFocusNode.unfocus();
                                     _emailFocusNode.unfocus();
@@ -187,7 +187,7 @@ class ProfileScreen extends GetView<ProfileController> {
                                   },
                                 ),
                                 DecisionOption(
-                                  'no'.tr,
+                                  'cancel'.tr,
                                   isImportant: true,
                                   type: DecisionOptionType.DENIED,
                                   onDecisionPressed: null,

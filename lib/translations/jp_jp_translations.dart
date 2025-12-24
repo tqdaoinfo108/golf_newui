@@ -106,7 +106,8 @@ const Map<String, String> jp = {
   'old_password_incorrect': 'パスワードを正しくありません。入力直してください。',
   'update_profile_success': 'プロフィールを更新しました。',
   'email_already_exists': 'このメールは既に登録されています。',
-  'are_you_sure_create_booking': '予約確定しますか？\n※ご予約確定後にお支払いが完了すると、キャンセルはできません。現在の時点では料金は発生しておりません。',
+  'are_you_sure_create_booking':
+      '予約確定しますか？\n※ご予約確定後にお支払いが完了すると、キャンセルはできません。現在の時点では料金は発生しておりません。',
   'phone_invalid': '電話番号が正しくありません。',
   'success': '予約確定',
   'wait_payment': '予約未完了',
@@ -165,7 +166,8 @@ const Map<String, String> jp = {
   'registered_limited_turn_vip_member_at': '...にて会員カードを購入されています。',
   'unlimited_months': '月無制限',
   'do_you_want_to_auto_renew_membership': '月会員を購入しますか？',
-  'agree_auto_renew_payment_note': '購入月内、予約し放題・プレイし放題！\n※自動決済を希望する方は【自動決済】を、\n1回のみの購入は【今回のみ】を選択してください。',
+  'agree_auto_renew_payment_note':
+      '購入月内、予約し放題・プレイし放題！\n※自動決済を希望する方は【自動決済】を、\n1回のみの購入は【今回のみ】を選択してください。',
   'are_you_sure_register_memvership_at': 'でメンバーシップを登録してもよろしいですか',
   'are_you_sure_register_turn_at': 'ターンを登録してもよろしいですか',
   'with_a_total_of': '合計で',
@@ -179,7 +181,8 @@ const Map<String, String> jp = {
       '現在、アプリは限られた写真にのみアクセスできます。 すべての写真を許可するように設定に移動するか、選択した限定写真を変更してください。',
   'app_not_have_permission_to_access_the_photos':
       'アプリには写真にアクセスする権限がありません。設定に移動し、アプリが写真にアクセスできるようにして続行してください。',
-  'would_you_like_to_buy_limit_time_at': '&&&で...回数券を購入しますか？\n1つの予約枠ごとに、回数券1回分を消費します。',
+  'would_you_like_to_buy_limit_time_at':
+      '&&&で...回数券を購入しますか？\n1つの予約枠ごとに、回数券1回分を消費します。',
   'email_not_exist_in_system':
       'メールアドレスがシステムに存在しません。アカウントをもう一度確認するか、管理者にサポートを依頼してください',
   'online': 'オンライン',
@@ -217,10 +220,9 @@ const Map<String, String> jp = {
   "cvv": "セキュリティコード（CVC/CVV ）",
   "cvv_hint": "「例：123」",
   "used": "使用済み",
-  "delete_account_confirmation_title":
-      "本当にアカウントを削除してもよろしいですか？",
+  "delete_account_confirmation_title": "本当にアカウントを削除しますか?",
   "delete_account_confirmation":
-      "アカウントを削除すると、すべてのサービスがご利用いただけなくなります。",
+      "アカウントを削除すると、現在のメンバーシップは即時に終了し、\n翌月以降の自動更新（自動課金）は停止されます。\n・アカウント削除後は、予約履歴・ポイントなど全てのデータは復元できません。\n・メンバーシップの残り期間がある場合でも、返金は一切お受けできません。\n・当月分の料金の日割り返金もできません。\n本当にアカウントを削除しますか？",
   "delete_account_successful": "削除成功",
   "account_not_found": "このメールアドレスに該当するアカウントが見つかりません。",
   "i_agree_to_the_specified_commercial_transactions_law": "決済利用規約",
@@ -228,17 +230,18 @@ const Map<String, String> jp = {
   "Please enter only alphabetic characters": "半角英字のみ入力してください",
   "select_date": "日付を選択",
   "select_machine": "打席を選択",
-    "select_time": "時間を選択",
-    "agree_and_continue": "同意して続行",
-    "withdraw_membership": "退会する",
-    "membership_purchase_notice":
-            "・本メンバーシップは自動更新となります。\n・月額料金は毎月自動的にクレジットカードへ請求されます。\n・自動更新を停止したい場合は、アカウントの退会（削除）を行ってください。\n・お支払い後の返金はできません。\n・利用規約およびプライバシーポリシーに同意いただく必要があります。\n\n上記の内容をご確認のうえ、「同意して続行」を押してください。",
-    "membership_cancel_notice":
-            "退会すると、現在ご利用中のメンバーシップは即時に終了し、\n翌月以降の自動更新（自動課金）は停止されます。\n\n※一度退会すると、過去の予約履歴やポイントは復元できません。\n※当月分の料金は日割りで返金されません。\n\n本当に退会しますか？",
+  "select_time": "時間を選択",
+  "agree_and_continue": "同意して続行",
+  "withdraw_membership": "退会する",
+  "membership_purchase_notice":
+      "・本メンバーシップは自動更新となります。\n・月額料金は毎月自動的にクレジットカードへ請求されます。\n・自動更新を停止したい場合は、アカウントの退会（削除）を行ってください。\n・お支払い後の返金はできません。\n・利用規約およびプライバシーポリシーに同意いただく必要があります。\n\n上記の内容をご確認のうえ、「同意して続行」を押してください。",
+  "membership_cancel_notice":
+      "退会すると、現在ご利用中のメンバーシップは即時に終了し、\n翌月以降の自動更新（自動課金）は停止されます。\n\n※一度退会すると、過去の予約履歴やポイントは復元できません。\n※当月分の料金は日割りで返金されません。\n\n本当に退会しますか？",
   "days": "日",
   "payment_method": "お支払い方法",
   "select_payment_method": "お支払い方法を選択",
   "notification_detail": "お知らせ詳細",
   "no_notification_data": "お知らせ情報がありません",
-  "would_you_like_to_purchase": "...&&&購入しますか？"
+  "would_you_like_to_purchase": "...&&&購入しますか？",
+  "limit_would_you_like_to_purchase" : "・本回数券はご購入日より有効となります。\n・回数券の有効期限はあります（※期限はプランにより異なります）\n・回数券はご本人のみご利用いただけます。第三者への譲渡・共有はできません。\n・ご利用回数は、予約完了時に自動的に消費されます。\n・有効期限を過ぎた回数券は失効し、未使用分があっても利用・返金はできません。\n・ご購入後のキャンセル・返金はできません。\n・利用規約およびプライバシーポリシーに同意いただく必要があります。\n上記の内容をご確認のうえ、「同意して続行」を押してください。"
 };

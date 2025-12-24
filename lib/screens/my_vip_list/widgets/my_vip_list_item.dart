@@ -159,7 +159,7 @@ class MyVipListItem extends StatelessWidget {
                         ),
                         onPress: () {
                           SupportUtils.showDecisionDialog(
-                            "${"membership_cancel_notice".tr}",
+                            "membership_cancel_notice".tr,
                             lstOptions: [
                               DecisionOption(
                                 'withdraw_membership'.tr,

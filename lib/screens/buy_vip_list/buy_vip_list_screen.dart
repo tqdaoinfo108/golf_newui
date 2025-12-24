@@ -96,11 +96,10 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
   }
 
   _pressedRegister(ShopVipMember vipMember) {
-    if (vipMember.typeCodeMember == VipMemberType.UNLIMIT) {
+    if (vipMember.typeCodeMember != VipMemberType.LIMIT) {
       // unlimit -> isRenew có thể = 1
       SupportUtils.showDecisionDialog(
-        "do_you_want_to_auto_renew_membership".tr,
-        decisionDescription: "agree_auto_renew_payment_note".tr,
+        "membership_cancel_notice".tr,
         lstOptions: [
           DecisionOption(
             'cancel'.tr,
@@ -109,7 +108,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
           ),
           (vipMember.isAllowReccuring ?? true)
               ? DecisionOption(
-                'auto_renew'.tr,
+                'agree_and_continue'.tr,
                 isImportant: true,
                 onDecisionPressed:
                     () => _paymentAndRegister(vipMember, isRenew: 1),
@@ -124,15 +123,15 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
       );
     } else {
       SupportUtils.showDecisionDialog(
-        "would_you_like_to_purchase".tr.replaceFirst('...', "${vipMember.nameCodeMember}").replaceFirst('&&&', "${vipMember.description}"),
+        "limit_would_you_like_to_purchase".tr,
         lstOptions: [
           DecisionOption(
-            'no'.tr,
+            'cancel'.tr,
             type: DecisionOptionType.DENIED,
             onDecisionPressed: null,
           ),
           DecisionOption(
-            'yes'.tr,
+            'agree_and_continue'.tr,
             isImportant: true,
             onDecisionPressed: () => _paymentAndRegister(vipMember, isRenew: 0),
           ), // k phải unlimit -> isRenew = 0

@@ -266,5 +266,6 @@ const Map<String, String> en = {
   "select_payment_method": "Select payment method",
   "notification_detail": "Notification Detail",
   "no_notification_data": "No notification data available",
-  "would_you_like_to_purchase": "... &&& would you like to purchase?"
+  "would_you_like_to_purchase": "... &&& would you like to purchase?",
+  "limit_would_you_like_to_purchase" : "・This coupon is valid from the date of purchase. \n・The coupon has an expiration date (*The expiration date varies depending on the plan)\n・The coupon can only be used by the person in question. It cannot be transferred or shared to a third party. \n・The usage count will be automatically consumed when the reservation is completed. \n・Vouchers that have passed their expiration date will become invalid and cannot be used or refunded even if there are unused portions. \n・Cancellations and refunds cannot be made after purchase. \n・You must agree to the terms of use and privacy policy. \nPlease confirm the above contents and press \"Agree and Continue\"."
 };
