@@ -12,6 +12,7 @@ import 'package:golf_uiv2/widgets/pressable_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../model/shop_model.dart';
+import '../../utils/keys.dart';
 import 'booking_create_uservip_controller.dart';
 
 // ignore: must_be_immutable
@@ -58,7 +59,7 @@ class BookingCreateUserVipScreen extends GetView<BookingCreateUserVipController>
                         (val) => controller.changeFavorite(
                           controller.shopSelected!.shopID,
                         ),
-                    buyVipMemberButton: (controller.shopSelected!.countMemberCode ?? 0) > 0
+                    buyVipMemberButton: ((controller.shopSelected!.countMemberCode ?? 0) > 0 && SupportUtils.prefs.getInt(USER_TYPE_ID) != 4)
                         ? _buildBuyVipMemberButton(
                             themeData,
                             onPressed:

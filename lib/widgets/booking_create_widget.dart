@@ -5,6 +5,7 @@ import 'package:golf_uiv2/model/block_model.dart';
 import 'package:golf_uiv2/model/slot_model.dart';
 import 'package:golf_uiv2/screens/booking_create/booking_create_controller.dart';
 import 'package:golf_uiv2/utils/color.dart';
+import 'package:golf_uiv2/utils/keys.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:golf_uiv2/themes/colors_custom.dart';
 import 'package:sizer/sizer.dart';
@@ -304,9 +305,16 @@ Widget chooseDateBooking(
                           mode: CupertinoDatePickerMode.date,
                           minimumDate: DateTime.now().startOfDay(),
                           maximumDate:
-                              DateTime.now()
-                                  .add(Duration(days: nextDay))
-                                  .startOfDay(),
+                              SupportUtils.prefs.getInt(USER_TYPE_ID) == 4
+                                  ? DateTime.fromMillisecondsSinceEpoch(
+                                    SupportUtils.prefs.getInt(
+                                          USER_DATE_EXPRIED_VIP,
+                                        )! *
+                                        1000,
+                                  )
+                                  : DateTime.now()
+                                      .add(Duration(days: nextDay))
+                                      .startOfDay(),
                           onDateTimeChanged: (DateTime date) {
                             // Chỉ lưu tạm, chưa gọi callback
                             tempSelectedDate = date;

@@ -19,6 +19,8 @@ class User extends BaseResponseError {
   SocialNetwork? socialNetwork;
   String? languageCode;
   List<String>? lstTopicID;
+  int? dateExpriredVip;
+
   // update v4
   List<ListShopManager>? listShopManager;
 
@@ -53,7 +55,7 @@ class User extends BaseResponseError {
     providerUserID = json['ProviderUserID'];
     confirmEmail = json['ConfirmEmail'];
     languageCode = json['LanguageCode'];
-
+    dateExpriredVip =json['dateExpiredVIP'];
     // Parse lstTopicID safely
     if (json['lstTopicID'] != null) {
       try {

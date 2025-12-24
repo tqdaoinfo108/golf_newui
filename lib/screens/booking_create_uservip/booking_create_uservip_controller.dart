@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:expandable/expandable.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/auth.dart';
 import 'package:golf_uiv2/model/auth_body.dart';
@@ -14,7 +15,7 @@ import '../home/home_controller.dart';
 class BookingCreateUserVipController extends BookingCreateController {
   // This controller uses UserVip APIs instead of regular booking APIs
   // Payment method selection is not needed for UserVip bookings
-  
+
   @override
   void getSlotFirst() async {
     // Skip payment method loading for UserVip
@@ -66,7 +67,7 @@ class BookingCreateUserVipController extends BookingCreateController {
       dateTime.hour,
       dateTime.minute,
     ].join('-');
-    
+
     // Use UserVip API instead of regular block API
     var listValue = await GolfApi().getBlockUserVip(
       selectedSlots.first.slotID,
@@ -122,14 +123,15 @@ class BookingCreateUserVipController extends BookingCreateController {
       lstBlockChoose.add(item.blockID);
     }
     createBookingModel.blocks = lstBlockChoose;
-    var jsonBody = (AuthBody<BookingInsertItemModel>()
-          ..setAuth(Auth())
-          ..setData(
-            createBookingModel,
-            dataToJson: (_data) => _data!.toJson(),
-          ))
-        .toJson();
-    
+    var jsonBody =
+        (AuthBody<BookingInsertItemModel>()
+              ..setAuth(Auth())
+              ..setData(
+                createBookingModel,
+                dataToJson: (_data) => _data!.toJson(),
+              ))
+            .toJson();
+
     // Use UserVip API instead of regular booking API
     var result = await GolfApi().createBookingUserVip(jsonBody);
     await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);

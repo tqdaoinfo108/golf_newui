@@ -45,6 +45,10 @@ extension MapExtension on Map {
 }
 
 extension IntFormat on int {
+  DateTime toDateTime() {
+    return DateTime.fromMillisecondsSinceEpoch(this, isUtc: true);
+  }
+
   String toStringFormatDateTime() {
     var dt = DateTime.fromMillisecondsSinceEpoch(this);
     final DateFormat formatter = DateFormat(

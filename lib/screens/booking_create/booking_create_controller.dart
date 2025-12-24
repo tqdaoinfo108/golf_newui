@@ -88,8 +88,8 @@ class BookingCreateController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    exMachineController = new ExpandableController(initialExpanded: false);
-    exSlotController = new ExpandableController(initialExpanded: false);
+    exMachineController = new ExpandableController(initialExpanded:  false);
+    exSlotController = new ExpandableController(initialExpanded:  false);
     exPaymentMethodController = new ExpandableController(initialExpanded: true);
     userId = SupportUtils.prefs.getInt(USER_ID);
     // init data
@@ -108,6 +108,10 @@ class BookingCreateController extends GetxController {
         ).millisecondsSinceEpoch ~/
         1000;
     textDayOfWeek = DateTime.now().millisecondsSinceEpoch.toStringFormatDate();
+    if(SupportUtils.prefs.getInt(USER_TYPE_ID) == 4 ){
+    getSlotFirst();
+    isMachineExpanded = true;
+    }
   }
 
   void onReset() async {
