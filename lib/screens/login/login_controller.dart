@@ -139,6 +139,8 @@ class LoginController extends GetxController {
       SupportUtils.prefs.setString(USER_EMAIL, _loginResult.data!.email!);
       SupportUtils.prefs.setInt(USER_ID, _loginResult.data!.userID!);
       SupportUtils.prefs.setString(USER_PHONE, _loginResult.data!.phone!);
+      SupportUtils.prefs.setInt(USER_TYPE_ID, _loginResult.data!.typeUserID!);
+
       SupportUtils.prefs.setString(
         USER_AVATAR,
         _loginResult.data!.imagesPaths!,

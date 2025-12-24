@@ -142,6 +142,25 @@ class GolfApi {
     }
   }
 
+  Future<SlotModel?> getSlotUserVip(
+    int? shopID,
+    int? userID,
+    int? datePlay,
+  ) async {
+    try {
+      var response = await apiClient.getSlotUserVip(
+        defaultAuthentication,
+        shopID,
+        userID,
+        datePlay,
+      );
+      return SlotModel.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return SlotModel()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
   Future<BlockModel?> getBlock(
     int? slotID,
     int? time,
@@ -165,11 +184,48 @@ class GolfApi {
     }
   }
 
+  Future<BlockModel?> getBlockUserVip(
+    int? slotID,
+    int? time,
+    String dateTimeClient,
+    int userID,
+  ) async {
+    try {
+      var response = await apiClient.getBlockUserVip(
+        defaultAuthentication,
+        slotID,
+        time,
+        dateTimeClient,
+        userID,
+      );
+      return BlockModel.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BlockModel()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
   Future<BookingResponeModel?> createBooking(
     Map<String, dynamic> jsonBody,
   ) async {
     try {
       var response = await apiClient.createBooking(
+        defaultAuthentication,
+        jsonBody,
+      );
+      return BookingResponeModel.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BookingResponeModel()
+        ..setException(ApplicationError.withDioError(error));
+    }
+  }
+
+  Future<BookingResponeModel?> createBookingUserVip(
+    Map<String, dynamic> jsonBody,
+  ) async {
+    try {
+      var response = await apiClient.createBookingUserVip(
         defaultAuthentication,
         jsonBody,
       );

@@ -3,9 +3,13 @@ import 'package:get/get.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
 import 'package:golf_uiv2/screens/booking/booking_screen.dart';
 import 'package:golf_uiv2/screens/booking_create/booking_create_screen.dart';
+import 'package:golf_uiv2/utils/keys.dart';
 
 import '../../model/shop_model.dart';
+import '../../utils/support.dart';
 import '../booking_create/booking_create_controller.dart';
+import '../booking_create_uservip/booking_create_uservip_controller.dart';
+import '../booking_create_uservip/booking_create_uservip_screen.dart';
 
 class BookingNav extends StatelessWidget {
   @override
@@ -14,16 +18,25 @@ class BookingNav extends StatelessWidget {
       key: Get.nestedKey(1),
       onGenerateRoute: (settings) {
         if (settings.name == AppRoutes.BOOKING_CREATE) {
-          Get.put(BookingCreateController());
+          if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 4) {
+            Get.put(BookingCreateUserVipController());
+          } else {
+            Get.put(BookingCreateController());
+          }
           return GetPageRoute(
             settings: settings,
-            page: () => BookingCreateScreen(settings.arguments as ShopItemModel),
+            page:
+                () =>
+                    SupportUtils.prefs.getInt(USER_TYPE_ID) == 4
+                        ? BookingCreateUserVipScreen(
+                          settings.arguments as ShopItemModel,
+                        )
+                        : BookingCreateScreen(
+                          settings.arguments as ShopItemModel,
+                        ),
           );
         } else {
-          return GetPageRoute(
-            settings: settings,
-            page: () => BookingScreen(),
-          );
+          return GetPageRoute(settings: settings, page: () => BookingScreen());
         }
       },
     );

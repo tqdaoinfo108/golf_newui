@@ -40,7 +40,7 @@ class BookingController extends GetxController
 
   void getShop() async {
     if (lstShop.length == 0) {
-      change(null, status: RxStatus.loading());
+      change([], status: RxStatus.loading());
     }
 
     var listValue =

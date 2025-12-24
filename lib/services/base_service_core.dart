@@ -118,8 +118,29 @@ class ApiClient {
   );
 
   // Slot & Block
-  Future<String?> getSlot(String auth, int? shopID) =>
-      _get('api/slot/get', queryParameters: {'ShopID': shopID}, auth: auth);
+  Future<String?> getSlot(String auth, int? shopID) => _get(
+    'api/slot/get',
+    queryParameters: {
+      'ShopID': shopID,
+      'userID': SupportUtils.prefs.getInt(USER_ID),
+    },
+    auth: auth,
+  );
+
+  Future<String?> getSlotUserVip(
+    String auth,
+    int? shopID,
+    int? userID,
+    int? datePlay,
+  ) => _get(
+    'api/slot/get-slot-shop-user',
+    queryParameters: {
+      'shopID': shopID,
+      'userID': userID,
+      'datePlay': datePlay,
+    },
+    auth: auth,
+  );
 
   Future<String?> getBlock(
     String auth,
@@ -140,9 +161,29 @@ class ApiClient {
     auth: auth,
   );
 
+  Future<String?> getBlockUserVip(
+    String auth,
+    int? slotID,
+    int? timeBooking,
+    String dateTimeClient,
+    int userID,
+  ) => _get(
+    'api/block/get-block-user-vip',
+    queryParameters: {
+      'SlotID': slotID,
+      'TimeBooking': timeBooking,
+      'DateTimeClient': dateTimeClient,
+      'UserID': userID,
+    },
+    auth: auth,
+  );
+
   // Booking
   Future<String?> createBooking(String auth, Map<String, dynamic> body) =>
       _post('api/booking/insert', body: body, auth: auth);
+
+  Future<String?> createBookingUserVip(String auth, Map<String, dynamic> body) =>
+      _post('api/booking/insert-by-user-vip', body: body, auth: auth);
 
   Future<String?> getLstHistoryBooking(
     String auth,

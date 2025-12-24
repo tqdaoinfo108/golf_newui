@@ -161,7 +161,9 @@ class _MyAppState extends State<MyApp> {
         _showNotificationWithDefaultSound(
           message.notification?.title ?? "",
           message.notification?.body ?? "",
-          0,
+          message.data['bookingID'] != null 
+            ? int.tryParse(message.data['bookingID'].toString()) ?? 0 
+            : 0,
         );
       }
     });
@@ -169,7 +171,36 @@ class _MyAppState extends State<MyApp> {
     // Lắng nghe khi user nhấn vào notification (kể cả khi app đã tắt)
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Notification clicked: ${message.data}');
-      // Xử lý điều hướng nếu cần
+      // Điều hướng đến trang thông báo
+      _handleNotificationClick(message.data);
+    });
+
+    // Xử lý khi click vào local notification
+    selectNotificationStream.stream.listen((NotificationResponse response) {
+      if (response.payload != null && response.payload!.isNotEmpty) {
+        try {
+          int bookingID = int.parse(response.payload!);
+          if (bookingID != 0) {
+            Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: bookingID);
+          } else {
+            Get.toNamed(AppRoutes.NOTIFICATIONS);
+          }
+        } catch (e) {
+          Get.toNamed(AppRoutes.NOTIFICATIONS);
+        }
+      } else {
+        Get.toNamed(AppRoutes.NOTIFICATIONS);
+      }
+    });
+
+    // Kiểm tra notification đã mở app khi app đang tắt hoàn toàn
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+      if (message != null) {
+        print('App opened from terminated state via notification: ${message.data}');
+        Future.delayed(Duration(seconds: 1), () {
+          _handleNotificationClick(message.data);
+        });
+      }
     });
   }
 
@@ -208,8 +239,25 @@ class _MyAppState extends State<MyApp> {
       title,
       message,
       platformChannelSpecifics,
-      payload: "",
+      payload: bookingID.toString(),
     );
+  }
+
+  void _handleNotificationClick(Map<String, dynamic> data) {
+    // Kiểm tra nếu có bookingID trong data
+    if (data.containsKey('bookingID') && data['bookingID'] != null) {
+      try {
+        int bookingID = int.parse(data['bookingID'].toString());
+        if (bookingID != 0) {
+          Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: bookingID);
+          return;
+        }
+      } catch (e) {
+        print('Error parsing bookingID: $e');
+      }
+    }
+    // Mặc định điều hướng đến trang thông báo
+    Get.toNamed(AppRoutes.NOTIFICATIONS);
   }
 
   @override
@@ -241,11 +289,5 @@ class _MyAppState extends State<MyApp> {
         );
       },
     );
-  }
-
-  Future onSelectNotification(int bookingID) async {
-    if (bookingID != 0) {
-      Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: bookingID);
-    }
   }
 }
