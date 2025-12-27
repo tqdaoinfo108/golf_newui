@@ -105,7 +105,7 @@ class BookingCreateUserVipScreen extends GetView<BookingCreateUserVipController>
                           controller,
                           context,
                           themeData,
-                          controller.lstBlock,
+                          controller.lstBlock,"", false
                         ),
                         SizedBox(height: 20),
                       ],

@@ -603,8 +603,15 @@ Widget chooseBlockBooking(
   BuildContext context,
   ThemeData themeData,
   List<BlockItemModel> lstBlock,
+  String nameCreditCard,
+  bool isEnableBadge,
 ) {
   final isExpanded = bookingCreateController.isBlockExpanded;
+
+  // Check if blocks have mixed types (both VIP and VISA)
+  final hasVip = lstBlock.any((b) => b.isBlockCodeMember == true);
+  final hasVisa = lstBlock.any((b) => b.isBlockCodeMember == false);
+  final showLegend = hasVip && hasVisa;
 
   return Container(
     margin: EdgeInsets.only(right: 10, left: 10),
@@ -707,6 +714,76 @@ Widget chooseBlockBooking(
             ),
           ),
         ),
+        // Legend (only show if there are both VIP and VISA blocks)
+        if (isExpanded && showLegend)
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: Color(0xFFF5F6FF),
+              border: Border(
+                bottom: BorderSide(color: Colors.grey[300]!, width: 1),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.purpleAccent.shade700,
+                            Colors.purpleAccent.shade400,
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Text(
+                      nameCreditCard,
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: GolfColor.GolfSubColor,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6),
+                Row(
+                  children: [
+                    Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.amber[600]!, Colors.orange[400]!],
+                        ),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Flexible(
+                      child: Text(
+                        bookingCreateController
+                                .selectedPaymentMethod
+                                ?.nameCodeMember ??
+                            'VIP Member',
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: GolfColor.GolfSubColor,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         // Expandable content
         if (isExpanded && lstBlock.isNotEmpty)
           Container(
@@ -732,6 +809,7 @@ Widget chooseBlockBooking(
                 return chooseItemBlockViewCell(
                   bookingCreateController,
                   lstBlock[index],
+                  isEnableBadge
                 );
               },
             ),
@@ -744,6 +822,7 @@ Widget chooseBlockBooking(
 Widget chooseItemBlockViewCell(
   BookingCreateController bookingCreateController,
   BlockItemModel blockItemModel,
+  bool isEnableBadge
 ) {
   // Check if block is bookable (time constraint: date + block time + 10min > now)
   final isTimeValid = bookingCreateController.isBlockBookable(blockItemModel);
@@ -756,6 +835,7 @@ Widget chooseItemBlockViewCell(
   if (blockItemModel.isBlockCodeMember == true) {
     // VIP badge - vertical text, full height
     badge = Container(
+      width: 10,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -768,29 +848,16 @@ Widget chooseItemBlockViewCell(
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 3),
-      child: Center(
-        child: RotatedBox(
-          quarterTurns: 3,
-          child: Text(
-            'VIP',
-            style: GoogleFonts.inter(
-              fontSize: 8,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: 1,
-            ),
-          ),
-        ),
-      ),
     );
   } else if (blockItemModel.isBlockCodeMember == false) {
     // VISA badge - vertical text, full height
     badge = Container(
+      width: 10,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFF1A1F71), Color(0xFF2D4AA8)],
+          colors: [Colors.purpleAccent.shade700, Colors.purpleAccent.shade400],
         ),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(6),
@@ -798,20 +865,6 @@ Widget chooseItemBlockViewCell(
         ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 3),
-      child: Center(
-        child: RotatedBox(
-          quarterTurns: 3,
-          child: Text(
-            'VISA',
-            style: GoogleFonts.inter(
-              fontSize: 8,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: 1,
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -859,14 +912,14 @@ Widget chooseItemBlockViewCell(
         child: Row(
           children: [
             // Badge phía trước, full height
-            if (badge != null) badge,
+            if (badge != null && isEnableBadge) badge,
             // Time text
             Expanded(
               child: Center(
                 child: AutoSizeText(
                   blockItemModel.getNameBlock(),
                   style: GoogleFonts.inter(
-                    fontSize: 13,
+                    fontSize: 15,
                     fontWeight: FontWeight.w600,
                     color:
                         !isActive

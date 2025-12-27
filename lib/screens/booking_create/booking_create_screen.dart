@@ -18,7 +18,7 @@ import 'booking_create_controller.dart';
 class BookingCreateScreen extends GetView<BookingCreateController> {
   BookingCreateScreen(this.data, {super.key});
   ShopItemModel data;
-  
+
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -30,7 +30,12 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
         backgroundColor: themeData.colorScheme.background,
         extendBody: true,
         body: Padding(
-          padding:  EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom > 0 ? kToolbarHeight : 0),
+          padding: EdgeInsets.only(
+            bottom:
+                MediaQuery.of(context).viewPadding.bottom > 0
+                    ? kToolbarHeight
+                    : 0,
+          ),
           child: Flex(
             direction: Axis.vertical,
             children: [
@@ -58,20 +63,23 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         (val) => controller.changeFavorite(
                           controller.shopSelected!.shopID,
                         ),
-                    buyVipMemberButton: (controller.shopSelected!.countMemberCode ?? 0) > 0
-                        ? _buildBuyVipMemberButton(
-                            themeData,
-                            onPressed:
-                                () => Get.toNamed(
-                                  AppRoutes.BUY_VIP_LIST,
-                                  arguments: controller.shopSelected,
-                                )!.then((res) => _registerVipMemberBacked(res)),
-                          )
-                        : null,
+                    buyVipMemberButton:
+                        (controller.shopSelected!.countMemberCode ?? 0) > 0
+                            ? _buildBuyVipMemberButton(
+                              themeData,
+                              onPressed:
+                                  () => Get.toNamed(
+                                    AppRoutes.BUY_VIP_LIST,
+                                    arguments: controller.shopSelected,
+                                  )!.then(
+                                    (res) => _registerVipMemberBacked(res),
+                                  ),
+                            )
+                            : null,
                   ),
                 ),
               ),
-          
+
               // / Booking time chooser
               Expanded(
                 child: SizedBox(
@@ -80,6 +88,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                     child: Column(
                       children: [
                         SizedBox(height: 10),
+
                         /// Choose date
                         chooseDateBooking(
                           context,
@@ -91,7 +100,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           },
                         ),
                         SizedBox(height: 10),
-          
+
                         /// Choose payment method
                         if (controller.lstPaymentMethod.isNotEmpty)
                           choosePaymentMethod(
@@ -102,14 +111,18 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           ),
                         if (controller.lstPaymentMethod.isNotEmpty)
                           SizedBox(height: 10),
-          
+
                         /// Choose machine (only enabled after payment method selected)
                         AbsorbPointer(
-                          absorbing: controller.lstPaymentMethod.isNotEmpty && 
-                                     !controller.isPaymentMethodSelected,
+                          absorbing:
+                              controller.lstPaymentMethod.isNotEmpty &&
+                              !controller.isPaymentMethodSelected,
                           child: Opacity(
-                            opacity: controller.lstPaymentMethod.isEmpty || 
-                                     controller.isPaymentMethodSelected ? 1.0 : 0.5,
+                            opacity:
+                                controller.lstPaymentMethod.isEmpty ||
+                                        controller.isPaymentMethodSelected
+                                    ? 1.0
+                                    : 0.5,
                             child: chooseSlotBooking(
                               controller,
                               context,
@@ -124,6 +137,11 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           context,
                           themeData,
                           controller.lstBlock,
+                          controller.lstPaymentMethod
+                                  .firstWhere((x) => x.userCodeMemberId == 0)
+                                  .nameCodeMember ??
+                              "Credit Card",
+                          true,
                         ),
                         SizedBox(height: 20),
                       ],
@@ -162,10 +180,10 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         backgroundColor: Color(0xff232E7A),
                         radius: 15,
                         press: () {
-                          if(!controller.onValidateCreateBooking()){
+                          if (!controller.onValidateCreateBooking()) {
                             return;
                           }
-                          
+
                           SupportUtils.showDecisionDialog(
                             'are_you_sure_create_booking'.tr,
                             lstOptions: [
@@ -185,7 +203,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                   ],
                 ),
               ),
-              SizedBox(height: kBottomNavigationBarHeight + 32)
+              SizedBox(height: kBottomNavigationBarHeight + 32),
             ],
           ),
         ),
