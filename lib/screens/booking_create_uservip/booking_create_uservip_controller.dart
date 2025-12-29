@@ -37,6 +37,9 @@ class BookingCreateUserVipController extends BookingCreateController {
   @override
   Future getSlot() async {
     // Use UserVip API instead of regular slot API
+    if(shopSelected?.shopID == null) {
+      return;
+    }
     var listValue = await GolfApi().getSlotUserVip(
       shopSelected!.shopID,
       userId,
@@ -84,7 +87,6 @@ class BookingCreateUserVipController extends BookingCreateController {
   @override
   void onChangeSlotExpanded({item}) async {
     if (item != null) {
-      machineValue = item.nameSlot;
       idSlot = item.slotID;
       for (var i in lstSlot) {
         if (i.slotID == item.slotID) {

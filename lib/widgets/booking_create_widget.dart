@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:golf_uiv2/model/block_model.dart';
 import 'package:golf_uiv2/model/slot_model.dart';
@@ -251,12 +252,15 @@ Widget chooseDateBooking(
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          // Lưu giá trị tạm khi scroll picker
-          DateTime? tempSelectedDate =
+          // Lưu giá trị ban đầu để so sánh
+          final initialDate =
               DateTime.fromMillisecondsSinceEpoch(
                 controller.dateIntCurrent! * 1000,
                 isUtc: true,
-              ).endOfDay();
+              ).startOfDay();
+
+          // Lưu giá trị tạm khi scroll picker
+          DateTime? tempSelectedDate = initialDate;
 
           showModalBottomSheet(
             context: context,
@@ -329,8 +333,10 @@ Widget chooseDateBooking(
               );
             },
           ).then((_) {
-            // Gọi callback KHI ĐÓNG modal (swipe down hoặc tap outside)
-            if (tempSelectedDate != null) {
+            // Chỉ gọi callback nếu giá trị thực sự thay đổi
+            if (tempSelectedDate != null &&
+                tempSelectedDate!.millisecondsSinceEpoch !=
+                    initialDate.millisecondsSinceEpoch) {
               onDateChanged(tempSelectedDate!);
             }
           });
@@ -472,12 +478,16 @@ Widget chooseSlotBooking(
                           ),
                         ),
                         SizedBox(height: 2),
-                        Text(
-                          bookingCreateController.machineValue!,
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: GolfColor.GolfSubColor,
+                        Obx(
+                          () => Text(lstSlot.firstWhere((e) => e.isSelect,
+                                  orElse: () => SlotItemModel())
+                              .nameSlot ??
+                              'choose_slot'.tr,
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: GolfColor.GolfSubColor,
+                            ),
                           ),
                         ),
                       ],
@@ -734,10 +744,7 @@ Widget chooseBlockBooking(
                       height: 16,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [
-                            Colors.purpleAccent.shade700,
-                            Colors.purpleAccent.shade400,
-                          ],
+                          colors: [Color(0xFF1A1F71), Color(0xFF2D4AA8)],
                         ),
                         borderRadius: BorderRadius.circular(3),
                       ),
@@ -809,7 +816,7 @@ Widget chooseBlockBooking(
                 return chooseItemBlockViewCell(
                   bookingCreateController,
                   lstBlock[index],
-                  isEnableBadge
+                  isEnableBadge,
                 );
               },
             ),
@@ -822,7 +829,7 @@ Widget chooseBlockBooking(
 Widget chooseItemBlockViewCell(
   BookingCreateController bookingCreateController,
   BlockItemModel blockItemModel,
-  bool isEnableBadge
+  bool isEnableBadge,
 ) {
   // Check if block is bookable (time constraint: date + block time + 10min > now)
   final isTimeValid = bookingCreateController.isBlockBookable(blockItemModel);
@@ -857,7 +864,7 @@ Widget chooseItemBlockViewCell(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.purpleAccent.shade700, Colors.purpleAccent.shade400],
+          colors: [Color(0xFF1A1F71), Color(0xFF2D4AA8)],
         ),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(6),

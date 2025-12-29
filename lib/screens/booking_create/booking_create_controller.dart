@@ -75,7 +75,7 @@ class BookingCreateController extends GetxController {
   // Flag to check if payment method is selected
   bool get isPaymentMethodSelected => selectedPaymentMethod != null;
 
-  String? machineValue = 'choose_slot'.tr;
+  RxString machineValue = 'choose_slot'.tr.obs;
   String slotValue = 'choose_block'.tr;
   String textDayOfWeek = "";
 
@@ -88,8 +88,8 @@ class BookingCreateController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    exMachineController = new ExpandableController(initialExpanded:  false);
-    exSlotController = new ExpandableController(initialExpanded:  false);
+    exMachineController = new ExpandableController(initialExpanded: false);
+    exSlotController = new ExpandableController(initialExpanded: false);
     exPaymentMethodController = new ExpandableController(initialExpanded: true);
     userId = SupportUtils.prefs.getInt(USER_ID);
     // init data
@@ -108,9 +108,9 @@ class BookingCreateController extends GetxController {
         ).millisecondsSinceEpoch ~/
         1000;
     textDayOfWeek = DateTime.now().millisecondsSinceEpoch.toStringFormatDate();
-    if(SupportUtils.prefs.getInt(USER_TYPE_ID) == 4 ){
-    getSlotFirst();
-    isMachineExpanded = true;
+    if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 4) {
+      getSlotFirst();
+      isMachineExpanded = true;
     }
   }
 
@@ -137,8 +137,11 @@ class BookingCreateController extends GetxController {
     isBlockExpanded = false;
     isPaymentMethodExpanded = true;
     selectedPaymentMethod = null;
-    idSlot =0;
+    idSlot = 0;
     lstBlock = [];
+    lstSlot = [];
+    machineValue.value = "";
+    update();
   }
 
   void getSlotFirst() async {
@@ -260,7 +263,7 @@ class BookingCreateController extends GetxController {
 
   void onChangeSlotExpanded({SlotItemModel? item}) async {
     if (item != null) {
-      machineValue = item.nameSlot;
+      machineValue.value = item.nameSlot ?? "";
       idSlot = item.slotID;
       for (var i in lstSlot) {
         if (i.slotID == item.slotID) {
@@ -277,7 +280,7 @@ class BookingCreateController extends GetxController {
       isPaymentMethodExpanded = false;
       isBlockExpanded = false;
       lstBlock.forEach((e) => e.isSelect = false);
-    } else if(idSlot != 0) {
+    } else if (idSlot != 0) {
       isBlockExpanded = true;
     }
     getBlock();
@@ -286,7 +289,7 @@ class BookingCreateController extends GetxController {
   }
 
   void onChangeBlockExpanded({BlockItemModel? item}) {
-    if(idSlot == null || idSlot == 0) return;
+    if (idSlot == null || idSlot == 0) return;
     if (item != null) {
       // Select/deselect block item
       var bookings = lstBlock.where((_v) => _v.blockID == item.blockID);
@@ -330,7 +333,9 @@ class BookingCreateController extends GetxController {
           isUtc: true,
         ).endOfDay().millisecondsSinceEpoch.toStringFormatDate();
     resetValue();
-    getBlock();
+    getSlot();
+    isMachineExpanded = true;
+    isBlockExpanded = false;
   }
 
   bool onValidateCreateBooking() {

@@ -12,6 +12,7 @@ import 'package:golf_uiv2/widgets/pressable_text.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../model/shop_model.dart';
+import '../../model/user_vip_member.dart';
 import 'booking_create_controller.dart';
 
 // ignore: must_be_immutable
@@ -138,7 +139,14 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           themeData,
                           controller.lstBlock,
                           controller.lstPaymentMethod
-                                  .firstWhere((x) => x.userCodeMemberId == 0)
+                                  .firstWhere(
+                                    (x) => x.userCodeMemberId == 0,
+                                    orElse:
+                                        () => UserVipMember(
+                                          userCodeMemberId: 0,
+                                          nameCodeMember: "Credit Card",
+                                        ),
+                                  )
                                   .nameCodeMember ??
                               "Credit Card",
                           true,

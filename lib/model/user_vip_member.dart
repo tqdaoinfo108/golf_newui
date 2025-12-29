@@ -26,8 +26,16 @@ class UserVipMember {
     this.userCodeMemberId,
     this.listUserCodeMemberLimit,
     this.nameCodeMember,
+    this.numberPlayInMonth,
+    this.numberPlayInDay,
+    this.numberPlayInMonthText,
+    this.numberPlayInDayText,
+    this.numberConsecutiveText,
+    this.timeSlotText,
+    this.dayText,
   });
 
+  String? dayText;
   int? userId;
   String? userName;
   int? shopId;
@@ -45,6 +53,12 @@ class UserVipMember {
   List<UserVipMember>? listUserCodeMemberLimit;
   String? nameCodeMember;
   int? bookingConsecutiveLimit = 2;
+  int? numberPlayInMonth;
+  int? numberPlayInDay;
+  String? numberPlayInMonthText;
+  String? numberPlayInDayText;
+  String? numberConsecutiveText;
+  String? timeSlotText;
 
   factory UserVipMember.fromJson(Map<String, dynamic> json) => UserVipMember(
     userId: json["UserID"] == null ? null : json["UserID"],
@@ -65,6 +79,13 @@ class UserVipMember {
     userCodeMemberId:
         json["UserCodeMemberID"] == null ? null : json["UserCodeMemberID"],
     bookingConsecutiveLimit: json["BookConsecutiveLimit"],
+    numberPlayInMonth: json["NumberPlayInMonth"],
+    numberPlayInDay: json["NumberPlayInDay"],
+    dayText: json["DayText"],
+    numberPlayInMonthText: json["NumberPlayInMonthText"],
+    numberPlayInDayText: json["NumberPlayInDayText"],
+    numberConsecutiveText: json["NumberConsecutiveText"],
+    timeSlotText: json["TimeSlotText"],
     listUserCodeMemberLimit:
         json["ListUserCodeMemberLimit"] == null
             ? null

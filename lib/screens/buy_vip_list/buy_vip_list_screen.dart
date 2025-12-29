@@ -114,7 +114,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
                     () => _paymentAndRegister(vipMember, isRenew: 1),
               )
               : DecisionOption(
-                'only_this_time'.tr,
+                'agree_and_continue'.tr,
                 type: DecisionOptionType.DENIED,
                 onDecisionPressed:
                     () => _paymentAndRegister(vipMember, isRenew: 0),

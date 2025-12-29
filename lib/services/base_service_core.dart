@@ -35,6 +35,8 @@ class ApiClient {
     required String auth,
   }) async {
     try {
+      log("$endpoint \n${jsonEncode(auth)} \n${jsonEncode(queryParameters)}}");
+
       final response = await _dio.get(
         endpoint,
         queryParameters: queryParameters,

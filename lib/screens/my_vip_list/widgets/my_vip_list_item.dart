@@ -69,7 +69,42 @@ class MyVipListItem extends StatelessWidget {
                       color: appTheme.colorScheme.onPrimary,
                     ),
                   ),
-                  SizedBox(height: 45.0.sp),
+                  SizedBox(height: 3.0.sp),
+                  Text(
+                    "${vipMemberItem?.numberPlayInMonthText}",
+                    style: appTheme.textTheme.bodyMedium!.copyWith(
+                      color: appTheme.colorScheme.onSurface,
+                    ),
+                  ),
+                  SizedBox(height: 3.0.sp),
+                  Text(
+                    "${vipMemberItem?.numberPlayInDayText}",
+                    style: appTheme.textTheme.bodyMedium!.copyWith(
+                      color: appTheme.colorScheme.onSurface,
+                    ),
+                  ),
+                  SizedBox(height: 3.0.sp),
+                  Text(
+                    "${vipMemberItem?.numberConsecutiveText}",
+                    style: appTheme.textTheme.bodyMedium!.copyWith(
+                      color: appTheme.colorScheme.onSurface,
+                    ),
+                  ),
+                  SizedBox(height: 3.0.sp),
+                  Text(
+                    "${vipMemberItem?.timeSlotText}",
+                    style: appTheme.textTheme.bodyMedium!.copyWith(
+                      color: appTheme.colorScheme.onSurface,
+                    ),
+                  ),
+                  SizedBox(height: 3.0.sp),
+                  Text(
+                    "${vipMemberItem?.dayText}",
+                    style: appTheme.textTheme.bodyMedium!.copyWith(
+                      color: appTheme.colorScheme.onSurface,
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

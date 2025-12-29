@@ -32,8 +32,6 @@ class ShopVipMember {
   int? typeCodeMember;
   String? code;
   String? nameCodeMember;
-  int? numberPlayInMonth;
-  int? numberPlayInDay;
   double? amount;
   int? status;
   bool? isHideBlock;
@@ -47,6 +45,8 @@ class ShopVipMember {
   String? userCreated;
   String? userUpdated;
   bool? isAllowReccuring;
+  int? numberPlayInMonth;
+  int? numberPlayInDay;
   String? numberPlayInMonthText;
   String? numberPlayInDayText;
   String? numberConsecutiveText;
