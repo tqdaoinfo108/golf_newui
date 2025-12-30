@@ -55,7 +55,9 @@ class User extends BaseResponseError {
     providerUserID = json['ProviderUserID'];
     confirmEmail = json['ConfirmEmail'];
     languageCode = json['LanguageCode'];
-    dateExpriredVip =json['dateExpiredVIP'];
+    dateExpriredVip = json['dateExpiredVIP'];
+    SupportUtils.prefs.setInt(USER_DATE_EXPRIED_VIP, dateExpriredVip ?? DateTime.now().millisecondsSinceEpoch);
+    
     // Parse lstTopicID safely
     if (json['lstTopicID'] != null) {
       try {

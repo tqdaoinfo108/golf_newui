@@ -2,6 +2,8 @@ import 'package:golf_uiv2/model/base_respose_error.dart';
 import 'package:golf_uiv2/model/booking_payment.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 
+import '../utils/keys.dart';
+import '../utils/support.dart';
 import 'block.dart';
 
 class Booking extends BaseResponseError {
@@ -197,7 +199,7 @@ class Booking extends BaseResponseError {
           0;
 
   bool isAvailableCancel() {
-    return (this.isShopManager ?? false) ||
+    return (this.isShopManager ?? false) || SupportUtils.prefs.getInt(USER_TYPE_ID) == 4 ||
         this.statusID == BookingStatus.WAITING_PAYMENT ||
         (this.statusID == BookingStatus.PAID &&
             (this.blocks![0].rangeStart! -
