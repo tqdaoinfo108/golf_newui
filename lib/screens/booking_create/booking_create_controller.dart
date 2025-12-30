@@ -177,6 +177,7 @@ class BookingCreateController extends GetxController {
       idSlot = 0;
       lstBlock = [];
     }
+    getSlot();
     update();
   }
 
@@ -223,6 +224,10 @@ class BookingCreateController extends GetxController {
   }
 
   Future getSlot() async {
+    if(shopSelected?.shopID == null) {
+      return;
+    }
+    
     var listValue = await new GolfApi().getSlot(shopSelected!.shopID);
 
     lstSlot.clear();
