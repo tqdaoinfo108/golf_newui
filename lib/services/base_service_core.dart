@@ -438,7 +438,7 @@ class ApiClient {
         data: formData,
         options: Options(headers: {'Authorization': auth}),
       );
-      return response.data;
+      return _toJsonString(response.data);
     } catch (e) {
       rethrow;
     }
