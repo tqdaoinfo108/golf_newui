@@ -26,10 +26,10 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
     return GetX<BookingDetailController>(
       initState: (_state) async {
         await Get.find<BookingDetailController>().getBookingHistoryDetail();
-        if (Get.find<BookingDetailController>().curBooking.statusID ==
-            BookingStatus.PAID) {
+        // if (Get.find<BookingDetailController>().curBooking.statusID ==
+        //     BookingStatus.PAID) {
           await Get.find<BookingDetailController>().getQRCodeString();
-        }
+        // }
       },
       builder: (controller) {
         return Scaffold(
