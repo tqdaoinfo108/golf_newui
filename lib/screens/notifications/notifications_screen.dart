@@ -16,9 +16,6 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     return GetBuilder<NotificationController>(
-      initState: (_) {
-        Get.find<NotificationController>().getListNotication();
-      },
       builder: (controller) {
         return Scaffold(
           backgroundColor: GolfColor.GolfPrimaryColor,

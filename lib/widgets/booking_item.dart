@@ -352,7 +352,9 @@ Widget bookingDetailListBlockView(
       bookingDetailItemView(
         themeData,
         i == 0 ? '${'time_booking'.tr} (${lstBlock.length})' : null,
-        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}',
+        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()} ${lstBlock[i].isVisa == true
+            ? "(¥${lstBlock[i].amountAfterDiscount?.toInt()})"
+            : "(VIP)"}',
       ),
     );
   }
