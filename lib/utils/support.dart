@@ -368,7 +368,7 @@ class SupportUtils {
             children: [
               Text(
                 decisionMessage,
-                style: themeData.textTheme.headlineMedium?.copyWith(
+                style: themeData.textTheme.headlineSmall?.copyWith(
                   color: GolfColor.GolfSubColor,
                   fontWeight: FontWeight.bold,
                 ),

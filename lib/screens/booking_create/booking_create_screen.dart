@@ -13,6 +13,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../model/shop_model.dart';
 import '../../model/user_vip_member.dart';
+import '../../utils/keys.dart';
 import 'booking_create_controller.dart';
 
 // ignore: must_be_immutable
@@ -65,7 +66,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           controller.shopSelected!.shopID,
                         ),
                     buyVipMemberButton:
-                        (controller.shopSelected!.countMemberCode ?? 0) > 0
+                        ((controller.shopSelected!.countMemberCode ?? 0) > 0 && SupportUtils.prefs.getInt(USER_TYPE_ID) != 4)
                             ? _buildBuyVipMemberButton(
                               themeData,
                               onPressed:
