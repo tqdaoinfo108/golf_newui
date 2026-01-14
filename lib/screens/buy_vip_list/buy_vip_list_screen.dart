@@ -122,7 +122,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
       );
     } else {
       SupportUtils.showDecisionDialog(
-        "limit_would_you_like_to_purchase".tr,
+        "membership_purchase_notice".tr,
         lstOptions: [
           DecisionOption(
             'cancel'.tr,
