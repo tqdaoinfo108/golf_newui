@@ -99,7 +99,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
     if (vipMember.typeCodeMember != VipMemberType.LIMIT) {
       // unlimit -> isRenew có thể = 1
       SupportUtils.showDecisionDialog(
-        "limit_would_you_like_to_purchase".tr,
+        "membership_purchase_notice".tr,
         lstOptions: [
           DecisionOption(
             'cancel'.tr,
@@ -115,6 +115,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
               )
               : DecisionOption(
                 'agree_and_continue'.tr,
+                isImportant: true,
                 onDecisionPressed:
                     () => _paymentAndRegister(vipMember, isRenew: 0),
               ),
@@ -122,7 +123,7 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
       );
     } else {
       SupportUtils.showDecisionDialog(
-        "membership_purchase_notice".tr,
+        "limit_would_you_like_to_purchase".tr,
         lstOptions: [
           DecisionOption(
             'cancel'.tr,
