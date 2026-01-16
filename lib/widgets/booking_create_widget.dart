@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/get_utils.dart';
 import 'package:golf_uiv2/model/block_model.dart';
 import 'package:golf_uiv2/model/slot_model.dart';
 import 'package:golf_uiv2/screens/booking_create/booking_create_controller.dart';
@@ -13,8 +12,34 @@ import 'package:sizer/sizer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
-import '../model/shop_vip_memeber.dart';
 import '../model/user_vip_member.dart';
+
+/// Tính toán ngày tối đa cho date picker
+/// So sánh giữa hạn dùng VIP (nếu là user VIP) và nextDay, lấy ngày nhỏ hơn
+DateTime getMaximumBookingDate(int nextDay) {
+  final nextDayDate = DateTime.now().add(Duration(days: nextDay)).startOfDay();
+  
+  // Kiểm tra nếu là user VIP (USER_TYPE_ID == 4)
+  if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 4) {
+    final vipExpiryTimestamp = SupportUtils.prefs.getInt(USER_DATE_EXPRIED_VIP);
+    if (vipExpiryTimestamp != null && vipExpiryTimestamp > 0) {
+      final vipExpiryDate = DateTime.fromMillisecondsSinceEpoch(
+        vipExpiryTimestamp * 1000,
+      ).startOfDay();
+      // Trả về ngày nhỏ hơn
+      return vipExpiryDate.isBefore(nextDayDate) ? vipExpiryDate : nextDayDate;
+    }
+  }
+  
+  return nextDayDate;
+}
+
+/// Tính số ngày còn lại có thể đặt booking
+int getMaximumBookingDays(int nextDay) {
+  final maxDate = getMaximumBookingDate(nextDay);
+  final today = DateTime.now().startOfDay();
+  return maxDate.difference(today).inDays;
+}
 
 Widget choosePaymentMethod(
   BuildContext context,
@@ -308,17 +333,7 @@ Widget chooseDateBooking(
                         child: CupertinoDatePicker(
                           mode: CupertinoDatePickerMode.date,
                           minimumDate: DateTime.now().startOfDay(),
-                          maximumDate:
-                              SupportUtils.prefs.getInt(USER_TYPE_ID) == 4
-                                  ? DateTime.fromMillisecondsSinceEpoch(
-                                    SupportUtils.prefs.getInt(
-                                          USER_DATE_EXPRIED_VIP,
-                                        )! *
-                                        1000,
-                                  )
-                                  : DateTime.now()
-                                      .add(Duration(days: nextDay))
-                                      .startOfDay(),
+                          maximumDate: getMaximumBookingDate(nextDay),
                           onDateTimeChanged: (DateTime date) {
                             // Chỉ lưu tạm, chưa gọi callback
                             tempSelectedDate = date;
@@ -389,7 +404,7 @@ Widget chooseDateBooking(
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  '${nextDay} ${'days'.tr}',
+                  '${getMaximumBookingDays(nextDay)} ${'days'.tr}',
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     color: Colors.blue[700],

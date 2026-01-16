@@ -20,11 +20,20 @@ class BookingCreateUserVipScreen extends GetView<BookingCreateUserVipController>
   BookingCreateUserVipScreen(this.data, {super.key});
   ShopItemModel data;
   
+  bool _isInitialized = false;
+  
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
-    controller.shopSelected = data;
-    controller.getSlotFirst();
+    
+    // Chỉ khởi tạo một lần, sử dụng addPostFrameCallback để tránh lỗi setState during build
+    if (!_isInitialized) {
+      _isInitialized = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.shopSelected = data;
+        controller.getSlotFirst();
+      });
+    }
 
     return Obx(
       () => Scaffold(
@@ -59,7 +68,7 @@ class BookingCreateUserVipScreen extends GetView<BookingCreateUserVipController>
                         (val) => controller.changeFavorite(
                           controller.shopSelected!.shopID,
                         ),
-                    buyVipMemberButton: ((controller.shopSelected!.countMemberCode ?? 0) > 0 && SupportUtils.prefs.getInt(USER_TYPE_ID) != 4)
+                    buyVipMemberButton: ((controller.shopSelected!.countMemberCode ?? 0) > 0 && SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
                         ? _buildBuyVipMemberButton(
                             themeData,
                             onPressed:

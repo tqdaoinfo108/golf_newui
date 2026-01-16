@@ -18,7 +18,7 @@ class BookingNav extends StatelessWidget {
       key: Get.nestedKey(1),
       onGenerateRoute: (settings) {
         if (settings.name == AppRoutes.BOOKING_CREATE) {
-          if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 4) {
+          if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 4 || SupportUtils.prefs.getInt(USER_TYPE_ID) == 2) {
             Get.put(BookingCreateUserVipController());
           } else {
             Get.put(BookingCreateController());
@@ -27,7 +27,7 @@ class BookingNav extends StatelessWidget {
             settings: settings,
             page:
                 () =>
-                    SupportUtils.prefs.getInt(USER_TYPE_ID) == 4
+                    SupportUtils.prefs.getInt(USER_TYPE_ID) == 4 || SupportUtils.prefs.getInt(USER_TYPE_ID) == 2
                         ? BookingCreateUserVipScreen(
                           settings.arguments as ShopItemModel,
                         )

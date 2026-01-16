@@ -66,7 +66,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           controller.shopSelected!.shopID,
                         ),
                     buyVipMemberButton:
-                        ((controller.shopSelected!.countMemberCode ?? 0) > 0 && SupportUtils.prefs.getInt(USER_TYPE_ID) != 4)
+                        ((controller.shopSelected!.countMemberCode ?? 0) > 0 && SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
                             ? _buildBuyVipMemberButton(
                               themeData,
                               onPressed:

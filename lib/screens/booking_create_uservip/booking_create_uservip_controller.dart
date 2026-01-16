@@ -20,9 +20,7 @@ class BookingCreateUserVipController extends BookingCreateController {
   void getSlotFirst() async {
     // Skip payment method loading for UserVip
     await getSlot();
-    if (lstSlot.length > 0) {
-      lstSlot[0].isSelect = true;
-    }
+    isMachineExpanded = true;
   }
 
   @override
@@ -37,18 +35,28 @@ class BookingCreateUserVipController extends BookingCreateController {
   @override
   Future getSlot() async {
     // Use UserVip API instead of regular slot API
-    if(shopSelected?.shopID == null) {
+    if (shopSelected?.shopID == null) {
       return;
     }
-    var listValue = await GolfApi().getSlotUserVip(
-      shopSelected!.shopID,
-      userId,
-      dateIntCurrent,
-    );
 
-    lstSlot.clear();
-    lstSlot = listValue?.data ?? [];
-    update();
+    if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 2) {
+      //admin
+      var listValue = await new GolfApi().getSlot(shopSelected!.shopID);
+
+      lstSlot.clear();
+      lstSlot = listValue?.data ?? [];
+      update();
+    } else {
+      var listValue = await GolfApi().getSlotUserVip(
+        shopSelected!.shopID,
+        userId,
+        dateIntCurrent,
+      );
+
+      lstSlot.clear();
+      lstSlot = listValue?.data ?? [];
+      update();
+    }
   }
 
   @override
@@ -72,6 +80,23 @@ class BookingCreateUserVipController extends BookingCreateController {
     ].join('-');
 
     // Use UserVip API instead of regular block API
+
+    if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 2) {
+      //admin
+      var listValue = await GolfApi().getBlock(
+        selectedSlots.first.slotID,
+        dateIntCurrent,
+        _strDatTimeCurrent,
+        SupportUtils.prefs.getInt(USER_ID) ?? 0,
+        selectedPaymentMethod?.userCodeMemberId ?? 0,
+      );
+
+      lstBlock.clear();
+      lstBlock = listValue?.data ?? [];
+      update();
+      return;
+    }
+
     var listValue = await GolfApi().getBlockUserVip(
       selectedSlots.first.slotID,
       dateIntCurrent,
@@ -112,6 +137,34 @@ class BookingCreateUserVipController extends BookingCreateController {
 
   @override
   void onCreateBooking() async {
+    if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 2) {
+      var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
+      var createBookingModel = BookingInsertItemModel(0);
+      createBookingModel.datePlay = dateIntCurrent;
+      createBookingModel.slotID = idSlot;
+      createBookingModel.shopID = shopSelected!.shopID;
+      createBookingModel.timeZoneName = SupportUtils.getTimeZoneNameID();
+      var lstBlockChoose = <int?>[];
+      for (var item in lstBlockSelected) {
+        lstBlockChoose.add(item.blockID);
+      }
+      createBookingModel.blocks = lstBlockChoose;
+      var jsonBody =
+          (AuthBody<BookingInsertItemModel>()
+                ..setAuth(Auth())
+                ..setData(
+                  createBookingModel,
+                  dataToJson: (_data) => _data!.toJson(),
+                ))
+              .toJson();
+      var result = await GolfApi().createBooking(jsonBody);
+      await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
+      onReset();
+      final controller = Get.find<HomeController>();
+      controller.changePageIndex(0);
+      return;
+    }
+
     var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
     var createBookingModel = BookingInsertItemModel(
       null, // No userCodeMemberId for UserVip
