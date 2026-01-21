@@ -13,6 +13,7 @@ import 'package:golf_uiv2/widgets/settings_item.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
 import '../../model/decision_option.dart';
+import '../../utils/keys.dart';
 
 class SettingsScreen extends GetView<SettingController> {
   @override
@@ -155,19 +156,26 @@ class SettingsScreen extends GetView<SettingController> {
                                 AppRoutes.PROFILE,
                               )!.then((value) => controller.updateUserInfo());
                             }, Icons.person),
-                            settingItem(context, 'transaction_history'.tr, () {
-                              Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
-                            }, Icons.history),
-                            settingItemWithImage(
-                              context,
-                              'buy_vip_member'.tr,
-                              () {
-                                Get.toNamed(
-                                  AppRoutes.BUY_VIP_SHOP_LIST,
-                                )!.then((_) => controller.getMyVipMember());
-                              },
-                              "assets/images/member.png",
-                            ),
+                            if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
+                              settingItem(
+                                context,
+                                'transaction_history'.tr,
+                                () {
+                                  Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
+                                },
+                                Icons.history,
+                              ),
+                            if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
+                              settingItemWithImage(
+                                context,
+                                'buy_vip_member'.tr,
+                                () {
+                                  Get.toNamed(
+                                    AppRoutes.BUY_VIP_SHOP_LIST,
+                                  )!.then((_) => controller.getMyVipMember());
+                                },
+                                "assets/images/member.png",
+                              ),
                             settingItem(context, 'favorite_shop'.tr, () {
                               Get.toNamed(AppRoutes.FAVORITE_SHOP);
                             }, Icons.favorite),
