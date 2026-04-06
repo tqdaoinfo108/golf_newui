@@ -3,14 +3,46 @@ import 'package:flutter/material.dart';
 import 'package:golf_uiv2/model/block.dart';
 import 'package:golf_uiv2/model/shop_model.dart';
 import 'package:golf_uiv2/model/shops.dart';
+import 'package:golf_uiv2/model/booking_payment.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/themes/colors_custom.dart';
 import 'package:golf_uiv2/utils/color.dart';
+import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/widgets/pressable.dart';
 import 'package:golf_uiv2/widgets/pressable_icon.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:sizer/sizer.dart';
+
+/// Format giá tiền theo loại payment
+String formatPaymentPrice(BookingPayment? payment) {
+  if (payment == null) return '¥0';
+
+  final typePayment = payment.typePayment;
+
+  // Member Unlimited hoặc Member Limited
+  if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED ||
+      typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
+    // Hiển thị tên plan + lượt
+    final remainingTurn = payment.remainingTurn ?? 0;
+    return '$remainingTurn ${'turn'.tr}'; // "5 lượt"
+  }
+
+  // Online Payment (Credit Card)
+  if (typePayment == BookingDetailPaymentType.ONLINE) {
+    final totalFee = payment.totalFeeVisa ?? 0;
+    return totalFee > 0 ? '¥${totalFee.round()} (税込)' : '¥0';
+  }
+
+  // Member Limited + Online
+  if (typePayment == BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE) {
+    final totalFee = payment.totalFeeVisa ?? 0;
+    return totalFee > 0 ? '¥${totalFee.round()} (税込)' : '¥0';
+  }
+
+  // Default (Admin, Staff, Owner hoặc các trường hợp khác)
+  return '¥0';
+}
 
 Widget shopItemView(
   ThemeData themeData,
@@ -141,9 +173,7 @@ Widget shopItemView(
             right: 0,
             child: Row(
               children: [
-                if (buyVipMemberButton != null) ...[
-                  buyVipMemberButton,
-                ],
+                if (buyVipMemberButton != null) ...[buyVipMemberButton],
                 _buildFavoriteButton(
                   themeData,
                   isFavorite: shops.isFavorite!,
@@ -296,30 +326,67 @@ Widget shopItemViewNoEvent(ThemeData themeData, Shops shop) {
 Widget bookingDetailItemView(
   ThemeData themeData,
   String? title,
-  String content,
-) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
+  String content, {
+  Widget? trailing,
+  VoidCallback? onTap,
+}) {
+  if (title == null) {
+    return Text(
+      content,
+      style: GoogleFonts.inter(
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF1a1a4d),
+      ),
+      maxLines: 4,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Widget child = Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      title != null
-          ? Text(
-            title,
-            style: themeData.textTheme.bodyLarge!.copyWith(
-              color: Color(0xff8B90B9),
+      Expanded(
+        flex: 3,
+        child: Text(
+          title,
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            color: Color(0xff8B90B9),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+      Expanded(
+        flex: 7,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                content,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF1a1a4d),
+                ),
+                textAlign: TextAlign.start,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          )
-          : Container(),
-      SizedBox(height: 8),
-      Text(
-        content,
-        style: themeData.textTheme.bodyLarge!.copyWith(
-          fontWeight: FontWeight.bold,
-          color: GolfColor.GolfSubColor,
+            if (trailing != null) ...[SizedBox(width: 4), trailing],
+          ],
         ),
       ),
     ],
   );
+
+  if (onTap != null) {
+    return InkWell(onTap: onTap, child: child);
+  }
+
+  return child;
 }
 
 Widget bookingDetailSimpleItemView(
@@ -329,14 +396,31 @@ Widget bookingDetailSimpleItemView(
 ) {
   return Container(
     alignment: Alignment.centerLeft,
-    child: AutoSizeText(
-      title + ": " + content,
-      style: GoogleFonts.openSans(
-        // headerLine 6
-        fontSize: 8.0.sp,
-        color: GolfColor.TextFielHintdLightColor,
-        fontWeight: FontWeight.w700,
-      ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 25.0.w, // Fixed width for alignment "sắp xếp theo hàng lối"
+          child: Text(
+            "$title: ",
+            style: GoogleFonts.openSans(
+              fontSize: 11.5.sp, // Tăng thêm chút (văn bản lớn hơn chút)
+              color: GolfColor.TextFielHintdLightColor,
+              fontWeight: FontWeight.w800, // Đậm hơn (hiển thị đậm hơn)
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            content,
+            style: GoogleFonts.openSans(
+              fontSize: 11.5.sp,
+              color: GolfColor.TextFielHintdLightColor,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }
@@ -346,21 +430,102 @@ Widget bookingDetailListBlockView(
   List<Blocks> lstBlock, {
   Blocks? nearestAvailableBlock,
 }) {
-  var _lstWidget = <Widget>[];
-  for (int i = 0; i < lstBlock.length; i++) {
-    _lstWidget.add(
-      bookingDetailItemView(
-        themeData,
-        i == 0 ? '${'time_booking'.tr} (${lstBlock.length})' : null,
-        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()} ${lstBlock[i].isVisa == true
-            ? "(¥${lstBlock[i].amountAfterDiscount?.toInt()})"
-            : ""}',
-      ),
-    );
-  }
   return Column(
+    mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: _lstWidget,
+    children: [
+      Text(
+        '${'time_booking'.tr} (${lstBlock.length})',
+        style: GoogleFonts.inter(
+          fontSize: 12,
+          color: Color(0xff8B90B9),
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      SizedBox(height: 8),
+      ...List.generate(
+        lstBlock.length,
+        (i) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1a1a4d),
+                  ),
+                ),
+                if (lstBlock[i].isVisa == true)
+                  Text(
+                    '¥${lstBlock[i].amountAfterDiscount?.toInt()}',
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF1a1a4d),
+                      fontSize: 14,
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(height: 12),
+            Divider(color: Color(0xFFE0E0E0), thickness: 0.5, height: 1),
+            SizedBox(height: 12),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+Widget bookingDetailTotalAmountView(ThemeData themeData, double totalAmount) {
+  return Container(
+    width: double.infinity,
+    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    decoration: BoxDecoration(
+      color: Color(0xffebeafa),
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '合計金額',
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            color: Color(0xff8B90B9),
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        SizedBox(height: 6),
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: '¥${totalAmount.round()}',
+                style: GoogleFonts.inter(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1a1a4d),
+                ),
+              ),
+              TextSpan(
+                text: ' (税込)',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  color: Color(0xff8B90B9),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
   );
 }
 
@@ -380,7 +545,7 @@ Widget bookingDetailListBlockSimpleView(
       'time_booking'.tr + ": " + _lstWidget,
       style: GoogleFonts.openSans(
         // headerLine 6
-        fontSize: 8.0.sp,
+        fontSize: 10.0.sp,
         color: GolfColor.TextFielHintdLightColor,
         fontWeight: FontWeight.w700,
       ),

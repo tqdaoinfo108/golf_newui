@@ -160,7 +160,7 @@ class ProfileController extends GetxController {
       return 'fullname_not_alow_empty'.tr;
     }
 
-    if (fullName.length > 50) {
+    if (fullName.length > 25) {
       isValidatedFullname = false;
       return 'full_name_length_greater_less50'.tr;
     }

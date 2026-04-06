@@ -5,7 +5,7 @@ enum ApplicationErrorCode {
   REQUEST_CANCEL,
   RESPONSE_TIMEOUT,
   UNKNOW_APPLICATION_ERROR,
-  UNKNOW_SERVER_ERROR
+  UNKNOW_SERVER_ERROR,
 }
 
 enum SocialNetwork { FACEBOOK, GOOGLE, LINE, ZALO, APPLE }
@@ -20,7 +20,9 @@ const int DEFAUTL_LIMIT = 20; // milisenconds
 
 // const String GOLF_CORE_API_URL = 'http://apigolfschedule.eappviet.com/';
 // const String GOLF_CORE_API_URL = 'http://apigolf.gvbsoft.com/'; // http://login.xn--24-zh4arfne.com:8080/
-const String GOLF_CORE_API_URL = 'http://api.mujin24.com:8085/'; 
+const String GOLF_CORE_API_URL = 'http://api.mujin24.com:8085/';
+// const String GOLF_CORE_API_URL = 'https://dev1.mujin24.com:8045/';
+
 const String GOLF_CORE_API_AUTHORIZE =
     'VXNlckdvbGZTY2hlZHVsZTpVc2VyR29sZlNjaGVkdWxl';
 const String USER_AVATAR_PATH = 'api/avatar/view?fileName=';

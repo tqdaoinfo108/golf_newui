@@ -8,18 +8,20 @@ class DefaultButton extends StatelessWidget {
     this.press,
     this.textColor,
     this.backgroundColor,
-    this.radius = 10
+    this.radius = 10,
+    this.height = 42,
   }) : super(key: key);
   final String? text;
   final Function? press;
   final Color? textColor;
   final Color? backgroundColor;
   final double? radius;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 42,
+      height: height,
       child: GestureDetector(
         onTap: press as void Function()?,
         child: Container(

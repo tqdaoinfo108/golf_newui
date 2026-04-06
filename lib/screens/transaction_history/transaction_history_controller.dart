@@ -83,4 +83,21 @@ class TransactionHistoryController extends GetxController
     }
     _lstTransactionsStillBusy = false;
   }
+
+  Future<void> deleteTransaction(Transaction item) async {
+    try {
+      final res = await GolfApi().deletePaymentHistory(item.payId!, userId!);
+
+      if (res.data.toString().contains('true')) {
+        _lstTransactions.removeWhere((t) => t.payId == item.payId);
+        _total.value = _total.value - 1;
+        change(_lstTransactions, status: RxStatus.success());
+        SupportUtils.showToast("deleted".tr, type: ToastType.SUCCESSFUL);
+      } else {
+        SupportUtils.showToast("delete_failed".tr, type: ToastType.ERROR);
+      }
+    } catch (e) {
+      SupportUtils.showToast("system_error".tr, type: ToastType.ERROR);
+    }
+  }
 }

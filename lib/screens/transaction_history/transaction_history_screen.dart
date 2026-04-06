@@ -20,7 +20,7 @@ class TransactionHistoryScreen extends GetView<TransactionHistoryController> {
 
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
-      appBar: ApplicationAppBar(context,"back".tr),
+      appBar: ApplicationAppBar(context, "back".tr),
       body: Container(
         decoration: BoxDecoration(
           color: appTheme.colorScheme.background,
@@ -44,18 +44,18 @@ class TransactionHistoryScreen extends GetView<TransactionHistoryController> {
                   controller.toDateFilter,
                   onFromDateChanged: (date) {
                     controller.fromDateFilter = date;
-                    if (date
-                            .startOfDay()
-                            .compareTo(controller.toDateFilter.startOfDay()) >
+                    if (date.startOfDay().compareTo(
+                          controller.toDateFilter.startOfDay(),
+                        ) >
                         0) {
                       controller.toDateFilter = date;
                     }
                   },
                   onToDateChanged: (date) {
                     controller.toDateFilter = date;
-                    if (date
-                            .startOfDay()
-                            .compareTo(controller.fromDateFilter.startOfDay()) <
+                    if (date.startOfDay().compareTo(
+                          controller.fromDateFilter.startOfDay(),
+                        ) <
                         0) {
                       controller.fromDateFilter = date;
                     }
@@ -78,14 +78,17 @@ class TransactionHistoryScreen extends GetView<TransactionHistoryController> {
             ),
             Flexible(
               child: controller.obx(
-                (lstTransactions) => (lstTransactions?.isEmpty ?? true)
-                    ? _buildEmptyList(appTheme)
-                    : AppListView(
-                        itemCount: lstTransactions!.length,
-                        itemBuilder: (context, index) =>
-                            TransactionHistoryListItem(lstTransactions[index]),
-                        onLoadMore: () => controller.requestLoadMore(),
-                      ),
+                (lstTransactions) =>
+                    (lstTransactions?.isEmpty ?? true)
+                        ? _buildEmptyList(appTheme)
+                        : AppListView(
+                          itemCount: lstTransactions!.length,
+                          itemBuilder:
+                              (context, index) => TransactionHistoryListItem(
+                                lstTransactions[index],
+                              ),
+                          onLoadMore: () => controller.requestLoadMore(),
+                        ),
                 onLoading: _buildLoadingIndicator(appTheme),
                 onError: (error) {
                   SupportUtils.showToast(error, type: ToastType.ERROR);
@@ -100,21 +103,22 @@ class TransactionHistoryScreen extends GetView<TransactionHistoryController> {
   }
 
   _buildEmptyList(ThemeData appTheme) => Container(
-        child: Center(
-          child: Text(
-            "result_is_empty".tr,
-            style: appTheme.textTheme.titleSmall
-                ?.copyWith(color: appTheme.colorScheme.surface),
-          ),
+    child: Center(
+      child: Text(
+        "result_is_empty".tr,
+        style: appTheme.textTheme.titleSmall?.copyWith(
+          color: appTheme.colorScheme.surface,
         ),
-      );
+      ),
+    ),
+  );
 
   _buildLoadingIndicator(ThemeData appTheme) => Container(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
+    child: Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CircularProgressIndicator(),
+      ),
+    ),
+  );
 }

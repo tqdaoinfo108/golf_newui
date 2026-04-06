@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+const double _kAppBarTapTargetSize = 48;
+const double _kAppBarIconSize = 22;
+const double _kAppBarTitleFontSize = 18;
+
 // Helper function to safely navigate back without snackbar errors
 void _safeBack() {
   try {
@@ -19,37 +23,126 @@ void _safeBack() {
   }
 }
 
+Future<void> _handleBack(Future<bool> Function()? onBackPressed) async {
+  if (onBackPressed != null) {
+    final allowBack = await onBackPressed.call();
+    if (allowBack) {
+      _safeBack();
+    }
+    return;
+  }
+  _safeBack();
+}
+
+Future<void> _triggerOnBack({
+  VoidCallback? onBack,
+  Future<bool> Function()? onBackPressed,
+}) async {
+  if (onBack != null) {
+    onBack();
+    return;
+  }
+  await _handleBack(onBackPressed);
+}
+
+Widget _buildLeadingButton({
+  VoidCallback? onBack,
+  Future<bool> Function()? onBackPressed,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 8),
+    child: SizedBox(
+      width: _kAppBarTapTargetSize,
+      height: _kAppBarTapTargetSize,
+      child: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios_new_outlined,
+          color: Colors.white,
+          size: _kAppBarIconSize,
+        ),
+        constraints: const BoxConstraints.tightFor(
+          width: _kAppBarTapTargetSize,
+          height: _kAppBarTapTargetSize,
+        ),
+        splashRadius: 24,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        enableFeedback: false,
+        padding: EdgeInsets.zero,
+        onPressed: () => _triggerOnBack(
+          onBack: onBack,
+          onBackPressed: onBackPressed,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _buildTitle(
+  BuildContext context,
+  String title,
+  VoidCallback? onBack,
+  Future<bool> Function()? onBackPressed,
+) {
+  return GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    onTap: () => _triggerOnBack(onBack: onBack, onBackPressed: onBackPressed),
+    child: SizedBox(
+      height: _kAppBarTapTargetSize,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+            color: Colors.white,
+            fontSize: _kAppBarTitleFontSize,
+            fontWeight: FontWeight.w600,
+            height: 1.2,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+AppBar _buildApplicationAppBar(
+  BuildContext context,
+  String title, {
+  Color? backgroundColor,
+  VoidCallback? onBack,
+  Future<bool> Function()? onBackPressed,
+  double toolbarHeight = kToolbarHeight,
+}) {
+  return AppBar(
+    backgroundColor: backgroundColor ?? Colors.transparent,
+    titleSpacing: 8,
+    toolbarHeight: toolbarHeight,
+    elevation: 0,
+    scrolledUnderElevation: 0,
+    centerTitle: false,
+    leadingWidth: 56,
+    leading: _buildLeadingButton(onBack: onBack, onBackPressed: onBackPressed),
+    title: _buildTitle(context, title, onBack, onBackPressed),
+  );
+}
+
 AppBar ApplicationAppBar(
   BuildContext context,
   String title, {
   Color? backgroundColor,
+  VoidCallback? onBack,
   Future<bool> Function()? onBackPressed,
 }) {
-  return AppBar(
-    titleSpacing: 0,
-    elevation: 0,
-    scrolledUnderElevation: 0,
-    centerTitle: false,
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
-      onPressed: () {
-        if (onBackPressed != null) {
-          onBackPressed.call().then((res) {
-            if (res) {
-              _safeBack();
-            }
-          });
-        } else {
-          _safeBack();
-        }
-      },
-    ),
-    title: Text(
-      title,
-      style: Theme.of(
-        context,
-      ).textTheme.headlineSmall!.copyWith(color: Colors.white),
-    ),
+  return _buildApplicationAppBar(
+    context,
+    title,
+    backgroundColor: backgroundColor,
+    onBack: onBack,
+    onBackPressed: onBackPressed,
   );
 }
 
@@ -57,33 +150,15 @@ AppBar ApplicationAppBarLarge(
   BuildContext context,
   String title, {
   Color? backgroundColor,
+  VoidCallback? onBack,
   Future<bool> Function()? onBackPressed,
 }) {
-  return AppBar(
-    titleSpacing: 0,
+  return _buildApplicationAppBar(
+    context,
+    title,
+    backgroundColor: backgroundColor,
+    onBack: onBack,
+    onBackPressed: onBackPressed,
     toolbarHeight: kToolbarHeight,
-    elevation: 0,
-    scrolledUnderElevation: 0,
-    centerTitle: false,
-    leading: IconButton(
-      icon: Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
-      onPressed: () {
-        if (onBackPressed != null) {
-          onBackPressed.call().then((res) {
-            if (res) {
-              _safeBack();
-            }
-          });
-        } else {
-          _safeBack();
-        }
-      },
-    ),
-    title: Text(
-      title,
-      style: Theme.of(
-        context,
-      ).textTheme.headlineSmall!.copyWith(color: Colors.white),
-    ),
   );
 }

@@ -11,16 +11,16 @@ class LocalizationService extends Translations {
   static final locale = _getLocaleFromLanguage();
 
 // fallbackLocale là locale default nếu locale được set không nằm trong những Locale support
-  static final fallbackLocale = Locale('en', 'US');
+  static final fallbackLocale = Locale('ja', 'JP');
 
 // language code của những locale được support
-  static final langCodes = ['en', 'ja'];
+  static final langCodes = ['ja'];
 
 // các Locale được support
-  static final locales = [Locale('en', 'US'), Locale('ja', '')];
+  static final locales = [Locale('ja', 'JP')];
 
 // cái này là Map các language được support đi kèm với mã code của lang đó: cái này dùng để đổ data vào Dropdownbutton và set language mà không cần quan tâm tới language của hệ thống
-  static final langs = {'en': 'English', 'ja': '日本語'};
+  static final langs = {'ja': '日本語'};
 
 // function change language nếu bạn không muốn phụ thuộc vào ngôn ngữ hệ thống
   static void changeLocale() {
@@ -35,21 +35,12 @@ class LocalizationService extends Translations {
   static Locale _getLocaleFromLanguage() {
     var lang = SupportUtils.prefs.getString(APP_LANGUAGE_CODE) ??
         Get.deviceLocale!.languageCode;
-    Locale? res;
-
-    for (int i = 0; i < langCodes.length; i++) {
-      if (lang == langCodes[i]) {
-        res = locales[i];
-      }
+    
+    // FORCE SWITCH to Japanese
+    if (lang != 'ja') {
+      SupportUtils.prefs.setString(APP_LANGUAGE_CODE, 'ja');
     }
-
-    if (res == null) {
-      res = locales[0];
-    }
-
-    if (SupportUtils.prefs.getString(APP_LANGUAGE_CODE) == null) {
-      SupportUtils.prefs.setString(APP_LANGUAGE_CODE, res.languageCode);
-    }
-    return res;
+    
+    return Locale('ja', 'JP');
   }
 }

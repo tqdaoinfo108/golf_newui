@@ -34,6 +34,8 @@ class NotificationItemModel {
   String? message;
   int? createdDate;
   String? userCreated;
+  bool? isRead;
+  int? readDate;
 
   NotificationItemModel(
       {this.notificationID,
@@ -42,7 +44,9 @@ class NotificationItemModel {
       this.title,
       this.message,
       this.createdDate,
-      this.userCreated});
+      this.userCreated,
+      this.isRead,
+      this.readDate});
 
   NotificationItemModel.fromJson(Map<String, dynamic> json) {
     notificationID = json['NotificationID'];
@@ -52,6 +56,8 @@ class NotificationItemModel {
     message = json['Message'];
     createdDate = json['CreatedDate'];
     userCreated = json['UserCreated'];
+    isRead = json['IsRead'] ?? false;
+    readDate = json['ReadDate'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +69,8 @@ class NotificationItemModel {
     data['Message'] = this.message;
     data['CreatedDate'] = this.createdDate;
     data['UserCreated'] = this.userCreated;
+    data['IsRead'] = this.isRead;
+    data['ReadDate'] = this.readDate;
     return data;
   }
 }

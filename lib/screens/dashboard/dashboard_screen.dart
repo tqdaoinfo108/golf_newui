@@ -28,8 +28,8 @@ class DashboardScreen extends GetView<DashboardController> {
       builder: (_) {
         return Obx(
           () => DefaultTabController(
-            length: 3,
-            initialIndex: controller.pageNumber.value,
+            length: 1,
+            initialIndex: 0,
             child: Column(
               children: [
                 // Header
@@ -140,7 +140,7 @@ class DashboardScreen extends GetView<DashboardController> {
                       indicatorColor: GolfColor.GolfSubColor,
                       unselectedLabelColor: Colors.grey,
                       labelColor: GolfColor.GolfSubColor,
-                      onTap: (value) async => await controller.onTab(value),
+                      onTap: (_) {},
                       tabs: [
                         SizedBox(
                           height: 45.0.sp,
@@ -148,37 +148,37 @@ class DashboardScreen extends GetView<DashboardController> {
                             child: rowTabbar(theme, Icons.check, 'success'.tr),
                           ),
                         ),
-                        SizedBox(
-                          height: 45.0.sp,
-                          child: Tab(
-                            child: Stack(
-                              alignment: AlignmentDirectional.center,
-                              children: [
-                                rowTabbar(
-                                  theme,
-                                  Icons.payment,
-                                  "wait_payment".tr,
-                                ),
-                                Obx(
-                                  () => _buildBadge(
-                                    theme,
-                                    controller.totalWaitPayment,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 45.0.sp,
-                          child: Tab(
-                            child: rowTabbar(
-                              theme,
-                              Icons.cancel_outlined,
-                              'canceled'.tr,
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: 45.0.sp,
+                        //   child: Tab(
+                        //     child: Stack(
+                        //       alignment: AlignmentDirectional.center,
+                        //       children: [
+                        //         rowTabbar(
+                        //           theme,
+                        //           Icons.payment,
+                        //           "wait_payment".tr,
+                        //         ),
+                        //         Obx(
+                        //           () => _buildBadge(
+                        //             theme,
+                        //             controller.totalWaitPayment,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 45.0.sp,
+                        //   child: Tab(
+                        //     child: rowTabbar(
+                        //       theme,
+                        //       Icons.cancel_outlined,
+                        //       'canceled'.tr,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -189,8 +189,6 @@ class DashboardScreen extends GetView<DashboardController> {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       _buildBookingList(context, theme, controller, 0),
-                      _buildBookingList(context, theme, controller, 1),
-                      _buildBookingList(context, theme, controller, 2),
                     ],
                   ),
                 ),

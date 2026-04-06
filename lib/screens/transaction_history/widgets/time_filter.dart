@@ -4,7 +4,6 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:golf_uiv2/utils/size_config.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:golf_uiv2/widgets/pressable.dart';
-import 'package:golf_uiv2/widgets/pressable_text.dart';
 import 'package:sizer/sizer.dart';
 
 class TimeFilter extends StatelessWidget {
@@ -41,7 +40,10 @@ class TimeFilter extends StatelessWidget {
                 context,
                 appTheme,
                 fromDate,
-                onFromDateChanged,
+                (date) {
+                  onFromDateChanged?.call(date);
+                  onRequestSearch?.call();
+                },
               ),
             ),
             SizedBox(width: 5.0.sp),
@@ -56,24 +58,14 @@ class TimeFilter extends StatelessWidget {
                 context,
                 appTheme,
                 toDate,
-                onToDateChanged,
+                (date) {
+                  onToDateChanged?.call(date);
+                  onRequestSearch?.call();
+                },
               ),
             ),
           ],
         ),
-        SizedBox(height: 10),
-        PressableText(
-          "search".tr,
-          textAlign: TextAlign.center,
-          backgroundColor:  Color(0xff08D586),
-          padding: EdgeInsets.all(6.0.sp),
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10.0.sp),
-          onPress: onRequestSearch,
-          style: appTheme.textTheme.headlineMedium!.copyWith(
-            color: appTheme.colorScheme.onPrimary,
-          ),
-        )
       ],
     );
   }

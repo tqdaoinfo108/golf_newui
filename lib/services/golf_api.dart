@@ -539,6 +539,35 @@ class GolfApi {
     }
   }
 
+  Future<BaseResponse<String?>> markReadNotification(int notificationID, int userID) async {
+    String? response;
+    try {
+      response = await apiClient.markReadNotification(
+        defaultAuthentication,
+        {'NotificationID': notificationID, 'UserID': userID},
+      );
+      return BaseResponse()..setData(response);
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
+  Future<BaseResponse<int>> getUnreadNotificationBadge(int userID) async {
+    String? response;
+    try {
+      response = await apiClient.getUnreadNotificationCount(
+        defaultAuthentication,
+        userID,
+      );
+      var json = jsonDecode(response!);
+      return BaseResponse()..setData(json['data'] ?? 0);
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
   Future<BaseResponse<List<ShopVipMember>>?> getAllShopVipMember(
     int? shopId,
     int? page,
@@ -724,6 +753,19 @@ class GolfApi {
       return BaseResponse<bool>.fromJson(jsonDecode(response!));
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
+      return BaseResponse()..setException(ApplicationError.withDioError(error));
+    }
+  }
+
+  Future<BaseResponse<String?>> deletePaymentHistory(int payID, int userID) async {
+    String? response;
+    try {
+      response = await apiClient.deletePaymentHistory(
+        defaultAuthentication,
+        {'PayID': payID, 'UserID': userID},
+      );
+      return BaseResponse()..setData(response);
+    } on DioError catch (error, stacktrace) {
       return BaseResponse()..setException(ApplicationError.withDioError(error));
     }
   }

@@ -178,7 +178,7 @@ class MyVipListItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       PressableText(
-                        "cancel".tr,
+                        "withdraw_membership".tr,
                         backgroundColor: appTheme.colorScheme.error.withOpacity(
                           .85,
                         ),

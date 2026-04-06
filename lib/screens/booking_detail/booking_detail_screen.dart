@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/booking.dart';
 import 'package:golf_uiv2/model/decision_option.dart';
-import 'package:golf_uiv2/screens/booking_detail/widgets/button_paid.dart';
 import 'package:golf_uiv2/screens/booking_detail/widgets/button_unavailable_payment.dart';
 import 'package:golf_uiv2/screens/booking_detail/widgets/button_waiting_payment.dart';
 import 'package:golf_uiv2/utils/color.dart';
@@ -43,38 +42,38 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
-                          left: 40,
-                          right: 20,
-                          bottom:
-                              MediaQuery.of(context).viewPadding.bottom > 0
-                                  ? kToolbarHeight + 20
-                                  : 20,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              controller.curBooking.datePlay!
-                                  .toStringFormatDate(),
-                              style: GoogleFonts.openSans(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                        padding: const EdgeInsets.fromLTRB(20, 12, 20, 16),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'booking_detail_header_title'.tr,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  height: 1.15,
+                                ),
                               ),
-                            ),
-                            Text(
-                              "${controller.curBooking.blocks![0].rangeStart!.toStringFormatHoursUTC()}"
-                              " - ${controller.curBooking.blocks![0].rangeEnd!.toStringFormatHoursUTC()}",
-                              style: GoogleFonts.openSans(
-                                // headerLine 6
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
+                              const SizedBox(height: 6),
+                              Text(
+                                'booking_detail_header_subtitle'.tr,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white70,
+                                  height: 1.3,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Expanded(
@@ -85,25 +84,42 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12),
                             ),
-                            color: themeData.colorScheme.background,
+                            color: themeData.brightness == Brightness.dark
+                                ? Colors.black
+                                : Color(0xFFF5F6FF), // Màu nền tổng thể sáng hơn
                           ),
-                          child: Stack(
-                            children: [
-                              SingleChildScrollView(
-                                child: Padding(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    top: 16,
+                                    left: 20,
+                                    right: 20,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: themeData.colorScheme.onBackground,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.05),
+                                        blurRadius: 10,
+                                        offset: Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
                                   padding: EdgeInsets.only(
-                                    bottom: 200,
-                                    top: 2.0.w,
-                                    right: 40,
-                                    left: 40,
+                                    bottom: 24,
+                                    right: 20,
+                                    left: 20,
                                   ),
                                   child: Column(
-                                    spacing: 10,
+                                    spacing: 14,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 20),
+                                      SizedBox(height: 16),
                                       bookingDetailItemView(
                                         themeData,
                                         'shop'.tr,
@@ -122,7 +138,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                       ),
                                       bookingDetailItemView(
                                         themeData,
-                                        'slot'.tr,
+                                        'select_machine'.tr,
                                         controller.curBooking.nameSlot!,
                                       ),
                                       bookingDetailListBlockView(
@@ -131,116 +147,115 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                         nearestAvailableBlock:
                                             controller.curBooking.blocks![0],
                                       ),
-                                      bookingDetailItemView(
-                                        themeData,
-                                        'date_created'.tr,
-                                        controller.curBooking.createdDate!
-                                            .toStringFormatDate(),
-                                      ),
                                       if ((controller
                                                   .curBooking
                                                   .payment
                                                   ?.totalFeeVisa ??
                                               0) >
                                           0)
-                                        bookingDetailItemView(
+                                        bookingDetailTotalAmountView(
                                           themeData,
-                                          'price'.tr,
                                           controller
                                               .curBooking
                                               .payment!
-                                              .totalFeeVisa!
-                                              .round()
-                                              .toStringFormatCurrency(),
+                                              .totalFeeVisa!,
                                         ),
-                                      // /// QR Code
-                                      // controller.curBooking.statusID ==
-                                      //         BookingStatus.PAID
-                                      //     ? QRCodeInfo(
-                                      //       qrCodeStr: controller.qrCodeString,
-                                      //       bookingDetail:
-                                      //           controller.curBooking,
-                                      //     )
-                                      //     : Container(),
-                                      // SizedBox(height: 8.0.h),
+                                      bookingDetailItemView(
+                                        themeData,
+                                        'date_created'.tr,
+                                        controller.curBooking.createdDate!
+                                            .toStringFormatDate(),
+                                      ),
                                     ],
                                   ),
                                 ),
-                              ),
-                              // button
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  if (controller.curBooking.statusID ==
-                                          BookingStatus.PAID ||
-                                      controller.curBooking.statusID ==
-                                          BookingStatus.USED)
-                                    Container(
-                                      alignment: Alignment.bottomCenter,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 4.0.h,
-                                      ),
-                                      child: DefaultButton(
-                                        radius: 12,
-                                        text: 'show_qr'.tr,
-                                        textColor: Colors.white,
-                                        backgroundColor: GolfColor.GolfSubColor,
-                                        press: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled:
-                                                true, // Cho phép modal cao hơn mặc địnhs
-                                            useSafeArea: true,
-                                            builder: (c) {
-                                              return Scaffold(
-                                                backgroundColor:
-                                                    GolfColor.GolfSubColor,
-                                                appBar: ApplicationAppBar(
-                                                  context,
-                                                  'ticket_information'.tr,
-                                                ),
-                                                body: QRCodeInfo(
-                                                  context,
-                                                  controller.qrCodeString,
-                                                  controller.curBooking,
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
+                                SizedBox(height: 16),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.lock,
+                                      size: 14,
+                                      color: Color(0xff8B90B9),
+                                    ),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      'booking_confirm_notice'.tr,
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 12,
+                                        color: Color(0xff8B90B9),
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                  SizedBox(height: 10),
+                                  ],
+                                ),
+                                SizedBox(height: 16),
+                                if (controller.curBooking.statusID ==
+                                        BookingStatus.PAID ||
+                                    controller.curBooking.statusID ==
+                                        BookingStatus.USED)
                                   Container(
                                     alignment: Alignment.bottomCenter,
-                                    margin: const EdgeInsets.only(
-                                      bottom: kToolbarHeight,
-                                    ),
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 4.0.h,
                                     ),
-                                    child: _buildButton(
-                                      themeData,
-                                      controller.curBooking,
-                                      onPaymentPressed:
-                                          () => _letsPayment(
-                                            context,
-                                            onPayByOnLinePayment:
-                                                controller
-                                                    .letsPaymentWithOnlinePayment,
-                                            onPayByVipMember:
-                                                controller
-                                                    .letsPaymentWithVipMember,
-                                            onOrtherPayment5And6:
-                                                controller
-                                                    .letsPaymentOrther5and6,
-                                          ),
-                                      onCancelPressed: controller.cancelBooking,
+                                    child: DefaultButton(
+                                      radius: 12,
+                                      text: 'show_qr'.tr,
+                                      textColor: Colors.white,
+                                      backgroundColor: GolfColor.GolfSubColor,
+                                      press: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          useSafeArea: true,
+                                          builder: (c) {
+                                            return Scaffold(
+                                              backgroundColor:
+                                                  GolfColor.GolfSubColor,
+                                              appBar: ApplicationAppBar(
+                                                context,
+                                                'ticket_information'.tr,
+                                              ),
+                                              body: QRCodeInfo(
+                                                context,
+                                                controller.qrCodeString,
+                                                controller.curBooking,
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
+                                SizedBox(height: 10),
+                                Container(
+                                  alignment: Alignment.bottomCenter,
+                                  margin: const EdgeInsets.only(
+                                    bottom: kToolbarHeight,
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 4.0.h,
+                                  ),
+                                  child: _buildButton(
+                                    themeData,
+                                    controller.curBooking,
+                                    onPaymentPressed:
+                                        () => _letsPayment(
+                                          context,
+                                          onPayByOnLinePayment:
+                                              controller
+                                                  .letsPaymentWithOnlinePayment,
+                                          onPayByVipMember:
+                                              controller.letsPaymentWithVipMember,
+                                          onOrtherPayment5And6:
+                                              controller.letsPaymentOrther5and6,
+                                        ),
+                                    onCancelPressed: controller.cancelBooking,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -265,10 +280,6 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
         onPaymentPressed: onPaymentPressed,
         onCancelPressed: onCancelPressed,
       );
-    }
-    if (thisBooking.statusID == BookingStatus.PAID &&
-        thisBooking.isAvailableCancel()) {
-      return ButtonPaid(onCancelPressed: onCancelPressed);
     }
     return Container();
   }

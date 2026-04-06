@@ -1,9 +1,9 @@
 const Map<String, String> en = {
   'fullname_not_alow_empty': 'Full name is not allowed to be empty',
   'email_not_alow_empty': 'Email is not allowed to be empty',
-  'username_not_alow_empty': 'UserID is not allowed to be empty',
+  'username_not_alow_empty': 'Account ID is not allowed to be empty',
   'user_name_or_password_incorrect':
-      'UserID or password incorrect, please check and try again',
+      'Account ID or password incorrect, please check and try again',
   'email_invalid': 'Invalid email address',
   'password_not_alow_empty': 'Password is not allowed to be empty',
   'application_error':
@@ -16,7 +16,7 @@ const Map<String, String> en = {
   'server_response_timeout':
       'Server response too long. Please try again later.',
   'email': 'Email',
-  'username': 'UserID',
+  'username': 'Account ID',
   'password': 'Password',
   'login': 'Login',
   'forgot_password': 'Forgot password?',
@@ -89,6 +89,9 @@ const Map<String, String> en = {
   'create': 'Create',
   'choose_slot': 'Choose slot',
   'choose_block': 'Choose block',
+    'booking_detail_header_title': 'Booking Details',
+    'booking_detail_header_subtitle': 'Enjoy a premium and comfortable space.',
+    'booking_confirm_notice': 'Available after booking details are confirmed.',
   'sign_out': 'Sign out',
   'book_success': 'You successfully created booking.',
   'time_slot': 'Time slot',
@@ -96,7 +99,7 @@ const Map<String, String> en = {
   'not_fount_data': 'Data not found',
   'reset_password': 'Reset password',
   'reset_password_sueccessful':
-      'Reset password successful. Please check your email to login with new password.',
+      'A reset password has been sent to your email address. Please check your email and login with the new password.',
   'old_password': 'Old password',
   'old_password_not_alow_empty': 'Old password is not allowed to be empty',
   'change_password': 'Change password',
@@ -117,17 +120,17 @@ const Map<String, String> en = {
   'update_profile_success': 'Update profile successfully',
   'email_already_exists': 'E-mail already exists',
   'are_you_sure_create_booking':
-      'Are you sure you want to schedule these blocks?',
+      'Are you sure you want to confirm this booking?\nNote: Cancellation is not possible after confirmation. You can review your booking details on the next screen.',
   'phone_invalid': 'Invalid phone number',
   'success': 'Success',
   'wait_payment': 'Wait payment',
   'cancel_booking_by_payment':
       'Booking has been canceled by someone paying in advance.',
   'canceled_booking': 'Booking was canceled.',
-  'full_name_length_greater_less50': 'Full name must be less than 50 letters',
+  'full_name_length_greater_less50': 'Full name must be 25 characters or less',
   'clear_all': 'Clear all',
   'are_you_sure_clear_notification': 'Are you sure clear notification',
-  'date_play': 'Date play',
+  'date_play': 'Booking date',
   'ticket_information': 'Ticket information',
   'amount_not_valid': 'Amount not valid',
   'payment_success_at': 'Payment successful.',
@@ -142,7 +145,7 @@ const Map<String, String> en = {
   'owning': 'Owning',
   'cards': 'Cards',
   'transaction_history': 'Transaction history',
-  'buy_vip_member': 'Buy member',
+  'buy_vip_member': 'Apply for plan',
   'list_vip_memeber': 'List member',
   'month': 'Month',
   'register': 'Register',
@@ -171,7 +174,7 @@ const Map<String, String> en = {
   'automatically_renewed_vip_member_at':
       'Member Unlimited is automatically renewed at {shop_name} (From {from_date} to {to_date})',
   'booking_payment_at': 'Booking payment at ... with &&& method',
-  'fail': 'Fail',
+  'fail': 'Booking failed',
   'date': 'Date',
   'amount': 'Amount',
   'content': 'Content',
@@ -246,7 +249,7 @@ const Map<String, String> en = {
   "delete_account_confirmation_title":
       "Are you sure you want to delete your account?",
   "delete_account_confirmation":
-      "If you delete your account, you will no longer be able to use any services.",
+      "If you delete your account, all memberships will end immediately and future charges will be stopped.\n\nNote: After deletion, all data including booking history and points cannot be restored.\nNote: No refund will be provided even if your membership period has not expired.\nNote: No prorated refund for the current month.\n\nPlease review the above and proceed with deletion.",
   "delete_account_successful": "Deleted successfully",
   "account_not_found": "No account found for this email address.",
   "sign_out_confirmation_title": "Do you want to sign out?",
@@ -254,18 +257,24 @@ const Map<String, String> en = {
   "Please enter only alphabetic characters": "Please enter only alphabetic characters",
   "select_date": "Select Date",
   "select_machine": "Select Machine",
-    "select_time": "Select Time",
-    "agree_and_continue": "Agree and continue",
-    "withdraw_membership": "Withdraw membership",
-    "membership_purchase_notice":
-            "・This membership will auto-renew.\n・Monthly fees will be charged automatically to your credit card.\n・To stop auto-renewal, please delete your account.\n・Payments are non-refundable.\n・You must agree to the Terms of Use and Privacy Policy.\n\nPlease review the above and tap 'Agree and continue' to proceed.",
-    "membership_cancel_notice":
-            "If you withdraw, your current membership ends immediately and\nauto-renew (future charges) stops.\n\n※ Past booking history and points cannot be restored after withdrawal.\n※ The current month's fee is not refunded on a pro-rated basis.\n\nDo you really want to withdraw?",
+  "select_time": "Select Time",
+  "agree_and_continue": "Agree and continue",
+  "withdraw_membership": "Withdraw membership",
+  "membership_purchase_notice":
+      "・This membership will auto-renew.\n・Monthly fees will be charged automatically to your credit card.\n・To stop auto-renewal, please delete your account.\n・Payments are non-refundable.\n・You must agree to the Terms of Use and Privacy Policy.\n\nPlease review the above and tap 'Agree and continue' to proceed.",
+  "membership_cancel_notice":
+      "If you withdraw, your current membership ends immediately and\nauto-renew (future charges) stops.\n\n※ Past booking history and points cannot be restored after withdrawal.\n※ The current month's fee is not refunded on a pro-rated basis.\n\nDo you really want to withdraw?",
   "days": "days",
   "payment_method": "Payment Method",
   "select_payment_method": "Select payment method",
+    "payment_info_title": "Enter Payment Information",
+    "payment_info_subtitle": "Please pay by credit card",
+    "payment_secure_notice": "Your card information is securely encrypted and processed.",
   "notification_detail": "Notification Detail",
   "no_notification_data": "No notification data available",
   "would_you_like_to_purchase": "... &&& would you like to purchase?",
-  "limit_would_you_like_to_purchase" : "・This coupon is valid from the date of purchase. \n・The coupon has an expiration date (*The expiration date varies depending on the plan)\n・The coupon can only be used by the person in question. It cannot be transferred or shared to a third party. \n・The usage count will be automatically consumed when the reservation is completed. \n・Vouchers that have passed their expiration date will become invalid and cannot be used or refunded even if there are unused portions. \n・Cancellations and refunds cannot be made after purchase. \n・You must agree to the terms of use and privacy policy. \nPlease confirm the above contents and press \"Agree and Continue\"."
+  "limit_would_you_like_to_purchase":
+      "・This coupon is valid from the date of purchase. \n・The coupon has an expiration date (*The expiration date varies depending on the plan)\n・The coupon can only be used by the person in question. It cannot be transferred or shared to a third party. \n・The usage count will be automatically consumed when the reservation is completed. \n・Vouchers that have passed their expiration date will become invalid and cannot be used or refunded even if there are unused portions. \n・Cancellations and refunds cannot be made after purchase. \n・You must agree to the terms of use and privacy policy. \nPlease confirm the above contents and press \"Agree and Continue\".",
+  "not_found_favorite_shop": "No favorite shops registered.",
+  "next": "Next"
 };

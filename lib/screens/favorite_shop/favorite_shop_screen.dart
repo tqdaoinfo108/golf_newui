@@ -72,7 +72,7 @@ class FavoriteShopScreen extends GetView<FavoriteShopController> {
   Widget _buildEmptyList(ThemeData appTheme) => Container(
         child: Center(
           child: Text(
-            "not_found_shop".tr,
+            "not_found_favorite_shop".tr,
             style: appTheme.textTheme.titleSmall
                 ?.copyWith(color: appTheme.colorScheme.surface),
           ),

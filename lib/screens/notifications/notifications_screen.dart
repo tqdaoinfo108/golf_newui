@@ -85,9 +85,9 @@ class NotificationScreen extends StatelessWidget {
                             );
                           },
                           icon: Icon(
-                            Icons.clear_all_rounded,
+                            Icons.delete_sweep,
                             color: themeData.colorScheme.onPrimary,
-                            size: 6.0.w,
+                            size: 8.0.w,
                           ),
                         ),
                         SizedBox(width: 10),
@@ -113,7 +113,7 @@ class NotificationScreen extends StatelessWidget {
                             : controller.lstNotification.isEmpty
                             ? Center(
                               child: Text(
-                                'not_fount_data'.tr,
+                                'no_notification_data'.tr,
                                 style: themeData.textTheme.headlineLarge,
                               ),
                             )

@@ -4,6 +4,9 @@ import 'package:golf_uiv2/model/transaction.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:sizer/sizer.dart';
+import 'package:get/get.dart';
+import 'package:golf_uiv2/model/decision_option.dart';
+import 'package:golf_uiv2/screens/transaction_history/transaction_history_controller.dart';
 
 class TransactionHistoryListItem extends StatelessWidget {
   const TransactionHistoryListItem(this.transactionItem, {Key? key})
@@ -91,6 +94,33 @@ class TransactionHistoryListItem extends StatelessWidget {
                 color: appTheme.colorScheme.onPrimary,
               ),
             ),
+          ),
+        ),
+
+        /// Delete Action
+        Positioned(
+          right: 0,
+          bottom: 0,
+          child: IconButton(
+            icon: Icon(Icons.delete_outline_rounded, color: appTheme.colorScheme.error),
+            onPressed: () {
+              SupportUtils.showDecisionDialog(
+                'Bạn có chắc chắn muốn xóa lịch sử này không?', // "are_you_sure_delete_transaction"
+                lstOptions: [
+                  DecisionOption(
+                    'yes'.tr,
+                    type: DecisionOptionType.EXPECTATION,
+                    onDecisionPressed: () {
+                      Get.find<TransactionHistoryController>().deleteTransaction(transactionItem);
+                    },
+                  ),
+                  DecisionOption(
+                    'no'.tr,
+                    onDecisionPressed: null,
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ]),

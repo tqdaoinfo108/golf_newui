@@ -18,6 +18,47 @@ class BuyVipListItem extends StatelessWidget {
   final void Function()? onRegisterPressed;
   final bool availableRegister;
   final String? shopName;
+  String _getPlayInMonth() {
+    if (vipMemberItem == null) return "月の利用可能回数 : 制限なし";
+    final val = vipMemberItem!.numberPlayInMonth;
+    final suffix = (val == null || val == 0) ? "制限なし" : "${val}回";
+    return "月の利用可能回数 : $suffix";
+  }
+
+  String _getPlayInDay() {
+    if (vipMemberItem == null) return "1日の予約上限 : 制限なし";
+    final val = vipMemberItem!.numberPlayInDay;
+    final suffix = (val == null || val == 0) ? "制限なし" : "${val}回";
+    return "1日の予約上限 : $suffix";
+  }
+
+  String _getConsecutive() {
+    if (vipMemberItem == null) return "連続予約上限 : 制限なし";
+    final val = vipMemberItem!.bookingConsecutiveLimit;
+    final suffix = (val == 0) ? "制限なし" : "${val}回";
+    return "連続予約上限 : $suffix";
+  }
+
+  String _getTimeSlot() {
+    if (vipMemberItem == null) return "利用時間 : 制限なし";
+    String timeStr = (vipMemberItem!.timeSlotText ?? "制限なし")
+        .replaceAll("時間帯: ", "").replaceAll("時間帯：", "").trim();
+    if (timeStr == "00:00~23:59" || timeStr == "00:00～23:59" || (timeStr.contains("23:59") && timeStr.contains("00:00"))) {
+      return "利用時間 : 終日";
+    }
+    return "利用時間 : $timeStr";
+  }
+
+  String _getDayText() {
+    if (vipMemberItem == null) return "利用日 : 制限なし";
+    String dayStr = (vipMemberItem!.dayText ?? "制限なし")
+        .replaceAll("曜日: ", "").replaceAll("曜日：", "").trim();
+    if (dayStr == "全日") {
+      return "利用日 : 毎日";
+    }
+    return "利用日 : $dayStr";
+  }
+
   @override
   Widget build(BuildContext context) {
     final appTheme = Theme.of(context);
@@ -41,35 +82,35 @@ class BuyVipListItem extends StatelessWidget {
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              "${vipMemberItem?.numberPlayInMonthText}",
+              _getPlayInMonth(),
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              "${vipMemberItem?.numberPlayInDayText}",
+              _getPlayInDay(),
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              "${vipMemberItem?.numberConsecutiveText}",
+              _getConsecutive(),
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              "${vipMemberItem?.timeSlotText}",
+              _getTimeSlot(),
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              "${vipMemberItem?.dayText}",
+              _getDayText(),
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
@@ -77,14 +118,29 @@ class BuyVipListItem extends StatelessWidget {
             SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "${vipMemberItem?.amount?.round().toStringFormatCurrency()}",
-                  style: appTheme.textTheme.titleMedium!.copyWith(
-                    color: appTheme.colorScheme.surface,
-                    fontSize: 14.0.sp,
-                    fontWeight: FontWeight.bold
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'price'.tr,
+                        style: appTheme.textTheme.bodySmall!.copyWith(
+                          color: appTheme.colorScheme.outline,
+                          fontSize: 11.0.sp,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        "${vipMemberItem?.amount?.round().toStringFormatCurrency()}",
+                        style: appTheme.textTheme.titleMedium!.copyWith(
+                          color: appTheme.colorScheme.surface,
+                          fontSize: 14.0.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 PressableText(

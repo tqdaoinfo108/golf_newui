@@ -22,8 +22,8 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
       (booking.statusID == BookingStatus.PAID ||
               booking.statusID == BookingStatus.USED)
           ? (((booking.blocks!.last.rangeEnd! - currentDateTimeMili) >= 0)
-              ? Color(0xff4053BF)
-              : Color(0xff8C98D9))
+              ? Color(0xff4053BF) // Future/Active
+              : Color(0xff8C98D9)) // Past
           : Color(0xff8C98D9);
 
   final titleBold = GoogleFonts.inter(
@@ -44,30 +44,40 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
     fontSize: 9.sp,
   );
 
+  // Calculate total price from blocks
+  final totalPrice = booking.blocks!
+      .fold(0.0, (sum, block) => sum + (block.amountAfterDiscount ?? block.price ?? 0));
+
+  // Determine price display text based on payment type or booking details
+  String priceDisplayText = _getPriceDisplayText(booking, totalPrice);
+
   return InkWell(
     onTap: () => onTap.call(),
     child: Container(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         color: bgColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
       ),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 7,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 12,
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Row 1: Shop Name and (optional) Used status
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    /// Shop Name
                     Text(
                       booking.nameShop ?? "",
                       style: titleBoldLarge,
@@ -75,118 +85,128 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 2),
-
-                    /// Shop address
                     Text(
                       booking.addressShop ?? "",
                       style: titleSub,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 6),
-
-                    /// Time range
-                    Text(
-                      "${booking.getBookingCurrent()!.rangeStart!.toStringFormatHoursUTC()} - ${booking.getBookingCurrent()!.rangeEnd!.toStringFormatHoursUTC()}",
-                      style: titleBold,
-                    ),
-                    SizedBox(height: 8),
-
-                    /// Slot & Price row
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("slot".tr, style: titleSub),
-                            SizedBox(height: 2),
-                            Text("${booking.nameSlot}", style: titleBold),
-                          ],
-                        ),
-                        SizedBox(width: 24),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("price".tr, style: titleSub),
-                            SizedBox(height: 2),
-                            Text(
-                              "${booking.blocks!.fold(0.0, (sum, block) => sum + block.price!).toStringAsFixed(0)}",
-                              style: titleBold,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
-            ),
-
-            Expanded(
-              flex: 3,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(.5),
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                      color: Color(0xffF5F6FF),
+              if (booking.statusID == BookingStatus.USED)
+                Padding(
+                  padding: EdgeInsets.only(left: 8),
+                  child: Text(
+                    'used'.tr,
+                    style: GoogleFonts.inter(
+                      fontSize: 10.sp,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (booking.statusID == BookingStatus.USED)
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 4),
-                          child: Text(
-                            'used'.tr,
-                            style: GoogleFonts.inter(
-                              fontSize: 10.sp,
-                              color: const Color.fromARGB(255, 26, 18, 139),
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(40)),
-                          color: bgColor,
-                        ),
-                        child: _buildStatusText(booking, theme),
-                      ),
-                    ],
+                ),
+            ],
+          ),
+          SizedBox(height: 12),
+
+          // Row 2: Time and Badge
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "${booking.getBookingCurrent()!.rangeStart!.toStringFormatHoursUTC()} - ${booking.getBookingCurrent()!.rangeEnd!.toStringFormatHoursUTC()}",
+                style: titleBold,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.black.withOpacity(0.15),
+                ),
+                child: _buildStatusText(booking, theme),
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+
+          // Row 3: Slot and Price info
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("select_machine".tr, style: titleSub),
+                  SizedBox(height: 2),
+                  Text(
+                    "${booking.nameSlot ?? ''}(${booking.blocks?.length ?? 1})",
+                    style: titleBold,
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+              SizedBox(width: 32),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("price".tr, style: titleSub),
+                  SizedBox(height: 2),
+                  Text(
+                    priceDisplayText,
+                    style: titleBold,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     ),
   );
 }
 
+/// Determine price display text based on payment type or booking details
+String _getPriceDisplayText(Booking booking, double totalPrice) {
+  // 1. Check if this booking has payment info populated
+  if (booking.payment != null && booking.payment!.typePayment != null) {
+    final typePayment = booking.payment!.typePayment!;
+    
+    if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED ||
+        typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
+      return 'member_limited'.tr;
+    } else if (typePayment == BookingDetailPaymentType.PAID || 
+               typePayment == 2) { 
+      return "0"; // Admin/staff
+    } else if (typePayment == BookingDetailPaymentType.ONLINE) {
+      return totalPrice.toStringAsFixed(0);
+    } else if (typePayment == BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE) {
+      return totalPrice.toStringAsFixed(0);
+    }
+  }
+  
+  // 2. Fallback using Booking data properties (when payment is null)
+  final bool isStaffOrManager = 
+      (booking.isShopManager == true) || 
+      (booking.typeUserID != null && booking.typeUserID != 3 && booking.typeUserID != 4);
+      
+  if (isStaffOrManager) {
+    return "0";
+  }
+
+  if (booking.userCodeMemberID != null && booking.userCodeMemberID! > 0) {
+    // Paid with a member plan
+    return 'member_limited'.tr; 
+  }
+
+  // 3. Default: show total price from blocks (Credit card / Normal booking)
+  return totalPrice.toStringAsFixed(0);
+}
+
 Widget _buildStatusText(Booking booking, ThemeData theme) {
   final statusStyle = GoogleFonts.inter(
-    fontSize: 7.sp,
+    fontSize: 9.sp,
     color: Colors.white,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w600,
   );
 
   if (booking.statusID == BookingStatus.PAID ||
@@ -206,6 +226,8 @@ Widget bookingTitleView(ThemeData theme, int dateInt) {
       dateInt.toStringFormatDateUTC(),
       style: theme.textTheme.headlineSmall!.copyWith(
         color: GolfColor.GolfSubColor,
+        fontWeight: FontWeight.w600,
+        fontSize: 14.sp,
       ),
     ),
   );
@@ -227,7 +249,7 @@ Widget bookingListItemView(
     );
   }
   return Container(
-    padding: EdgeInsets.only(top: 1.0.h, right: 2.0.w, left: 2.0.w),
+    padding: EdgeInsets.only(top: 1.0.h, bottom: 0.5.h),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: listWidget,

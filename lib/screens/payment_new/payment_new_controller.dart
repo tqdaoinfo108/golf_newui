@@ -65,6 +65,13 @@ class PaymentController extends GetxController
     _paymentRequest = Get.arguments;
   }
 
+  int get totalAmount {
+    return (_paymentRequest?.items ?? []).fold<int>(
+      0,
+      (sum, item) => sum + ((item.price ?? 0) * (item.quantity ?? 1)),
+    );
+  }
+
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     cardNumber.value = creditCardModel!.cardNumber;
     expiryDate.value = creditCardModel.expiryDate;

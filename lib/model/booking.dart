@@ -32,6 +32,8 @@ class Booking extends BaseResponseError {
 
   // update v4
   bool? isShopManager;
+  int? typeUserID;
+  int? userCodeMemberID;
 
   Blocks? getBookingCurrent() {
     if (blocks != null && blocks!.isNotEmpty) {
@@ -86,6 +88,8 @@ class Booking extends BaseResponseError {
     this.payment,
     this.isShopManager,
     this.nameSlot,
+    this.typeUserID,
+    this.userCodeMemberID,
   });
 
   Booking.fromJson(Map<String, dynamic> json) {
@@ -110,6 +114,8 @@ class Booking extends BaseResponseError {
     addressShop = _booksJson['AddressShop'];
     phoneShop = _booksJson['PhoneShop'];
     nameSlot = _booksJson['NameSlot'];
+    typeUserID = _booksJson['TypeUserID'];
+    userCodeMemberID = _booksJson['UserCodeMemberID'];
     isShopManager = json['IsShopManager'];
     if (json['Blocks'] != null) {
       List<Blocks> _rawLstBlocks = [];

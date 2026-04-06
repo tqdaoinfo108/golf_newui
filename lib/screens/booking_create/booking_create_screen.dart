@@ -184,7 +184,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                     SizedBox(width: 12),
                     Expanded(
                       child: DefaultButton(
-                        text: 'create'.tr,
+                        text: 'next'.tr,
                         textColor: Colors.white,
                         backgroundColor: Color(0xff232E7A),
                         radius: 15,

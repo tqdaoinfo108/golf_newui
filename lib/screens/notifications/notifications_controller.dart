@@ -5,6 +5,7 @@ import 'package:golf_uiv2/services/golf_api.dart';
 import 'package:golf_uiv2/utils/keys.dart';
 import 'package:golf_uiv2/utils/support.dart';
 import 'package:loadmore/loadmore.dart';
+import 'package:golf_uiv2/screens/dashboard/dashboard_controller.dart';
 
 class NotificationBinding extends Bindings {
   @override
@@ -108,6 +109,32 @@ class NotificationController extends GetxController {
     isLoading = false;
     update();
     return false;
+  }
+
+  Future<void> markReadNotification(NotificationItemModel item) async {
+    if (item.isRead == true) return;
+    
+    // Optimistic UI update
+    item.isRead = true;
+    update();
+    
+    // Call API
+    try {
+      await GolfApi().markReadNotification(item.notificationID!, userId!);
+      
+      // Also update dashboard unread count if applicable
+      try {
+        final dashboardController = Get.find<DashboardController>();
+        dashboardController.getUnreadNotificationCount();
+      } catch (e) {
+        // Dashboard controller might not be registered, it's fine
+      }
+    } catch (e) {
+      print('Error marking notification read: $e');
+      // Revert if failed
+      item.isRead = false;
+      update();
+    }
   }
 
   String buildStringLoadMore(LoadMoreStatus status) {

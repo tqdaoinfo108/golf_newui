@@ -68,7 +68,7 @@ class ApiClient {
 
       return _toJsonString(response.data);
     } catch (e) {
-      log("ERROR: $endpoint \n${jsonEncode(e)}}");
+      log("ERROR: $endpoint \n$e");
       rethrow;
     }
   }
@@ -136,11 +136,7 @@ class ApiClient {
     int? datePlay,
   ) => _get(
     'api/slot/get-slot-shop-user',
-    queryParameters: {
-      'shopID': shopID,
-      'userID': userID,
-      'datePlay': datePlay,
-    },
+    queryParameters: {'shopID': shopID, 'userID': userID, 'datePlay': datePlay},
     auth: auth,
   );
 
@@ -184,8 +180,10 @@ class ApiClient {
   Future<String?> createBooking(String auth, Map<String, dynamic> body) =>
       _post('api/booking/insert', body: body, auth: auth);
 
-  Future<String?> createBookingUserVip(String auth, Map<String, dynamic> body) =>
-      _post('api/booking/insert-by-user-vip', body: body, auth: auth);
+  Future<String?> createBookingUserVip(
+    String auth,
+    Map<String, dynamic> body,
+  ) => _post('api/booking/insert-by-user-vip', body: body, auth: auth);
 
   Future<String?> getLstHistoryBooking(
     String auth,
@@ -249,6 +247,11 @@ class ApiClient {
     auth: auth,
   );
 
+  Future<String?> deletePaymentHistory(
+    String auth,
+    Map<String, dynamic> body,
+  ) => _post('api/payment/delete', body: body, auth: auth);
+
   Future<String?> getPaymentKey(String auth, Map<String, dynamic> body) =>
       _post('api/payment/create/paymentkey', body: body, auth: auth);
 
@@ -293,6 +296,17 @@ class ApiClient {
 
   Future<String?> clearNotification(String auth, int? userID) => _get(
     'api/notification/clearall',
+    queryParameters: {'userID': userID},
+    auth: auth,
+  );
+
+  Future<String?> markReadNotification(
+    String auth,
+    Map<String, dynamic> body,
+  ) => _post('api/notification/markread', body: body, auth: auth);
+
+  Future<String?> getUnreadNotificationCount(String auth, int? userID) => _get(
+    'api/notification/unread-count',
     queryParameters: {'userID': userID},
     auth: auth,
   );

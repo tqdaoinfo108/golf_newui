@@ -8,10 +8,26 @@ import 'package:golf_uiv2/utils/constants.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 
+import 'package:golf_uiv2/screens/notifications/notifications_controller.dart';
+
 Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
-  var textStyle = theme.textTheme.headlineSmall!.copyWith(color: Colors.white);
+  final isRead = noti.isRead ?? false;
+  final bgColor = isRead ? Color(0xff8C98D9) : Color(0xff3F51BC);
+  final iconColor = isRead ? Colors.grey : Color(0xff3F51BC);
+  final fontWeight = isRead ? FontWeight.w400 : FontWeight.w700;
+
+  var textStyle = theme.textTheme.headlineSmall!.copyWith(
+    color: Colors.white,
+    fontWeight: fontWeight,
+  );
+
   return InkWell(
     onTap: () {
+      try {
+        final ctrl = Get.find<NotificationController>();
+        ctrl.markReadNotification(noti);
+      } catch (e) {}
+
       if(noti.typeID == 100 || noti.typeID == 101){
         Get.toNamed(AppRoutes.NOTIFICATION_DETAIL, arguments: noti);
       }else{
@@ -46,7 +62,7 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
                   "assets/images/mail.png",
                   height: 48,
                   width: 48,
-                  color: Color(0xff3F51BC),
+                  color: iconColor,
                 ),
               ),
             ),
@@ -62,7 +78,7 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                color: Color(0xff3F51BC),
+                color: bgColor,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -50,6 +50,9 @@ class DashboardController extends GetxController {
   final _totalWaitPayment = 0.obs;
   int get totalWaitPayment => this._totalWaitPayment.value;
 
+  final _unreadCount = 0.obs;
+  int get unreadCount => this._unreadCount.value;
+
   final Rx<User?> _userInfo = User().obs;
   User? get userInfo => this._userInfo.value;
 
@@ -60,6 +63,7 @@ class DashboardController extends GetxController {
     userId = SupportUtils.prefs.getInt(USER_ID);
 
     justUpdateWaitPaymentTotal();
+    getUnreadNotificationCount();
 
     _userInfo.value = User(
       userID: SupportUtils.prefs.getInt(USER_ID),
@@ -78,6 +82,19 @@ class DashboardController extends GetxController {
         _totalWaitPayment.value = res.total!;
       }
     });
+  }
+
+  Future<void> getUnreadNotificationCount() async {
+    if (userId == null || userId == 0) return;
+    try {
+      final res = await GolfApi().getUnreadNotificationBadge(userId!);
+      if (res.data != null) {
+        _unreadCount.value = res.data ?? 0;
+        update();
+      }
+    } catch (e) {
+      print('Error getting unread count: $e');
+    }
   }
 
   Future<bool> updateUserInfo() async {
