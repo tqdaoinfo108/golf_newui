@@ -110,136 +110,139 @@ class PaymentScreen extends GetView<PaymentController> {
                                     ),
                                     child: Obx(
                                       () => CreditCardFormCustom(
-                                      formKey: controller.formKey,
-                                      obscureCvv: true,
-                                      obscureNumber: false,
-                                      cardNumber: controller.cardNumber.value,
-                                      cvvCode: controller.cvvCode.value,
-                                      isHolderNameVisible: true,
-                                      isCardNumberVisible: true,
-                                      isExpiryDateVisible: true,
-                                      cardHolderName:
-                                          controller.cardHolderName.value,
-                                      expiryDate: controller.expiryDate.value,
-                                      themeColor: GolfColor.GolfPrimaryColor,
-                                      textColor: themeData.iconTheme.color!,
-                                      cvvErrorText:
-                                          controller.cvvErrorText.value,
-                                      numberValidationMessage:
-                                          "card_number_invalid".tr,
-                                      dateValidationMessage:
-                                          "expired_date_invalid".tr,
-                                      cvvValidationMessage: "cvv_invalid".tr,
-                                      cvvCodeKey: controller.cvvGlobalKey,
-                                      cardNumberDecoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Color(0xFFF2F3F8),
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
-                                            ),
-                                        hintStyle: GoogleFonts.inter(
-                                          color: Color(0xFFA8ADC5),
-                                          fontWeight: FontWeight.w500,
+                                        formKey: controller.formKey,
+                                        obscureCvv: true,
+                                        obscureNumber: false,
+                                        cardNumber: controller.cardNumber.value,
+                                        cvvCode: controller.cvvCode.value,
+                                        isHolderNameVisible: true,
+                                        isCardNumberVisible: true,
+                                        isExpiryDateVisible: true,
+                                        cardHolderName:
+                                            controller.cardHolderName.value,
+                                        expiryDate: controller.expiryDate.value,
+                                        themeColor: GolfColor.GolfPrimaryColor,
+                                        textColor: themeData.iconTheme.color!,
+                                        cvvErrorText:
+                                            controller.cvvErrorText.value,
+                                        numberValidationMessage:
+                                            "card_number_invalid".tr,
+                                        dateValidationMessage:
+                                            "expired_date_invalid".tr,
+                                        cvvValidationMessage: "cvv_invalid".tr,
+                                        cvvCodeKey: controller.cvvGlobalKey,
+                                        cardNumberDecoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Color(0xFFF2F3F8),
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 10,
+                                              ),
+                                          hintStyle: GoogleFonts.inter(
+                                            color: Color(0xFFA8ADC5),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          labelStyle: GoogleFonts.inter(
+                                            color: Color(0xFF3B3F63),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
+                                          labelText: 'card_number'.tr,
+                                          hintText:
+                                              'card_number_placeholder'.tr,
+                                          focusedBorder: border,
+                                          enabledBorder: border,
                                         ),
-                                        labelStyle: GoogleFonts.inter(
-                                          color: Color(0xFF3B3F63),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
+                                        expiryDateDecoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Color(0xFFF2F3F8),
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 10,
+                                              ),
+                                          hintStyle: GoogleFonts.inter(
+                                            color: Color(0xFFA8ADC5),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          labelStyle: GoogleFonts.inter(
+                                            color: Color(0xFF3B3F63),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
+                                          focusedBorder: border,
+                                          enabledBorder: border,
+                                          labelText: 'expired_date'.tr,
+                                          hintText:
+                                              'expired_date_placeholder'.tr,
                                         ),
-                                        labelText: 'card_number'.tr,
-                                        hintText: '1234 5678 9012 3456',
-                                        focusedBorder: border,
-                                        enabledBorder: border,
+                                        cvvCodeDecoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Color(0xFFF2F3F8),
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 10,
+                                              ),
+                                          hintStyle: GoogleFonts.inter(
+                                            color: Color(0xFFA8ADC5),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          labelStyle: GoogleFonts.inter(
+                                            color: Color(0xFF3B3F63),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
+                                          focusedBorder: border,
+                                          enabledBorder: border,
+                                          labelText: 'cvv'.tr,
+                                          hintText: 'cvv_placeholder'.tr,
+                                        ),
+                                        cardHolderDecoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Color(0xFFF2F3F8),
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                horizontal: 12,
+                                                vertical: 10,
+                                              ),
+                                          hintStyle: GoogleFonts.inter(
+                                            color: Color(0xFFA8ADC5),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          labelStyle: GoogleFonts.inter(
+                                            color: Color(0xFF3B3F63),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                          ),
+                                          focusedBorder: border,
+                                          enabledBorder: border,
+                                          labelText: 'card_holder'.tr,
+                                          hintText:
+                                              'card_holder_placeholder'.tr,
+                                        ),
+                                        onCreditCardModelChange:
+                                            controller.onCreditCardModelChange,
+                                        cardNumberController:
+                                            controller.cardNumberController,
+                                        expiryDateController:
+                                            controller.expiryDateController,
+                                        cvvCodeController:
+                                            controller.cvvCodeController,
+                                        cardHolderNameController:
+                                            controller.cardHolderNameController,
                                       ),
-                                      expiryDateDecoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Color(0xFFF2F3F8),
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
-                                            ),
-                                        hintStyle: GoogleFonts.inter(
-                                          color: Color(0xFFA8ADC5),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        labelStyle: GoogleFonts.inter(
-                                          color: Color(0xFF3B3F63),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                        focusedBorder: border,
-                                        enabledBorder: border,
-                                        labelText: 'expired_date'.tr,
-                                        hintText: 'MM / YY',
-                                      ),
-                                      cvvCodeDecoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Color(0xFFF2F3F8),
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
-                                            ),
-                                        hintStyle: GoogleFonts.inter(
-                                          color: Color(0xFFA8ADC5),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        labelStyle: GoogleFonts.inter(
-                                          color: Color(0xFF3B3F63),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                        focusedBorder: border,
-                                        enabledBorder: border,
-                                        labelText: 'cvv'.tr,
-                                        hintText: 'CVC/CVV',
-                                      ),
-                                      cardHolderDecoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Color(0xFFF2F3F8),
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                              vertical: 10,
-                                            ),
-                                        hintStyle: GoogleFonts.inter(
-                                          color: Color(0xFFA8ADC5),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        labelStyle: GoogleFonts.inter(
-                                          color: Color(0xFF3B3F63),
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                        ),
-                                        focusedBorder: border,
-                                        enabledBorder: border,
-                                        labelText: 'card_holder'.tr,
-                                        hintText: "TARO YAMADA",
-                                      ),
-                                      onCreditCardModelChange:
-                                          controller.onCreditCardModelChange,
-                                      cardNumberController:
-                                          controller.cardNumberController,
-                                      expiryDateController:
-                                          controller.expiryDateController,
-                                      cvvCodeController:
-                                          controller.cvvCodeController,
-                                      cardHolderNameController:
-                                          controller.cardHolderNameController,
                                     ),
                                   ),
-                                      ),
                                   const SizedBox(height: 12),
                                   _buildTotalAmountCard(controller.totalAmount),
                                   const SizedBox(height: 12),

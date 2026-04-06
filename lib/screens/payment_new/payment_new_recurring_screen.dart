@@ -93,63 +93,99 @@ class PaymentRecurringScreen extends GetView<PaymentRecurringController> {
                                       cvvCodeKey: controller.cvvGlobalKey,
                                       cardNumberDecoration: InputDecoration(
                                         filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding: const EdgeInsets.all(8),
+                                        fillColor: Color(0xFFF2F3F8),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 10,
+                                            ),
                                         hintStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFFA8ADC5),
+                                          fontWeight: FontWeight.w500,
                                         ),
                                         labelStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFF3B3F63),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
                                         ),
                                         labelText: 'card_number'.tr,
-                                        hintText: 'card_number_hint'.tr,
+                                        hintText: 'card_number_placeholder'.tr,
                                         focusedBorder: border,
                                         enabledBorder: border,
                                       ),
                                       expiryDateDecoration: InputDecoration(
                                         filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding: const EdgeInsets.all(8),
+                                        fillColor: Color(0xFFF2F3F8),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 10,
+                                            ),
                                         hintStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFFA8ADC5),
+                                          fontWeight: FontWeight.w500,
                                         ),
                                         labelStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFF3B3F63),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
                                         ),
                                         focusedBorder: border,
                                         enabledBorder: border,
                                         labelText: 'expired_date'.tr,
-                                        hintText: 'expired_date_hint'.tr,
+                                        hintText: 'expired_date_placeholder'.tr,
                                       ),
                                       cvvCodeDecoration: InputDecoration(
                                         filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding: const EdgeInsets.all(8),
+                                        fillColor: Color(0xFFF2F3F8),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 10,
+                                            ),
                                         hintStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFFA8ADC5),
+                                          fontWeight: FontWeight.w500,
                                         ),
                                         labelStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFF3B3F63),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
                                         ),
                                         focusedBorder: border,
                                         enabledBorder: border,
                                         labelText: 'cvv'.tr,
-                                        hintText: 'cvv_hint'.tr,
+                                        hintText: 'cvv_placeholder'.tr,
                                       ),
                                       cardHolderDecoration: InputDecoration(
                                         filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding: const EdgeInsets.all(8),
+                                        fillColor: Color(0xFFF2F3F8),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 12,
+                                              vertical: 10,
+                                            ),
                                         hintStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFFA8ADC5),
+                                          fontWeight: FontWeight.w500,
                                         ),
                                         labelStyle: GoogleFonts.inter(
-                                          color: themeData.iconTheme.color,
+                                          color: Color(0xFF3B3F63),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
                                         ),
                                         focusedBorder: border,
                                         enabledBorder: border,
                                         labelText: 'card_holder'.tr,
-                                        hintText: "TARO YAMADA",
+                                        hintText: 'card_holder_placeholder'.tr,
                                       ),
                                       onCreditCardModelChange:
                                           controller.onCreditCardModelChange,

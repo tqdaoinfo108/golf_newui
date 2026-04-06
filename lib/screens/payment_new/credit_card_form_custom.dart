@@ -289,10 +289,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildFieldLabel(
-                      widget.cardNumberDecoration.labelText,
-                      exampleText: widget.cardNumberDecoration.hintText,
-                    ),
+                    _buildFieldLabel(widget.cardNumberDecoration),
                     const SizedBox(height: 6),
                     TextFormField(
                       key: widget.cardNumberKey,
@@ -358,10 +355,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildFieldLabel(
-                              widget.expiryDateDecoration.labelText,
-                              exampleText: widget.expiryDateDecoration.hintText,
-                            ),
+                            _buildFieldLabel(widget.expiryDateDecoration),
                             const SizedBox(height: 6),
                             TextFormField(
                               key: widget.expiryDateKey,
@@ -373,7 +367,8 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                                       '0' + widget.expiryDateController!.text;
                                 }
                                 setState(() {
-                                  expiryDate = widget.expiryDateController!.text;
+                                  expiryDate =
+                                      widget.expiryDateController!.text;
                                   creditCardModel.expiryDate = expiryDate;
                                   onCreditCardModelChange(creditCardModel);
                                 });
@@ -382,9 +377,13 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                               focusNode: expiryDateNode,
                               onEditingComplete: () {
                                 if (widget.enableCvv) {
-                                  FocusScope.of(context).requestFocus(cvvFocusNode);
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(cvvFocusNode);
                                 } else {
-                                  FocusScope.of(context).requestFocus(cardHolderNode);
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(cardHolderNode);
                                 }
                               },
                               style: TextStyle(color: widget.textColor),
@@ -403,9 +402,13 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                                       return "expired_date_empty".tr;
                                     }
                                     final DateTime now = DateTime.now();
-                                    final List<String> date = value.split(RegExp(r'/'));
+                                    final List<String> date = value.split(
+                                      RegExp(r'/'),
+                                    );
                                     final int month = int.parse(date.first);
-                                    final int year = int.parse('20${date.last}');
+                                    final int year = int.parse(
+                                      '20${date.last}',
+                                    );
                                     final int lastDayOfMonth =
                                         month < 12
                                             ? DateTime(year, month + 1, 0).day
@@ -438,10 +441,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildFieldLabel(
-                              widget.cvvCodeDecoration.labelText,
-                              exampleText: widget.cvvCodeDecoration.hintText,
-                            ),
+                            _buildFieldLabel(widget.cvvCodeDecoration),
                             const SizedBox(height: 6),
                             TextFormField(
                               key: widget.cvvCodeKey,
@@ -453,7 +453,10 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                               decoration: widget.cvvCodeDecoration.copyWith(
                                 labelText: null,
                                 errorText: null,
-                                errorStyle: const TextStyle(height: 0, fontSize: 0),
+                                errorStyle: const TextStyle(
+                                  height: 0,
+                                  fontSize: 0,
+                                ),
                               ),
                               keyboardType: TextInputType.phone,
                               textInputAction:
@@ -496,7 +499,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                   style: TextStyle(color: Color(0xFFE53935), fontSize: 12),
                 ),
               ),
-            
+
             // ErrorText custom, tràn ra toàn màn hình
             if (widget.cvvErrorText != null && widget.cvvErrorText!.isNotEmpty)
               Padding(
@@ -514,10 +517,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildFieldLabel(
-                      widget.cardHolderDecoration.labelText,
-                      exampleText: widget.cardHolderDecoration.hintText,
-                    ),
+                    _buildFieldLabel(widget.cardHolderDecoration),
                     const SizedBox(height: 6),
                     TextFormField(
                       key: widget.cardHolderKey,
@@ -531,17 +531,19 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
 
                           widget.cardHolderNameController!.text =
                               filteredValue.toUpperCase();
-                          cardHolderName = widget.cardHolderNameController!.text;
+                          cardHolderName =
+                              widget.cardHolderNameController!.text;
                           creditCardModel.cardHolderName = cardHolderName;
                           onCreditCardModelChange(creditCardModel);
 
-                          widget.cardHolderNameController!.selection =
-                              TextSelection.fromPosition(
-                                TextPosition(
-                                  offset:
-                                      widget.cardHolderNameController!.text.length,
-                                ),
-                              );
+                          widget
+                              .cardHolderNameController!
+                              .selection = TextSelection.fromPosition(
+                            TextPosition(
+                              offset:
+                                  widget.cardHolderNameController!.text.length,
+                            ),
+                          );
                         });
                       },
                       cursorColor: widget.cursorColor ?? themeColor,
@@ -552,21 +554,26 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                       ),
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
-                      autofillHints: const <String>[AutofillHints.creditCardName],
+                      autofillHints: const <String>[
+                        AutofillHints.creditCardName,
+                      ],
                       onEditingComplete: () {
                         FocusScope.of(context).unfocus();
                         onCreditCardModelChange(creditCardModel);
                         widget.onFormComplete?.call();
                       },
-                      validator: widget.cardHolderValidator ?? (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return 'card_holder_empty'.tr;
-                        }
-                        if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                          return 'Please enter only alphabetic characters'.tr;
-                        }
-                        return null;
-                      },
+                      validator:
+                          widget.cardHolderValidator ??
+                          (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return 'card_holder_empty'.tr;
+                            }
+                            if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                              return 'Please enter only alphabetic characters'
+                                  .tr;
+                            }
+                            return null;
+                          },
                     ),
                   ],
                 ),
@@ -578,7 +585,8 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
     );
   }
 
-  Widget _buildFieldLabel(String? text, {String? exampleText}) {
+  Widget _buildFieldLabel(InputDecoration decoration) {
+    final String? text = decoration.labelText;
     if ((text ?? '').isEmpty) {
       return const SizedBox.shrink();
     }
@@ -591,35 +599,33 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
             .toList();
 
     final String title = labelLines.isNotEmpty ? labelLines.first : text;
-    final String normalizedExample = _sanitizeExampleText(exampleText);
+    final String normalizedExample = _sanitizeExampleText(decoration.hintText);
     final String fallbackExample =
         labelLines.length > 1 ? labelLines.sublist(1).join(' ') : '';
-    final bool hasExample = normalizedExample.isNotEmpty || fallbackExample.isNotEmpty;
+    final bool hasExample =
+        normalizedExample.isNotEmpty || fallbackExample.isNotEmpty;
     final String displayExample =
-        normalizedExample.isNotEmpty ? _formatExampleText(normalizedExample) : fallbackExample;
+        normalizedExample.isNotEmpty
+            ? _formatExampleText(normalizedExample)
+            : fallbackExample;
+    final TextStyle titleStyle =
+        decoration.labelStyle ??
+        const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF3B3F63),
+        );
+    final TextStyle exampleStyle = titleStyle.copyWith(
+      fontSize: 13,
+      height: 1.15,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF3B3F63),
-          ),
-        ),
-        if (hasExample)
-          Text(
-            displayExample,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF3B3F63),
-              height: 1.15,
-            ),
-          ),
+        Text(title, style: titleStyle),
+        if (hasExample) Text(displayExample, style: exampleStyle),
       ],
     );
   }
@@ -637,16 +643,24 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
         .replaceAll('(', '')
         .replaceAll(')', '')
         .replaceAll('例：', '')
+        .replaceAll('例:', '')
         .replaceAll('e.g.', '')
         .replaceAll('e.g', '')
         .trim();
   }
 
   String _formatExampleText(String raw) {
-    if (raw.toUpperCase() == 'CVC/CVV') {
+    final String normalized = raw.trim();
+    if (normalized.isEmpty) {
+      return '';
+    }
+    if (normalized.startsWith('(') || normalized.startsWith('（')) {
+      return normalized;
+    }
+    if (normalized.toUpperCase() == 'CVC/CVV') {
       return '(CVC/CVV)';
     }
-    return '(例：$raw)';
+    final bool isJapanese = (Get.locale?.languageCode ?? 'ja') == 'ja';
+    return isJapanese ? '(例：$normalized)' : '(e.g. $normalized)';
   }
-
 }
