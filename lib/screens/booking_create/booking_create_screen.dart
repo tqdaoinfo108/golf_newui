@@ -193,6 +193,29 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                             return;
                           }
 
+                          if (controller.hasOutsideMemberTimeSelection()) {
+                            SupportUtils.showDecisionDialog(
+                              'booking_outside_member_time_title'.tr,
+                              decisionDescription:
+                                  'booking_outside_member_time_description'.tr,
+                              lstOptions: [
+                                DecisionOption(
+                                  'back'.tr,
+                                  type: DecisionOptionType.DENIED,
+                                  onDecisionPressed: null,
+                                ),
+                                DecisionOption(
+                                  'yes'.tr,
+                                  type: DecisionOptionType.EXPECTATION,
+                                  onDecisionPressed: () {
+                                    controller.onCreateBooking();
+                                  },
+                                ),
+                              ],
+                            );
+                            return;
+                          }
+
                           SupportUtils.showDecisionDialog(
                             'are_you_sure_create_booking'.tr,
                             lstOptions: [

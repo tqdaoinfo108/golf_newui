@@ -34,23 +34,26 @@ class DashboardScreen extends GetView<DashboardController> {
               children: [
                 // Header
                 Container(
-                  height: 180,
+                  height: 140,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Color(0xFF241D59), Color(0xFF232F7C)],
-                      stops: [0.0, 0.5225],
+                      colors: [Color(0xFF1F2354), Color(0xFF283A8B)],
+                    ),
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(28),
                     ),
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(
-                      top: kToolbarHeight,
+                      top: MediaQuery.of(context).padding.top + 12,
                       left: 20,
                       right: 20,
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Obx(
                           () =>
@@ -58,33 +61,35 @@ class DashboardScreen extends GetView<DashboardController> {
                                   ? ClipOval(
                                     child: Image.asset(
                                       'assets/images/user.png',
-                                      width: 45.0.sp,
-                                      height: 45.0.sp,
+                                      width: 42.0.sp,
+                                      height: 42.0.sp,
                                       fit: BoxFit.cover,
                                     ),
                                   )
                                   : ClipOval(
                                     child: Image.network(
                                       '$GOLF_CORE_API_URL$USER_AVATAR_PATH${controller.userInfo!.imagesPaths}',
-                                      width: 45.0.sp,
-                                      height: 45.0.sp,
+                                      width: 42.0.sp,
+                                      height: 42.0.sp,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                         ),
-                        SizedBox(width: 2.0.w),
+                        SizedBox(width: 3.0.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SizedBox(height: 4),
                               Text(
                                 controller.userInfo!.fullName ?? "",
                                 style: TextStyle(
-                                  fontSize: 14.0.sp,
+                                  fontSize: 13.5.sp,
                                   color: Colors.white,
+                                  fontWeight: FontWeight.w600,
                                 ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),
@@ -92,60 +97,111 @@ class DashboardScreen extends GetView<DashboardController> {
                         if (controller.userInfo!.isUserManager ?? false)
                           Image.asset(
                             "assets/icons/person_vip.png",
-                            width: 48,
+                            width: 44,
                             color: Colors.white.withOpacity(0.8),
                           ),
-                        IconButton(
-                          onPressed: () {
-                            Get.toNamed(AppRoutes.NOTIFICATIONS);
-                          },
-                          icon: Icon(Icons.notifications, color: Colors.white),
+                        SizedBox(width: 2.w),
+                        Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Material(
+                              color: Colors.white.withOpacity(0.12),
+                              shape: const CircleBorder(),
+                              child: InkWell(
+                                customBorder: const CircleBorder(),
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.NOTIFICATIONS);
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Icon(
+                                    Icons.notifications_none_rounded,
+                                    color: Colors.white,
+                                    size: 22,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (controller.unreadCount > 0)
+                              Positioned(
+                                right: -2,
+                                top: -3,
+                                child: Container(
+                                  constraints: const BoxConstraints(
+                                    minWidth: 16,
+                                    minHeight: 16,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(999),
+                                    border: Border.all(
+                                      color: const Color(0xFF1F2354),
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      controller.unreadCount > 99
+                                          ? '99+'
+                                          : '${controller.unreadCount}',
+                                      style: theme.textTheme.titleSmall?.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 7.5.sp,
+                                        fontWeight: FontWeight.w700,
+                                        height: 1.1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ),
                 // TabBar
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xFF232F7C), Colors.white],
-                      stops: [
-                        0.5,
-                        0.5,
-                      ], // 50% trên là primary, 50% dưới là trắng
-                    ),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(14, 8, 14, 6),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(.5),
-                          blurRadius: 7,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
+                      color: const Color(0xFFF2F4FB),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: const Color(0xFFE1E5F5)),
                     ),
                     child: TabBar(
-                      indicatorColor: GolfColor.GolfSubColor,
-                      unselectedLabelColor: Colors.grey,
-                      labelColor: GolfColor.GolfSubColor,
+                      splashFactory: NoSplash.splashFactory,
+                      overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      dividerColor: Colors.transparent,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF2B376F).withOpacity(0.10),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      unselectedLabelColor: const Color(0xFF8C92B5),
+                      labelColor: const Color(0xFF2F3F95),
+                      labelPadding: const EdgeInsets.symmetric(vertical: 4),
                       onTap: (_) {},
                       tabs: [
                         SizedBox(
-                          height: 45.0.sp,
+                          height: 32,
                           child: Tab(
-                            child: rowTabbar(theme, Icons.check, 'success'.tr),
+                            child: rowTabbar(
+                              theme,
+                              Icons.check_circle_outline_rounded,
+                              'success'.tr,
+                            ),
                           ),
                         ),
                         // SizedBox(
@@ -188,7 +244,10 @@ class DashboardScreen extends GetView<DashboardController> {
                   child: TabBarView(
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      _buildBookingList(context, theme, controller, 0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: _buildBookingList(context, theme, controller, 0),
+                      ),
                     ],
                   ),
                 ),
@@ -208,13 +267,27 @@ class DashboardScreen extends GetView<DashboardController> {
   ) {
     // Bạn có thể lọc danh sách theo tabIndex nếu cần
     if (controller.isLoadingBookingHistory && !controller.isLoadingMore) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator(strokeWidth: 2.6));
     }
     if (controller.lstDateBooking.isEmpty) {
       return Center(
-        child: Text(
-          'not_found_booking'.tr,
-          style: theme.textTheme.headlineLarge,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.event_busy_outlined,
+              color: const Color(0xFF97A0C6),
+              size: 28,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'not_found_booking'.tr,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: const Color(0xFF6E7699),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       );
     }
@@ -287,21 +360,22 @@ class DashboardScreen extends GetView<DashboardController> {
 }
 
 Widget rowTabbar(ThemeData theme, IconData icon, String text) {
-  return Wrap(
-    spacing: 0.5.w,
-    runSpacing: 0.5.w,
-    direction: Axis.horizontal,
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Center(
-        child: Icon(icon, color: theme.colorScheme.iconColor, size: 4.0.w),
-      ),
-      SizedBox(width: 1.0.w),
-      Center(
+      Icon(icon, color: theme.colorScheme.iconColor, size: 3.8.w),
+      SizedBox(width: 0.8.w),
+      Flexible(
         child: AutoSizeText(
           text,
           wrapWords: true,
           maxLines: 1,
-          style: theme.textTheme.titleSmall,
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+            fontSize: 10.5.sp,
+          ),
+          minFontSize: 8,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     ],

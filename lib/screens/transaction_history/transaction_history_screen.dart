@@ -35,8 +35,8 @@ class TransactionHistoryScreen extends GetView<TransactionHistoryController> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 10.0.sp,
-                horizontal: 15.0.sp,
+                vertical: 9.0.sp,
+                horizontal: 13.0.sp,
               ),
               child: Obx(
                 () => TimeFilter(
@@ -66,13 +66,17 @@ class TransactionHistoryScreen extends GetView<TransactionHistoryController> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 10.0.sp,
-                horizontal: 15.0.sp,
+                vertical: 7.0.sp,
+                horizontal: 13.0.sp,
               ),
               child: Obx(
                 () => Text(
                   "${'result'.tr} (${controller.total})",
-                  style: appTheme.textTheme.headlineSmall,
+                  style: appTheme.textTheme.headlineSmall?.copyWith(
+                    fontSize: 10.8.sp,
+                    fontWeight: FontWeight.w600,
+                    height: 1.2,
+                  ),
                 ),
               ),
             ),

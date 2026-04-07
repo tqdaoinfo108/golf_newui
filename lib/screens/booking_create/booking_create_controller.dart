@@ -369,6 +369,22 @@ class BookingCreateController extends GetxController {
     return true;
   }
 
+  /// Returns true when member payment is selected and selected blocks include
+  /// outside-member-time blocks that will require extra online payment.
+  bool hasOutsideMemberTimeSelection() {
+    final selectedMemberId = selectedPaymentMethod?.userCodeMemberId ?? 0;
+    if (selectedMemberId <= 0) {
+      return false;
+    }
+
+    final selectedBlocks = lstBlock.where((block) => block.isSelect).toList();
+    if (selectedBlocks.isEmpty) {
+      return false;
+    }
+
+    return selectedBlocks.any((block) => block.isBlockCodeMember == false);
+  }
+
   void onCreateBooking() async {
     var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
     var createBookingModel = BookingInsertItemModel(

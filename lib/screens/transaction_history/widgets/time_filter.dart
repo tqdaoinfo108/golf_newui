@@ -88,30 +88,34 @@ class TimeFilter extends StatelessWidget {
                     title,
                     style: appTheme.textTheme.titleSmall!.copyWith(
                       color: appTheme.colorScheme.onSurface,
-                      fontSize: 9.0.sp,
+                      fontSize: 8.8.sp,
+                      height: 1.1,
                     ),
                   ),
+                  SizedBox(height: 1.0.sp),
                   Text(
                     value,
                     style: appTheme.textTheme.headlineSmall!.copyWith(
                       color: appTheme.colorScheme.surface,
                       fontWeight: FontWeight.bold,
+                      fontSize: 10.2.sp,
+                      height: 1.2,
                     ),
                   ),
                 ],
               ),
               Icon(
                 Icons.keyboard_arrow_down,
-                size: 5.0.w,
+                size: 4.8.w,
               )
             ],
           ),
           backgroundColor: appTheme.colorScheme.onBackground,
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10.0.sp),
+          borderRadius: BorderRadius.circular(9.0.sp),
           padding: EdgeInsets.symmetric(
-            vertical: 10.0.sp,
-            horizontal: 15.0.sp,
+            vertical: 9.0.sp,
+            horizontal: 12.0.sp,
           ),
           onPress: onPressed,
         ),
@@ -129,7 +133,7 @@ class TimeFilter extends StatelessWidget {
           useRootNavigator: true,
           builder: (BuildContext builder) {
             return Container(
-              height: 33.h,
+              height: 32.h,
               width: 100.w,
               color: Colors.white,
               child: CupertinoTheme(

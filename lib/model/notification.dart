@@ -54,10 +54,25 @@ class NotificationItemModel {
     iD = json['ID'];
     title = json['Title'];
     message = json['Message'];
-    createdDate = json['CreatedDate'];
+    createdDate = _toInt(json['CreatedDate']);
     userCreated = json['UserCreated'];
-    isRead = json['IsRead'] ?? false;
-    readDate = json['ReadDate'];
+    isRead = _toBool(json['IsRead']);
+    readDate = _toInt(json['ReadDate']);
+  }
+
+  int? _toInt(dynamic value) {
+    if (value == null) return null;
+    if (value is int) return value;
+    if (value is double) return value.toInt();
+    return int.tryParse(value.toString());
+  }
+
+  bool _toBool(dynamic value) {
+    if (value == null) return false;
+    if (value is bool) return value;
+    if (value is int) return value == 1;
+    final raw = value.toString().toLowerCase();
+    return raw == '1' || raw == 'true';
   }
 
   Map<String, dynamic> toJson() {

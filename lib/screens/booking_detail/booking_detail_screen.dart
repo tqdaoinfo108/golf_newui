@@ -31,6 +31,14 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
         // }
       },
       builder: (controller) {
+        final isPaidOrUsed =
+          controller.curBooking.statusID == BookingStatus.PAID ||
+          controller.curBooking.statusID == BookingStatus.USED;
+        final canShowQrButton =
+          isPaidOrUsed && controller.curBooking.isAvailableShowQRCode();
+        final showQrExpiredNote =
+          isPaidOrUsed && !controller.curBooking.isAvailableShowQRCode();
+
         return Scaffold(
           backgroundColor: GolfColor.GolfSubColor,
           appBar: ApplicationAppBar(context, 'back'.tr),
@@ -190,10 +198,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                   ],
                                 ),
                                 SizedBox(height: 16),
-                                if (controller.curBooking.statusID ==
-                                        BookingStatus.PAID ||
-                                    controller.curBooking.statusID ==
-                                        BookingStatus.USED)
+                                if (canShowQrButton)
                                   Container(
                                     alignment: Alignment.bottomCenter,
                                     padding: EdgeInsets.symmetric(
@@ -226,6 +231,21 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                           },
                                         );
                                       },
+                                    ),
+                                  ),
+                                if (showQrExpiredNote)
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 4.0.h,
+                                    ),
+                                    child: Text(
+                                      'qr_expired_note'.tr,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 11,
+                                        color: Color(0xff8B90B9),
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ),
                                 SizedBox(height: 10),

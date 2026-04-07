@@ -92,6 +92,7 @@ const Map<String, String> en = {
   'booking_detail_header_title': 'Booking Details',
   'booking_detail_header_subtitle': 'Enjoy a premium and comfortable space.',
   'booking_confirm_notice': 'Available after booking details are confirmed.',
+    'qr_expired_note': 'QR usage time has ended.',
   'sign_out': 'Sign out',
   'book_success': 'You successfully created booking.',
   'time_slot': 'Time slot',
@@ -121,6 +122,9 @@ const Map<String, String> en = {
   'email_already_exists': 'E-mail already exists',
   'are_you_sure_create_booking':
       'Are you sure you want to confirm this booking?\nNote: Cancellation is not possible after confirmation. You can review your booking details on the next screen.',
+  'booking_outside_member_time_title': 'Booking Confirmation',
+  'booking_outside_member_time_description':
+      'Your booking includes time slots outside member usage hours.\nAdditional charges will apply to those time slots.\n\nPlease follow the payment screen instructions to complete the additional payment.',
   'phone_invalid': 'Invalid phone number',
   'success': 'Success',
   'wait_payment': 'Wait payment',
@@ -129,6 +133,9 @@ const Map<String, String> en = {
   'canceled_booking': 'Booking was canceled.',
   'full_name_length_greater_less50': 'Full name must be 25 characters or less',
   'clear_all': 'Clear all',
+    'delete': 'Delete',
+    'are_you_sure_delete_transaction':
+            'Are you sure you want to delete this transaction history?',
   'are_you_sure_clear_notification': 'Are you sure clear notification',
   'date_play': 'Booking date',
   'ticket_information': 'Ticket information',
@@ -274,6 +281,7 @@ const Map<String, String> en = {
   "days": "days",
   "payment_method": "Payment Method",
   "select_payment_method": "Select payment method",
+    "total_amount": "Total Amount",
   "payment_info_title": "Enter Payment Information",
   "payment_info_subtitle": "Please pay by credit card",
   "payment_secure_notice":

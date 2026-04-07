@@ -102,6 +102,11 @@ class NotificationController extends GetxController {
       // Reload first page
       await getListNotication();
 
+      try {
+        final dashboardController = Get.find<DashboardController>();
+        dashboardController.getUnreadNotificationCount();
+      } catch (_) {}
+
       print('✅ All notifications cleared');
       return true;
     }
@@ -120,7 +125,11 @@ class NotificationController extends GetxController {
     
     // Call API
     try {
-      await GolfApi().markReadNotification(item.notificationID!, userId!);
+      await GolfApi().markReadNotification(
+        item.notificationID!,
+        userId!,
+        id: item.iD,
+      );
       
       // Also update dashboard unread count if applicable
       try {

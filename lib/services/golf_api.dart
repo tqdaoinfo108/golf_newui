@@ -539,12 +539,21 @@ class GolfApi {
     }
   }
 
-  Future<BaseResponse<String?>> markReadNotification(int notificationID, int userID) async {
+  Future<BaseResponse<String?>> markReadNotification(
+    int notificationID,
+    int userID, {
+    int? id,
+  }) async {
     String? response;
     try {
+      final body = {'NotificationID': notificationID, 'UserID': userID};
+      if (id != null) {
+        body['ID'] = id;
+      }
+
       response = await apiClient.markReadNotification(
         defaultAuthentication,
-        {'NotificationID': notificationID, 'UserID': userID},
+        body,
       );
       return BaseResponse()..setData(response);
     } on DioError catch (error, stacktrace) {
@@ -560,8 +569,20 @@ class GolfApi {
         defaultAuthentication,
         userID,
       );
-      var json = jsonDecode(response!);
-      return BaseResponse()..setData(json['data'] ?? 0);
+      final json = jsonDecode(response!);
+      final dynamic raw =
+          json['data'] ??
+          json['Data'] ??
+          json['count'] ??
+          json['Count'] ??
+          json['total'] ??
+          json['Total'] ??
+          0;
+
+      final int parsedCount =
+          raw is int ? raw : int.tryParse(raw.toString()) ?? 0;
+
+      return BaseResponse()..setData(parsedCount);
     } on DioError catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
       return BaseResponse()..setException(ApplicationError.withDioError(error));

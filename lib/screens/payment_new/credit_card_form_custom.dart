@@ -307,8 +307,8 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                         FocusScope.of(context).requestFocus(expiryDateNode);
                       },
                       style: TextStyle(color: widget.textColor),
-                      decoration: widget.cardNumberDecoration.copyWith(
-                        labelText: null,
+                      decoration: _buildInputDecorationWithoutLabel(
+                        widget.cardNumberDecoration,
                       ),
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
@@ -387,8 +387,8 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                                 }
                               },
                               style: TextStyle(color: widget.textColor),
-                              decoration: widget.expiryDateDecoration.copyWith(
-                                labelText: null,
+                              decoration: _buildInputDecorationWithoutLabel(
+                                widget.expiryDateDecoration,
                               ),
                               keyboardType: TextInputType.phone,
                               textInputAction: TextInputAction.next,
@@ -450,9 +450,9 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                               controller: widget.cvvCodeController,
                               cursorColor: widget.cursorColor ?? themeColor,
                               style: TextStyle(color: widget.textColor),
-                              decoration: widget.cvvCodeDecoration.copyWith(
-                                labelText: null,
-                                errorText: null,
+                              decoration: _buildInputDecorationWithoutLabel(
+                                widget.cvvCodeDecoration,
+                                clearErrorText: true,
                                 errorStyle: const TextStyle(
                                   height: 0,
                                   fontSize: 0,
@@ -549,8 +549,8 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                       cursorColor: widget.cursorColor ?? themeColor,
                       focusNode: cardHolderNode,
                       style: TextStyle(color: widget.textColor),
-                      decoration: widget.cardHolderDecoration.copyWith(
-                        labelText: null,
+                      decoration: _buildInputDecorationWithoutLabel(
+                        widget.cardHolderDecoration,
                       ),
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
@@ -627,6 +627,62 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
         Text(title, style: titleStyle),
         if (hasExample) Text(displayExample, style: exampleStyle),
       ],
+    );
+  }
+
+  InputDecoration _buildInputDecorationWithoutLabel(
+    InputDecoration decoration, {
+    bool clearErrorText = false,
+    TextStyle? errorStyle,
+  }) {
+    return InputDecoration(
+      icon: decoration.icon,
+      iconColor: decoration.iconColor,
+      labelStyle: decoration.labelStyle,
+      floatingLabelStyle: decoration.floatingLabelStyle,
+      helperStyle: decoration.helperStyle,
+      helperText: decoration.helperText,
+      helperMaxLines: decoration.helperMaxLines,
+      hintText: decoration.hintText,
+      hintStyle: decoration.hintStyle,
+      hintTextDirection: decoration.hintTextDirection,
+      hintMaxLines: decoration.hintMaxLines,
+      errorStyle: errorStyle ?? decoration.errorStyle,
+      errorText: clearErrorText ? null : decoration.errorText,
+      errorMaxLines: decoration.errorMaxLines,
+      floatingLabelBehavior: decoration.floatingLabelBehavior,
+      isCollapsed: decoration.isCollapsed,
+      isDense: decoration.isDense,
+      contentPadding: decoration.contentPadding,
+      prefixIcon: decoration.prefixIcon,
+      prefixIconConstraints: decoration.prefixIconConstraints,
+      prefixIconColor: decoration.prefixIconColor,
+      prefix: decoration.prefix,
+      prefixText: decoration.prefixText,
+      prefixStyle: decoration.prefixStyle,
+      suffixIcon: decoration.suffixIcon,
+      suffixIconConstraints: decoration.suffixIconConstraints,
+      suffixIconColor: decoration.suffixIconColor,
+      suffix: decoration.suffix,
+      suffixText: decoration.suffixText,
+      suffixStyle: decoration.suffixStyle,
+      counter: decoration.counter,
+      counterText: decoration.counterText,
+      counterStyle: decoration.counterStyle,
+      filled: decoration.filled,
+      fillColor: decoration.fillColor,
+      focusColor: decoration.focusColor,
+      hoverColor: decoration.hoverColor,
+      errorBorder: decoration.errorBorder,
+      focusedBorder: decoration.focusedBorder,
+      focusedErrorBorder: decoration.focusedErrorBorder,
+      disabledBorder: decoration.disabledBorder,
+      enabledBorder: decoration.enabledBorder,
+      border: decoration.border,
+      enabled: decoration.enabled,
+      semanticCounterText: decoration.semanticCounterText,
+      alignLabelWithHint: decoration.alignLabelWithHint,
+      constraints: decoration.constraints,
     );
   }
 

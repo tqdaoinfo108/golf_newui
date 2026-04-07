@@ -17,57 +17,101 @@ class TransactionHistoryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = Theme.of(context);
+    final labelStyle = appTheme.textTheme.titleSmall!.copyWith(
+      color: appTheme.colorScheme.onSurface,
+      fontSize: 8.6.sp,
+      height: 1.1,
+    );
+    final valueStyle = appTheme.textTheme.headlineSmall!.copyWith(
+      color: appTheme.colorScheme.surface,
+      fontWeight: FontWeight.w700,
+      fontSize: 10.0.sp,
+      height: 1.2,
+    );
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.0.sp, vertical: 5.0.sp),
+      padding: EdgeInsets.symmetric(horizontal: 13.0.sp, vertical: 5.0.sp),
       child: Stack(children: [
         /// Content
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
             color: appTheme.colorScheme.onBackground,
-            borderRadius: BorderRadius.circular(10.0.sp),
+            borderRadius: BorderRadius.circular(9.0.sp),
           ),
-          padding: EdgeInsets.all(10.0.sp),
+          padding: EdgeInsets.all(9.0.sp),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "${"date".tr}:",
-                style: appTheme.textTheme.titleSmall!.copyWith(
-                  color: appTheme.colorScheme.onSurface,
-                  fontSize: 9.0.sp,
-                ),
+                style: labelStyle,
               ),
               Text(transactionItem.datePayment!.toStringFormatDateTime(),
-                  style: appTheme.textTheme.headlineSmall!.copyWith(
-                    color: appTheme.colorScheme.surface,
-                    fontWeight: FontWeight.bold,
-                  )),
+                  style: valueStyle),
               SizedBox(height: 5.0.sp),
               Text(
                 "${"amount".tr}:",
-                style: appTheme.textTheme.titleSmall!.copyWith(
-                  color: appTheme.colorScheme.onSurface,
-                  fontSize: 9.0.sp,
-                ),
+                style: labelStyle,
               ),
               Text(_getAmountStr(),
-                  style: appTheme.textTheme.headlineSmall!.copyWith(
+                  style: valueStyle.copyWith(
                     color: appTheme.colorScheme.error,
                   )),
               SizedBox(height: 5.0.sp),
               Text(
                 "${"content".tr}:",
-                style: appTheme.textTheme.titleSmall!.copyWith(
-                  color: appTheme.colorScheme.onSurface,
-                  fontSize: 9.0.sp,
-                ),
+                style: labelStyle,
               ),
               Text(_getContentStr(),
-                  style: appTheme.textTheme.headlineSmall!.copyWith(
-                    color: appTheme.colorScheme.surface,
+                  style: valueStyle.copyWith(
+                    fontWeight: FontWeight.w600,
                   )),
+              SizedBox(height: 6.0.sp),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(15.0.sp),
+                    onTap: () {
+                      SupportUtils.showDecisionDialog(
+                        'are_you_sure_delete_transaction'.tr,
+                        lstOptions: [
+                          DecisionOption(
+                            'yes'.tr,
+                            type: DecisionOptionType.EXPECTATION,
+                            onDecisionPressed: () {
+                              Get.find<TransactionHistoryController>()
+                                  .deleteTransaction(transactionItem);
+                            },
+                          ),
+                          DecisionOption(
+                            'no'.tr,
+                            onDecisionPressed: null,
+                          ),
+                        ],
+                      );
+                    },
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: appTheme.colorScheme.error.withOpacity(0.10),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: appTheme.colorScheme.error.withOpacity(0.35),
+                          width: 1,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(5.0.sp),
+                      child: Icon(
+                        Icons.delete_outline_rounded,
+                        size: 12.0.sp,
+                        color: appTheme.colorScheme.error,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -82,45 +126,20 @@ class TransactionHistoryListItem extends StatelessWidget {
                   ? appTheme.colorScheme.primary
                   : appTheme.colorScheme.error,
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(10.0.sp),
-                bottomLeft: Radius.circular(10.0.sp),
+                topRight: Radius.circular(9.0.sp),
+                bottomLeft: Radius.circular(9.0.sp),
               ),
             ),
             padding:
-                EdgeInsets.symmetric(horizontal: 15.0.sp, vertical: 5.0.sp),
+                EdgeInsets.symmetric(horizontal: 12.0.sp, vertical: 5.0.sp),
             child: Text(
               transactionItem.status == 1 ? "success".tr : "fail".tr,
               style: appTheme.textTheme.headlineLarge!.copyWith(
                 color: appTheme.colorScheme.onPrimary,
+                fontSize: 9.0.sp,
+                height: 1.1,
               ),
             ),
-          ),
-        ),
-
-        /// Delete Action
-        Positioned(
-          right: 0,
-          bottom: 0,
-          child: IconButton(
-            icon: Icon(Icons.delete_outline_rounded, color: appTheme.colorScheme.error),
-            onPressed: () {
-              SupportUtils.showDecisionDialog(
-                'Bạn có chắc chắn muốn xóa lịch sử này không?', // "are_you_sure_delete_transaction"
-                lstOptions: [
-                  DecisionOption(
-                    'yes'.tr,
-                    type: DecisionOptionType.EXPECTATION,
-                    onDecisionPressed: () {
-                      Get.find<TransactionHistoryController>().deleteTransaction(transactionItem);
-                    },
-                  ),
-                  DecisionOption(
-                    'no'.tr,
-                    onDecisionPressed: null,
-                  ),
-                ],
-              );
-            },
           ),
         ),
       ]),

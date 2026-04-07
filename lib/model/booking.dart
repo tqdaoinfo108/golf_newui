@@ -204,6 +204,26 @@ class Booking extends BaseResponseError {
               ).millisecondsSinceEpoch) >
           0;
 
+  bool isAvailableShowQRCode() {
+    if (blocks == null || blocks!.isEmpty) {
+      return false;
+    }
+
+    final bookingEndTime = blocks!
+        .map((block) => block.rangeEnd ?? 0)
+        .reduce((max, value) => value > max ? value : max);
+
+    final nowUtcMillis = DateTime.utc(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+      DateTime.now().hour,
+      DateTime.now().minute,
+    ).millisecondsSinceEpoch;
+
+    return bookingEndTime > nowUtcMillis;
+  }
+
   bool isAvailableCancel() {
     return (this.isShopManager ?? false) || SupportUtils.prefs.getInt(USER_TYPE_ID) == 4 ||
         this.statusID == BookingStatus.WAITING_PAYMENT ||
