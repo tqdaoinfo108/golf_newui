@@ -4,21 +4,108 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class Themes {
+  static double _adaptiveSp(double value, {required double min, required double max}) {
+    return value.sp.clamp(min, max).toDouble();
+  }
+
+  static TextTheme _buildTextTheme({
+    required Color primaryTextColor,
+    required Color secondaryTextColor,
+    required Color mutedTextColor,
+  }) {
+    final base = GoogleFonts.interTextTheme();
+
+    return base.copyWith(
+      // Headline
+      headlineMedium: GoogleFonts.openSans(
+        fontSize: 16.0.sp,
+        color: primaryTextColor,
+        fontWeight: FontWeight.w600,
+        height: 1.25,
+      ),
+      headlineSmall: GoogleFonts.openSans(
+        fontSize: 12.0.sp,
+        color: secondaryTextColor,
+        fontWeight: FontWeight.w500,
+        height: 1.25,
+      ),
+      headlineLarge: GoogleFonts.openSans(
+        fontSize: 11.0.sp,
+        color: secondaryTextColor,
+        fontWeight: FontWeight.w500,
+        height: 1.25,
+      ),
+
+      // Title
+      titleLarge: GoogleFonts.openSans(
+        fontSize: 14.0.sp,
+        color: primaryTextColor,
+        fontWeight: FontWeight.w700,
+        height: 1.2,
+      ),
+      titleMedium: GoogleFonts.openSans(
+        fontSize: 12.0.sp,
+        color: primaryTextColor,
+        fontWeight: FontWeight.w600,
+        height: 1.2,
+      ),
+      titleSmall: GoogleFonts.openSans(
+        fontSize: 10.5.sp,
+        color: secondaryTextColor,
+        fontWeight: FontWeight.w500,
+        height: 1.2,
+      ),
+
+      // Body
+      bodyLarge: GoogleFonts.inter(
+        fontSize: 11.5.sp,
+        color: primaryTextColor,
+        fontWeight: FontWeight.w500,
+        height: 1.35,
+      ),
+      bodyMedium: GoogleFonts.inter(
+        fontSize: 10.0.sp,
+        color: secondaryTextColor,
+        fontWeight: FontWeight.w400,
+        height: 1.35,
+      ),
+      bodySmall: GoogleFonts.inter(
+        fontSize: 9.0.sp,
+        color: mutedTextColor,
+        fontWeight: FontWeight.w400,
+        height: 1.3,
+      ),
+
+      // Label / Button
+      labelLarge: GoogleFonts.inter(
+        fontSize: 10.0.sp,
+        color: primaryTextColor,
+        fontWeight: FontWeight.w600,
+        height: 1.2,
+      ),
+      labelMedium: GoogleFonts.inter(
+        fontSize: 9.0.sp,
+        color: secondaryTextColor,
+        fontWeight: FontWeight.w500,
+        height: 1.2,
+      ),
+      labelSmall: GoogleFonts.inter(
+        fontSize: 8.0.sp,
+        color: mutedTextColor,
+        fontWeight: FontWeight.w500,
+        height: 1.2,
+      ),
+    );
+  }
+
   static final light = ThemeData.light().copyWith(
     colorScheme: lightColorScheme,
     scaffoldBackgroundColor: GolfColor.BackgroundLightColor,
     primaryColor: GolfColor.GolfPrimaryColor,
 
-    primaryTextTheme: lightTextTheme.copyWith(
-      titleSmall: GoogleFonts.openSans(
-        //subTitle
-        fontSize: 12.0.sp,
-        color: GolfColor.TextFieldLightColor,
-        fontWeight: FontWeight.w400,
-      ),
-      titleMedium: ThemeData.light().primaryTextTheme.titleMedium!.copyWith(
-        color: GolfColor.TextDarkColor,
-      ),
+    primaryTextTheme: lightTextTheme.apply(
+      bodyColor: lightColorScheme.onPrimary,
+      displayColor: lightColorScheme.onPrimary,
     ),
     textTheme: lightTextTheme,
     appBarTheme: AppBarTheme(
@@ -26,10 +113,10 @@ class Themes {
       elevation: 0,
       iconTheme: IconThemeData(color: lightColorScheme.surface),
       actionsIconTheme: IconThemeData(color: lightColorScheme.surface),
-      titleTextStyle: GoogleFonts.openSansTextTheme().headlineLarge?.copyWith(
+      titleTextStyle: lightTextTheme.titleLarge?.copyWith(
         color: lightColorScheme.surface,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontSize: _adaptiveSp(13.8, min: 13.0, max: 17.0),
+        fontWeight: FontWeight.w700,
       ),
     ),
   );
@@ -37,16 +124,9 @@ class Themes {
     colorScheme: darkColorScheme,
     scaffoldBackgroundColor: GolfColor.BackgroundDarkColor,
     primaryColor: GolfColor.GolfPrimaryColor,
-    primaryTextTheme: darkTextTheme.copyWith(
-      titleSmall: GoogleFonts.openSans(
-        //subTitle
-        fontSize: 12.0.sp,
-        color: GolfColor.TextFieldDarkColor,
-        fontWeight: FontWeight.w400,
-      ),
-      titleMedium: ThemeData.light().primaryTextTheme.titleMedium!.copyWith(
-        color: GolfColor.TextDarkColor,
-      ),
+    primaryTextTheme: darkTextTheme.apply(
+      bodyColor: darkColorScheme.onPrimary,
+      displayColor: darkColorScheme.onPrimary,
     ),
     textTheme: darkTextTheme,
     appBarTheme: AppBarTheme(
@@ -54,10 +134,10 @@ class Themes {
       elevation: 0,
       iconTheme: IconThemeData(color: darkColorScheme.surface),
       actionsIconTheme: IconThemeData(color: darkColorScheme.surface),
-      titleTextStyle: GoogleFonts.openSansTextTheme().headlineLarge?.copyWith(
+      titleTextStyle: darkTextTheme.titleLarge?.copyWith(
         color: darkColorScheme.surface,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontSize: _adaptiveSp(13.8, min: 13.0, max: 17.0),
+        fontWeight: FontWeight.w700,
       ),
     ),
   );
@@ -94,47 +174,15 @@ class Themes {
     brightness: Brightness.dark,
   );
 
-  static final TextTheme lightTextTheme = GoogleFonts.interTextTheme()
-      .copyWith(
-        headlineMedium: GoogleFonts.openSans(
-          //headerLine 1
-          fontSize: 16.0.sp,
-          color: GolfColor.TextDarkColor,
-          fontWeight: FontWeight.w400,
-        ),
-        headlineSmall: GoogleFonts.openSans(
-          //headerLine 3
-          fontSize: 12.0.sp,
-          color: GolfColor.TextLightColor,
-          fontWeight: FontWeight.w500,
-        ),
-        headlineLarge: GoogleFonts.openSans(
-          // headerLine 3
-          fontSize: 20.0.sp,
-          color: GolfColor.TextLightColor,
-          fontWeight: FontWeight.w500,
-        ),
-      );
+  static final TextTheme lightTextTheme = _buildTextTheme(
+    primaryTextColor: GolfColor.TextDarkColor,
+    secondaryTextColor: GolfColor.TextLightColor,
+    mutedTextColor: GolfColor.SubTextColor,
+  );
 
-  static final TextTheme darkTextTheme = GoogleFonts.interTextTheme()
-      .copyWith(
-        headlineMedium: GoogleFonts.openSans(
-          // headerLine 1
-          fontSize: 16.0.sp,
-          color: GolfColor.TextDarkColor,
-          fontWeight: FontWeight.w400,
-        ),
-        headlineSmall: GoogleFonts.openSans(
-          // headerLine 3
-          fontSize: 12.0.sp,
-          color: GolfColor.TextDarkColor,
-          fontWeight: FontWeight.w500,
-        ),
-        headlineLarge: GoogleFonts.openSans(
-          //subTitle
-          fontSize: 10.0.sp,
-          color: GolfColor.SubTextColor,
-          fontWeight: FontWeight.w400,
-        ),
-      );
+  static final TextTheme darkTextTheme = _buildTextTheme(
+    primaryTextColor: GolfColor.TextDarkColor,
+    secondaryTextColor: GolfColor.TextDarkColor,
+    mutedTextColor: GolfColor.SubTextColor,
+  );
 }

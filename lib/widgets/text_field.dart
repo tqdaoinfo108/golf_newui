@@ -23,6 +23,7 @@ class TexFieldValidate extends StatefulWidget {
   final bool enable;
   final String? initialValue;
   final TextInputType textInputType;
+  final int? maxLength;
   TexFieldValidate(
     this.focusNode, {
     this.hintText,
@@ -37,6 +38,7 @@ class TexFieldValidate extends StatefulWidget {
     this.initialValue,
     this.isPassword = false,
     this.textInputType = TextInputType.text,
+    this.maxLength,
     Key? key,
   }) : super(key: key);
 
@@ -57,6 +59,10 @@ class TexFieldValidateState extends State<TexFieldValidate> {
           keyboardType: widget.textInputType,
           initialValue: widget.initialValue,
           enabled: widget.enable,
+          maxLength: widget.maxLength,
+          buildCounter:
+              (context, {required currentLength, required isFocused, maxLength}) =>
+                  null,
           // focusNode: widget.focusNode,
           controller: widget.controller,
           cursorColor: widget.accentColor,

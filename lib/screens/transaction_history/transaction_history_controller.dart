@@ -13,6 +13,7 @@ class TransactionHistoryController extends GetxController
 
   late int _page;
   late int _limit;
+  late int _rawTotal;
   late bool _lstTransactionsStillBusy;
   late bool _availableLoadMore;
   int? userId;
@@ -33,6 +34,7 @@ class TransactionHistoryController extends GetxController
     super.onInit();
     _page = 0;
     _limit = DEFAUTL_LIMIT;
+    _rawTotal = 0;
     _lstTransactions = [];
 
     userId = SupportUtils.prefs.getInt(USER_ID);
@@ -43,7 +45,7 @@ class TransactionHistoryController extends GetxController
 
   requestLoadMore() async {
     if (!_lstTransactionsStillBusy) {
-      _availableLoadMore = _lstTransactions.length < total;
+      _availableLoadMore = ((_page + 1) * _limit) < _rawTotal;
       if (_availableLoadMore) {
         _page++;
         await getTransactions();
@@ -53,6 +55,7 @@ class TransactionHistoryController extends GetxController
 
   requestRefresh() {
     _page = 0;
+    _rawTotal = 0;
     _lstTransactions = [];
     change(null, status: RxStatus.loading());
     getTransactions();
@@ -69,8 +72,15 @@ class TransactionHistoryController extends GetxController
     );
 
     if (res != null) {
-      _total.value = res.total!;
-      _lstTransactions.addAll(res.data!);
+      _rawTotal = res.total ?? 0;
+
+      final filteredTransactions =
+          (res.data ?? <Transaction>[])
+              .where(_isMembershipPurchaseTransaction)
+              .toList();
+
+      _lstTransactions.addAll(filteredTransactions);
+      _total.value = _lstTransactions.length;
 
       change(_lstTransactions, status: RxStatus.success());
     } else {
@@ -82,6 +92,11 @@ class TransactionHistoryController extends GetxController
           status: RxStatus.error(res.getException!.getErrorMessage()));
     }
     _lstTransactionsStillBusy = false;
+  }
+
+  bool _isMembershipPurchaseTransaction(Transaction transaction) {
+    return transaction.typePayment == PaymentType.REGISTER_VIP_MEMBER ||
+        transaction.typePayment == PaymentType.AUTO_RENEW_VIP_MEMBER;
   }
 
   Future<void> deleteTransaction(Transaction item) async {

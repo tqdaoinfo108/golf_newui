@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/screens/terms_of_use/terms_of_use_controller.dart';
 import 'package:sizer/sizer.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../utils/color.dart';
 import '../../widgets/button_default.dart';
 
@@ -37,7 +37,7 @@ class TermsOfUseScreen extends GetView<TermsOfUseScreenController> {
                   Flexible(
                     child: Container(
                       margin: const EdgeInsets.only(top: 12),
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -55,15 +55,13 @@ class TermsOfUseScreen extends GetView<TermsOfUseScreenController> {
                         ],
                       ),
                       width: 90.w,
-                      child: Scrollbar(
-                        controller: controller.scrollController.value,
-                        child: SingleChildScrollView(
-                          controller: controller.scrollController.value,
-                          child: HtmlWidget(
-                            controller.data.value.content ?? "",
-                            textStyle: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: controller.webViewController.value == null
+                            ? const SizedBox.shrink()
+                            : WebViewWidget(
+                                controller: controller.webViewController.value!,
+                              ),
                       ),
                     ),
                   ),

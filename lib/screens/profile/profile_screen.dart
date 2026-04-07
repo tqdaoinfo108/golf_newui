@@ -9,7 +9,6 @@ import '../../utils/color.dart';
 import '../../utils/constants.dart';
 import '../../utils/keys.dart';
 import '../../utils/support.dart';
-import '../../widgets/app_icon.dart';
 import '../../widgets/application_appbar.dart';
 import '../../widgets/avatar.dart';
 import '../../widgets/button_default.dart';
@@ -94,10 +93,11 @@ class ProfileScreen extends GetView<ProfileController> {
                         _fullNameFocusNode,
                         initialValue: _controller.fullName,
                         hintText: 'full_name'.tr,
-                        icon: AppIcon.user,
+                        icon: Icons.person,
                         accentColor: GolfColor.GolfPrimaryColor,
                         validate: _controller.validateFullName,
                         themeData: themeData,
+                        maxLength: 25,
                       ),
                       SizedBox(height: 2.0.h),
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../services/golf_api.dart';
 import '../../translations/localization_service.dart';
@@ -17,8 +18,10 @@ class TermsOfUseScreenBindings extends Bindings {
 }
 
 class TermsOfUseScreenController extends GetxController {
-  Rx<ScrollController> scrollController = ScrollController().obs;
   Rx<TermsOfUseModel> data = TermsOfUseModel().obs;
+  final Rxn<WebViewController> webViewController = Rxn<WebViewController>();
+
+  static const String termsUrl = 'https://mujin24.com/termnopolicy';
 
   var isScrollBottom = false.obs;
   var isDisable = false.obs;
@@ -28,18 +31,61 @@ class TermsOfUseScreenController extends GetxController {
   void onInit() {
     super.onInit();
 
+    _initWebView();
     getValueConfig();
+  }
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      scrollController.value.addListener(() {
-        if (scrollController.value.position.atEdge) {
-          bool isTop = scrollController.value.position.pixels == 0;
-          if (!isTop) {
-            isDisable.value = true;
+  void _initWebView() {
+    final controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..addJavaScriptChannel(
+            'TermsScrollChannel',
+            onMessageReceived: (message) {
+              if (message.message == 'bottom') {
+                isDisable.value = true;
+              }
+            },
+          )
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onPageFinished: (_) {
+                isLoading.value = false;
+                _attachBottomListener();
+              },
+              onWebResourceError: (_) {
+                isLoading.value = false;
+              },
+            ),
+          )
+          ..loadRequest(Uri.parse(termsUrl));
+
+    webViewController.value = controller;
+  }
+
+  void _attachBottomListener() {
+    webViewController.value?.runJavaScript('''
+      (function () {
+        if (window.__termsScrollBound) return;
+        window.__termsScrollBound = true;
+
+        function notifyIfBottom() {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+          var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+          var fullHeight = Math.max(
+            document.body.scrollHeight || 0,
+            document.documentElement.scrollHeight || 0
+          );
+
+          if (scrollTop + viewportHeight >= fullHeight - 8) {
+            TermsScrollChannel.postMessage('bottom');
           }
         }
-      });
-    });
+
+        window.addEventListener('scroll', notifyIfBottom, { passive: true });
+        notifyIfBottom();
+      })();
+    ''');
   }
 
   void onChangeCheckBox() {
@@ -69,8 +115,6 @@ class TermsOfUseScreenController extends GetxController {
         data.value =
             value.data!.firstWhere((element) => element.language == "jp");
       }
-      await Future.delayed(Duration(seconds: 1));
-      isLoading.value = false;
     }
   }
 }

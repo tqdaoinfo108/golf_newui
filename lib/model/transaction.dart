@@ -128,7 +128,7 @@ class Transaction {
         status: json["Status"] == null ? null : json["Status"],
         typePayment: json["TypePayment"] == null ? null : json["TypePayment"],
         typeCodeMember:
-            json["TypePayment"] == null ? null : json["TypeCodeMember"],
+            json["TypeCodeMember"] == null ? null : json["TypeCodeMember"],
         timeStart: json["TimeStart"] == null ? null : json["TimeStart"] * 1000,
         timeEnd: json["TimeEnd"] == null ? null : json["TimeEnd"] * 1000,
         remainPlay: json["RemainPlay"] == null ? null : json["RemainPlay"],
@@ -160,7 +160,7 @@ class Transaction {
         "Amount": amount == null ? null : amount,
         "Status": status == null ? null : status,
         "TypePayment": typePayment == null ? null : typePayment,
-        "TypeCodeMember": typePayment == null ? null : typeCodeMember,
+        "TypeCodeMember": typeCodeMember == null ? null : typeCodeMember,
         "TimeStart": timeStart == null ? null : timeStart,
         "TimeEnd": timeEnd == null ? null : timeEnd,
         "RemainPlay": remainPlay == null ? null : remainPlay,

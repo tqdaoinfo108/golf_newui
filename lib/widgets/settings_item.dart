@@ -28,7 +28,14 @@ Widget settingItem(
                   children: [
                     Icon(icon, color: color, size: 6.0.w),
                     SizedBox(width: 20),
-                    Text(title, style: appTheme.textTheme.headlineSmall),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: appTheme.textTheme.headlineSmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -79,7 +86,14 @@ Widget settingItemWithImage(
                       color: color,
                     ),
                     SizedBox(width: 20),
-                    Text(title, style: appTheme.textTheme.headlineSmall),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: appTheme.textTheme.headlineSmall,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
               ),

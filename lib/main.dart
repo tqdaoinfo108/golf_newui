@@ -278,6 +278,18 @@ class _MyAppState extends State<MyApp> {
               theme: Themes.light,
               // darkTheme: Themes.dark,
               themeMode: appThemeMode,
+              builder: (context, child) {
+                final media = MediaQuery.of(context);
+                final clampedScaler = media.textScaler.clamp(
+                  minScaleFactor: 0.95,
+                  maxScaleFactor: 1.15,
+                );
+
+                return MediaQuery(
+                  data: media.copyWith(textScaler: clampedScaler),
+                  child: child ?? const SizedBox.shrink(),
+                );
+              },
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,

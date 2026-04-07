@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/page_result.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
-import 'package:golf_uiv2/screens/about_app/about_app.dart';
 import 'package:golf_uiv2/screens/change_language/change_language_scree.dart';
 import 'package:golf_uiv2/screens/settings/settings_controller.dart';
 import 'package:golf_uiv2/utils/color.dart';
@@ -11,6 +10,7 @@ import 'package:golf_uiv2/widgets/avatar.dart';
 import 'package:golf_uiv2/widgets/default_avatar.dart';
 import 'package:golf_uiv2/widgets/settings_item.dart';
 import 'package:golf_uiv2/utils/support.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../model/decision_option.dart';
 import '../../utils/keys.dart';
@@ -66,53 +66,41 @@ class SettingsScreen extends GetView<SettingController> {
                                   avatarPath:
                                       '$GOLF_CORE_API_URL$USER_AVATAR_PATH${_controller.userInfo!.imagesPaths}',
                                 ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              spacing: 10,
-                              children: [
-                                Text(
-                                  _controller.userInfo!.fullName ?? '',
-                                  style: themeData.textTheme.headlineSmall!
-                                      .copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                ),
-                                // Visibility(
-                                //   visible:
-                                //   _controller.userInfo!.confirmEmail ==
-                                //       ConfirmEmailStatus.UNCONFIRMED,
-                                //   child: InkWell(
-                                //     onTap:
-                                //     (() => Get.toNamed(
-                                //       AppRoutes.PROFILE,
-                                //     )!.then(
-                                //           (value) =>
-                                //           controller.updateUserInfo(),
-                                //     )),
-                                //     child: Text(
-                                //       '(${'unverified_account'.tr})',
-                                //       style: themeData.textTheme.titleSmall!
-                                //           .copyWith(
-                                //         color: themeData.colorScheme.error,
-                                //         fontStyle: FontStyle.italic,
-                                //         fontWeight: FontWeight.bold,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                _buildMyVipMember(
-                                  themeData,
-                                  controller.totalVipMembers,
-                                ),
-                                if (controller.userInfo!.isUserManager ?? false)
-                                  Image.asset(
-                                    "assets/icons/person_vip.png",
-                                    width: 24,
-                                    color: Colors.white.withOpacity(0.8),
+                            SizedBox(
+                              width: 86.w,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    _controller.userInfo!.fullName ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: themeData.textTheme.headlineSmall!
+                                        .copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
                                   ),
-                              ],
+                                  SizedBox(height: 6),
+                                  Wrap(
+                                    alignment: WrapAlignment.center,
+                                    spacing: 8,
+                                    runSpacing: 4,
+                                    children: [
+                                      _buildMyVipMember(
+                                        themeData,
+                                        controller.totalVipMembers,
+                                      ),
+                                      if (controller.userInfo!.isUserManager ?? false)
+                                        Image.asset(
+                                          "assets/icons/person_vip.png",
+                                          width: 24,
+                                          color: Colors.white.withOpacity(0.8),
+                                        ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -154,17 +142,11 @@ class SettingsScreen extends GetView<SettingController> {
                             settingItem(context, 'account_infomation'.tr, () {
                               Get.toNamed(
                                 AppRoutes.PROFILE,
-                              )!.then((value) => controller.updateUserInfo());
+                              )!.then((value) {
+                                controller.loadUserInfoFromPrefs();
+                                controller.updateUserInfo();
+                              });
                             }, Icons.person),
-                            if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
-                              settingItem(
-                                context,
-                                'transaction_history'.tr,
-                                () {
-                                  Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
-                                },
-                                Icons.history,
-                              ),
                             if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
                               settingItemWithImage(
                                 context,
@@ -176,12 +158,21 @@ class SettingsScreen extends GetView<SettingController> {
                                 },
                                 "assets/images/member.png",
                               ),
+                            if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
+                              settingItem(
+                                context,
+                                'transaction_history'.tr,
+                                () {
+                                  Get.toNamed(AppRoutes.TRANSACTION_HISTORY);
+                                },
+                                Icons.receipt_long_rounded,
+                              ),
                             settingItem(context, 'favorite_shop'.tr, () {
                               Get.toNamed(AppRoutes.FAVORITE_SHOP);
                             }, Icons.favorite),
-                            settingItem(context, 'change_language'.tr, () {
-                              Get.to(ChangeLanguageScreen());
-                            }, Icons.language),
+                            // settingItem(context, 'change_language'.tr, () {
+                            //   Get.to(ChangeLanguageScreen());
+                            // }, Icons.language),
                             // settingItem(context, 'change_theme'.tr, () {
                             //   Get.to(ChangeThemeModeScreen());
                             // }, Icons.format_paint_sharp),
@@ -206,11 +197,11 @@ class SettingsScreen extends GetView<SettingController> {
                             ),
                             settingItem(
                               context,
-                              'about_app'.tr,
+                              'terms_service'.tr,
                               () {
-                                Get.to(AboutAppScreen());
+                                Get.toNamed(AppRoutes.TERMS_OF_USE);
                               },
-                              Icons.info_outline,
+                              Icons.description_outlined,
                               color: Color(0xff8E99FF),
                             ),
                             settingItemWithImage(

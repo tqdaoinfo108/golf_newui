@@ -19,6 +19,11 @@ class SettingController extends GetxController {
   void onInit() {
     super.onInit();
 
+    loadUserInfoFromPrefs();
+  }
+
+  void loadUserInfoFromPrefs() {
+
     userInfo = User(
       userID: SupportUtils.prefs.getInt(USER_ID),
       uUserID: SupportUtils.prefs.getString(USERNAME),
@@ -28,6 +33,8 @@ class SettingController extends GetxController {
       providerUserID: SupportUtils.prefs.getString(USER_PROVIDDER_ID),
       confirmEmail: SupportUtils.prefs.getInt(VERIFIED_EMAIL),
     );
+
+    update();
   }
 
   final Rx<User?> _userInfo = User().obs;
@@ -38,6 +45,9 @@ class SettingController extends GetxController {
   int get totalVipMembers => _totalVipMembers.value;
 
   Future<bool> updateUserInfo() async {
+    // Refresh immediately from local cache so UI reflects recent profile edits.
+    loadUserInfoFromPrefs();
+
     final _ueserInfoResult = await GolfApi().getUserInfo();
 
     /// Handle Register result
@@ -52,6 +62,8 @@ class SettingController extends GetxController {
       SupportUtils.prefs.setString(USER_PHONE, userInfo!.phone!);
       SupportUtils.prefs.setString(USER_AVATAR, userInfo!.imagesPaths!);
       SupportUtils.prefs.setInt(VERIFIED_EMAIL, userInfo!.confirmEmail!);
+
+      loadUserInfoFromPrefs();
       return true;
     } else {
       if (_ueserInfoResult.getException == null) {

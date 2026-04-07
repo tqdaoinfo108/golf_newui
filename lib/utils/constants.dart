@@ -36,8 +36,8 @@ const String USER_AVATAR_PATH = 'api/avatar/view?fileName=';
 // const String PAYMENT_POP_PASSWORD = '';
 // const String PAYMENT_POP_CLIENT_KEY = 'e84c118c-2faa-4eef-a69c-5bc2121f0ada';
 const bool PAYMENT_DEBUG = true;
-const String PAYMENT_SUCCESS_URL = 'https://golf.payment.com/success';
-const String PAYMENT_FAILURE_URL = 'https://golf.payment.com/fail';
+// const String PAYMENT_SUCCESS_URL = 'https://golf.payment.com/success';
+// const String PAYMENT_FAILURE_URL = 'https://golf.payment.com/fail';
 
 class BookingStatus {
   static const int WAITING_PAYMENT = 0;
