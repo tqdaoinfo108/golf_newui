@@ -25,16 +25,22 @@ class Pressable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final roundedShape = RoundedRectangleBorder(
+      borderRadius: borderRadius ?? BorderRadius.zero,
+      side: borderSide ?? BorderSide.none,
+    );
+
     return Opacity(
       opacity: enabled ? 1 : .4,
       child: Material(
         color: backgroundColor ?? Colors.transparent,
-        shape: borderSide != null
-            ? RoundedRectangleBorder(
-                borderRadius: borderRadius ?? BorderRadius.zero,
-                side: borderSide!,
-              )
+        shape: (borderRadius != null || borderSide != null)
+            ? roundedShape
             : null,
+        clipBehavior:
+            (borderRadius != null || borderSide != null)
+                ? Clip.antiAlias
+                : Clip.none,
         child: InkWell(
           splashColor: splashColor,
           borderRadius: borderRadius,

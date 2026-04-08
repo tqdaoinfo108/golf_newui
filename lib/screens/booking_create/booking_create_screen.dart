@@ -24,8 +24,10 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
-    controller.shopSelected = data;
-    controller.getSlotFirst();
+    if (controller.shopSelected?.shopID != data.shopID) {
+      controller.shopSelected = data;
+      controller.getSlotFirst();
+    }
 
     return Obx(
       () => Scaffold(
@@ -114,7 +116,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         if (controller.lstPaymentMethod.isNotEmpty)
                           SizedBox(height: 10),
 
-                        /// Choose machine (only enabled after payment method selected)
+                        /// Choose machine (only enabled after payment method selected) 
                         AbsorbPointer(
                           absorbing:
                               controller.lstPaymentMethod.isNotEmpty &&
@@ -134,23 +136,35 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        chooseBlockBooking(
-                          controller,
-                          context,
-                          themeData,
-                          controller.lstBlock,
-                          controller.lstPaymentMethod
-                                  .firstWhere(
-                                    (x) => x.userCodeMemberId == 0,
-                                    orElse:
-                                        () => UserVipMember(
-                                          userCodeMemberId: 0,
-                                          nameCodeMember: "Credit Card",
-                                        ),
-                                  )
-                                  .nameCodeMember ??
-                              "Credit Card",
-                          true,
+                        AbsorbPointer(
+                          absorbing:
+                              !controller.isPaymentMethodSelected ||
+                              controller.idSlot == 0,
+                          child: Opacity(
+                            opacity:
+                                (controller.isPaymentMethodSelected &&
+                                        controller.idSlot != 0)
+                                    ? 1.0
+                                    : 0.5,
+                            child: chooseBlockBooking(
+                              controller,
+                              context,
+                              themeData,
+                              controller.lstBlock,
+                              controller.lstPaymentMethod
+                                      .firstWhere(
+                                        (x) => x.userCodeMemberId == 0,
+                                        orElse:
+                                            () => UserVipMember(
+                                              userCodeMemberId: 0,
+                                              nameCodeMember: "Credit Card",
+                                            ),
+                                      )
+                                      .nameCodeMember ??
+                                  "Credit Card",
+                              true,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 20),
                       ],

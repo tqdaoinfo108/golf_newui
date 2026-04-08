@@ -133,7 +133,9 @@ class TransactionHistoryListItem extends StatelessWidget {
             padding:
                 EdgeInsets.symmetric(horizontal: 12.0.sp, vertical: 5.0.sp),
             child: Text(
-              transactionItem.status == 1 ? "success".tr : "fail".tr,
+              transactionItem.status == 1
+                  ? "transaction_success".tr
+                  : "transaction_fail".tr,
               style: appTheme.textTheme.headlineLarge!.copyWith(
                 color: appTheme.colorScheme.onPrimary,
                 fontSize: 9.0.sp,

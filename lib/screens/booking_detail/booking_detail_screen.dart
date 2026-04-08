@@ -18,6 +18,43 @@ import 'widgets/qr_code_info.dart';
 class BookingDetailScreen extends GetView<BookingDetailController> {
   BookingDetailScreen({Key? key}) : super(key: key);
 
+  bool _isWaitingPaymentAndCanPay(Booking booking) {
+    return booking.statusID == BookingStatus.WAITING_PAYMENT &&
+        booking.isAvailablePayment();
+  }
+
+  Future<bool> _handleBackPressed(BookingDetailController controller) async {
+    if (!_isWaitingPaymentAndCanPay(controller.curBooking)) {
+      return true;
+    }
+
+    final shouldLeave = await Get.dialog<bool>(
+      AlertDialog(backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        title: Text(
+          'leave_waiting_payment_warning'.tr,
+          style: Theme.of(Get.context!).textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+            height: 1.4,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: Text('back'.tr),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: Text('continue_booking'.tr),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
+    );
+
+    return shouldLeave ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -39,13 +76,19 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
         final showQrExpiredNote =
           isPaidOrUsed && !controller.curBooking.isAvailableShowQRCode();
 
-        return Scaffold(
-          backgroundColor: GolfColor.GolfSubColor,
-          appBar: ApplicationAppBar(context, 'back'.tr),
-          body:
-              controller.isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : Column(
+        return WillPopScope(
+          onWillPop: () => _handleBackPressed(controller),
+          child: Scaffold(
+            backgroundColor: GolfColor.GolfSubColor,
+            appBar: ApplicationAppBar(
+              context,
+              'back'.tr,
+              onBackPressed: () => _handleBackPressed(controller),
+            ),
+            body:
+                controller.isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -281,6 +324,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                       ),
                     ],
                   ),
+          ),
         );
       },
     );

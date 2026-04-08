@@ -284,7 +284,10 @@ class ProfileScreen extends GetView<ProfileController> {
     final _picker = HLImagePicker();
 
     final images = await _picker.openPicker(
-      pickerOptions: HLPickerOptions(maxSelectedAssets: 1),
+      pickerOptions: HLPickerOptions(
+        maxSelectedAssets: 1,
+        mediaType: MediaType.image,
+      ),
     );
 
     if (images.isEmpty) {

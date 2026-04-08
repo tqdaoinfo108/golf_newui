@@ -19,6 +19,7 @@ class Blocks {
   bool? isActive;
   bool? isBooking;
   bool? isVisa;
+  String? nameCodeMember;
 
 
   String getNameBlock() {
@@ -43,7 +44,10 @@ class Blocks {
       this.price,
       this.discount,
       this.amountAfterDiscount,
-      this.isActive, this.isBooking, this.isVisa});
+      this.isActive,
+      this.isBooking,
+      this.isVisa,
+      this.nameCodeMember});
 
   Blocks.fromJson(Map<String, dynamic> json) {
     blockID = json['BlockID'];
@@ -61,8 +65,9 @@ class Blocks {
     amountAfterDiscount = json['AmountAfterDiscount'];
     isActive = json['IsActive'];
     isBooking = json['IsBooking'];
-    
+
     isVisa = json["IsVisa"];
+    nameCodeMember = json['NameCodeMember'];
     var _tmpRangeStartDate = DateTime.fromMillisecondsSinceEpoch(
       (json['RangeStart']) * 1000,
       isUtc: true,
@@ -109,6 +114,7 @@ class Blocks {
     data['AmountAfterDiscount'] = this.amountAfterDiscount;
     data['IsActive'] = this.isActive;
     data['IsVisa'] = this.isVisa;
+    data['NameCodeMember'] = this.nameCodeMember;
     return data;
   }
 }

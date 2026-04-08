@@ -108,10 +108,6 @@ class BookingCreateController extends GetxController {
         ).millisecondsSinceEpoch ~/
         1000;
     textDayOfWeek = DateTime.now().millisecondsSinceEpoch.toStringFormatDate();
-    if (SupportUtils.prefs.getInt(USER_TYPE_ID) == 4) {
-      getSlotFirst();
-      isMachineExpanded = true;
-    }
   }
 
   void onReset() async {
@@ -137,19 +133,30 @@ class BookingCreateController extends GetxController {
     isBlockExpanded = false;
     isPaymentMethodExpanded = true;
     selectedPaymentMethod = null;
-    idSlot = 0;
-    lstBlock = [];
-    lstSlot = [];
-    machineValue.value = "";
+    _resetSelectionsAfterPaymentChange(clearSlotList: true);
     update();
   }
 
   void getSlotFirst() async {
     await getPaymentMethods();
     await getSlot();
-    if (lstSlot.length > 0) {
-      lstSlot[0].isSelect = true;
+    _resetSelectionsAfterPaymentChange();
+    update();
+  }
+
+  void _resetSelectionsAfterPaymentChange({bool clearSlotList = false}) {
+    idSlot = 0;
+    machineValue.value = 'choose_slot'.tr;
+    slotValue = 'choose_block'.tr;
+    if (clearSlotList) {
+      lstSlot = [];
+    } else {
+      for (final slot in lstSlot) {
+        slot.isSelect = false;
+      }
     }
+    lstBlock = [];
+    _lstBlock.refresh();
   }
 
   Future getPaymentMethods() async {
@@ -169,13 +176,17 @@ class BookingCreateController extends GetxController {
   }
 
   void onSelectPaymentMethod(UserVipMember? paymentMethod) {
+    final oldPaymentId = selectedPaymentMethod?.userCodeMemberId;
+    final newPaymentId = paymentMethod?.userCodeMemberId;
     selectedPaymentMethod = paymentMethod;
     // Collapse payment method and expand machine selection after payment method is selected
     if (paymentMethod != null) {
       isPaymentMethodExpanded = false;
       isMachineExpanded = true;
-      idSlot = 0;
-      lstBlock = [];
+      isBlockExpanded = false;
+      if (oldPaymentId != newPaymentId) {
+        _resetSelectionsAfterPaymentChange();
+      }
     }
     getSlot();
     update();
@@ -267,6 +278,14 @@ class BookingCreateController extends GetxController {
   }
 
   void onChangeSlotExpanded({SlotItemModel? item}) async {
+    if (!isPaymentMethodSelected) {
+      SupportUtils.showToast(
+        'please_choose_payment_method'.tr,
+        type: ToastType.ERROR,
+      );
+      return;
+    }
+
     if (item != null) {
       machineValue.value = item.nameSlot ?? "";
       idSlot = item.slotID;
@@ -294,7 +313,9 @@ class BookingCreateController extends GetxController {
   }
 
   void onChangeBlockExpanded({BlockItemModel? item}) {
-    if (idSlot == null || idSlot == 0) return;
+    if (!isPaymentMethodSelected || idSlot == null || idSlot == 0) {
+      return;
+    }
     if (item != null) {
       // Select/deselect block item
       var bookings = lstBlock.where((_v) => _v.blockID == item.blockID);
@@ -338,12 +359,21 @@ class BookingCreateController extends GetxController {
           isUtc: true,
         ).endOfDay().millisecondsSinceEpoch.toStringFormatDate();
     resetValue();
-    getSlot();
-    isMachineExpanded = true;
+    isMachineExpanded = false;
+    isPaymentMethodExpanded = true;
     isBlockExpanded = false;
+    update();
   }
 
   bool onValidateCreateBooking() {
+    if (lstPaymentMethod.isNotEmpty && !isPaymentMethodSelected) {
+      SupportUtils.showToast(
+        'please_choose_payment_method'.tr,
+        type: ToastType.ERROR,
+      );
+      return false;
+    }
+
     // Validator
     var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
     if (lstBlockSelected.isEmpty || idSlot == 0) {

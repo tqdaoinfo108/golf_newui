@@ -66,6 +66,28 @@ class TimeFilter extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: 6.0.sp),
+        Align(
+          alignment: Alignment.center,
+          child: Pressable(
+            onPress: onRequestSearch,
+            backgroundColor: const Color(0xFF08D586),
+            borderRadius: BorderRadius.circular(7.0.sp),
+            padding: EdgeInsets.symmetric(
+              vertical: 5.0.sp,
+              horizontal: 18.0.sp,
+            ),
+            child: Text(
+              'search'.tr,
+              style: appTheme.textTheme.headlineSmall!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 9.4.sp,
+                height: 1.1,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

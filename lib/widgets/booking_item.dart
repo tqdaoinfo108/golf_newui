@@ -460,9 +460,9 @@ Widget bookingDetailListBlockView(
                     color: Color(0xFF1a1a4d),
                   ),
                 ),
-                if (lstBlock[i].isVisa == true)
+                if (_buildBlockRightText(lstBlock[i]) != null)
                   Text(
-                    '¥${lstBlock[i].amountAfterDiscount?.toInt()}',
+                    _buildBlockRightText(lstBlock[i])!,
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF1a1a4d),
@@ -481,6 +481,19 @@ Widget bookingDetailListBlockView(
   );
 }
 
+String? _buildBlockRightText(Blocks block) {
+  final memberName = (block.nameCodeMember ?? '').trim();
+
+  // Case 1: Membership block has plan name -> show NameCodeMember.
+  if (memberName.isNotEmpty) {
+    return memberName;
+  }
+
+  // Case 2 & 3: No membership -> always show amount (0 or >0).
+  final amount = block.amountAfterDiscount?.toInt() ?? 0;
+  return '¥$amount';
+}
+
 Widget bookingDetailTotalAmountView(ThemeData themeData, double totalAmount) {
   return Container(
     width: double.infinity,
@@ -494,7 +507,7 @@ Widget bookingDetailTotalAmountView(ThemeData themeData, double totalAmount) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '合計金額',
+          'total_amount'.tr,
           style: GoogleFonts.inter(
             fontSize: 12,
             color: Color(0xff8B90B9),

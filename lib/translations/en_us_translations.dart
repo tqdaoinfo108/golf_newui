@@ -179,6 +179,8 @@ const Map<String, String> en = {
   'continue_payment': 'Continue Payment',
   'register_vip_member_fail':
       'Register member not successful. Please try again later.',
+    'transaction_success': 'Purchase completed',
+    'transaction_fail': 'Payment failed',
   'registered_vip_member_at': 'Registered member at ...',
   'automatically_renewed_vip_member_at':
       'Member Unlimited is automatically renewed at {shop_name} (From {from_date} to {to_date})',
@@ -203,6 +205,7 @@ const Map<String, String> en = {
   'are_you_sure_register_turn_at': 'Are you sure you want to register turns at',
   'with_a_total_of': 'With a total of',
   'available_turns': 'Available turns (monthly)',
+    'turns_ended': 'No turns left',
   'expiration_date': 'Expiration date',
   'unlimited_turns': 'Unlimited turns',
   'next_renewal_date': 'Next renewal date',
@@ -289,6 +292,9 @@ const Map<String, String> en = {
       "Your card information is securely encrypted and processed.",
   "notification_detail": "Notification Detail",
   "no_notification_data": "No notification data available",
+    "leave_waiting_payment_warning":
+            "If you go back now, your booking will not be completed.\nYour booking is confirmed after payment.",
+    "continue_booking": "Continue booking",
   "would_you_like_to_purchase": "... &&& would you like to purchase?",
   "limit_would_you_like_to_purchase":
       "・This coupon is valid from the date of purchase. \n・The coupon has an expiration date (*The expiration date varies depending on the plan)\n・The coupon can only be used by the person in question. It cannot be transferred or shared to a third party. \n・The usage count will be automatically consumed when the reservation is completed. \n・Vouchers that have passed their expiration date will become invalid and cannot be used or refunded even if there are unused portions. \n・Cancellations and refunds cannot be made after purchase. \n・You must agree to the terms of use and privacy policy. \nPlease confirm the above contents and press \"Agree and Continue\".",

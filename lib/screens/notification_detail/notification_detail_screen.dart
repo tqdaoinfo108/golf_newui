@@ -9,7 +9,7 @@ class NotificationDetailScreen extends GetView<NotificationDetailController> {
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
-    
+
     return Scaffold(
       backgroundColor: GolfColor.GolfPrimaryColor,
       body: SafeArea(
@@ -43,7 +43,6 @@ class NotificationDetailScreen extends GetView<NotificationDetailController> {
                     'notification_detail'.tr,
                     textAlign: TextAlign.center,
                     style: themeData.textTheme.titleLarge!.copyWith(
-                      color: themeData.colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -51,11 +50,11 @@ class NotificationDetailScreen extends GetView<NotificationDetailController> {
                 SizedBox(width: 60),
               ],
             ),
-            
+
             // Content
             Expanded(
               child: Container(
-                  width: double.maxFinite,
+                width: double.maxFinite,
 
                 decoration: BoxDecoration(
                   color: GolfColor.GolfGrayBackgroundColor,
@@ -73,9 +72,9 @@ class NotificationDetailScreen extends GetView<NotificationDetailController> {
                       ),
                     );
                   }
-                  
+
                   final notification = controller.notification!;
-                  
+
                   return SingleChildScrollView(
                     padding: EdgeInsets.all(20),
                     child: Column(
@@ -86,29 +85,31 @@ class NotificationDetailScreen extends GetView<NotificationDetailController> {
                           notification.title ?? '',
                           style: themeData.textTheme.titleLarge!.copyWith(
                             fontSize: 16.0.sp,
+                            color: GolfColor.GolfSubColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 10),
-                        
+
                         // Date
                         if (notification.createdDate != null)
                           Text(
-                            (notification.createdDate!*1000)
-                                            .toStringFormatDate(),
+                            (notification.createdDate! * 1000)
+                                .toStringFormatDate(),
                             style: themeData.textTheme.bodySmall!.copyWith(
                               color: Colors.grey,
                               fontSize: 11.0.sp,
                             ),
                           ),
-                        
+
                         SizedBox(height: 20),
-                        
+
                         // Content
                         Text(
                           notification.message ?? '',
                           style: themeData.textTheme.bodyLarge!.copyWith(
                             fontSize: 13.0.sp,
+                            color: Colors.black87,
                             height: 1.5,
                           ),
                         ),
