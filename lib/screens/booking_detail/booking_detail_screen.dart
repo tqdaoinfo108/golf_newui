@@ -75,6 +75,14 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
           isPaidOrUsed && controller.curBooking.isAvailableShowQRCode();
         final showQrExpiredNote =
           isPaidOrUsed && !controller.curBooking.isAvailableShowQRCode();
+        final paymentType = controller.curBooking.payment?.typePayment;
+        final isMoneyPaymentType =
+            paymentType == BookingDetailPaymentType.ONLINE ||
+            paymentType == BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE ||
+            paymentType == 6;
+        final shouldShowTotalAmount =
+            isMoneyPaymentType &&
+            ((controller.curBooking.payment?.totalFeeVisa ?? 0) > 0);
 
         return WillPopScope(
           onWillPop: () => _handleBackPressed(controller),
@@ -198,12 +206,7 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
                                         nearestAvailableBlock:
                                             controller.curBooking.blocks![0],
                                       ),
-                                      if ((controller
-                                                  .curBooking
-                                                  .payment
-                                                  ?.totalFeeVisa ??
-                                              0) >
-                                          0)
+                                      if (shouldShowTotalAmount)
                                         bookingDetailTotalAmountView(
                                           themeData,
                                           controller

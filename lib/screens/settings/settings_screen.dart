@@ -247,17 +247,50 @@ class SettingsScreen extends GetView<SettingController> {
 
   _buildMyVipMember(ThemeData appTheme, int total) {
     return total == 0
-        ? Container()
-        : InkWell(
-          child: Text(
-            'vip_member'.tr,
-            style: appTheme.textTheme.titleSmall!.copyWith(
-              color: appTheme.colorScheme.secondary,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.bold,
+        ? SizedBox.shrink()
+        : Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () => Get.toNamed(AppRoutes.MY_VIP_LIST),
+            child: Ink(
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF3F7BFF), Color(0xFF2D5BE3)],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF2147BD).withOpacity(0.35),
+                    blurRadius: 14,
+                    offset: Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'vip_member'.tr,
+                    style: appTheme.textTheme.titleSmall!.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 11.5.sp,
+                    ),
+                  ),
+                  SizedBox(width: 2.0.w),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    size: 16,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
           ),
-          onTap: () => Get.toNamed(AppRoutes.MY_VIP_LIST),
         );
   }
 }

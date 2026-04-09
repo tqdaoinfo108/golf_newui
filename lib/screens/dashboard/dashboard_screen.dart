@@ -323,8 +323,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         AppRoutes.BOOKING_DETAIL,
                         arguments: _bookingItem.bookID,
                       )!.then((value) {
-                        controller.page = 1;
-                        controller.getListBooking();
+                        controller.refreshFirstPageIfChanged();
                       });
                     },
                   ),

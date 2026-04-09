@@ -28,6 +28,7 @@ class DashboardController extends GetxController {
   int? userId = 0;
 
   RxInt pageNumber = 0.obs;
+  String _lastPageOneSignature = '';
 
   final RxMap<int?, MyBooking> _mapMyBooking = Map<int, MyBooking>().obs;
   Map<int?, MyBooking> get mapMyBooking => this._mapMyBooking;
@@ -145,6 +146,13 @@ class DashboardController extends GetxController {
         _totalWaitPayment.value = _result.total!;
       }
 
+      if (page == 1) {
+        _lastPageOneSignature = _buildPageOneSignature(
+          _result.data ?? <Booking>[],
+          _result.total ?? 0,
+        );
+      }
+
       /// Reset lst history booking if this is loading first page
       if (page == 1) {
         _mapMyBooking.clear();
@@ -188,6 +196,40 @@ class DashboardController extends GetxController {
 
       return false;
     }
+  }
+
+  String _buildPageOneSignature(List<Booking> bookings, int total) {
+    final rows = bookings.map((booking) {
+      return [
+        booking.bookID ?? 0,
+        booking.statusID ?? 0,
+        booking.updatedDate ?? 0,
+        booking.datePlay ?? 0,
+        booking.payment?.typePayment ?? 0,
+        booking.payment?.totalFeeVisa ?? 0,
+      ].join('|');
+    }).join('||');
+
+    return '$total#$rows';
+  }
+
+  Future<void> refreshFirstPageIfChanged() async {
+    final probe = await GolfApi().getLstHistoryBooking(userId, status, 1, limit);
+    if (probe.data == null && (probe.total ?? -1) < 0) {
+      return;
+    }
+
+    final incomingSignature = _buildPageOneSignature(
+      probe.data ?? <Booking>[],
+      probe.total ?? 0,
+    );
+
+    if (incomingSignature == _lastPageOneSignature) {
+      return;
+    }
+
+    page = 1;
+    await getListBooking();
   }
 
   Future<void> onTab(int page) async {

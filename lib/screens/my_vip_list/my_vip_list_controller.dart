@@ -68,7 +68,10 @@ class MyVipListController extends GetxController
           type: ToastType.ERROR);
     } else {
       /// Success - refresh list
-      SupportUtils.showToast('success'.tr, type: ToastType.SUCCESSFUL);
+      SupportUtils.showToast(
+        'withdraw_membership_success'.tr,
+        type: ToastType.SUCCESSFUL,
+      );
       getUserVipMember();
     }
   }

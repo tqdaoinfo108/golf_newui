@@ -86,6 +86,7 @@ const Map<String, String> en = {
   'notification': 'Notification',
   'setting': 'Setting',
   'search': 'Search',
+    'search_short': 'Search',
   'nearest_list': 'Nearest list',
   'create': 'Create',
   'choose_slot': 'Choose slot',
@@ -158,7 +159,8 @@ const Map<String, String> en = {
   'list_vip_memeber': 'List member',
   'month': 'Month',
   'register': 'Register',
-  'not_have_vip_member': 'Don\'t have any member here.',
+    'not_have_vip_member':
+            'Register as a member and you can start using it right away.',
   'not_found_shop': 'Not found shop',
   'turns': 'Turns',
   'from': 'From',
@@ -278,6 +280,7 @@ const Map<String, String> en = {
   "select_time": "Select Time",
   "agree_and_continue": "Agree and continue",
   "withdraw_membership": "Withdraw membership",
+    "withdraw_membership_success": "Membership withdrawn",
   "membership_purchase_notice":
       "・This membership will auto-renew.\n・Monthly fees will be charged automatically to your credit card.\n・To stop auto-renewal, please delete your account.\n・Payments are non-refundable.\n・You must agree to the Terms of Use and Privacy Policy.\n\nPlease review the above and tap 'Agree and continue' to proceed.",
   "membership_cancel_notice":

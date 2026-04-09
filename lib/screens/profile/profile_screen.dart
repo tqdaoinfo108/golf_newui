@@ -93,7 +93,7 @@ class ProfileScreen extends GetView<ProfileController> {
                         _fullNameFocusNode,
                         initialValue: _controller.fullName,
                         hintText: 'full_name'.tr,
-                        icon: Icons.person,
+                        icon: Icons.contact_page,
                         accentColor: GolfColor.GolfPrimaryColor,
                         validate: _controller.validateFullName,
                         themeData: themeData,

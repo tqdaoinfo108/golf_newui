@@ -78,7 +78,7 @@ class TimeFilter extends StatelessWidget {
               horizontal: 18.0.sp,
             ),
             child: Text(
-              'search'.tr,
+              'search_short'.tr,
               style: appTheme.textTheme.headlineSmall!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
