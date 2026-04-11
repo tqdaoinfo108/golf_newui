@@ -25,6 +25,11 @@ class Transaction {
     this.timeEnd,
     this.remainPlay,
     this.typePaymentBooking,
+        this.dateJP,
+        this.dateAndStatusJP,
+        this.moneyJP,
+        this.shopJP,
+        this.typeCodeMemberMJP,
     this.listPaymentDetail,
   });
 
@@ -51,6 +56,11 @@ class Transaction {
   int? timeEnd;
   int? remainPlay;
   int? typePaymentBooking;
+    String? dateJP;
+    String? dateAndStatusJP;
+    String? moneyJP;
+    String? shopJP;
+    String? typeCodeMemberMJP;
   List<TransactionPaymentDetail>? listPaymentDetail;
 
   Transaction copyWith({
@@ -77,6 +87,11 @@ class Transaction {
     int? timeEnd,
     int? remainPlay,
     int? typePaymentBooking,
+        String? dateJP,
+        String? dateAndStatusJP,
+        String? moneyJP,
+        String? shopJP,
+        String? typeCodeMemberMJP,
     List<TransactionPaymentDetail>? listPaymentDetail,
   }) =>
       Transaction(
@@ -103,6 +118,11 @@ class Transaction {
         timeEnd: timeEnd ?? this.timeEnd,
         remainPlay: remainPlay ?? this.remainPlay,
         typePaymentBooking: typePaymentBooking ?? this.typePaymentBooking,
+                dateJP: dateJP ?? this.dateJP,
+                dateAndStatusJP: dateAndStatusJP ?? this.dateAndStatusJP,
+                moneyJP: moneyJP ?? this.moneyJP,
+                shopJP: shopJP ?? this.shopJP,
+                typeCodeMemberMJP: typeCodeMemberMJP ?? this.typeCodeMemberMJP,
         listPaymentDetail: listPaymentDetail ?? this.listPaymentDetail,
       );
 
@@ -135,6 +155,15 @@ class Transaction {
         typePaymentBooking: json["TypePaymentBooking"] == null
             ? null
             : json["TypePaymentBooking"],
+        dateJP: json["DateJP"] == null ? null : json["DateJP"],
+        dateAndStatusJP: json["DateAndStatusJP"] == null
+            ? null
+            : json["DateAndStatusJP"],
+        moneyJP: json["MoneyJP"] == null ? null : json["MoneyJP"],
+        shopJP: json["ShopJP"] == null ? null : json["ShopJP"],
+        typeCodeMemberMJP: json["TypeCodeMemberMJP"] == null
+            ? null
+            : json["TypeCodeMemberMJP"],
         listPaymentDetail: json["listPaymentDetail"] == null
             ? null
             : List<TransactionPaymentDetail>.from(json["listPaymentDetail"]
@@ -166,6 +195,12 @@ class Transaction {
         "RemainPlay": remainPlay == null ? null : remainPlay,
         "TypePaymentBooking":
             typePaymentBooking == null ? null : typePaymentBooking,
+        "DateJP": dateJP == null ? null : dateJP,
+        "DateAndStatusJP": dateAndStatusJP == null ? null : dateAndStatusJP,
+        "MoneyJP": moneyJP == null ? null : moneyJP,
+        "ShopJP": shopJP == null ? null : shopJP,
+        "TypeCodeMemberMJP":
+            typeCodeMemberMJP == null ? null : typeCodeMemberMJP,
         "listPaymentDetail":
             listPaymentDetail == null ? null : listPaymentDetail,
       };

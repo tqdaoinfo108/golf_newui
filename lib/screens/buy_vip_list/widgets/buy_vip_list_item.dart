@@ -19,6 +19,8 @@ class BuyVipListItem extends StatelessWidget {
   final bool availableRegister;
   final String? shopName;
 
+  bool get isPurchased => (vipMemberItem?.isBuy ?? false) == true;
+
   @override
   Widget build(BuildContext context) {
     final appTheme = Theme.of(context);
@@ -42,24 +44,21 @@ class BuyVipListItem extends StatelessWidget {
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              vipMemberItem?.numberPlayInMonthText ??
-                  "月あたり最大利用可能枠: 制限なし",
+              vipMemberItem?.numberPlayInMonthText ?? "月あたり最大利用可能枠: 制限なし",
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              vipMemberItem?.numberPlayInDayText ??
-                  "1日あたり最大予約枠数: 制限なし",
+              vipMemberItem?.numberPlayInDayText ?? "1日あたり最大予約枠数: 制限なし",
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 3.0.sp),
             Text(
-              vipMemberItem?.numberConsecutiveText ??
-                  "最大連続予約数: 制限なし",
+              vipMemberItem?.numberConsecutiveText ?? "最大連続予約数: 制限なし",
               style: appTheme.textTheme.bodyMedium!.copyWith(
                 color: appTheme.colorScheme.onSurface,
               ),
@@ -107,11 +106,14 @@ class BuyVipListItem extends StatelessWidget {
                   ),
                 ),
                 PressableText(
-                  "register".tr,
+                  isPurchased ? "purchased".tr : "register".tr,
                   style: appTheme.textTheme.headlineSmall!.copyWith(
                     color: appTheme.colorScheme.onSecondary,
                   ),
-                  backgroundColor: appTheme.colorScheme.secondary,
+                  backgroundColor:
+                      isPurchased
+                          ? appTheme.colorScheme.secondary.withOpacity(0.45)
+                          : appTheme.colorScheme.secondary,
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(5.0.sp),
                   padding: EdgeInsets.symmetric(
@@ -119,7 +121,7 @@ class BuyVipListItem extends StatelessWidget {
                     vertical: 6.0.sp,
                   ),
                   onPress: () => onRegisterPressed?.call(),
-                  enabled: availableRegister,
+                  enabled: availableRegister && !isPurchased,
                 ),
               ],
             ),

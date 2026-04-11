@@ -14,6 +14,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../model/decision_option.dart';
 import '../../utils/keys.dart';
+import '../about_app/about_app.dart';
 
 class SettingsScreen extends GetView<SettingController> {
   @override
@@ -170,9 +171,9 @@ class SettingsScreen extends GetView<SettingController> {
                             settingItem(context, 'favorite_shop'.tr, () {
                               Get.toNamed(AppRoutes.FAVORITE_SHOP);
                             }, Icons.favorite),
-                            // settingItem(context, 'change_language'.tr, () {
-                            //   Get.to(ChangeLanguageScreen());
-                            // }, Icons.language),
+                            settingItem(context, 'change_language'.tr, () {
+                              Get.to(ChangeLanguageScreen());
+                            }, Icons.language),
                             // settingItem(context, 'change_theme'.tr, () {
                             //   Get.to(ChangeThemeModeScreen());
                             // }, Icons.format_paint_sharp),
@@ -197,11 +198,11 @@ class SettingsScreen extends GetView<SettingController> {
                             ),
                             settingItem(
                               context,
-                              'terms_service'.tr,
+                              'about_app'.tr,
                               () {
-                                Get.toNamed(AppRoutes.TERMS_OF_USE);
+                                Get.to(AboutAppScreen());
                               },
-                              Icons.description_outlined,
+                              Icons.info_outline,
                               color: Color(0xff8E99FF),
                             ),
                             settingItemWithImage(

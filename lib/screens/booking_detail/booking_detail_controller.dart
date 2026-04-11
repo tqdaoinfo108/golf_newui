@@ -57,14 +57,14 @@ class BookingDetailController extends GetxController {
     }
   }
 
-  int calculateCurrBookingAmount() {
-    var _paymentAmount = 0.0;
+  // int calculateCurrBookingAmount() {
+  //   var _paymentAmount = 0.0;
 
-    for (var block in curBooking.blocks!) {
-      _paymentAmount += block.amountAfterDiscount!;
-    }
-    return _paymentAmount.round();
-  }
+  //   for (var block in curBooking.blocks!) {
+  //     _paymentAmount += block.amountAfterDiscount!;
+  //   }
+  //   return _paymentAmount.round();
+  // }
 
   Future<bool> getQRCodeString() async {
     var _result = BaseResponse<String?>();
@@ -141,7 +141,7 @@ class BookingDetailController extends GetxController {
         ..setAuth(Auth())
         ..setData({
           'BookID': curBooking.bookID,
-          'Amount': calculateCurrBookingAmount(),
+          'Amount': curBooking.payment!.totalFeeVisa,
           'CardNumber': paymentInfo?.cardNumber ?? "",
           'Order_ID': paymentInfo?.oderId ?? "",
         }, dataToJson: (data) => data),
@@ -229,7 +229,7 @@ class BookingDetailController extends GetxController {
     }
   }
 
-// ko dùng
+  // ko dùng
   void letsPaymentOrther5and6() async {
     if (await _reCheckPaymentAvailable()) {
       final request = GetPaymentKeyRequest(
@@ -294,15 +294,16 @@ class BookingDetailController extends GetxController {
       /// This booking has canceled
       SupportUtils.showToast('cancel_booking_by_payment'.tr);
       return false;
-    } else {
-      // check amount
-      if (calculateCurrBookingAmount() <= 0) {
-        SupportUtils.showToast('amount_not_valid'.tr, type: ToastType.ERROR);
-        return false;
-      }
-
-      return true;
     }
+    // else {
+    //   // check amount
+    //   if (calculateCurrBookingAmount() <= 0) {
+    //     SupportUtils.showToast('amount_not_valid'.tr, type: ToastType.ERROR);
+    //     return false;
+    //   }
+
+    return true;
+    // }
   }
 
   _getListPaymentItems() {

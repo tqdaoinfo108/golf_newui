@@ -17,6 +17,11 @@ class TransactionHistoryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTheme = Theme.of(context);
+    final dateLabel = _getDateLabel();
+    final dateValue = _getDateValue();
+    final amountLabel = _getAmountLabel();
+    final amountValue = _getAmountValue();
+    final contentValue = _getContentValue();
     final labelStyle = appTheme.textTheme.titleSmall!.copyWith(
       color: appTheme.colorScheme.onSurface,
       fontSize: 8.6.sp,
@@ -44,17 +49,16 @@ class TransactionHistoryListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${"date".tr}:",
+                dateLabel,
                 style: labelStyle,
               ),
-              Text(transactionItem.datePayment!.toStringFormatDateTime(),
-                  style: valueStyle),
+              Text(dateValue, style: valueStyle),
               SizedBox(height: 5.0.sp),
               Text(
-                "${"amount".tr}:",
+                amountLabel,
                 style: labelStyle,
               ),
-              Text(_getAmountStr(),
+              Text(amountValue,
                   style: valueStyle.copyWith(
                     color: appTheme.colorScheme.error,
                   )),
@@ -63,7 +67,7 @@ class TransactionHistoryListItem extends StatelessWidget {
                 "${"content".tr}:",
                 style: labelStyle,
               ),
-              Text(_getContentStr(),
+              Text(contentValue,
                   style: valueStyle.copyWith(
                     fontWeight: FontWeight.w600,
                   )),
@@ -146,6 +150,62 @@ class TransactionHistoryListItem extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  String _getDateLabel() {
+    final raw = (transactionItem.dateJP ?? '').trim();
+    if (raw.isNotEmpty) {
+      return raw;
+    }
+    return "${"date".tr}:";
+  }
+
+  String _getDateValue() {
+    final raw = (transactionItem.dateAndStatusJP ?? '').trim();
+    if (raw.isNotEmpty) {
+      return raw;
+    }
+    return transactionItem.datePayment!.toStringFormatDateTime();
+  }
+
+  String _getAmountLabel() {
+    final raw = (transactionItem.moneyJP ?? '').trim();
+    if (raw.isNotEmpty) {
+      final normalized = raw.replaceAll('：', ':');
+      final split = normalized.indexOf(':');
+      if (split > 0) {
+        return '${normalized.substring(0, split).trim()}:';
+      }
+    }
+    return "${"amount".tr}:";
+  }
+
+  String _getAmountValue() {
+    final raw = (transactionItem.moneyJP ?? '').trim();
+    if (raw.isNotEmpty) {
+      final normalized = raw.replaceAll('：', ':');
+      final split = normalized.indexOf(':');
+      if (split >= 0 && split + 1 < normalized.length) {
+        return normalized.substring(split + 1).trim();
+      }
+      return normalized;
+    }
+    return _getAmountStr();
+  }
+
+  String _getContentValue() {
+    final shop = (transactionItem.shopJP ?? '').trim();
+    final plan = (transactionItem.typeCodeMemberMJP ?? '').trim();
+    if (shop.isNotEmpty && plan.isNotEmpty) {
+      return '$shop\n$plan';
+    }
+    if (shop.isNotEmpty) {
+      return shop;
+    }
+    if (plan.isNotEmpty) {
+      return plan;
+    }
+    return _getContentStr();
   }
 
   _getContentStr() {

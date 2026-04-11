@@ -44,12 +44,8 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
     fontSize: 9.sp,
   );
 
-  // Calculate total price from blocks
-  final totalPrice = booking.blocks!
-      .fold(0.0, (sum, block) => sum + (block.amountAfterDiscount ?? block.price ?? 0));
-
-  // Determine price display text based on payment type or booking details
-  String priceDisplayText = _getPriceDisplayText(booking, totalPrice);
+  // Determine price display lines from block payment split (member/visa)
+  final priceDisplayLines = _getPriceDisplayLines(booking);
 
   return InkWell(
     onTap: () => onTap.call(),
@@ -113,7 +109,7 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
           // Row 2: Time and Badge
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "${booking.getBookingCurrent()!.rangeStart!.toStringFormatHoursUTC()} - ${booking.getBookingCurrent()!.rangeEnd!.toStringFormatHoursUTC()}",
@@ -133,9 +129,11 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
 
           // Row 3: Slot and Price info
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text("select_machine".tr, style: titleSub),
                   SizedBox(height: 2),
@@ -145,18 +143,27 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
                   ),
                 ],
               ),
-              SizedBox(width: 32),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("price".tr, style: titleSub),
-                  SizedBox(height: 2),
-                  Text(
-                    priceDisplayText,
-                    style: titleBold,
-                  ),
-                ],
-              ),
+              if (priceDisplayLines.isNotEmpty) SizedBox(width: 32),
+              if (priceDisplayLines.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("price".tr, style: titleSub),
+                    SizedBox(height: 2),
+                    ...priceDisplayLines.map(
+                      (line) => Padding(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: Text(
+                          line,
+                          style: titleBold,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         ],
@@ -165,41 +172,49 @@ Widget bookingItemView(ThemeData theme, Booking booking, Function onTap) {
   );
 }
 
-/// Determine price display text based on payment type or booking details
-String _getPriceDisplayText(Booking booking, double totalPrice) {
-  // 1. Check if this booking has payment info populated
-  if (booking.payment != null && booking.payment!.typePayment != null) {
-    final typePayment = booking.payment!.typePayment!;
-    
-    if (typePayment == BookingDetailPaymentType.MEMBER_UNLIMITED ||
-        typePayment == BookingDetailPaymentType.MEMBER_LIMITED) {
-      return 'member_limited'.tr;
-    } else if (typePayment == BookingDetailPaymentType.PAID || 
-               typePayment == 2) { 
-      return "0"; // Admin/staff
-    } else if (typePayment == BookingDetailPaymentType.ONLINE) {
-      return totalPrice.toStringAsFixed(0);
-    } else if (typePayment == BookingDetailPaymentType.MEMBER_LIMITED_AND_ONLINE) {
-      return totalPrice.toStringAsFixed(0);
-    }
-  }
-  
-  // 2. Fallback using Booking data properties (when payment is null)
-  final bool isStaffOrManager = 
-      (booking.isShopManager == true) || 
-      (booking.typeUserID != null && booking.typeUserID != 3 && booking.typeUserID != 4);
-      
-  if (isStaffOrManager) {
-    return "0";
+/// Determine price display lines based on IsVisa in blocks.
+List<String> _getPriceDisplayLines(Booking booking) {
+  if (_isSpecialMemberBooking(booking)) {
+    return ['dashboard_special_member'.tr];
   }
 
-  if (booking.userCodeMemberID != null && booking.userCodeMemberID! > 0) {
-    // Paid with a member plan
-    return 'member_limited'.tr; 
+  final blocks = booking.blocks ?? [];
+  if (blocks.isEmpty) {
+    return [];
   }
 
-  // 3. Default: show total price from blocks (Credit card / Normal booking)
-  return totalPrice.toStringAsFixed(0);
+  // IsVisa = null/false => member, IsVisa = true => visa
+  final hasMemberUsage = blocks.any((block) => block.isVisa != true);
+  final hasCreditUsage = blocks.any((block) => block.isVisa == true);
+  final visaTotal = _getVisaTotal(booking);
+
+  final creditAmount = visaTotal.toStringAsFixed(0);
+  final lines = <String>[];
+
+  if (hasMemberUsage) {
+    lines.add('${'dashboard_member_plan_usage'.tr}  ¥0');
+  }
+  if (hasCreditUsage) {
+    lines.add('${'dashboard_credit_usage'.tr}  ¥$creditAmount');
+  }
+
+  return lines;
+}
+
+double _getVisaTotal(Booking booking) {
+  final blocks = booking.blocks ?? [];
+  final visaFromBlocks = blocks
+      .where((block) => block.isVisa == true)
+      .fold<double>(0, (sum, block) => sum + (block.amountAfterDiscount ?? 0));
+
+  return visaFromBlocks;
+}
+
+bool _isSpecialMemberBooking(Booking booking) {
+  return booking.isShopManager == true ||
+      (booking.typeUserID != null &&
+          booking.typeUserID != 3 &&
+          booking.typeUserID != 4);
 }
 
 Widget _buildStatusText(Booking booking, ThemeData theme) {

@@ -148,13 +148,42 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                                                                       .groupList
                                                                       .value)
                                                                 ListTile(
-                                                                  title: Text(
-                                                                    item.nameGroupShop ??
-                                                                        "",
-                                                                    style:
-                                                                        Theme.of(
-                                                                          context,
-                                                                        ).textTheme.bodyMedium,
+                                                                  title: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        item.nameGroupShop ??
+                                                                            "",
+                                                                        style:
+                                                                            Theme.of(
+                                                                              context,
+                                                                            ).textTheme.bodyMedium,
+                                                                      ),
+                                                                      if ((item.nameUUserIDJP ??
+                                                                              "")
+                                                                          .trim()
+                                                                          .isNotEmpty)
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                            top:
+                                                                                2,
+                                                                          ),
+                                                                          child: Text(
+                                                                            (item.nameUUserIDJP ??
+                                                                                    "")
+                                                                                .replaceFirst(
+                                                                                  'アカウント ID：',
+                                                                                  'アカウントID：',
+                                                                                ),
+                                                                            style:
+                                                                                Theme.of(
+                                                                                  context,
+                                                                                ).textTheme.bodySmall,
+                                                                          ),
+                                                                        ),
+                                                                    ],
                                                                   ),
                                                                   leading: Radio<
                                                                     int
@@ -194,12 +223,16 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                                                             },
                                                             child: Text(
                                                               'cancel'.tr,
-                                                              style:
-                                                                  Theme.of(
-                                                                        context,
-                                                                      )
-                                                                      .textTheme
-                                                                      .titleMedium,
+                                                              style: Theme.of(
+                                                                    context,
+                                                                  )
+                                                                  .textTheme
+                                                                  .titleMedium!
+                                                                  .copyWith(
+                                                                    color:
+                                                                        Colors
+                                                                            .black87,
+                                                                  ),
                                                             ),
                                                           ),
                                                           SizedBox(width: 10),
@@ -243,12 +276,16 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                                                             },
                                                             child: Text(
                                                               'save'.tr,
-                                                              style:
-                                                                  Theme.of(
-                                                                        context,
-                                                                      )
-                                                                      .textTheme
-                                                                      .titleMedium,
+                                                              style: Theme.of(
+                                                                    context,
+                                                                  )
+                                                                  .textTheme
+                                                                  .titleMedium!
+                                                                  .copyWith(
+                                                                    color:
+                                                                        GolfColor
+                                                                            .GolfPrimaryColor,
+                                                                  ),
                                                             ),
                                                           ),
                                                         ],

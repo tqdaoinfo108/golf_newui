@@ -147,12 +147,13 @@ class DashboardScreen extends GetView<DashboardController> {
                                       controller.unreadCount > 99
                                           ? '99+'
                                           : '${controller.unreadCount}',
-                                      style: theme.textTheme.titleSmall?.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 7.5.sp,
-                                        fontWeight: FontWeight.w700,
-                                        height: 1.1,
-                                      ),
+                                      style: theme.textTheme.titleSmall
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                            fontSize: 7.5.sp,
+                                            fontWeight: FontWeight.w700,
+                                            height: 1.1,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -323,7 +324,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         AppRoutes.BOOKING_DETAIL,
                         arguments: _bookingItem.bookID,
                       )!.then((value) {
-                        controller.refreshFirstPageIfChanged();
+                        controller.forceRefreshFirstPage();
                       });
                     },
                   ),

@@ -37,18 +37,6 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 10.0.sp,
-                    horizontal: 15.0.sp,
-                  ),
-                  child: Obx(
-                    () => Text(
-                      "${'list_vip_memeber'.tr} (${controller.total})",
-                      style: appTheme.textTheme.headlineSmall,
-                    ),
-                  ),
-                ),
                 Flexible(
                   child: controller.obx(
                     (lstVipMembers) =>
@@ -60,6 +48,8 @@ class BuyVipListScreen extends GetView<BuyVipListController> {
                                   (context, index) => BuyVipListItem(
                                     vipMemberItem: lstVipMembers[index],
                                     shopName: lstVipMembers[index].description,
+                                    availableRegister:
+                                        !(lstVipMembers[index].isBuy ?? false),
                                     // availableRegister:
                                     //     !(lstVipMembers[index].typeCodeMember ==
                                     //             VipMemberType.UNLIMIT &&

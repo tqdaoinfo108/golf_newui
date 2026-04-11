@@ -116,8 +116,11 @@ class DashboardController extends GetxController {
       return true;
     } else {
       if (_ueserInfoResult.getException == null) {
-        _ueserInfoResult.setException(ApplicationError.withCode(
-            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+        _ueserInfoResult.setException(
+          ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+          ),
+        );
       }
       return false;
     }
@@ -136,8 +139,12 @@ class DashboardController extends GetxController {
     }
 
     /// Call Service
-    final _result =
-        await GolfApi().getLstHistoryBooking(userId, status, page, limit);
+    final _result = await GolfApi().getLstHistoryBooking(
+      userId,
+      status,
+      page,
+      limit,
+    );
 
     /// Handle result
     if (_result.data != null || _result.total! >= 0) {
@@ -173,8 +180,9 @@ class DashboardController extends GetxController {
         }
 
         /// Update List Date Booking
-        lstDateBooking = _mapMyBooking.keys.toList()
-          ..sort((a, b) => compareBookingDatePlay(a!, b));
+        lstDateBooking =
+            _mapMyBooking.keys.toList()
+              ..sort((a, b) => compareBookingDatePlay(a!, b));
         page++;
         totalLoadedBooking += _result.data!.length;
       }
@@ -184,8 +192,11 @@ class DashboardController extends GetxController {
       return true;
     } else {
       if (_result.getException == null) {
-        _result.setException(ApplicationError.withCode(
-            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR));
+        _result.setException(
+          ApplicationError.withCode(
+            ApplicationErrorCode.UNKNOW_APPLICATION_ERROR,
+          ),
+        );
       }
       errorMessage = _result.getException?.getErrorMessage();
       isLoadingBookingHistory = false;
@@ -199,22 +210,29 @@ class DashboardController extends GetxController {
   }
 
   String _buildPageOneSignature(List<Booking> bookings, int total) {
-    final rows = bookings.map((booking) {
-      return [
-        booking.bookID ?? 0,
-        booking.statusID ?? 0,
-        booking.updatedDate ?? 0,
-        booking.datePlay ?? 0,
-        booking.payment?.typePayment ?? 0,
-        booking.payment?.totalFeeVisa ?? 0,
-      ].join('|');
-    }).join('||');
+    final rows = bookings
+        .map((booking) {
+          return [
+            booking.bookID ?? 0,
+            booking.statusID ?? 0,
+            booking.updatedDate ?? 0,
+            booking.datePlay ?? 0,
+            booking.payment?.typePayment ?? 0,
+            booking.payment?.totalFeeVisa ?? 0,
+          ].join('|');
+        })
+        .join('||');
 
     return '$total#$rows';
   }
 
   Future<void> refreshFirstPageIfChanged() async {
-    final probe = await GolfApi().getLstHistoryBooking(userId, status, 1, limit);
+    final probe = await GolfApi().getLstHistoryBooking(
+      userId,
+      status,
+      1,
+      limit,
+    );
     if (probe.data == null && (probe.total ?? -1) < 0) {
       return;
     }
@@ -228,6 +246,11 @@ class DashboardController extends GetxController {
       return;
     }
 
+    page = 1;
+    await getListBooking();
+  }
+
+  Future<void> forceRefreshFirstPage() async {
     page = 1;
     await getListBooking();
   }
@@ -285,11 +308,12 @@ class DashboardController extends GetxController {
   /// If both A and B is greater than or equal today => Just sort ascending
   /// The other cases => Just sort descending
   int compareBookingDatePlay(int a, int? b) {
-    final currentMili = DateTime.utc(
-      DateTime.now().year,
-      DateTime.now().month,
-      DateTime.now().day,
-    ).millisecondsSinceEpoch;
+    final currentMili =
+        DateTime.utc(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+        ).millisecondsSinceEpoch;
 
     if (a >= currentMili && b! >= currentMili) {
       return a.compareTo(b);

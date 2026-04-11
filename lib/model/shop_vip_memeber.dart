@@ -25,6 +25,7 @@ class ShopVipMember {
     this.numberConsecutiveText,
     this.timeSlotText,
     this.dayText,
+    this.isBuy,
   });
 
   int? codeMemberId;
@@ -52,6 +53,7 @@ class ShopVipMember {
   String? numberConsecutiveText;
   String? timeSlotText;
   String? dayText;
+  bool? isBuy;
 
   ShopVipMember copyWith({
     int? codeMemberId,
@@ -78,7 +80,9 @@ class ShopVipMember {
     String? numberConsecutiveText,
     String? timeSlotText,
     String? dayText,
-  }) => ShopVipMember( bookingConsecutiveLimit,
+    bool? isBuy,
+  }) => ShopVipMember(
+    bookingConsecutiveLimit,
     codeMemberId: codeMemberId ?? this.codeMemberId,
     shopId: shopId ?? this.shopId,
     typeCodeMember: typeCodeMember ?? this.typeCodeMember,
@@ -103,26 +107,25 @@ class ShopVipMember {
     numberConsecutiveText: numberConsecutiveText ?? this.numberConsecutiveText,
     timeSlotText: timeSlotText ?? this.timeSlotText,
     dayText: dayText ?? this.dayText,
+    isBuy: isBuy ?? this.isBuy,
   );
 
-  factory ShopVipMember.fromJson(Map<String, dynamic> json) => ShopVipMember(  json["BookConsecutiveLimit"] == null ? 2 : json["BookConsecutiveLimit"],
+  factory ShopVipMember.fromJson(Map<String, dynamic> json) => ShopVipMember(
+    json["BookConsecutiveLimit"] == null ? 2 : json["BookConsecutiveLimit"],
     codeMemberId: json["CodeMemberID"] == null ? null : json["CodeMemberID"],
     shopId: json["ShopID"],
-    typeCodeMember:
-        json["TypeCodeMember"],
+    typeCodeMember: json["TypeCodeMember"],
     code: json["Code"],
-    nameCodeMember:
-        json["NameCodeMember"],
-    numberPlayInMonth:
-        json["NumberPlayInMonth"],
-    numberPlayInDay:
-        json["NumberPlayInDay"],
+    nameCodeMember: json["NameCodeMember"],
+    numberPlayInMonth: json["NumberPlayInMonth"],
+    numberPlayInDay: json["NumberPlayInDay"],
     amount: json["Amount"],
     status: json["Status"],
     isHideBlock: json["IsHideBlock"],
     rangeStart: json["RangeStart"],
     rangeEnd: json["RangeEnd"],
-    lstWeekday: json["lstWeekday"] == null ? null : List<int>.from(json["lstWeekday"]),
+    lstWeekday:
+        json["lstWeekday"] == null ? null : List<int>.from(json["lstWeekday"]),
     description: json["Description"],
     createdDate:
         json["CreatedDate"] == null ? null : json["CreatedDate"] * 1000,
@@ -136,6 +139,7 @@ class ShopVipMember {
     numberConsecutiveText: json["NumberConsecutiveText"],
     timeSlotText: json["TimeSlotText"],
     dayText: json["DayText"],
+    isBuy: json["IsBuy"] == null ? null : json["IsBuy"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -159,10 +163,14 @@ class ShopVipMember {
     "UserCreated": userCreated == null ? null : userCreated,
     "UserUpdated": userUpdated == null ? null : userUpdated,
     "IsAllowReccuring": isAllowReccuring == null ? null : isAllowReccuring,
-    "NumberPlayInMonthText": numberPlayInMonthText == null ? null : numberPlayInMonthText,
-    "NumberPlayInDayText": numberPlayInDayText == null ? null : numberPlayInDayText,
-    "NumberConsecutiveText": numberConsecutiveText == null ? null : numberConsecutiveText,
+    "NumberPlayInMonthText":
+        numberPlayInMonthText == null ? null : numberPlayInMonthText,
+    "NumberPlayInDayText":
+        numberPlayInDayText == null ? null : numberPlayInDayText,
+    "NumberConsecutiveText":
+        numberConsecutiveText == null ? null : numberConsecutiveText,
     "TimeSlotText": timeSlotText == null ? null : timeSlotText,
     "DayText": dayText == null ? null : dayText,
+    "IsBuy": isBuy == null ? null : isBuy,
   };
 }
