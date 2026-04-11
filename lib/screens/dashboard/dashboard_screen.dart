@@ -34,7 +34,7 @@ class DashboardScreen extends GetView<DashboardController> {
               children: [
                 // Header
                 Container(
-                  height: 140,
+                  height: 160,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(

@@ -233,6 +233,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           SupportUtils.showDecisionDialog(
                             'are_you_sure_create_booking'.tr,
                             lstOptions: [
+                              DecisionOption('cancel'.tr, onDecisionPressed: null),
                               DecisionOption(
                                 'yes'.tr,
                                 type: DecisionOptionType.EXPECTATION,
@@ -240,7 +241,6 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                                   controller.onCreateBooking();
                                 },
                               ),
-                              DecisionOption('no'.tr, onDecisionPressed: null),
                             ],
                           );
                         },

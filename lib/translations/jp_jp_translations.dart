@@ -70,7 +70,7 @@ const Map<String, String> jp = {
   'yes_cancel_it': 'はい',
   'no': 'いいえ',
   'yes': 'はい',
-  'payment_success': '決済完了しました。',
+  'payment_success': '予約が確定しました',
   'payment_failure': '決済出来ませんでした。',
   'system_theme': 'システムのテーマ',
   'light_theme': 'ライト',
@@ -111,8 +111,7 @@ const Map<String, String> jp = {
   'old_password_incorrect': 'パスワードを正しくありません。入力直してください。',
   'update_profile_success': 'プロフィールを更新しました。',
   'email_already_exists': 'このメールは既に登録されています。',
-  'are_you_sure_create_booking':
-      '予約確定しますか？\n※確定後のキャンセルはできません。次の画面でご予約の詳細をご確認いただけます。',
+  'are_you_sure_create_booking':'※確定後のキャンセルはできません。次の画面でご予約の詳細をご確認いただけます。',
   'booking_outside_member_time_title': 'ご予約のご確認',
   'booking_outside_member_time_description':
       'ご予約内容に、会員利用時間外が含まれております。\n該当時間には追加料金が発生いたします。\n\n追加料金につきましては、表示される決済画面に従ってお手続きをお願いいたします。',
@@ -137,7 +136,7 @@ const Map<String, String> jp = {
   'your_booking_will_start_in': 'ご予約は...分後開始致します。',
   'minutes': ' 分',
   'no_time_frame_selected': '選択時間帯がありません',
-  'cannot_select_4_consecutive_blocks': '連続する複数の時間帯を選択することはできません',
+  'cannot_select_4_consecutive_blocks': '同一時間帯に複数打席の予約はできません。別の時間帯を選択するか、プランを変更してください。',
   'password_change_failed': 'パスワードの変更に失敗しました。アカウントをもう一度確認するか、管理者にサポートを依頼してください',
   'email_have_exists': 'このメールが既に登録されています。',
   'vip_member': '会員情報',
