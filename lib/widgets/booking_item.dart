@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:golf_uiv2/model/block.dart';
 import 'package:golf_uiv2/model/shop_model.dart';
@@ -394,32 +393,26 @@ Widget bookingDetailSimpleItemView(
   String title,
   String content,
 ) {
+  final TextStyle titleStyle = GoogleFonts.inter(
+    fontSize: 11.5.sp,
+    color: const Color(0xFF70779A),
+    fontWeight: FontWeight.w600,
+    height: 1.35,
+  );
+  final TextStyle contentStyle = GoogleFonts.inter(
+    fontSize: 11.5.sp,
+    color: const Color(0xFF1A1A4D),
+    fontWeight: FontWeight.w600,
+    height: 1.35,
+  );
+
   return Container(
     alignment: Alignment.centerLeft,
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 25.0.w, // Fixed width for alignment "sắp xếp theo hàng lối"
-          child: Text(
-            "$title: ",
-            style: GoogleFonts.openSans(
-              fontSize: 11.5.sp, // Tăng thêm chút (văn bản lớn hơn chút)
-              color: GolfColor.TextFielHintdLightColor,
-              fontWeight: FontWeight.w800, // Đậm hơn (hiển thị đậm hơn)
-            ),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            content,
-            style: GoogleFonts.openSans(
-              fontSize: 11.5.sp,
-              color: GolfColor.TextFielHintdLightColor,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
+        SizedBox(width: 25.0.w, child: Text('$title:', style: titleStyle)),
+        Expanded(child: Text(content, style: contentStyle)),
       ],
     ),
   );
@@ -547,21 +540,10 @@ Widget bookingDetailListBlockSimpleView(
   List<Blocks> lstBlock, {
   Blocks? nearestAvailableBlock,
 }) {
-  String _lstWidget = "";
+  String _lstWidget = '';
   for (int i = 0; i < lstBlock.length; i++) {
     _lstWidget +=
-        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}${i == lstBlock.length - 1 ? " " : ", "}';
+        '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}${i == lstBlock.length - 1 ? '' : ', '}';
   }
-  return Container(
-    alignment: Alignment.centerLeft,
-    child: AutoSizeText(
-      'time_booking'.tr + ": " + _lstWidget,
-      style: GoogleFonts.openSans(
-        // headerLine 6
-        fontSize: 10.0.sp,
-        color: GolfColor.TextFielHintdLightColor,
-        fontWeight: FontWeight.w700,
-      ),
-    ),
-  );
+  return bookingDetailSimpleItemView(themeData, 'time_booking'.tr, _lstWidget);
 }

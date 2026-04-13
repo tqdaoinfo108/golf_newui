@@ -70,9 +70,16 @@ class TransactionHistoryListItem extends StatelessWidget {
               Text(contentValue,
                   style: valueStyle.copyWith(
                     fontWeight: FontWeight.w600,
-                  )),
-              SizedBox(height: 6.0.sp),
-              Align(
+                  )),              
+            ],
+          ),
+        ),
+
+        // /// Status
+        Positioned(
+          right: 10,
+          top: 10,
+          child: Align(
                 alignment: Alignment.centerRight,
                 child: Material(
                   color: Colors.transparent,
@@ -116,37 +123,6 @@ class TransactionHistoryListItem extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-
-        /// Status
-        Positioned(
-          right: 0,
-          top: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              color: transactionItem.status == 1
-                  ? appTheme.colorScheme.primary
-                  : appTheme.colorScheme.error,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(9.0.sp),
-                bottomLeft: Radius.circular(9.0.sp),
-              ),
-            ),
-            padding:
-                EdgeInsets.symmetric(horizontal: 12.0.sp, vertical: 5.0.sp),
-            child: Text(
-              transactionItem.status == 1
-                  ? "transaction_success".tr
-                  : "transaction_fail".tr,
-              style: appTheme.textTheme.headlineLarge!.copyWith(
-                color: appTheme.colorScheme.onPrimary,
-                fontSize: 9.0.sp,
-                height: 1.1,
-              ),
-            ),
-          ),
         ),
       ]),
     );

@@ -81,14 +81,14 @@ class DashboardScreen extends GetView<DashboardController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              AutoSizeText(
                                 controller.userInfo!.fullName ?? "",
                                 style: TextStyle(
                                   fontSize: 13.5.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),
-                                maxLines: 1,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],

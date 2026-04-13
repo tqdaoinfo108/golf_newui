@@ -31,6 +31,7 @@ class UserVipMember {
     this.numberPlayInMonthText,
     this.numberPlayInDayText,
     this.numberConsecutiveText,
+    this.amountCodeMemberText,
     this.timeSlotText,
     this.dayText,
   });
@@ -59,6 +60,7 @@ class UserVipMember {
   String? numberPlayInDayText;
   String? numberConsecutiveText;
   String? timeSlotText;
+  String ? amountCodeMemberText;
 
   factory UserVipMember.fromJson(Map<String, dynamic> json) => UserVipMember(
     userId: json["UserID"] == null ? null : json["UserID"],
@@ -85,6 +87,7 @@ class UserVipMember {
     numberPlayInMonthText: json["NumberPlayInMonthText"],
     numberPlayInDayText: json["NumberPlayInDayText"],
     numberConsecutiveText: json["NumberConsecutiveText"],
+    amountCodeMemberText: json["AmountCodeMemberText"],
     timeSlotText: json["TimeSlotText"],
     listUserCodeMemberLimit:
         json["ListUserCodeMemberLimit"] == null

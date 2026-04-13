@@ -182,6 +182,23 @@ class MyVipListItem extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height: 5.0.sp),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.currency_exchange,
+                        color: appTheme.colorScheme.onPrimary,
+                        size: 18.0.sp,
+                      ),
+                      SizedBox(width: 5.0.sp),
+                      Text(
+                        vipMemberItem!.amountCodeMemberText ?? "",
+                        style: appTheme.textTheme.bodyMedium!.copyWith(
+                          color: appTheme.colorScheme.onPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

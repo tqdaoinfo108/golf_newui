@@ -8,38 +8,39 @@ import 'package:sizer/sizer.dart';
 
 QRCodeInfo(BuildContext context, String? qrCodeStr, Booking bookingDetail) {
   final appTheme = Theme.of(context);
+  final String cleanedQrCode = (qrCodeStr ?? '').replaceAll('"', '');
+  final List<Widget> bookingInfoItems = [
+    bookingDetailSimpleItemView(appTheme, 'shop'.tr, bookingDetail.nameShop!),
+    SizedBox(height: 1.0.w),
+    bookingDetailSimpleItemView(
+      appTheme,
+      'address'.tr,
+      bookingDetail.addressShop!,
+    ),
+    SizedBox(height: 1.0.w),
+    bookingDetailSimpleItemView(
+      appTheme,
+      'date_play'.tr,
+      bookingDetail.datePlay!.toStringFormatDate(),
+    ),
+    SizedBox(height: 1.0.w),
+    bookingDetailListBlockSimpleView(appTheme, bookingDetail.blocks!),
+  ];
+
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5.0.sp),
       color: appTheme.colorScheme.onPrimary,
     ),
-    child:Padding(
-        padding: EdgeInsets.all(15.0.sp),
-        child: Column(
-          children: [
-            createQRCode((qrCodeStr ?? '').replaceAll('\"', ''), width: 60.0.w),
-            SizedBox(height: 5.0.w),
-            bookingDetailSimpleItemView(
-              appTheme,
-              'shop'.tr,
-              bookingDetail.nameShop!,
-            ),
-            SizedBox(height: 1.0.w),
-            bookingDetailSimpleItemView(
-              appTheme,
-              'address'.tr,
-              bookingDetail.addressShop!,
-            ),
-            SizedBox(height: 1.0.w),
-            bookingDetailSimpleItemView(
-              appTheme,
-              'date_play'.tr,
-              bookingDetail.datePlay!.toStringFormatDate(),
-            ),
-            SizedBox(height: 1.0.w),
-            bookingDetailListBlockSimpleView(appTheme, bookingDetail.blocks!),
-          ],
-        ),
+    child: Padding(
+      padding: EdgeInsets.all(15.0.sp),
+      child: Column(
+        children: [
+          createQRCode(cleanedQrCode, width: 60.0.w),
+          SizedBox(height: 5.0.w),
+          ...bookingInfoItems,
+        ],
       ),
+    ),
   );
 }

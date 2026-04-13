@@ -497,19 +497,20 @@ class PaymentScreen extends GetView<PaymentController> {
 
   onRequestBack() {
     SupportUtils.showDecisionDialog(
-      'you_have_not_complete_the_payment'.tr,
+      'leave_waiting_payment_warning'.tr,
       lstOptions: [
+       
         DecisionOption(
-          'yes'.tr,
+          'continue_booking'.tr,
+          onDecisionPressed: null,
+          isImportant: true,
+        ),
+         DecisionOption(
+          'back'.tr,
           type: DecisionOptionType.DENIED,
           onDecisionPressed: () {
             Get.back(result: PageResult(resultCode: PageResultCode.FAIL));
           },
-        ),
-        DecisionOption(
-          'continue_payment'.tr,
-          onDecisionPressed: null,
-          isImportant: true,
         ),
       ],
     );

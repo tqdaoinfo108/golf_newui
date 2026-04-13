@@ -124,23 +124,23 @@ Widget choosePaymentMethod(
                       ],
                     ),
                   ),
-                  if (lstPaymentMethod.isNotEmpty)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.purple[50],
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        '${lstPaymentMethod.length}',
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          color: Colors.purple[700],
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  SizedBox(width: 8),
+                  // if (lstPaymentMethod.isNotEmpty)
+                  //   Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.purple[50],
+                  //       borderRadius: BorderRadius.circular(6),
+                  //     ),
+                  //     child: Text(
+                  //       '${lstPaymentMethod.length}',
+                  //       style: GoogleFonts.inter(
+                  //         fontSize: 11,
+                  //         color: Colors.purple[700],
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // SizedBox(width: 8),
                   AnimatedRotation(
                     turns: isExpanded ? 0.5 : 0,
                     duration: Duration(milliseconds: 200),
@@ -397,22 +397,22 @@ Widget chooseDateBooking(
                   ],
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.blue[50],
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  '${getMaximumBookingDays(nextDay)} ${'days'.tr}',
-                  style: GoogleFonts.inter(
-                    fontSize: 11,
-                    color: Colors.blue[700],
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              SizedBox(width: 8),
+              // Container(
+              //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              //   decoration: BoxDecoration(
+              //     color: Colors.blue[50],
+              //     borderRadius: BorderRadius.circular(6),
+              //   ),
+              //   child: Text(
+              //     '${getMaximumBookingDays(nextDay)} ${'days'.tr}',
+              //     style: GoogleFonts.inter(
+              //       fontSize: 11,
+              //       color: Colors.blue[700],
+              //       fontWeight: FontWeight.w600,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(width: 8),
               Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: Colors.grey[400],
@@ -508,23 +508,23 @@ Widget chooseSlotBooking(
                       ],
                     ),
                   ),
-                  if (lstSlot.isNotEmpty)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.orange[50],
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        '${lstSlot.length}',
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          color: Colors.orange[700],
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  SizedBox(width: 8),
+                  // if (lstSlot.isNotEmpty)
+                  //   Container(
+                  //     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  //     decoration: BoxDecoration(
+                  //       color: Colors.orange[50],
+                  //       borderRadius: BorderRadius.circular(6),
+                  //     ),
+                  //     child: Text(
+                  //       '${lstSlot.length}',
+                  //       style: GoogleFonts.inter(
+                  //         fontSize: 11,
+                  //         color: Colors.orange[700],
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // SizedBox(width: 8),
                   AnimatedRotation(
                     turns: isExpanded ? 0.5 : 0,
                     duration: Duration(milliseconds: 200),
