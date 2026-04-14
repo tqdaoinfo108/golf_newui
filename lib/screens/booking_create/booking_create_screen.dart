@@ -219,7 +219,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                                   onDecisionPressed: null,
                                 ),
                                 DecisionOption(
-                                  'yes'.tr,
+                                  'yes_cancel_it'.tr,
                                   type: DecisionOptionType.EXPECTATION,
                                   onDecisionPressed: () {
                                     controller.onCreateBooking();

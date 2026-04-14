@@ -14,10 +14,15 @@ class HomeController extends GetxController {
   }
 
   void changeTabIndex(int index) {
-     tabIndex = index;
+    tabIndex = index;
+
+    if (index == 0 && Get.isRegistered<DashboardController>()) {
+      Get.find<DashboardController>().updateUserInfo();
+    }
+
     Get.find<DashboardController>().justUpdateWaitPaymentTotal();
     if (index == 1) {
-      Get.lazyPut(()=>BookingCreateController());
+      Get.lazyPut(() => BookingCreateController());
       Get.toNamed("/test", id: 1);
       Get.delete<BookingCreateController>();
     }

@@ -63,10 +63,7 @@ class TransactionHistoryListItem extends StatelessWidget {
                     color: appTheme.colorScheme.error,
                   )),
               SizedBox(height: 5.0.sp),
-              Text(
-                "${"content".tr}:",
-                style: labelStyle,
-              ),
+           
               Text(contentValue,
                   style: valueStyle.copyWith(
                     fontWeight: FontWeight.w600,

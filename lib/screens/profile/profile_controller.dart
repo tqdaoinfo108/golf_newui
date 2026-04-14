@@ -264,7 +264,7 @@ class ProfileController extends GetxController {
 
           SupportUtils.prefs.setString(USER_AVATAR, _updateAvatar.imagesPaths!);
           imagePath = _updateAvatar.imagesPaths!;
-          SupportUtils.showToast('success'.tr, type: ToastType.SUCCESSFUL);
+          SupportUtils.showToast('update_avatar_success'.tr, type: ToastType.SUCCESSFUL);
           update();
         } else {
           _toastException(response?.getException);

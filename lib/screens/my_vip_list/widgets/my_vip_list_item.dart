@@ -168,13 +168,7 @@ class MyVipListItem extends StatelessWidget {
                             ? "unlimited_turns".tr
                             : (() {
                                 final remain = vipMemberItem?.remainPlay ?? 0;
-                                final total = vipMemberItem?.sumBuyPlay ?? 0;
-                                final turnsText =
-                                    "${remain}/${total}";
-                                if (remain <= 0) {
-                                  return "$turnsText (${"turns_ended".tr})";
-                                }
-                                return "${"available_turns".tr}: $turnsText";
+                                return "${"available_turns".tr}: $remain";
                               })()),
                         style: appTheme.textTheme.bodyMedium!.copyWith(
                           color: appTheme.colorScheme.onPrimary,

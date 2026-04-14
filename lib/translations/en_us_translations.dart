@@ -307,4 +307,5 @@ const Map<String, String> en = {
       "・This coupon is valid from the date of purchase. \n・The coupon has an expiration date (*The expiration date varies depending on the plan)\n・The coupon can only be used by the person in question. It cannot be transferred or shared to a third party. \n・The usage count will be automatically consumed when the reservation is completed. \n・Vouchers that have passed their expiration date will become invalid and cannot be used or refunded even if there are unused portions. \n・Cancellations and refunds cannot be made after purchase. \n・You must agree to the terms of use and privacy policy. \nPlease confirm the above contents and press \"Agree and Continue\".",
   "not_found_favorite_shop": "No favorite shops registered.",
   "next": "Next",
+  "update_avatar_success": "Avatar updated successfully",
 };
