@@ -111,7 +111,7 @@ const Map<String, String> jp = {
   'old_password_incorrect': 'パスワードを正しくありません。入力直してください。',
   'update_profile_success': 'プロフィールを更新しました。',
   'email_already_exists': 'このメールは既に登録されています。',
-  'are_you_sure_create_booking':'※確定後のキャンセルはできません。次の画面でご予約の詳細をご確認いただけます。',
+  'are_you_sure_create_booking': '※確定後のキャンセルはできません。次の画面でご予約の詳細をご確認いただけます。',
   'booking_outside_member_time_title': 'ご予約のご確認​​',
   'booking_outside_member_time_description':
       'ご予約内容に、会員利用時間外が含まれております。​​該当時間には追加料金が発生いたします。​​追加料金につきましては、表示される決済画面に従ってお手続きをお願いいたします。​​',
@@ -136,7 +136,8 @@ const Map<String, String> jp = {
   'your_booking_will_start_in': 'ご予約は...分後開始致します。',
   'minutes': ' 分',
   'no_time_frame_selected': '選択時間帯がありません',
-  'cannot_select_4_consecutive_blocks': '同一時間帯に複数打席の予約はできません。別の時間帯を選択するか、プランを変更してください。',
+  'cannot_select_4_consecutive_blocks':
+      '同一時間帯に複数打席の予約はできません。別の時間帯を選択するか、プランを変更してください。',
   'password_change_failed': 'パスワードの変更に失敗しました。アカウントをもう一度確認するか、管理者にサポートを依頼してください',
   'email_have_exists': 'このメールが既に登録されています。',
   'vip_member': '会員情報',
@@ -275,4 +276,5 @@ const Map<String, String> jp = {
   "would_you_like_to_purchase": "...&&&購入しますか？",
   "limit_would_you_like_to_purchase":
       "・本回数券はご購入日より有効となります。\n・回数券には有効期限があります（※期限はプランにより異なります）。\n・回数券はご本人のみご利用いただけます。第三者への譲渡・共有はできません。\n・ご利用回数は予約時に自動的に消費されます。\n・有効期限を過ぎた回数券は失効し、未使用分があってもご利用・返金はできません。\n・ご購入後のキャンセル・返金はできません。\n・ご利用には、利用規約およびプライバシーポリシーへの同意が必要です。\n\n上記をご確認のうえ、「同意して続行」を押してください。",
+  'update_avatar_success': 'プロフィール画像を更新しました。',
 };
