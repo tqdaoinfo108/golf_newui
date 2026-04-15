@@ -497,7 +497,7 @@ Widget chooseSlotBooking(
                           () => Text(lstSlot.firstWhere((e) => e.isSelect,
                                   orElse: () => SlotItemModel())
                               .nameSlot ??
-                              'choose_slot'.tr,
+                              'select_machine'.tr,
                             style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,

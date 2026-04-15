@@ -327,7 +327,7 @@ class PaymentScreen extends GetView<PaymentController> {
                                       () => DefaultButton(
                                         radius: 12,
                                         height: 50,
-                                        text: 'payment'.tr,
+                                        text: 'お支払い',
                                         textColor: Colors.white,
                                         backgroundColor:
                                             controller.isAgreedToTerms.value
@@ -497,21 +497,21 @@ class PaymentScreen extends GetView<PaymentController> {
 
   onRequestBack() {
     SupportUtils.showDecisionDialog(
-      'leave_waiting_payment_warning'.tr,
+      '購入手続きがまだ完了していません\nカード情報の入力が完了すると、お支払い後すぐにご利用いただけます。',
       lstOptions: [
-       
         DecisionOption(
-          'continue_booking'.tr,
-          onDecisionPressed: null,
-          isImportant: true,
-        ),
-         DecisionOption(
           'back'.tr,
           type: DecisionOptionType.DENIED,
           onDecisionPressed: () {
             Get.back(result: PageResult(resultCode: PageResultCode.FAIL));
           },
         ),
+        DecisionOption(
+          '入力を続ける',
+          onDecisionPressed: null,
+          isImportant: true,
+        ),
+         
       ],
     );
   }

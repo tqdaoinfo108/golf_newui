@@ -21,7 +21,7 @@ const int DEFAUTL_LIMIT = 20; // milisenconds
 // const String GOLF_CORE_API_URL = 'http://apigolfschedule.eappviet.com/';
 // const String GOLF_CORE_API_URL = 'http://apigolf.gvbsoft.com/'; // http://login.xn--24-zh4arfne.com:8080/
 // const String GOLF_CORE_API_URL = 'http://api.mujin24.com:8085/';
-const String GOLF_CORE_API_URL = 'http://apigolf.gvbsoft.com/';
+const String GOLF_CORE_API_URL = 'https://api.mujin24.com:8444/';
 
 const String GOLF_CORE_API_AUTHORIZE =
     'VXNlckdvbGZTY2hlZHVsZTpVc2VyR29sZlNjaGVkdWxl';

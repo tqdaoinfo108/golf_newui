@@ -4,6 +4,7 @@ import 'package:golf_uiv2/model/booking.dart';
 import 'package:golf_uiv2/model/decision_option.dart';
 import 'package:golf_uiv2/screens/booking_detail/widgets/button_unavailable_payment.dart';
 import 'package:golf_uiv2/screens/booking_detail/widgets/button_waiting_payment.dart';
+import 'package:golf_uiv2/screens/dashboard/dashboard_controller.dart';
 import 'package:golf_uiv2/utils/color.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/widgets/application_appbar.dart';
@@ -25,6 +26,9 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
 
   Future<bool> _handleBackPressed(BookingDetailController controller) async {
     if (!_isWaitingPaymentAndCanPay(controller.curBooking)) {
+      if (Get.isRegistered<DashboardController>()) {
+        await Get.find<DashboardController>().forceRefreshFirstPage();
+      }
       return true;
     }
 
@@ -51,6 +55,10 @@ class BookingDetailScreen extends GetView<BookingDetailController> {
       ),
       barrierDismissible: false,
     );
+
+    if (shouldLeave == true && Get.isRegistered<DashboardController>()) {
+      await Get.find<DashboardController>().forceRefreshFirstPage();
+    }
 
     return shouldLeave ?? false;
   }

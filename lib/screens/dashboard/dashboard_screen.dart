@@ -323,9 +323,7 @@ class DashboardScreen extends GetView<DashboardController> {
                       Get.toNamed(
                         AppRoutes.BOOKING_DETAIL,
                         arguments: _bookingItem.bookID,
-                      )!.then((value) {
-                        controller.forceRefreshFirstPage();
-                      });
+                        );
                     },
                   ),
                   if (index == controller.lstDateBooking.length - 1)
