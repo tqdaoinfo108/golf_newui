@@ -68,7 +68,7 @@ const Map<String, String> jp = {
   'canceled': 'キャンセル済',
   'are_you_sure_cancel_booking': '予約をキャンセルしますか？\n※まだ予約は確定しておりませんので、料金は発生いたしません',
   'yes_cancel_it': 'はい',
-    'yes_can_it': 'はい、続行',
+  'yes_can_it': 'はい、続行',
   'no': 'いいえ',
   'yes': 'はい',
   'payment_success': '予約が確定しました',

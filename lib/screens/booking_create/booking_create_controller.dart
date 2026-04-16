@@ -466,7 +466,7 @@ class BookingCreateController extends GetxController {
           onDecisionPressed: null,
         ),
         DecisionOption(
-          'yes_can_it'.tr,
+          'yes'.tr,
           type: DecisionOptionType.EXPECTATION,
           onDecisionPressed: () async {
             await _submitCreateBooking(jsonBody);
