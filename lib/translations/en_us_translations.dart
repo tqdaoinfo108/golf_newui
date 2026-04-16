@@ -76,6 +76,7 @@ const Map<String, String> en = {
   'are_you_sure_cancel_booking':
       'Are you sure you want to cancel this booking?',
   'yes_cancel_it': 'Yes, cancel it',
+    'yes_can_it': 'Yes, continue',
   'no': 'No',
   'yes': 'Yes',
   'payment_success': 'Payment successful',

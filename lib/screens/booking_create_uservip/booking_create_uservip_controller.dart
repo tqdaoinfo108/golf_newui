@@ -9,6 +9,7 @@ import 'package:golf_uiv2/services/golf_api.dart';
 import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/keys.dart';
 import 'package:golf_uiv2/utils/support.dart';
+import '../../model/block_model.dart';
 import '../booking_create/booking_create_controller.dart';
 import '../home/home_controller.dart';
 
@@ -30,6 +31,27 @@ class BookingCreateUserVipController extends BookingCreateController {
     isBlockExpanded = false;
     idSlot = 0;
     lstBlock = [];
+  }
+
+  @override
+  void onChangeBlockExpanded({BlockItemModel? item}) {
+    if (idSlot == null || idSlot == 0) {
+      return;
+    }
+    if (item != null) {
+      // Select/deselect block item
+      var bookings = lstBlock.where((_v) => _v.blockID == item.blockID);
+
+      if (bookings.length > 0) {
+        final bookingItem = bookings.first;
+        bookingItem.isSelect = !bookingItem.isSelect;
+      }
+      lstBlock2.refresh();
+    } else {
+      // Toggle expand/collapse (header click)
+      isBlockExpanded = !isBlockExpanded;
+    }
+    update();
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:golf_uiv2/model/decision_option.dart';
 import 'package:golf_uiv2/model/page_result.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
 import 'package:golf_uiv2/utils/constants.dart';
@@ -68,7 +67,8 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           controller.shopSelected!.shopID,
                         ),
                     buyVipMemberButton:
-                        ((controller.shopSelected!.countMemberCode ?? 0) > 0 && SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
+                        ((controller.shopSelected!.countMemberCode ?? 0) > 0 &&
+                                SupportUtils.prefs.getInt(USER_TYPE_ID) == 3)
                             ? _buildBuyVipMemberButton(
                               themeData,
                               onPressed:
@@ -116,7 +116,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         if (controller.lstPaymentMethod.isNotEmpty)
                           SizedBox(height: 10),
 
-                        /// Choose machine (only enabled after payment method selected) 
+                        /// Choose machine (only enabled after payment method selected)
                         AbsorbPointer(
                           absorbing:
                               controller.lstPaymentMethod.isNotEmpty &&
@@ -206,43 +206,7 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                           if (!controller.onValidateCreateBooking()) {
                             return;
                           }
-
-                          if (controller.hasOutsideMemberTimeSelection()) {
-                            SupportUtils.showDecisionDialog(
-                              'booking_outside_member_time_title'.tr,
-                              decisionDescription:
-                                  'booking_outside_member_time_description'.tr,
-                              lstOptions: [
-                                DecisionOption(
-                                  'back'.tr,
-                                  type: DecisionOptionType.DENIED,
-                                  onDecisionPressed: null,
-                                ),
-                                DecisionOption(
-                                  'yes_cancel_it'.tr,
-                                  type: DecisionOptionType.EXPECTATION,
-                                  onDecisionPressed: () {
-                                    controller.onCreateBooking();
-                                  },
-                                ),
-                              ],
-                            );
-                            return;
-                          }
-
-                          SupportUtils.showDecisionDialog(
-                            'are_you_sure_create_booking'.tr,
-                            lstOptions: [
-                              DecisionOption('cancel'.tr, onDecisionPressed: null),
-                              DecisionOption(
-                                'yes'.tr,
-                                type: DecisionOptionType.EXPECTATION,
-                                onDecisionPressed: () {
-                                  controller.onCreateBooking();
-                                },
-                              ),
-                            ],
-                          );
+                          controller.onCreateBooking();
                         },
                       ),
                     ),

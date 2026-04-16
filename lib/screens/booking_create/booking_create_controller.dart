@@ -14,6 +14,7 @@ import 'package:golf_uiv2/utils/constants.dart';
 import 'package:golf_uiv2/utils/keys.dart';
 import 'package:golf_uiv2/utils/support.dart';
 
+import '../../model/decision_option.dart';
 import '../../model/user_vip_member.dart';
 import '../home/home_controller.dart';
 
@@ -55,10 +56,10 @@ class BookingCreateController extends GetxController {
   List<SlotItemModel> get lstSlot => this._lstSlot;
   set lstSlot(List<SlotItemModel> value) => this._lstSlot.value = value;
 
-  final RxList<BlockItemModel> _lstBlock = <BlockItemModel>[].obs;
+  final RxList<BlockItemModel> lstBlock2 = <BlockItemModel>[].obs;
   List<BlockItemModel> get lstBlock =>
-      this._lstBlock.where((item) => item.isShow != false).toList();
-  set lstBlock(List<BlockItemModel> value) => this._lstBlock.value = value;
+      this.lstBlock2.where((item) => item.isShow != false).toList();
+  set lstBlock(List<BlockItemModel> value) => this.lstBlock2.value = value;
 
   // Payment method list
   final RxList<UserVipMember> _lstPaymentMethod = <UserVipMember>[].obs;
@@ -156,7 +157,7 @@ class BookingCreateController extends GetxController {
       }
     }
     lstBlock = [];
-    _lstBlock.refresh();
+    lstBlock2.refresh();
   }
 
   Future getPaymentMethods() async {
@@ -235,10 +236,10 @@ class BookingCreateController extends GetxController {
   }
 
   Future getSlot() async {
-    if(shopSelected?.shopID == null) {
+    if (shopSelected?.shopID == null) {
       return;
     }
-    
+
     var listValue = await new GolfApi().getSlot(shopSelected!.shopID);
 
     lstSlot.clear();
@@ -324,7 +325,7 @@ class BookingCreateController extends GetxController {
         final bookingItem = bookings.first;
         bookingItem.isSelect = !bookingItem.isSelect;
       }
-      _lstBlock.refresh();
+      lstBlock2.refresh();
     } else {
       // Toggle expand/collapse (header click)
       isBlockExpanded = !isBlockExpanded;
@@ -399,6 +400,95 @@ class BookingCreateController extends GetxController {
     return true;
   }
 
+  Map<String, dynamic> _buildCreateBookingJsonBody() {
+    var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
+    var createBookingModel = BookingInsertItemModel(
+      selectedPaymentMethod?.userCodeMemberId,
+    );
+    createBookingModel.datePlay = dateIntCurrent;
+    createBookingModel.slotID = idSlot;
+    createBookingModel.shopID = shopSelected!.shopID;
+    createBookingModel.timeZoneName = SupportUtils.getTimeZoneNameID();
+    var lstBlockChoose = <int?>[];
+    for (var item in lstBlockSelected) {
+      lstBlockChoose.add(item.blockID);
+    }
+    createBookingModel.blocks = lstBlockChoose;
+    return (AuthBody<BookingInsertItemModel>()
+          ..setAuth(Auth())
+          ..setData(createBookingModel, dataToJson: (_data) => _data!.toJson()))
+        .toJson();
+  }
+
+  String _sanitizeBookingMessage(String? message) {
+    if (message == null || message.trim().isEmpty) {
+      return '';
+    }
+
+    return message
+        .replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n')
+        .replaceAll(RegExp(r'<[^>]*>'), '')
+        .replaceAll('\u200b', '')
+        .trim();
+  }
+
+  Future<void> _submitCreateBooking(Map<String, dynamic> jsonBody) async {
+    var result = await GolfApi().createBooking(jsonBody);
+    await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
+    onReset();
+    final controller = Get.find<HomeController>();
+    controller.changePageIndex(0);
+  }
+
+  void _showAreYouSureCreateBookingDialog(Map<String, dynamic> jsonBody) {
+    SupportUtils.showDecisionDialog(
+      'are_you_sure_create_booking'.tr,
+      lstOptions: [
+        DecisionOption('cancel'.tr, onDecisionPressed: null),
+        DecisionOption(
+          'yes'.tr,
+          type: DecisionOptionType.EXPECTATION,
+          onDecisionPressed: () async {
+            await _submitCreateBooking(jsonBody);
+          },
+        ),
+      ],
+    );
+  }
+
+  void _showCheckInsertDialog(String message, Map<String, dynamic> jsonBody) {
+    SupportUtils.showDecisionDialog(
+      message,
+      lstOptions: [
+        DecisionOption(
+          'back'.tr,
+          type: DecisionOptionType.DENIED,
+          onDecisionPressed: null,
+        ),
+        DecisionOption(
+          'yes_can_it'.tr,
+          type: DecisionOptionType.EXPECTATION,
+          onDecisionPressed: () async {
+            await _submitCreateBooking(jsonBody);
+          },
+        ),
+      ],
+    );
+  }
+
+  void _showCheckInsertInfoDialog(String message) {
+    SupportUtils.showDecisionDialog(
+      message,
+      lstOptions: [
+        DecisionOption(
+          'back'.tr,
+          type: DecisionOptionType.DENIED,
+          onDecisionPressed: null,
+        ),
+      ],
+    );
+  }
+
   /// Returns true when member payment is selected and selected blocks include
   /// outside-member-time blocks that will require extra online payment.
   bool hasOutsideMemberTimeSelection() {
@@ -416,32 +506,44 @@ class BookingCreateController extends GetxController {
   }
 
   void onCreateBooking() async {
-    var lstBlockSelected = lstBlock.where((_v) => _v.isSelect).toList();
-    var createBookingModel = BookingInsertItemModel(
-      selectedPaymentMethod?.userCodeMemberId,
-    );
-    createBookingModel.datePlay = dateIntCurrent;
-    createBookingModel.slotID = idSlot;
-    createBookingModel.shopID = shopSelected!.shopID;
-    createBookingModel.timeZoneName = SupportUtils.getTimeZoneNameID();
-    var lstBlockChoose = <int?>[];
-    for (var item in lstBlockSelected) {
-      lstBlockChoose.add(item.blockID);
+    final jsonBody = _buildCreateBookingJsonBody();
+    final checkResult = await GolfApi().checkBookingInsert(jsonBody);
+
+    if (checkResult?.getException != null) {
+      SupportUtils.showToast(
+        checkResult!.getException!.getErrorMessage(),
+        type: ToastType.ERROR,
+      );
+      return;
     }
-    createBookingModel.blocks = lstBlockChoose;
-    var jsonBody =
-        (AuthBody<BookingInsertItemModel>()
-              ..setAuth(Auth())
-              ..setData(
-                createBookingModel,
-                dataToJson: (_data) => _data!.toJson(),
-              ))
-            .toJson();
-    var result = await GolfApi().createBooking(jsonBody);
-    await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
-    onReset();
-    final controller = Get.find<HomeController>();
-    controller.changePageIndex(0);
+
+    final status = checkResult?.decisionStatus ?? 0;
+    final message = _sanitizeBookingMessage(checkResult?.message);
+
+    if (status == 1) {
+      _showAreYouSureCreateBookingDialog(jsonBody);
+      return;
+    }
+
+    if (status == -1) {
+      _showCheckInsertDialog(
+        message.isNotEmpty ? message : 'application_error'.tr,
+        jsonBody,
+      );
+      return;
+    }
+
+    if (status == 0) {
+      SupportUtils.showToast(
+        message.isNotEmpty ? message : 'server_error'.tr,
+        type: ToastType.ERROR,
+      );
+      return;
+    }
+
+    _showCheckInsertInfoDialog(
+      message.isNotEmpty ? message : 'application_error'.tr,
+    );
   }
 
   void onCancelBooking() {

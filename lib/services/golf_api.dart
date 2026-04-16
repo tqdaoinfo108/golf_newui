@@ -221,6 +221,22 @@ class GolfApi {
     }
   }
 
+  Future<BookingCheckInsertResponseModel?> checkBookingInsert(
+    Map<String, dynamic> jsonBody,
+  ) async {
+    try {
+      var response = await apiClient.checkBookingInsert(
+        defaultAuthentication,
+        jsonBody,
+      );
+      return BookingCheckInsertResponseModel.fromJson(jsonDecode(response!));
+    } on DioError catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return BookingCheckInsertResponseModel()
+        ..setException(ApplicationError.withDioError(error));
+    }
+  }
+
   Future<BookingResponeModel?> createBookingUserVip(
     Map<String, dynamic> jsonBody,
   ) async {
@@ -778,13 +794,16 @@ class GolfApi {
     }
   }
 
-  Future<BaseResponse<String?>> deletePaymentHistory(int payID, int userID) async {
+  Future<BaseResponse<String?>> deletePaymentHistory(
+    int payID,
+    int userID,
+  ) async {
     String? response;
     try {
-      response = await apiClient.deletePaymentHistory(
-        defaultAuthentication,
-        {'PayID': payID, 'UserID': userID},
-      );
+      response = await apiClient.deletePaymentHistory(defaultAuthentication, {
+        'PayID': payID,
+        'UserID': userID,
+      });
       return BaseResponse()..setData(response);
     } on DioError catch (error, stacktrace) {
       return BaseResponse()..setException(ApplicationError.withDioError(error));

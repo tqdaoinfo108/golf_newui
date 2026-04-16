@@ -292,7 +292,7 @@ class BookingDetailController extends GetxController {
     await getBookingHistoryDetail();
     if (curBooking.statusID != BookingStatus.WAITING_PAYMENT) {
       /// This booking has canceled
-      SupportUtils.showToast('cancel_booking_by_payment'.tr);
+      // SupportUtils.showToast('cancel_booking_by_payment'.tr);
       return false;
     }
     // else {

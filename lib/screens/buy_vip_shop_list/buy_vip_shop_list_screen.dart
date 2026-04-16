@@ -95,7 +95,7 @@ class BuyVipShopListScreen extends GetView<BuyVipShopListController> {
   Widget _buildEmptyList(ThemeData appTheme) => Container(
         child: Center(
           child: Text(
-            "not_found_shop".tr,
+            "現在、この店舗では購入可能なプランがありません",
             style: appTheme.textTheme.titleSmall
                 ?.copyWith(color: appTheme.colorScheme.surface),
           ),

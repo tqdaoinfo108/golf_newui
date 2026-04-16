@@ -22,9 +22,14 @@ class BookingInsertItemModel {
   int? shopID;
   String? timeZoneName;
   List<int?>? blocks;
-  int? userCodeMemberID ;
-  BookingInsertItemModel(this.userCodeMemberID,
-      {this.datePlay, this.slotID, this.shopID, this.blocks});
+  int? userCodeMemberID;
+  BookingInsertItemModel(
+    this.userCodeMemberID, {
+    this.datePlay,
+    this.slotID,
+    this.shopID,
+    this.blocks,
+  });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -51,5 +56,39 @@ class BookingResponeModel extends BaseResponseError {
     final Map<String, dynamic> data1 = new Map<String, dynamic>();
     data1['data'] = this.data;
     return data1;
+  }
+}
+
+class BookingCheckInsertResponseModel extends BaseResponseError {
+  int? status;
+  int? data;
+  String? message;
+
+  BookingCheckInsertResponseModel({this.status, this.data, this.message});
+
+  BookingCheckInsertResponseModel.fromJson(Map<String, dynamic> json) {
+    status = _asInt(json['status']);
+    data = _asInt(json['data']);
+    message = json['message']?.toString();
+  }
+
+  int get decisionStatus => status ?? data ?? 0;
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data1 = <String, dynamic>{};
+    data1['status'] = status;
+    data1['data'] = data;
+    data1['message'] = message;
+    return data1;
+  }
+
+  static int? _asInt(dynamic value) {
+    if (value == null) {
+      return null;
+    }
+    if (value is int) {
+      return value;
+    }
+    return int.tryParse(value.toString());
   }
 }

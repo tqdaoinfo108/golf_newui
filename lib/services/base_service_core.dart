@@ -180,6 +180,9 @@ class ApiClient {
   Future<String?> createBooking(String auth, Map<String, dynamic> body) =>
       _post('api/booking/insert', body: body, auth: auth);
 
+  Future<String?> checkBookingInsert(String auth, Map<String, dynamic> body) =>
+      _post('api/booking/check-insert', body: body, auth: auth);
+
   Future<String?> createBookingUserVip(
     String auth,
     Map<String, dynamic> body,
