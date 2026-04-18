@@ -133,12 +133,15 @@ const Map<String, String> en = {
       'Your booking includes time slots outside member usage hours.\nAdditional charges will apply to those time slots.\n\nPlease follow the payment screen instructions to complete the additional payment.',
   'phone_invalid': 'Invalid phone number',
   'success': 'Success',
+  'system_error': 'System error',
   'wait_payment': 'Wait payment',
   'cancel_booking_by_payment':
       'Booking has been canceled by someone paying in advance.',
   'canceled_booking': 'Booking was canceled.',
   'full_name_length_greater_less50': 'Full name must be 25 characters or less',
   'clear_all': 'Clear all',
+  'deleted': 'Deleted successfully',
+  'delete_failed': 'Delete failed',
   'delete': 'Delete',
   'are_you_sure_delete_transaction':
       'Are you sure you want to delete this transaction history?',

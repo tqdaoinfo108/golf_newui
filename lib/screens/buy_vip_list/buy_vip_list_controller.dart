@@ -47,7 +47,7 @@ class BuyVipListController extends GetxController
 
   getAllShopVipMember() async {
     _lstVipMemberStillBusy = true;
-    var res = await new GolfApi().getAllShopVipMember(
+    var res = await GolfApi().getAllShopVipMember(
       shop!.shopID,
       _page,
       _limit,
@@ -89,7 +89,13 @@ class BuyVipListController extends GetxController
     PaymentKeyResponse? paymentInfo,
     int status,
     int isRenew,
+    [String? cardNumber]
   ) async {
+    final maskedCardNumber = _resolveMaskedCardNumber(
+      paymentInfo: paymentInfo,
+      fallbackCardNumber: cardNumber,
+    );
+
     /// Call Service
     final _result = await GolfApi().addPaymentVipMember(
       AuthBody<Map<String, dynamic>>()
@@ -100,6 +106,7 @@ class BuyVipListController extends GetxController
           'PaymentCode': paymentInfo?.paymentKey ?? "",
           'Status': status,
           'IsRenew': isRenew,
+          'CardNumber': maskedCardNumber,
         }, dataToJson: (data) => data),
     );
 
@@ -123,6 +130,47 @@ class BuyVipListController extends GetxController
 
       return false;
     }
+  }
+
+  String _resolveMaskedCardNumber({
+    PaymentKeyResponse? paymentInfo,
+    String? fallbackCardNumber,
+  }) {
+    final fromInput = (fallbackCardNumber ?? '').trim();
+    if (fromInput.isNotEmpty) {
+      return _maskCardNumber(fromInput);
+    }
+
+    return _maskCardNumber(paymentInfo?.cardNumber ?? '');
+  }
+
+  String _maskCardNumber(String cardNumber) {
+    final raw = cardNumber.trim();
+    if (raw.isEmpty) {
+      return '';
+    }
+
+    // If already masked from backend/webview flow, keep it as-is.
+    if (raw.contains('*')) {
+      return raw;
+    }
+
+    final digits = raw.replaceAll(RegExp(r'\D'), '');
+    if (digits.isEmpty) {
+      return '';
+    }
+
+    if (digits.length <= 2) {
+      return digits;
+    }
+
+    if (digits.length <= 8) {
+      final middleMask = '*' * (digits.length - 2);
+      return '${digits.substring(0, 1)}$middleMask${digits.substring(digits.length - 1)}';
+    }
+
+    final middleMask = '*' * (digits.length - 8);
+    return '${digits.substring(0, 6)}$middleMask${digits.substring(digits.length - 2)}';
   }
 
   Future<bool> letsPaymentRecurring(
@@ -169,6 +217,7 @@ class BuyVipListController extends GetxController
               oderId: response.orderId,
               paymentKey: '',
               status: response.mstatus,
+              cardNumber: response.cardNumber,
               authStartUrl: response.authStartUrl,
             );
 
@@ -176,7 +225,7 @@ class BuyVipListController extends GetxController
               vipMember,
               paymentInfo,
               1,
-              isRenew,
+              isRenew
             );
 
             if (isPayment) {
@@ -197,7 +246,7 @@ class BuyVipListController extends GetxController
       /// Payment Failure
       if (result.resultCode == PageResultCode.FAIL) {
         SupportUtils.showToast('payment_failure'.tr, type: ToastType.ERROR);
-        await registerVipMember(vipMember, null, -1, isRenew);
+        await registerVipMember(vipMember, null, -1, isRenew ); // ko cần add
       }
     }
 

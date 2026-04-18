@@ -438,37 +438,45 @@ Widget bookingDetailListBlockView(
       SizedBox(height: 8),
       ...List.generate(
         lstBlock.length,
-        (i) => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}',
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF1a1a4d),
-                  ),
-                ),
-                if (_buildBlockRightText(lstBlock[i]) != null)
+        (i) {
+          final rightText = _buildBlockRightText(lstBlock[i]);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Text(
-                    _buildBlockRightText(lstBlock[i])!,
+                    '${lstBlock[i].rangeStart!.toStringFormatHoursUTC()} - ${lstBlock[i].rangeEnd!.toStringFormatHoursUTC()}',
                     style: GoogleFonts.inter(
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF1a1a4d),
-                      fontSize: 14,
                     ),
                   ),
-              ],
-            ),
-            SizedBox(height: 12),
-            Divider(color: Color(0xFFE0E0E0), thickness: 0.5, height: 1),
-            SizedBox(height: 12),
-          ],
-        ),
+                  if (rightText != null) ...[
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        rightText,
+                        textAlign: TextAlign.right,
+                        softWrap: true,
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1a1a4d),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              SizedBox(height: 12),
+              Divider(color: Color(0xFFE0E0E0), thickness: 0.5, height: 1),
+              SizedBox(height: 12),
+            ],
+          );
+        },
       ),
     ],
   );
