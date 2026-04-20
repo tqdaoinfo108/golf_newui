@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 // import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/model/application_error.dart';
@@ -140,7 +139,10 @@ class LoginController extends GetxController {
       SupportUtils.prefs.setInt(USER_ID, _loginResult.data!.userID!);
       SupportUtils.prefs.setString(USER_PHONE, _loginResult.data!.phone!);
       SupportUtils.prefs.setInt(USER_TYPE_ID, _loginResult.data!.typeUserID!);
-      SupportUtils.prefs.setInt(USER_DATE_EXPRIED_VIP, _loginResult.data!.dateExpriredVip!);
+      SupportUtils.prefs.setInt(
+        USER_DATE_EXPRIED_VIP,
+        _loginResult.data!.dateExpriredVip!,
+      );
 
       SupportUtils.prefs.setString(
         USER_AVATAR,
@@ -160,7 +162,7 @@ class LoginController extends GetxController {
         'notification-golfsystem-all',
       );
 
-       for (var shopID in _loginResult.data!.lstTopicID ?? []) {
+      for (var shopID in _loginResult.data!.lstTopicID ?? []) {
         FirebaseMessaging.instance.subscribeToTopic(shopID);
       }
       // change language
@@ -246,7 +248,6 @@ class LoginController extends GetxController {
       );
       SupportUtils.prefs.setInt(VERIFY_TIME_MILI, 0);
 
-      
       // subscribeToTopic
       FirebaseMessaging.instance.subscribeToTopic(
         'notification-golfsystem-user${_loginResult.data!.userID}',
@@ -337,7 +338,6 @@ class LoginController extends GetxController {
     try {
       GoogleSignIn _googleSignIn = GoogleSignIn(
         scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly'],
-        
       );
       var _googleAcc = await _googleSignIn.signIn();
       if (_googleAcc != null &&
@@ -391,26 +391,26 @@ class LoginController extends GetxController {
   }
 
   Future<User?> loginLine() async {
-    User _userTmp = User();
-    try {
-      final result = await LineSDK.instance.login();
-      var _userProfile = result.userProfile;
+    // User _userTmp = User();
+    // try {
+    //   final result = await LineSDK.instance.login();
+    //   var _userProfile = result.userProfile;
 
-      if (_userProfile != null &&
-          !_userProfile.isBlank! &&
-          !_userProfile.userId.isNullEmptyOrWhitespace) {
-        _userTmp.providerUserID = _userProfile.userId;
-        _userTmp.fullName = _userProfile.displayName;
-        _userTmp.email = '';
-      } else {
-        throw Exception();
-      }
-    } catch (_) {
-      loginErrorMessage = 'login_with_line_fail'.tr;
-      return null;
-    }
+    //   if (_userProfile != null &&
+    //       !_userProfile.isBlank! &&
+    //       !_userProfile.userId.isNullEmptyOrWhitespace) {
+    //     _userTmp.providerUserID = _userProfile.userId;
+    //     _userTmp.fullName = _userProfile.displayName;
+    //     _userTmp.email = '';
+    //   } else {
+    //     throw Exception();
+    //   }
+    // } catch (_) {
+    //   loginErrorMessage = 'login_with_line_fail'.tr;
+    //   return null;
+    // }
 
-    return _userTmp;
+    return null;
   }
 
   Future<User?> loginAppleID() async {

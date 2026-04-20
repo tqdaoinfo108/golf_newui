@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_line_sdk/flutter_line_sdk.dart';
 import 'package:get/get.dart';
 import 'package:golf_uiv2/router/app_pages.dart';
 import 'package:golf_uiv2/router/app_routers.dart';
@@ -106,10 +105,10 @@ void main() async {
     print('Firebase Messaging Token: $token');
   } catch (e) {}
 
-  // Set up Line Sdk
-  LineSDK.instance.setup("2007478079").then((_) {
-    print("LineSDK Prepared");
-  });
+  // // Set up Line Sdk
+  // LineSDK.instance.setup("2007478079").then((_) {
+  //   print("LineSDK Prepared");
+  // });
 
   SharedPreferences.getInstance().then((value) {
     SupportUtils.prefs = value;
@@ -161,9 +160,9 @@ class _MyAppState extends State<MyApp> {
         _showNotificationWithDefaultSound(
           message.notification?.title ?? "",
           message.notification?.body ?? "",
-          message.data['bookingID'] != null 
-            ? int.tryParse(message.data['bookingID'].toString()) ?? 0 
-            : 0,
+          message.data['bookingID'] != null
+              ? int.tryParse(message.data['bookingID'].toString()) ?? 0
+              : 0,
         );
       }
     });
@@ -194,9 +193,13 @@ class _MyAppState extends State<MyApp> {
     });
 
     // Kiểm tra notification đã mở app khi app đang tắt hoàn toàn
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+    FirebaseMessaging.instance.getInitialMessage().then((
+      RemoteMessage? message,
+    ) {
       if (message != null) {
-        print('App opened from terminated state via notification: ${message.data}');
+        print(
+          'App opened from terminated state via notification: ${message.data}',
+        );
         Future.delayed(Duration(seconds: 1), () {
           _handleNotificationClick(message.data);
         });

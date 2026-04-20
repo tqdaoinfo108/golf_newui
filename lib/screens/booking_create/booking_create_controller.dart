@@ -436,8 +436,10 @@ class BookingCreateController extends GetxController {
     var result = await GolfApi().createBooking(jsonBody);
     await Get.toNamed(AppRoutes.BOOKING_DETAIL, arguments: result?.data);
     onReset();
-    final controller = Get.find<HomeController>();
-    controller.changePageIndex(0);
+    if (Get.isRegistered<HomeController>()) {
+      final controller = Get.find<HomeController>();
+      controller.changePageIndex(0);
+    }
   }
 
   void _showAreYouSureCreateBookingDialog(Map<String, dynamic> jsonBody) {

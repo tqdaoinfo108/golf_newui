@@ -16,9 +16,17 @@ import '../../utils/keys.dart';
 import 'booking_create_controller.dart';
 
 // ignore: must_be_immutable
-class BookingCreateScreen extends GetView<BookingCreateController> {
-  BookingCreateScreen(this.data, {super.key});
-  ShopItemModel data;
+class BookingCreateScreen extends StatelessWidget {
+  BookingCreateScreen(this.data, {super.key, this.isNestedNav = true});
+  final ShopItemModel data;
+  final bool isNestedNav;
+
+  BookingCreateController get controller {
+    if (!Get.isRegistered<BookingCreateController>()) {
+      Get.put(BookingCreateController());
+    }
+    return Get.find<BookingCreateController>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +199,12 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                         backgroundColor: Color(0xff4053BF),
                         radius: 15,
                         press: () {
-                          controller.onCancelBooking();
+                          if (isNestedNav) {
+                            controller.onCancelBooking();
+                          } else {
+                            Get.back();
+                            Get.delete<BookingCreateController>();
+                          }
                         },
                       ),
                     ),
@@ -213,7 +226,8 @@ class BookingCreateScreen extends GetView<BookingCreateController> {
                   ],
                 ),
               ),
-              SizedBox(height: kBottomNavigationBarHeight + 32),
+              if (isNestedNav)
+                SizedBox(height: kBottomNavigationBarHeight + 32),
             ],
           ),
         ),

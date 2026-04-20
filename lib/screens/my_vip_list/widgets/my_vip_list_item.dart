@@ -42,16 +42,6 @@ class MyVipListItem extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(10.0.sp, 20.0.sp, 10.0.sp, 10.0.sp),
           child: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/logo_background.png",
-                    fit: BoxFit.fitHeight,
-                    height: 84.0.sp,
-                  ),
-                ],
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -167,9 +157,9 @@ class MyVipListItem extends StatelessWidget {
                         (vipMemberItem!.typeLimit == VipMemberType.UNLIMIT
                             ? "unlimited_turns".tr
                             : (() {
-                                final remain = vipMemberItem?.remainPlay ?? 0;
-                                return "${"available_turns".tr}: $remain";
-                              })()),
+                              final remain = vipMemberItem?.remainPlay ?? 0;
+                              return "${"available_turns".tr}: $remain";
+                            })()),
                         style: appTheme.textTheme.bodyMedium!.copyWith(
                           color: appTheme.colorScheme.onPrimary,
                         ),

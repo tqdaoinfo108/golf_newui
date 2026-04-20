@@ -60,7 +60,7 @@ class AppScreens {
     ),
     GetPage(
       name: AppRoutes.BOOKING_CREATE,
-      page: () => BookingCreateScreen(Get.arguments as ShopItemModel),
+      page: () => BookingCreateScreen(Get.arguments as ShopItemModel, isNestedNav: false),
       binding: BookingCreateBinding(),
     ),
     GetPage(
