@@ -393,9 +393,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                               return "expired_date_empty".tr;
                             }
                             final DateTime now = DateTime.now();
-                            final List<String> date = value.split(
-                              RegExp(r'/'),
-                            );
+                            final List<String> date = value.split(RegExp(r'/'));
                             final int month = int.parse(date.first);
                             final int year = int.parse('20${date.last}');
                             final int lastDayOfMonth =
@@ -442,10 +440,7 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                       decoration: _buildInputDecorationWithoutLabel(
                         widget.cvvCodeDecoration,
                         clearErrorText: true,
-                        errorStyle: const TextStyle(
-                          height: 0,
-                          fontSize: 0,
-                        ),
+                        errorStyle: const TextStyle(height: 0, fontSize: 0),
                       ),
                       keyboardType: TextInputType.phone,
                       textInputAction:
@@ -544,6 +539,26 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                         AutofillHints.creditCardName,
                       ],
                       onEditingComplete: () {
+                        final String normalizedHolderName = widget
+                            .cardHolderNameController!
+                            .text
+                            .trim()
+                            .replaceAll(RegExp(r'\s+'), ' ');
+
+                        if (widget.cardHolderNameController!.text !=
+                            normalizedHolderName) {
+                          widget.cardHolderNameController!.text =
+                              normalizedHolderName;
+                          widget
+                              .cardHolderNameController!
+                              .selection = TextSelection.fromPosition(
+                            TextPosition(offset: normalizedHolderName.length),
+                          );
+                        }
+
+                        cardHolderName = normalizedHolderName;
+                        creditCardModel.cardHolderName = cardHolderName;
+
                         FocusScope.of(context).unfocus();
                         onCreditCardModelChange(creditCardModel);
                         widget.onFormComplete?.call();
@@ -551,10 +566,15 @@ class _CreditCardFormCustomState extends State<CreditCardFormCustom> {
                       validator:
                           widget.cardHolderValidator ??
                           (String? value) {
-                            if (value == null || value.isEmpty) {
+                            final String normalizedValue = value?.trim() ?? '';
+
+                            if (normalizedValue.isEmpty) {
                               return 'card_holder_empty'.tr;
                             }
-                            if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+
+                            if (!RegExp(
+                              r'^[a-zA-Z]+(?:\s+[a-zA-Z]+)*$',
+                            ).hasMatch(normalizedValue)) {
                               return 'Please enter only alphabetic characters'
                                   .tr;
                             }

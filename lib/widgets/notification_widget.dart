@@ -92,6 +92,7 @@ Widget notificationItemView(ThemeData theme, NotificationItemModel noti) {
                       style: theme.textTheme.bodySmall!.copyWith(
                         color: Colors.white,
                       ),
+                      maxLines: 3,
                     ),
                   ] else ...[
                     /// Shop Name

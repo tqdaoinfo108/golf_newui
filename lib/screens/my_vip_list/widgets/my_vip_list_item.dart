@@ -157,8 +157,10 @@ class MyVipListItem extends StatelessWidget {
                         (vipMemberItem!.typeLimit == VipMemberType.UNLIMIT
                             ? "unlimited_turns".tr
                             : (() {
-                              final remain = vipMemberItem?.remainPlay ?? 0;
-                              return "${"available_turns".tr}: $remain";
+                                final remain = vipMemberItem?.remainPlay ?? 0;
+                              final displayText =
+                                  remain > 9000 ? "制限なし" : remain.toString();
+                              return "${"available_turns".tr}: $displayText";
                             })()),
                         style: appTheme.textTheme.bodyMedium!.copyWith(
                           color: appTheme.colorScheme.onPrimary,
